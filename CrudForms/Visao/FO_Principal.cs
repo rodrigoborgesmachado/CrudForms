@@ -51,6 +51,7 @@ namespace Visao
         /// <param name="e"></param>
         private void selecionaBaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             FO_SelecionaConexao selecionaConexao = new FO_SelecionaConexao();
             selecionaConexao.ShowDialog();
 
@@ -59,6 +60,7 @@ namespace Visao
                 Message.MensagemAlerta("Erro ao importar");
             }
 
+            this.FecharTelas();
             this.CarregaTreeView();
         }
 
@@ -250,6 +252,18 @@ namespace Visao
 
             this.tbc_table_control.TabIndex = index;
             this.tbc_table_control.SelectedIndex = index;
+        }
+
+        /// <summary>
+        /// Método que fecha todas as telas
+        /// </summary>
+        public void FecharTelas()
+        {
+            List<string> lista = new List<string>();
+            
+            this.Pages.ForEach(elem => lista.Add(elem.Tag.ToString()));
+
+            lista.ForEach(elem => FecharTela(elem));
         }
 
         /// <summary>
