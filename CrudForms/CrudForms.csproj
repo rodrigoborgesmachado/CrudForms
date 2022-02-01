@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2F0DDE70-E5B5-44C6-8129-B1E41A77ACAA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pj</RootNamespace>
+    <AssemblyName>CrudForms</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>dev200x200.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CrudForms.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\Filtro.cs" />
+    <Compile Include="Model\MD_Campos.cs" />
+    <Compile Include="Model\MD_Parametros.cs" />
+    <Compile Include="Model\MD_Relacao.cs" />
+    <Compile Include="Model\MD_Tabela.cs" />
+    <Compile Include="Model\MD_TipoCampo.cs" />
+    <Compile Include="Model\Valores.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Regras\Importador.cs" />
+    <Compile Include="Visao\FO_Aguarde.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_Aguarde.Designer.cs">
+      <DependentUpon>FO_Aguarde.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_FiltrarGenerico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_FiltrarGenerico.Designer.cs">
+      <DependentUpon>FO_FiltrarGenerico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_FormularioCadastroGenerico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_FormularioCadastroGenerico.Designer.cs">
+      <DependentUpon>FO_FormularioCadastroGenerico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_Login.Designer.cs">
+      <DependentUpon>FO_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_Principal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_Principal.Designer.cs">
+      <DependentUpon>FO_Principal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_SelecionaConexao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_SelecionaConexao.Designer.cs">
+      <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\UC_FormularioGenerico.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Visao\UC_FormularioGenerico.Designer.cs">
+      <DependentUpon>UC_FormularioGenerico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\UC_WEB.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Visao\UC_WEB.Designer.cs">
+      <DependentUpon>UC_WEB.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Visao\FO_FiltrarGenerico.resx">
+      <DependentUpon>FO_FiltrarGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_FormularioCadastroGenerico.resx">
+      <DependentUpon>FO_FormularioCadastroGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_Login.resx">
+      <DependentUpon>FO_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_Principal.resx">
+      <DependentUpon>FO_Principal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_SelecionaConexao.resx">
+      <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\UC_FormularioGenerico.resx">
+      <DependentUpon>UC_FormularioGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\expand20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\png_infoProdutoBlack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\png_infoProdutoBlack20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recolher20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recolher21x21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh20x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh20x201.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh120x20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{3ca7ee4e-9566-418d-bde3-b35dbbe02b4a}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dev200x200.ico" />
+    <None Include="Resources\window-close_100px20x20.png" />
+    <None Include="Resources\window-close_100px.png" />
+    <None Include="Resources\wifi-off_100px20x20.png" />
+    <None Include="Resources\wifi-off_100px.png" />
+    <None Include="Resources\wifi_100px20x20.png" />
+    <None Include="Resources\wifi_100px.png" />
+    <None Include="Resources\tshirt-crew_100px20x20.png" />
+    <None Include="Resources\tshirt-crew_100px.png" />
+    <None Include="Resources\tag-multiple_100px20x20.png" />
+    <None Include="Resources\tag-multiple_100px.png" />
+    <None Include="Resources\tag-heart_100px20x20.png" />
+    <None Include="Resources\tag-heart_100px.png" />
+    <None Include="Resources\skull_100px20x20.png" />
+    <None Include="Resources\skull_100px.png" />
+    <None Include="Resources\shuffle-variant_100px20x20.png" />
+    <None Include="Resources\shuffle-variant_100px.png" />
+    <None Include="Resources\settings_100px20x20.png" />
+    <None Include="Resources\settings_100px.png" />
+    <None Include="Resources\power_100px20x20.png" />
+    <None Include="Resources\power_100px.png" />
+    <None Include="Resources\person-plus_100px20x20.png" />
+    <None Include="Resources\person-plus_100px.png" />
+    <None Include="Resources\person-minus_100px20x20.png" />
+    <None Include="Resources\person-minus_100px.png" />
+    <None Include="Resources\pencil-circle-outline_100px20x20.png" />
+    <None Include="Resources\pencil-circle-outline_100px.png" />
+    <None Include="Resources\pencil-circle_100px20x20.png" />
+    <None Include="Resources\pencil-circle_100px.png" />
+    <None Include="Resources\pencil-box-outline_100px20x20.png" />
+    <None Include="Resources\pencil-box-outline_100px.png" />
+    <None Include="Resources\pencil-box_100px20x20.png" />
+    <None Include="Resources\pencil-box_100px.png" />
+    <None Include="Resources\pencil_100px20x20.png" />
+    <None Include="Resources\pencil_100px.png" />
+    <None Include="Resources\minus-circle_100px20x20.png" />
+    <None Include="Resources\minus-circle_100px.png" />
+    <None Include="Resources\minus-box-outline_100px20x20.png" />
+    <None Include="Resources\minus-box-outline_100px.png" />
+    <None Include="Resources\minus_100px20x20.png" />
+    <None Include="Resources\minus_100px.png" />
+    <None Include="Resources\loop_100px20x20.png" />
+    <None Include="Resources\loop_100px.png" />
+    <None Include="Resources\link-variant-off_100px20x20.png" />
+    <None Include="Resources\link-variant-off_100px.png" />
+    <None Include="Resources\link-variant_100px20x20.png" />
+    <None Include="Resources\link-variant_100px.png" />
+    <None Include="Resources\lead-pencil_100px20x20.png" />
+    <None Include="Resources\lead-pencil_100px.png" />
+    <None Include="Resources\home_100px20x20.png" />
+    <None Include="Resources\home_100px.png" />
+    <None Include="Resources\help-circle_100px20x20.png" />
+    <None Include="Resources\help-circle_100px.png" />
+    <None Include="Resources\folder-account_100px20x20.png" />
+    <None Include="Resources\folder-account_100px.png" />
+    <None Include="Resources\filter-remove_100px20x20.png" />
+    <None Include="Resources\filter-remove_100px.png" />
+    <None Include="Resources\filter_100px20x20.png" />
+    <None Include="Resources\filter_100px.png" />
+    <None Include="Resources\file-import_100px20x20.png" />
+    <None Include="Resources\file-import_100px.png" />
+    <None Include="Resources\file-export_100px20x20.png" />
+    <None Include="Resources\file-export_100px.png" />
+    <None Include="Resources\eye_100px20x20.png" />
+    <None Include="Resources\eye_100px.png" />
+    <None Include="Resources\emoticon-sad_100px20x20.png" />
+    <None Include="Resources\emoticon-sad_100px.png" />
+    <None Include="Resources\do-not-disturb_100px20x20.png" />
+    <None Include="Resources\do-not-disturb_100px.png" />
+    <None Include="Resources\delete-forever_100px20x20.png" />
+    <None Include="Resources\delete-forever_100px.png" />
+    <None Include="Resources\debug-step-out_100px20x20.png" />
+    <None Include="Resources\debug-step-out_100px.png" />
+    <None Include="Resources\debug-step-into_100px20x20.png" />
+    <None Include="Resources\debug-step-into_100px.png" />
+    <None Include="Resources\database-plus_100px20x20.png" />
+    <None Include="Resources\database-plus_100px.png" />
+    <None Include="Resources\content-save_100px20x20.png" />
+    <None Include="Resources\content-save_100px.png" />
+    <None Include="Resources\comment-check-outline_100px20x20.png" />
+    <None Include="Resources\comment-check-outline_100px.png" />
+    <None Include="Resources\close-outline_100px20x20.png" />
+    <None Include="Resources\close-outline_100px.png" />
+    <None Include="Resources\close_100px20x20.png" />
+    <None Include="Resources\close_100px.png" />
+    <None Include="Resources\check-circle-outline_100px20x20.png" />
+    <None Include="Resources\check-circle-outline_100px.png" />
+    <None Include="Resources\check-circle_100px20x20.png" />
+    <None Include="Resources\check-circle_100px.png" />
+    <None Include="Resources\checkbox-multiple-marked_100px20x20.png" />
+    <None Include="Resources\checkbox-multiple-marked_100px.png" />
+    <None Include="Resources\check_100px20x20.png" />
+    <None Include="Resources\check_100px.png" />
+    <None Include="Resources\cart-plus_100px20x20.png" />
+    <None Include="Resources\cart-plus_100px.png" />
+    <None Include="Resources\cart-outline_100px20x20.png" />
+    <None Include="Resources\cart-outline_100px.png" />
+    <None Include="Resources\cart-off_100px20x20.png" />
+    <None Include="Resources\cart-off_100px.png" />
+    <None Include="Resources\calendar-plus_100px20x20.png" />
+    <None Include="Resources\calendar-plus_100px.png" />
+    <None Include="Resources\bulletin-board_100px20x20.png" />
+    <None Include="Resources\bulletin-board_100px.png" />
+    <None Include="Resources\briefcase-upload_100px20x20.png" />
+    <None Include="Resources\briefcase-upload_100px.png" />
+    <None Include="Resources\bookmark-remove_100px20x20.png" />
+    <None Include="Resources\bookmark-remove_100px.png" />
+    <None Include="Resources\bookmark-check_100px20x20.png" />
+    <None Include="Resources\bookmark-check_100px.png" />
+    <None Include="Resources\block-helper_100px20x20.png" />
+    <None Include="Resources\block-helper_100px.png" />
+    <None Include="Resources\basket-fill_100px20x20.png" />
+    <None Include="Resources\basket-fill_100px.png" />
+    <None Include="Resources\bank_100px20x20.png" />
+    <None Include="Resources\bank_100px.png" />
+    <None Include="Resources\arrow-up-box_100px20x20.png" />
+    <None Include="Resources\arrow-up-box_100px.png" />
+    <None Include="Resources\arrow-up_100px20x20.png" />
+    <None Include="Resources\arrow-up_100px.png" />
+    <None Include="Resources\arrow-top-right_100px20x20.png" />
+    <None Include="Resources\arrow-top-right_100px.png" />
+    <None Include="Resources\arrow-top-left_100px20x20.png" />
+    <None Include="Resources\arrow-top-left_100px.png" />
+    <None Include="Resources\arrow-right-box_100px20x20.png" />
+    <None Include="Resources\arrow-right-box_100px.png" />
+    <None Include="Resources\arrow-right_100px20x20.png" />
+    <None Include="Resources\arrow-right_100px.png" />
+    <None Include="Resources\arrow-left-box_100px20x20.png" />
+    <None Include="Resources\arrow-left-box_100px.png" />
+    <None Include="Resources\arrow-left_100px20x20.png" />
+    <None Include="Resources\arrow-left_100px.png" />
+    <None Include="Resources\arrow-down-box_100px20x20.png" />
+    <None Include="Resources\arrow-down-box_100px.png" />
+    <None Include="Resources\arrow-down_100px20x20.png" />
+    <None Include="Resources\arrow-down_100px.png" />
+    <None Include="Resources\alert-circle_100px20x20.png" />
+    <None Include="Resources\alert-circle_100px.png" />
+    <None Include="Resources\alert-box_100px20x20.png" />
+    <None Include="Resources\alert-box_100px.png" />
+    <None Include="Resources\account-remove_100px20x20.png" />
+    <None Include="Resources\account-remove_100px.png" />
+    <None Include="Resources\account-plus_100px20x20.png" />
+    <None Include="Resources\account-plus_100px.png" />
+    <None Include="Resources\account-box_100px20x20.png" />
+    <None Include="Resources\account-box_100px.png" />
+    <None Include="Resources\quit20x20.png" />
+    <None Include="Resources\plus20x20.png" />
+    <None Include="Resources\module20x20.png" />
+    <None Include="Resources\internet20x20.png" />
+    <None Include="Resources\graph20x20.png" />
+    <None Include="Resources\target20x20.png" />
+    <None Include="Resources\list20x20.png" />
+    <None Include="Resources\project-management200x200.png" />
+    <None Include="Resources\project-management20x20.png" />
+    <None Include="Resources\project200x200.png" />
+    <None Include="Resources\project20x20.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
