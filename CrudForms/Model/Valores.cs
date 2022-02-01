@@ -93,10 +93,10 @@ namespace Model
         /// <param name="campos"></param>
         /// <param name="mensagem"></param>
         /// <returns></returns>
-        public bool AtualizaValores(Model.MD_Tabela tabela, List<Model.MD_Campos> campos, out string mensagem)
+        public bool AtualizaValores(Model.MD_Tabela tabela, List<Model.MD_Campos> campos, Valores valoresAnteriores, out string mensagem)
         {
             bool retorno = true;
-            string update = MontaComandoUpdate(tabela.DAO.Nome, campos, out mensagem);
+            string update = MontaComandoUpdate(tabela.DAO.Nome, campos, valoresAnteriores, out mensagem);
 
             if (string.IsNullOrEmpty(update))
             {
@@ -128,7 +128,7 @@ namespace Model
         /// <param name="tabela"></param>
         /// <param name="campos"></param>
         /// <returns></returns>
-        private string MontaComandoUpdate(string tabela, List<Model.MD_Campos> campos, out string mensagem) 
+        private string MontaComandoUpdate(string tabela, List<Model.MD_Campos> campos, Valores valoresAnteriores, out string mensagem) 
         {
             string retorno = string.Empty;
             mensagem = string.Empty;
@@ -145,6 +145,10 @@ namespace Model
                     listaCampos.Add(i);
                     continue;
                 }
+
+                // Só adiciona se houver alteração no campo
+                if (this.valores[i] == valoresAnteriores.valores[i])
+                    continue;
 
                 retorno += Valores.MontaCampoUpdate(campos[i], valores[i]) + ", ";
             }
@@ -296,7 +300,7 @@ namespace Model
                     fields += ", ";
                 i++;
             }
-            command += fields + " FROM " + tabela.DAO.Nome;
+            command += fields + " FROM [" + tabela.DAO.Nome + "]";
             command += MontaWhere(filtro, campos);
             return command;
         }

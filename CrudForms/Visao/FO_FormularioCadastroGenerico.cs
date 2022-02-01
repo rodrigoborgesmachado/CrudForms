@@ -35,12 +35,12 @@ namespace Visao
         /// <param name="e"></param>
         private void btn_acao_Click(object sender, EventArgs e)
         {
-            if (this.PreencheValores())
+            if (this.PreencheValores(out var valoresAnteriores))
             {
                 switch (this.tarefa) 
                 {
                     case Tarefa.EDITANDO:
-                        if (!this.Valores.AtualizaValores(tabela, campos, out var mensagem))
+                        if (!this.Valores.AtualizaValores(tabela, campos, valoresAnteriores, out var mensagem))
                         {
                             Visao.Message.MensagemAlerta("Erro: " + mensagem);
                         }
@@ -164,8 +164,19 @@ namespace Visao
         /// <summary>
         /// Método que preenche filtro de acordo com o formulário
         /// </summary>
-        private bool PreencheValores()
+        private bool PreencheValores(out Model.Valores valoresAnteriores)
         {
+            valoresAnteriores = new Model.Valores();
+
+            foreach(string valor in this.Valores.valores)
+            {
+                valoresAnteriores.valores.Add(valor);
+            }
+            foreach (string campo in this.Valores.campos)
+            {
+                valoresAnteriores.campos.Add(campo);
+            }
+
             this.Valores.valores.Clear();
             bool retorno = true;
 
