@@ -105,6 +105,12 @@ namespace Util
         // Parametro do connections
         public static string parametro_connectionStrings = "CONNECTIONSTRING";
 
+        // Parametro do connections
+        public static string parametro_quantidadeItensPorTabela = "QUANTIDADEITENSTABELA";
+
+        // Parametro do connections
+        public static string parametro_filtrarAutomaticamente = "FILTRARAUTOMATICAMENTE";
+
         /// <summary>
         /// Enumerador referente ao tipo de log que o sistema irá persistir
         /// </summary>
@@ -156,7 +162,24 @@ namespace Util
         {
             DAO.MD_Parametros parametro = new DAO.MD_Parametros(parametro_connectionStrings);
             if (parametro.Empty)
+            {
+                parametro.Valor = string.Empty;
                 parametro.Insert();
+            }
+
+            parametro = new DAO.MD_Parametros(parametro_quantidadeItensPorTabela);
+            if (parametro.Empty)
+            {
+                parametro.Valor = "500";
+                parametro.Insert();
+            }
+
+            parametro = new DAO.MD_Parametros(parametro_filtrarAutomaticamente);
+            if (parametro.Empty)
+            {
+                parametro.Valor = "1";
+                parametro.Insert();
+            }
         }
 
         #endregion Métodos globais

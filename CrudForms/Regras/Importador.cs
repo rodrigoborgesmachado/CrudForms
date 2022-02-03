@@ -24,7 +24,7 @@ namespace Regras
             try
             {
                 ApagaArquivosExportacao();
-                string conexao = new DAO.MD_Parametros(Util.Global.parametro_connectionStrings).Valor;
+                string conexao = Model.Parametros.ConexaoBanco.DAO.Valor;
 
                 if (string.IsNullOrEmpty(conexao))
                     return true;

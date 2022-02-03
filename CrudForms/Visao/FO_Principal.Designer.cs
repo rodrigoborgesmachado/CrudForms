@@ -35,12 +35,16 @@
             this.mst_opcoes = new System.Windows.Forms.MenuStrip();
             this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
             this.selecionaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quantidadeLinhasTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
+            this.filtrarNaAberturaDaTelaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filtrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nãoFiltrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -67,13 +71,13 @@
             this.pan_projetos.Size = new System.Drawing.Size(246, 578);
             this.pan_projetos.TabIndex = 1;
             // 
-            // trv_projetos
+            // trv_tabelas
             // 
             this.trv_tabelas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
             this.trv_tabelas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trv_tabelas.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.trv_tabelas.Location = new System.Drawing.Point(0, 0);
-            this.trv_tabelas.Name = "trv_projetos";
+            this.trv_tabelas.Name = "trv_tabelas";
             this.trv_tabelas.Size = new System.Drawing.Size(246, 578);
             this.trv_tabelas.TabIndex = 0;
             this.trv_tabelas.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_projetos_AfterSelect);
@@ -92,7 +96,9 @@
             // tsm_opcoes
             // 
             this.tsm_opcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selecionaBaseToolStripMenuItem});
+            this.selecionaBaseToolStripMenuItem,
+            this.quantidadeLinhasTabelasToolStripMenuItem,
+            this.filtrarNaAberturaDaTelaToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
             this.tsm_opcoes.Text = "Opções";
@@ -100,9 +106,16 @@
             // selecionaBaseToolStripMenuItem
             // 
             this.selecionaBaseToolStripMenuItem.Name = "selecionaBaseToolStripMenuItem";
-            this.selecionaBaseToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.selecionaBaseToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
             this.selecionaBaseToolStripMenuItem.Text = "Seleciona Base";
             this.selecionaBaseToolStripMenuItem.Click += new System.EventHandler(this.selecionaBaseToolStripMenuItem_Click);
+            // 
+            // quantidadeLinhasTabelasToolStripMenuItem
+            // 
+            this.quantidadeLinhasTabelasToolStripMenuItem.Name = "quantidadeLinhasTabelasToolStripMenuItem";
+            this.quantidadeLinhasTabelasToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.quantidadeLinhasTabelasToolStripMenuItem.Text = "Quantidade Linhas Tabelas";
+            this.quantidadeLinhasTabelasToolStripMenuItem.Click += new System.EventHandler(this.quantidadeLinhasTabelasToolStripMenuItem_Click);
             // 
             // pan_principal
             // 
@@ -167,6 +180,29 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
+            // filtrarNaAberturaDaTelaToolStripMenuItem
+            // 
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filtrarToolStripMenuItem,
+            this.nãoFiltrarToolStripMenuItem});
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.Name = "filtrarNaAberturaDaTelaToolStripMenuItem";
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.Text = "Filtrar na abertura da tela";
+            // 
+            // filtrarToolStripMenuItem
+            // 
+            this.filtrarToolStripMenuItem.Name = "filtrarToolStripMenuItem";
+            this.filtrarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.filtrarToolStripMenuItem.Text = "Filtrar";
+            this.filtrarToolStripMenuItem.Click += new System.EventHandler(this.filtrarToolStripMenuItem_Click);
+            // 
+            // nãoFiltrarToolStripMenuItem
+            // 
+            this.nãoFiltrarToolStripMenuItem.Name = "nãoFiltrarToolStripMenuItem";
+            this.nãoFiltrarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.nãoFiltrarToolStripMenuItem.Text = "Não filtrar";
+            this.nãoFiltrarToolStripMenuItem.Click += new System.EventHandler(this.nãoFiltrarToolStripMenuItem_Click);
+            // 
             // FO_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -210,6 +246,10 @@
         private System.Windows.Forms.MenuStrip mst_opcoes;
         private System.Windows.Forms.ToolStripMenuItem tsm_opcoes;
         private System.Windows.Forms.ToolStripMenuItem selecionaBaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quantidadeLinhasTabelasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filtrarNaAberturaDaTelaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filtrarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nãoFiltrarToolStripMenuItem;
     }
 }
 

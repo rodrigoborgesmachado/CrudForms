@@ -130,6 +130,8 @@ namespace Visao
         /// <param name="e"></param>
         private void btn_fechar_Click(object sender, EventArgs e)
         {
+            this.lista.Clear();
+            this.colunas.Clear();
             this.principal.FecharTela(this.tabela.DAO.Nome);
         }
 
@@ -170,7 +172,12 @@ namespace Visao
         public void IniciaForm()
         {
             this.grb_geral.Text = this.tabela.DAO.Nome;
-            this.FillGrid(this.filtro);
+            this.lbl_quantidadeLinhas.Visible = false;
+
+            if (Model.Parametros.FiltrarAutomaticamente)
+            {
+                this.FillGrid(this.filtro);
+            }
         }
 
         /// <summary>
@@ -195,6 +202,9 @@ namespace Visao
             }
 
             this.lista = Model.Valores.BuscaLista(tabela, colunas, filter);
+            this.lbl_quantidadeLinhas.Visible = true;
+            this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.lista.Count.ToString()}";
+
             FillGrid(lista);
         }
 
@@ -217,6 +227,7 @@ namespace Visao
             {
                 this.dgv_generico.Columns[i].Width = 100;
                 this.dgv_generico.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                this.dgv_generico.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
             barra.Dispose();

@@ -29,10 +29,48 @@ namespace Visao
         /// Páginas abertas
         /// </summary>
         List<TabPage> Pages = new List<TabPage>();
-        
+
         #endregion Atributos e Propriedades
 
         #region Eventos
+
+        /// <summary>
+        /// Evento lançado no clique da opção de filtrar automaticamente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void filtrarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lockchange) return;
+            this.nãoFiltrarToolStripMenuItem.Checked = false;
+            this.filtrarToolStripMenuItem.Checked = true;
+            Model.Parametros.FiltrarAutomaticamente = true;
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de não filtrar automaticamente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void nãoFiltrarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lockchange) return;
+
+            this.filtrarToolStripMenuItem.Checked = false;
+            this.nãoFiltrarToolStripMenuItem.Checked = true;
+            Model.Parametros.FiltrarAutomaticamente = false;
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de quantidade de itens nas tabelas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void quantidadeLinhasTabelasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_QuantidadeLinhasTabelas linhasTabelas = new FO_QuantidadeLinhasTabelas();
+            linhasTabelas.ShowDialog();
+        }
 
         /// <summary>
         /// Evento lançado quando a tela abre
@@ -108,6 +146,8 @@ namespace Visao
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
             this.lbl_valorVersao.Text = version;
+            this.filtrarToolStripMenuItem.Checked = Model.Parametros.FiltrarAutomaticamente;
+            this.nãoFiltrarToolStripMenuItem.Checked = !Model.Parametros.FiltrarAutomaticamente;
         }
 
         /// <summary>
@@ -319,6 +359,7 @@ namespace Visao
             reader.Close();
             return retorno;
         }
+
 
         #endregion Métodos
 

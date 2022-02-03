@@ -35,14 +35,15 @@ namespace Visao
             this.grb_geral = new System.Windows.Forms.GroupBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pan_botton = new System.Windows.Forms.Panel();
+            this.btn_excluir = new System.Windows.Forms.Button();
+            this.btn_incluir = new System.Windows.Forms.Button();
             this.btn_editar = new System.Windows.Forms.Button();
             this.btn_visualizar = new System.Windows.Forms.Button();
             this.btn_limparFiltro = new System.Windows.Forms.Button();
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
-            this.btn_incluir = new System.Windows.Forms.Button();
-            this.btn_excluir = new System.Windows.Forms.Button();
+            this.lbl_quantidadeLinhas = new System.Windows.Forms.Label();
             this.pan_top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_generico)).BeginInit();
             this.grb_geral.SuspendLayout();
@@ -105,6 +106,7 @@ namespace Visao
             // 
             // grb_geral
             // 
+            this.grb_geral.Controls.Add(this.lbl_quantidadeLinhas);
             this.grb_geral.Controls.Add(this.dgv_generico);
             this.grb_geral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grb_geral.Location = new System.Drawing.Point(0, 20);
@@ -139,6 +141,30 @@ namespace Visao
             this.pan_botton.Name = "pan_botton";
             this.pan_botton.Size = new System.Drawing.Size(740, 36);
             this.pan_botton.TabIndex = 20;
+            // 
+            // btn_excluir
+            // 
+            this.btn_excluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_excluir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_excluir.Location = new System.Drawing.Point(6, 3);
+            this.btn_excluir.Name = "btn_excluir";
+            this.btn_excluir.Size = new System.Drawing.Size(72, 29);
+            this.btn_excluir.TabIndex = 16;
+            this.btn_excluir.Text = "Excluir";
+            this.btn_excluir.UseVisualStyleBackColor = true;
+            this.btn_excluir.Click += new System.EventHandler(this.btn_excluir_Click);
+            // 
+            // btn_incluir
+            // 
+            this.btn_incluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_incluir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_incluir.Location = new System.Drawing.Point(84, 3);
+            this.btn_incluir.Name = "btn_incluir";
+            this.btn_incluir.Size = new System.Drawing.Size(72, 29);
+            this.btn_incluir.TabIndex = 15;
+            this.btn_incluir.Text = "Incluir";
+            this.btn_incluir.UseVisualStyleBackColor = true;
+            this.btn_incluir.Click += new System.EventHandler(this.btn_incluir_Click);
             // 
             // btn_editar
             // 
@@ -207,29 +233,15 @@ namespace Visao
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
             // 
-            // btn_incluir
+            // lbl_quantidadeLinhas
             // 
-            this.btn_incluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_incluir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_incluir.Location = new System.Drawing.Point(84, 3);
-            this.btn_incluir.Name = "btn_incluir";
-            this.btn_incluir.Size = new System.Drawing.Size(72, 29);
-            this.btn_incluir.TabIndex = 15;
-            this.btn_incluir.Text = "Incluir";
-            this.btn_incluir.UseVisualStyleBackColor = true;
-            this.btn_incluir.Click += new System.EventHandler(this.btn_incluir_Click);
-            // 
-            // btn_excluir
-            // 
-            this.btn_excluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_excluir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_excluir.Location = new System.Drawing.Point(6, 3);
-            this.btn_excluir.Name = "btn_excluir";
-            this.btn_excluir.Size = new System.Drawing.Size(72, 29);
-            this.btn_excluir.TabIndex = 16;
-            this.btn_excluir.Text = "Excluir";
-            this.btn_excluir.UseVisualStyleBackColor = true;
-            this.btn_excluir.Click += new System.EventHandler(this.btn_excluir_Click);
+            this.lbl_quantidadeLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_quantidadeLinhas.AutoSize = true;
+            this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(4, 488);
+            this.lbl_quantidadeLinhas.Name = "lbl_quantidadeLinhas";
+            this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(145, 19);
+            this.lbl_quantidadeLinhas.TabIndex = 13;
+            this.lbl_quantidadeLinhas.Text = "<qauntidade linhas>";
             // 
             // UC_FormularioGenerico
             // 
@@ -244,6 +256,7 @@ namespace Visao
             this.pan_top.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_generico)).EndInit();
             this.grb_geral.ResumeLayout(false);
+            this.grb_geral.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.pan_botton.ResumeLayout(false);
             this.pan_completo.ResumeLayout(false);
@@ -268,5 +281,6 @@ namespace Visao
         private System.Windows.Forms.Panel pan_tot;
         private System.Windows.Forms.Button btn_excluir;
         private System.Windows.Forms.Button btn_incluir;
+        private System.Windows.Forms.Label lbl_quantidadeLinhas;
     }
 }

@@ -23,7 +23,7 @@ namespace Visao
         /// </summary>
         public void IniciaForm()
         {
-            this.tbx_connectionStrings.Text = new DAO.MD_Parametros(Util.Global.parametro_connectionStrings).Valor;
+            this.tbx_connectionStrings.Text = Model.Parametros.ConexaoBanco.DAO.Valor;
         }
 
         /// <summary>
@@ -62,10 +62,11 @@ namespace Visao
 
             if (abriuConexao)
             {
-                DAO.MD_Parametros parametro = new DAO.MD_Parametros(Util.Global.parametro_connectionStrings);
-                parametro.Valor = connections;
-                if (parametro.Update())
+                Model.MD_Parametros parametro = new Model.MD_Parametros(Util.Global.parametro_connectionStrings);
+                parametro.DAO.Valor = connections;
+                if (parametro.DAO.Update())
                 {
+                    Model.Parametros.ConexaoBanco = parametro;
                     Visao.Message.MensagemSucesso("Atualizado com sucesso, foi possível conectar");
                 }
             }

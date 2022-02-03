@@ -29,7 +29,7 @@ namespace Model
                 return false;
             }
 
-            string connection = new DAO.MD_Parametros(Util.Global.parametro_connectionStrings).Valor;
+            string connection = Parametros.ConexaoBanco.DAO.Valor;
 
             DataBase.Connection.CloseConnection();
             if (!DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER))
@@ -67,7 +67,7 @@ namespace Model
                 return false;
             }
 
-            string connection = new DAO.MD_Parametros(Util.Global.parametro_connectionStrings).Valor;
+            string connection = Parametros.ConexaoBanco.DAO.Valor;
 
             DataBase.Connection.CloseConnection();
             if (!DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER))
@@ -103,7 +103,7 @@ namespace Model
                 return false;
             }
 
-            string connection = new DAO.MD_Parametros(Util.Global.parametro_connectionStrings).Valor;
+            string connection = Parametros.ConexaoBanco.DAO.Valor;
 
             DataBase.Connection.CloseConnection();
             if(!DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER))
@@ -247,7 +247,10 @@ namespace Model
 
             string sentenca = CreateCommandSQLTable(tabela, campos, filtro);
 
-            string connection = new DAO.MD_Parametros(Util.Global.parametro_connectionStrings).Valor;
+            Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
+            barra.Show();
+
+            string connection = Parametros.ConexaoBanco.DAO.Valor;
 
             DataBase.Connection.CloseConnection();
             DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
@@ -274,8 +277,10 @@ namespace Model
                     campos = columns,
                     valores = values
                 }) ;
+                barra.AvancaBarra(1);
             }
             reader.Close();
+            barra.Dispose();
 
             DataBase.Connection.CloseConnection();
             DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
@@ -289,7 +294,7 @@ namespace Model
         /// <returns>Command SQL</returns>
         private static string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro)
         {
-            string command = " SELECT TOP 500 ";
+            string command = $" SELECT TOP {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor} ";
             string fields = string.Empty;
             int qt = campos.Count, i = 1;
 

@@ -63,6 +63,7 @@
     <Compile Include="Model\MD_Relacao.cs" />
     <Compile Include="Model\MD_Tabela.cs" />
     <Compile Include="Model\MD_TipoCampo.cs" />
+    <Compile Include="Model\Parametros.cs" />
     <Compile Include="Model\Valores.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,6 +97,12 @@
     </Compile>
     <Compile Include="Visao\FO_Principal.Designer.cs">
       <DependentUpon>FO_Principal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_QuantidadeLinhasTabelas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_QuantidadeLinhasTabelas.Designer.cs">
+      <DependentUpon>FO_QuantidadeLinhasTabelas.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\FO_SelecionaConexao.cs">
       <SubType>Form</SubType>
@@ -136,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_Principal.resx">
       <DependentUpon>FO_Principal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_QuantidadeLinhasTabelas.resx">
+      <DependentUpon>FO_QuantidadeLinhasTabelas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_SelecionaConexao.resx">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
