@@ -15,6 +15,8 @@ namespace Visao
     {
         #region Atributos e Propriedades
 
+        string consulta = string.Empty;
+
         /// <summary>
         /// Tabela de controle do formulário
         /// </summary>
@@ -59,11 +61,14 @@ namespace Visao
         private void btn_limparFiltro_Click(object sender, EventArgs e)
         {
             this.filtro = new Model.Filtro();
+            this.filtro.Order = new Model.OrderBy();
+
             this.colunas.ForEach(coluna =>
             {
                 filtro.campos.Add(coluna.DAO.Nome);
                 filtro.valores.Add(string.Empty);
             });
+
             this.FillGrid();
         }
 
@@ -130,9 +135,27 @@ namespace Visao
         /// <param name="e"></param>
         private void btn_fechar_Click(object sender, EventArgs e)
         {
-            this.lista.Clear();
-            this.colunas.Clear();
-            this.principal.FecharTela(this.tabela.DAO.Nome);
+            if(this.tabela == null)
+            {
+                this.principal.FecharTela("generica");
+            }
+            else
+            {
+                this.lista.Clear();
+                this.colunas.Clear();
+                this.principal.FecharTela(this.tabela?.DAO.Nome);
+            }
+        }
+
+        /// <summary>
+        /// Evento lançado no clique do botão de ordenação
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_orderBy_Click(object sender, EventArgs e)
+        {
+            FO_OrderBy orderBy = new FO_OrderBy(this, colunas, filtro);
+            orderBy.ShowDialog();
         }
 
         #endregion Eventos
@@ -150,13 +173,33 @@ namespace Visao
             this.Dock = DockStyle.Fill;
             this.tabela = tabela;
             this.colunas = this.tabela.CamposDaTabela();
+            this.consulta = string.Empty;
 
             this.filtro = new Model.Filtro();
+            this.filtro.Order = new Model.OrderBy();
             this.colunas.ForEach(coluna => 
             {
                 filtro.campos.Add(coluna.DAO.Nome);
                 filtro.valores.Add(string.Empty);
             });
+
+            this.principal = principal;
+            this.IniciaForm();
+        }
+
+        /// <summary>
+        /// Construtor secundario da classe
+        /// </summary>
+        /// <param name="consulta"></param>
+        /// <param name="principal"></param>
+        public UC_FormularioGenerico(string consulta, Visao.FO_Principal principal)
+        {
+            InitializeComponent();
+            this.Dock = DockStyle.Fill;
+            this.tabela = null;
+            this.colunas = null;
+            this.filtro = null;
+            this.consulta = consulta;
 
             this.principal = principal;
             this.IniciaForm();
@@ -171,11 +214,20 @@ namespace Visao
         /// </summary>
         public void IniciaForm()
         {
-            this.grb_geral.Text = this.tabela.DAO.Nome;
-            this.lbl_quantidadeLinhas.Visible = false;
-
-            if (Model.Parametros.FiltrarAutomaticamente)
+            if(this.tabela != null)
             {
+                this.grb_geral.Text = this.tabela.DAO.Nome;
+                this.lbl_quantidadeLinhas.Visible = false;
+
+                if (Model.Parametros.FiltrarAutomaticamente)
+                {
+                    this.FillGrid(this.filtro);
+                }
+            }
+            else
+            {
+                this.grb_geral.Text = "Consulta Genérica";
+                this.pan_botton.Visible = false;
                 this.FillGrid(this.filtro);
             }
         }
@@ -195,13 +247,39 @@ namespace Visao
         {
             this.dgv_generico.Columns.Clear();
             this.dgv_generico.Rows.Clear();
-
-            foreach(Model.MD_Campos campo in this.tabela.CamposDaTabela())
+            
+            if (this.tabela != null)
             {
-                this.dgv_generico.Columns.Add(campo.DAO.Nome, campo.DAO.Nome);
-            }
+                this.lista = Model.Valores.BuscaLista(tabela, colunas, filter);
 
-            this.lista = Model.Valores.BuscaLista(tabela, colunas, filter);
+                foreach (Model.MD_Campos campo in this.tabela.CamposDaTabela())
+                {
+                    this.dgv_generico.Columns.Add(campo.DAO.Nome, campo.DAO.Nome);
+                }
+            }
+            else 
+            {
+                this.lista = Model.Valores.BuscaLista(consulta);
+
+                bool dados = true;
+                if (dados) dados &= lista != null;
+                if (dados) dados &= lista.Count > 0;
+
+                if (!dados)
+                {
+                    Message.MensagemAlerta("Seleção não retornou dados!");
+                    this.principal.AbreJanelaFormularioConsultaGenerica(this.consulta);
+                    this.btn_fechar_Click(null, null);
+                    this.Dispose();
+                    return;
+                }
+
+                foreach (string campo in lista[0].campos)
+                {
+                    
+                    this.dgv_generico.Columns.Add(campo, campo);
+                }
+            }
             this.lbl_quantidadeLinhas.Visible = true;
             this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.lista.Count.ToString()}";
 

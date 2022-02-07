@@ -36,15 +36,16 @@
             this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
             this.selecionaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quantidadeLinhasTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filtrarNaAberturaDaTelaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filtrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nãoFiltrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.filtrarNaAberturaDaTelaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filtrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nãoFiltrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.abrirConsultaGenéricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -98,7 +99,8 @@
             this.tsm_opcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selecionaBaseToolStripMenuItem,
             this.quantidadeLinhasTabelasToolStripMenuItem,
-            this.filtrarNaAberturaDaTelaToolStripMenuItem});
+            this.filtrarNaAberturaDaTelaToolStripMenuItem,
+            this.abrirConsultaGenéricaToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
             this.tsm_opcoes.Text = "Opções";
@@ -116,6 +118,29 @@
             this.quantidadeLinhasTabelasToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
             this.quantidadeLinhasTabelasToolStripMenuItem.Text = "Quantidade Linhas Tabelas";
             this.quantidadeLinhasTabelasToolStripMenuItem.Click += new System.EventHandler(this.quantidadeLinhasTabelasToolStripMenuItem_Click);
+            // 
+            // filtrarNaAberturaDaTelaToolStripMenuItem
+            // 
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filtrarToolStripMenuItem,
+            this.nãoFiltrarToolStripMenuItem});
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.Name = "filtrarNaAberturaDaTelaToolStripMenuItem";
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.filtrarNaAberturaDaTelaToolStripMenuItem.Text = "Filtrar na abertura da tela";
+            // 
+            // filtrarToolStripMenuItem
+            // 
+            this.filtrarToolStripMenuItem.Name = "filtrarToolStripMenuItem";
+            this.filtrarToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+            this.filtrarToolStripMenuItem.Text = "Filtrar";
+            this.filtrarToolStripMenuItem.Click += new System.EventHandler(this.filtrarToolStripMenuItem_Click);
+            // 
+            // nãoFiltrarToolStripMenuItem
+            // 
+            this.nãoFiltrarToolStripMenuItem.Name = "nãoFiltrarToolStripMenuItem";
+            this.nãoFiltrarToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+            this.nãoFiltrarToolStripMenuItem.Text = "Não filtrar";
+            this.nãoFiltrarToolStripMenuItem.Click += new System.EventHandler(this.nãoFiltrarToolStripMenuItem_Click);
             // 
             // pan_principal
             // 
@@ -180,28 +205,12 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // filtrarNaAberturaDaTelaToolStripMenuItem
+            // abrirConsultaGenéricaToolStripMenuItem
             // 
-            this.filtrarNaAberturaDaTelaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filtrarToolStripMenuItem,
-            this.nãoFiltrarToolStripMenuItem});
-            this.filtrarNaAberturaDaTelaToolStripMenuItem.Name = "filtrarNaAberturaDaTelaToolStripMenuItem";
-            this.filtrarNaAberturaDaTelaToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
-            this.filtrarNaAberturaDaTelaToolStripMenuItem.Text = "Filtrar na abertura da tela";
-            // 
-            // filtrarToolStripMenuItem
-            // 
-            this.filtrarToolStripMenuItem.Name = "filtrarToolStripMenuItem";
-            this.filtrarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.filtrarToolStripMenuItem.Text = "Filtrar";
-            this.filtrarToolStripMenuItem.Click += new System.EventHandler(this.filtrarToolStripMenuItem_Click);
-            // 
-            // nãoFiltrarToolStripMenuItem
-            // 
-            this.nãoFiltrarToolStripMenuItem.Name = "nãoFiltrarToolStripMenuItem";
-            this.nãoFiltrarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.nãoFiltrarToolStripMenuItem.Text = "Não filtrar";
-            this.nãoFiltrarToolStripMenuItem.Click += new System.EventHandler(this.nãoFiltrarToolStripMenuItem_Click);
+            this.abrirConsultaGenéricaToolStripMenuItem.Name = "abrirConsultaGenéricaToolStripMenuItem";
+            this.abrirConsultaGenéricaToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.abrirConsultaGenéricaToolStripMenuItem.Text = "Abrir Consulta Genérica";
+            this.abrirConsultaGenéricaToolStripMenuItem.Click += new System.EventHandler(this.abrirConsultaGenéricaToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
@@ -250,6 +259,7 @@
         private System.Windows.Forms.ToolStripMenuItem filtrarNaAberturaDaTelaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filtrarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nãoFiltrarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem abrirConsultaGenéricaToolStripMenuItem;
     }
 }
 

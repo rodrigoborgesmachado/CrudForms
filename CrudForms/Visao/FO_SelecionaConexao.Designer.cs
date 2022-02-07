@@ -31,11 +31,11 @@ namespace Visao
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FO_SelecionaConexao));
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
-            this.tbx_connectionStrings = new System.Windows.Forms.TextBox();
-            this.lbl_servidorSQLServer = new System.Windows.Forms.Label();
-            this.btn_info_servidorSqlServer = new System.Windows.Forms.Button();
             this.pan_botton = new System.Windows.Forms.Panel();
             this.btn_confirmar = new System.Windows.Forms.Button();
+            this.btn_info_servidorSqlServer = new System.Windows.Forms.Button();
+            this.tbx_connectionStrings = new System.Windows.Forms.TextBox();
+            this.lbl_servidorSQLServer = new System.Windows.Forms.Label();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             this.pan_botton.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +54,38 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Configuração";
             // 
+            // pan_botton
+            // 
+            this.pan_botton.Controls.Add(this.btn_confirmar);
+            this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pan_botton.Location = new System.Drawing.Point(3, 75);
+            this.pan_botton.Name = "pan_botton";
+            this.pan_botton.Size = new System.Drawing.Size(593, 35);
+            this.pan_botton.TabIndex = 11;
+            // 
+            // btn_confirmar
+            // 
+            this.btn_confirmar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_confirmar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_confirmar.Location = new System.Drawing.Point(508, 3);
+            this.btn_confirmar.Name = "btn_confirmar";
+            this.btn_confirmar.Size = new System.Drawing.Size(82, 29);
+            this.btn_confirmar.TabIndex = 23;
+            this.btn_confirmar.Text = "Confirmar";
+            this.btn_confirmar.UseVisualStyleBackColor = true;
+            this.btn_confirmar.Click += new System.EventHandler(this.btn_confirmar_Click);
+            // 
+            // btn_info_servidorSqlServer
+            // 
+            this.btn_info_servidorSqlServer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_info_servidorSqlServer.BackgroundImage")));
+            this.btn_info_servidorSqlServer.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_info_servidorSqlServer.Location = new System.Drawing.Point(567, 26);
+            this.btn_info_servidorSqlServer.Name = "btn_info_servidorSqlServer";
+            this.btn_info_servidorSqlServer.Size = new System.Drawing.Size(20, 20);
+            this.btn_info_servidorSqlServer.TabIndex = 9;
+            this.btn_info_servidorSqlServer.UseVisualStyleBackColor = true;
+            this.btn_info_servidorSqlServer.Click += new System.EventHandler(this.btn_info_servidorSqlServer_Click);
+            // 
             // tbx_connectionStrings
             // 
             this.tbx_connectionStrings.Location = new System.Drawing.Point(148, 23);
@@ -69,37 +101,6 @@ namespace Visao
             this.lbl_servidorSQLServer.Size = new System.Drawing.Size(133, 19);
             this.lbl_servidorSQLServer.TabIndex = 0;
             this.lbl_servidorSQLServer.Text = "Connection String";
-            // 
-            // btn_info_servidorSqlServer
-            // 
-            this.btn_info_servidorSqlServer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_info_servidorSqlServer.BackgroundImage")));
-            this.btn_info_servidorSqlServer.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_info_servidorSqlServer.Location = new System.Drawing.Point(567, 26);
-            this.btn_info_servidorSqlServer.Name = "btn_info_servidorSqlServer";
-            this.btn_info_servidorSqlServer.Size = new System.Drawing.Size(20, 20);
-            this.btn_info_servidorSqlServer.TabIndex = 9;
-            this.btn_info_servidorSqlServer.UseVisualStyleBackColor = true;
-            // 
-            // pan_botton
-            // 
-            this.pan_botton.Controls.Add(this.btn_confirmar);
-            this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pan_botton.Location = new System.Drawing.Point(3, 75);
-            this.pan_botton.Name = "pan_botton";
-            this.pan_botton.Size = new System.Drawing.Size(593, 35);
-            this.pan_botton.TabIndex = 11;
-            // 
-            // btn_confirmar
-            // 
-            this.btn_confirmar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_confirmar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_confirmar.Location = new System.Drawing.Point(515, 3);
-            this.btn_confirmar.Name = "btn_confirmar";
-            this.btn_confirmar.Size = new System.Drawing.Size(75, 29);
-            this.btn_confirmar.TabIndex = 23;
-            this.btn_confirmar.Text = "Confirmar";
-            this.btn_confirmar.UseVisualStyleBackColor = true;
-            this.btn_confirmar.Click += new System.EventHandler(this.btn_confirmar_Click);
             // 
             // FO_SelecionaConexao
             // 

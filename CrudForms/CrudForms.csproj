@@ -63,6 +63,7 @@
     <Compile Include="Model\MD_Relacao.cs" />
     <Compile Include="Model\MD_Tabela.cs" />
     <Compile Include="Model\MD_TipoCampo.cs" />
+    <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Model\Parametros.cs" />
     <Compile Include="Model\Valores.cs" />
     <Compile Include="Program.cs" />
@@ -73,6 +74,12 @@
     </Compile>
     <Compile Include="Visao\FO_Aguarde.Designer.cs">
       <DependentUpon>FO_Aguarde.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_BuscaGenerica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_BuscaGenerica.Designer.cs">
+      <DependentUpon>FO_BuscaGenerica.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\FO_FiltrarGenerico.cs">
       <SubType>Form</SubType>
@@ -91,6 +98,12 @@
     </Compile>
     <Compile Include="Visao\FO_Login.Designer.cs">
       <DependentUpon>FO_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_OrderBy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_OrderBy.Designer.cs">
+      <DependentUpon>FO_OrderBy.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\FO_Principal.cs">
       <SubType>Form</SubType>
@@ -132,6 +145,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Visao\FO_BuscaGenerica.resx">
+      <DependentUpon>FO_BuscaGenerica.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_FiltrarGenerico.resx">
       <DependentUpon>FO_FiltrarGenerico.cs</DependentUpon>
     </EmbeddedResource>
@@ -140,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_Login.resx">
       <DependentUpon>FO_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_OrderBy.resx">
+      <DependentUpon>FO_OrderBy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_Principal.resx">
       <DependentUpon>FO_Principal.cs</DependentUpon>

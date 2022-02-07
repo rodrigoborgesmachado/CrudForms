@@ -257,6 +257,8 @@ namespace Model
 
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
+            if (reader == null) return null;
+
             List<string> columns = new List<string>();
             campos.ForEach(campo => 
             {
@@ -289,6 +291,63 @@ namespace Model
         }
 
         /// <summary>
+        /// Método que preenche os valores a partir da tabela
+        /// </summary>
+        /// <param name="tabela"></param>
+        /// <returns></returns>
+        public static List<Valores> BuscaLista(string sentenca)
+        {
+            List<Valores> valores = new List<Valores>();
+
+            string connection = Parametros.ConexaoBanco.DAO.Valor;
+
+            Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
+            barra.Show();
+
+            DataBase.Connection.CloseConnection();
+            DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
+
+            DbDataReader reader = DataBase.Connection.Select(sentenca);
+
+            List<string> columns = new List<string>();
+
+            if (reader == null)
+            {
+                barra.Dispose();
+                return null;
+            }
+
+            int j = 0;
+            while (reader.Read())
+            {
+                List<string> values = new List<string>();
+
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    if(j == 0)
+                        columns.Add(reader.GetName(i).ToString());
+
+                    values.Add(reader[i].ToString());
+                }
+
+                valores.Add(new Valores()
+                {
+                    campos = columns,
+                    valores = values
+                });
+                barra.AvancaBarra(1);
+                j++;
+            }
+            reader.Close();
+            barra.Dispose();
+
+            DataBase.Connection.CloseConnection();
+            DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
+
+            return valores;
+        }
+
+        /// <summary>
         /// Method that creates the command for select in table
         /// </summary>
         /// <returns>Command SQL</returns>
@@ -307,6 +366,15 @@ namespace Model
             }
             command += fields + " FROM [" + tabela.DAO.Nome + "]";
             command += MontaWhere(filtro, campos);
+
+            if(filtro.Order != null)
+            {
+                if(filtro.Order.CampoOrdenacao != null)
+                {
+                    command += $" ORDER BY { (campos.IndexOf(campos.Where(campo => campo.DAO.Nome == filtro.Order.CampoOrdenacao.DAO.Nome).FirstOrDefault()) + 1)} {(filtro.Order.Asc ? "ASC" : "DESC")}";
+                }
+            }
+
             return command;
         }
 

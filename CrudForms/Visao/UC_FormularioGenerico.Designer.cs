@@ -33,6 +33,7 @@ namespace Visao
             this.btn_fechar = new System.Windows.Forms.Button();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
             this.grb_geral = new System.Windows.Forms.GroupBox();
+            this.lbl_quantidadeLinhas = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pan_botton = new System.Windows.Forms.Panel();
             this.btn_excluir = new System.Windows.Forms.Button();
@@ -43,7 +44,7 @@ namespace Visao
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
-            this.lbl_quantidadeLinhas = new System.Windows.Forms.Label();
+            this.btn_orderBy = new System.Windows.Forms.Button();
             this.pan_top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_generico)).BeginInit();
             this.grb_geral.SuspendLayout();
@@ -116,6 +117,16 @@ namespace Visao
             this.grb_geral.TabStop = false;
             this.grb_geral.Text = "<nome da tabela>";
             // 
+            // lbl_quantidadeLinhas
+            // 
+            this.lbl_quantidadeLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_quantidadeLinhas.AutoSize = true;
+            this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(4, 488);
+            this.lbl_quantidadeLinhas.Name = "lbl_quantidadeLinhas";
+            this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(145, 19);
+            this.lbl_quantidadeLinhas.TabIndex = 13;
+            this.lbl_quantidadeLinhas.Text = "<qauntidade linhas>";
+            // 
             // panel7
             // 
             this.panel7.BackColor = System.Drawing.Color.Transparent;
@@ -130,6 +141,7 @@ namespace Visao
             // 
             // pan_botton
             // 
+            this.pan_botton.Controls.Add(this.btn_orderBy);
             this.pan_botton.Controls.Add(this.btn_excluir);
             this.pan_botton.Controls.Add(this.btn_incluir);
             this.pan_botton.Controls.Add(this.btn_editar);
@@ -233,15 +245,17 @@ namespace Visao
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
             // 
-            // lbl_quantidadeLinhas
+            // btn_orderBy
             // 
-            this.lbl_quantidadeLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbl_quantidadeLinhas.AutoSize = true;
-            this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(4, 488);
-            this.lbl_quantidadeLinhas.Name = "lbl_quantidadeLinhas";
-            this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(145, 19);
-            this.lbl_quantidadeLinhas.TabIndex = 13;
-            this.lbl_quantidadeLinhas.Text = "<qauntidade linhas>";
+            this.btn_orderBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_orderBy.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_orderBy.Location = new System.Drawing.Point(395, 4);
+            this.btn_orderBy.Name = "btn_orderBy";
+            this.btn_orderBy.Size = new System.Drawing.Size(81, 29);
+            this.btn_orderBy.TabIndex = 17;
+            this.btn_orderBy.Text = "Order By";
+            this.btn_orderBy.UseVisualStyleBackColor = true;
+            this.btn_orderBy.Click += new System.EventHandler(this.btn_orderBy_Click);
             // 
             // UC_FormularioGenerico
             // 
@@ -282,5 +296,6 @@ namespace Visao
         private System.Windows.Forms.Button btn_excluir;
         private System.Windows.Forms.Button btn_incluir;
         private System.Windows.Forms.Label lbl_quantidadeLinhas;
+        private System.Windows.Forms.Button btn_orderBy;
     }
 }

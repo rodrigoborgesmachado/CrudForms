@@ -117,6 +117,16 @@ namespace Visao
             this.AbrirJanela(tag);
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de fazer consulta genérica
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void abrirConsultaGenéricaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.AbreJanelaFormularioConsultaGenerica();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -247,6 +257,30 @@ namespace Visao
         }
 
         /// <summary>
+        /// Método que abre a janela de log
+        /// </summary>
+        public void AbreJanelaFormularioGenerico(string consulta)
+        {
+            Util.CL_Files.WriteOnTheLog("FO_Principal.AbreJanelaFormularioGenerico()", Util.Global.TipoLog.DETALHADO);
+
+            UC_FormularioGenerico controle = new UC_FormularioGenerico(consulta, this);
+
+            if(controle.Controls.Count > 0)
+                this.AbreJanela(controle, "Tabela Genéfica", "generica");
+        }
+
+        /// <summary>
+        /// Método que abre a janela de log
+        /// </summary>
+        public void AbreJanelaFormularioConsultaGenerica(string consulta = "")
+        {
+            Util.CL_Files.WriteOnTheLog("FO_Principal.AbreJanelaFormularioConsulta()", Util.Global.TipoLog.DETALHADO);
+
+            FO_BuscaGenerica controle = new FO_BuscaGenerica(this, consulta);
+            controle.Show();
+        }
+
+        /// <summary>
         /// Método que abre uma nova aba no tab page
         /// </summary>
         /// <param name="control">User control a ser aberto dentro da page</param>
@@ -361,8 +395,8 @@ namespace Visao
         }
 
 
+
         #endregion Métodos
 
-        
     }
 }
