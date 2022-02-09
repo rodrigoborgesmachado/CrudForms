@@ -259,6 +259,8 @@ namespace Model
 
             if (reader == null) return null;
 
+            if (reader == null) return null;
+
             List<string> columns = new List<string>();
             campos.ForEach(campo => 
             {
