@@ -88,5 +88,15 @@ namespace DAO
 
             return retorno;
         }
+
+        public string MontaStringDateFromDateTime(DateTime data)
+        {
+            return data.Year + "-" + data.Month + "-" + data.Day;
+        }
+
+        public string MontaStringDateTimeFromDateTime(DateTime data)
+        {
+            return data.Year + "-" + data.Month + "-" + data.Day + " " + data.Hour + ":" + data.Minute + ":" + data.Second;
+        }
     }
 }

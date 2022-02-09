@@ -10,5 +10,6 @@ namespace Model
     {
         public List<string> campos = new List<string>();
         public List<string> valores = new List<string>();
+        public OrderBy Order = new OrderBy();
     }
 }

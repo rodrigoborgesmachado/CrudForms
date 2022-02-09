@@ -162,7 +162,12 @@ namespace DataBase
             }
             catch (Exception e)
             {
-                command.Transaction.Rollback();
+                try 
+                { 
+                    command.Transaction.Rollback();
+                }
+                catch { }
+
                 Util.CL_Files.WriteOnTheLog("Erro no execute: " + command_sql + ". Erro: " + e.Message, Global.TipoLog.SIMPLES);
                 return false;
             }

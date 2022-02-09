@@ -71,5 +71,15 @@ namespace Visao
                 }
             }
         }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de informação sobre a conexão com o banco de dados
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_info_servidorSqlServer_Click(object sender, EventArgs e)
+        {
+            Message.MensagemInformacao("Essa conexão deve ser válida, deve conter o Data Source da conexão com o Banco de Dados!");
+        }
     }
 }

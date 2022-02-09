@@ -74,6 +74,7 @@
     <Compile Include="DAO\MDN_Model.cs" />
     <Compile Include="DAO\MDN_Table.cs" />
     <Compile Include="DAO\MD_Campos.cs" />
+    <Compile Include="DAO\MD_Consultas.cs" />
     <Compile Include="DAO\MD_Parametros.cs" />
     <Compile Include="DAO\MD_Relacao.cs" />
     <Compile Include="DAO\MD_Tabela.cs" />

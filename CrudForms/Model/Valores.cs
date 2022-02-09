@@ -241,11 +241,11 @@ namespace Model
         /// </summary>
         /// <param name="tabela"></param>
         /// <returns></returns>
-        public static List<Valores> BuscaLista(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro)
+        public static List<Valores> BuscaLista(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro, out string consulta)
         {
             List<Valores> valores = new List<Valores>();
 
-            string sentenca = CreateCommandSQLTable(tabela, campos, filtro);
+            consulta = CreateCommandSQLTable(tabela, campos, filtro);
 
             Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
             barra.Show();
@@ -255,7 +255,9 @@ namespace Model
             DataBase.Connection.CloseConnection();
             DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
 
-            DbDataReader reader = DataBase.Connection.Select(sentenca);
+            DbDataReader reader = DataBase.Connection.Select(consulta);
+
+            if (reader == null) return null;
 
             List<string> columns = new List<string>();
             campos.ForEach(campo => 
@@ -269,7 +271,20 @@ namespace Model
 
                 for(int i = 0; i< reader.FieldCount; i++)
                 {
-                    values.Add(reader[campos[i].DAO.Nome].ToString());
+                    var temp = reader[campos[i].DAO.Nome];
+
+                    if(campos[i].DAO.TipoCampo.Nome.Equals("VARBINARY"))
+                    {
+                        byte[] binaryString = (byte[])temp;
+
+                        // if the original encoding was UTF-8
+                        string y = Encoding.UTF8.GetString(binaryString);
+                        values.Add(y);
+                    }
+                    else
+                    {
+                        values.Add(temp.ToString());
+                    }
                 }
 
                 valores.Add(new Valores()
@@ -278,6 +293,63 @@ namespace Model
                     valores = values
                 }) ;
                 barra.AvancaBarra(1);
+            }
+            reader.Close();
+            barra.Dispose();
+
+            DataBase.Connection.CloseConnection();
+            DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
+
+            return valores;
+        }
+
+        /// <summary>
+        /// Método que preenche os valores a partir da tabela
+        /// </summary>
+        /// <param name="tabela"></param>
+        /// <returns></returns>
+        public static List<Valores> BuscaLista(string sentenca)
+        {
+            List<Valores> valores = new List<Valores>();
+
+            string connection = Parametros.ConexaoBanco.DAO.Valor;
+
+            Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
+            barra.Show();
+
+            DataBase.Connection.CloseConnection();
+            DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
+
+            DbDataReader reader = DataBase.Connection.Select(sentenca);
+
+            List<string> columns = new List<string>();
+
+            if (reader == null)
+            {
+                barra.Dispose();
+                return null;
+            }
+
+            int j = 0;
+            while (reader.Read())
+            {
+                List<string> values = new List<string>();
+
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    if(j == 0)
+                        columns.Add(reader.GetName(i).ToString());
+
+                    values.Add(reader[i].ToString());
+                }
+
+                valores.Add(new Valores()
+                {
+                    campos = columns,
+                    valores = values
+                });
+                barra.AvancaBarra(1);
+                j++;
             }
             reader.Close();
             barra.Dispose();
@@ -307,6 +379,15 @@ namespace Model
             }
             command += fields + " FROM [" + tabela.DAO.Nome + "]";
             command += MontaWhere(filtro, campos);
+
+            if(filtro.Order != null)
+            {
+                if(filtro.Order.CampoOrdenacao != null)
+                {
+                    command += $" ORDER BY { (campos.IndexOf(campos.Where(campo => campo.DAO.Nome == filtro.Order.CampoOrdenacao.DAO.Nome).FirstOrDefault()) + 1)} {(filtro.Order.Asc ? "ASC" : "DESC")}";
+                }
+            }
+
             return command;
         }
 

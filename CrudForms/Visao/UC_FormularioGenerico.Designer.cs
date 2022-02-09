@@ -30,11 +30,18 @@ namespace Visao
         private void InitializeComponent()
         {
             this.pan_top = new System.Windows.Forms.Panel();
+            this.pan_opcoes = new System.Windows.Forms.Panel();
+            this.mst_opcoes = new System.Windows.Forms.MenuStrip();
+            this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pan_fechar = new System.Windows.Forms.Panel();
             this.btn_fechar = new System.Windows.Forms.Button();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
             this.grb_geral = new System.Windows.Forms.GroupBox();
+            this.lbl_quantidadeLinhas = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pan_botton = new System.Windows.Forms.Panel();
+            this.btn_orderBy = new System.Windows.Forms.Button();
             this.btn_excluir = new System.Windows.Forms.Button();
             this.btn_incluir = new System.Windows.Forms.Button();
             this.btn_editar = new System.Windows.Forms.Button();
@@ -43,8 +50,11 @@ namespace Visao
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
-            this.lbl_quantidadeLinhas = new System.Windows.Forms.Label();
+            this.salvarConsultaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_top.SuspendLayout();
+            this.pan_opcoes.SuspendLayout();
+            this.mst_opcoes.SuspendLayout();
+            this.pan_fechar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_generico)).BeginInit();
             this.grb_geral.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -55,19 +65,65 @@ namespace Visao
             // 
             // pan_top
             // 
-            this.pan_top.Controls.Add(this.btn_fechar);
+            this.pan_top.Controls.Add(this.pan_opcoes);
+            this.pan_top.Controls.Add(this.pan_fechar);
             this.pan_top.Dock = System.Windows.Forms.DockStyle.Top;
             this.pan_top.Location = new System.Drawing.Point(0, 0);
             this.pan_top.Name = "pan_top";
-            this.pan_top.Size = new System.Drawing.Size(740, 20);
+            this.pan_top.Size = new System.Drawing.Size(740, 32);
             this.pan_top.TabIndex = 17;
+            // 
+            // pan_opcoes
+            // 
+            this.pan_opcoes.Controls.Add(this.mst_opcoes);
+            this.pan_opcoes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pan_opcoes.Location = new System.Drawing.Point(0, 0);
+            this.pan_opcoes.Name = "pan_opcoes";
+            this.pan_opcoes.Size = new System.Drawing.Size(720, 32);
+            this.pan_opcoes.TabIndex = 19;
+            // 
+            // mst_opcoes
+            // 
+            this.mst_opcoes.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.mst_opcoes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsm_opcoes});
+            this.mst_opcoes.Location = new System.Drawing.Point(0, 0);
+            this.mst_opcoes.Name = "mst_opcoes";
+            this.mst_opcoes.Size = new System.Drawing.Size(720, 28);
+            this.mst_opcoes.TabIndex = 2;
+            this.mst_opcoes.Text = "menuStrip1";
+            // 
+            // tsm_opcoes
+            // 
+            this.tsm_opcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportarCSVToolStripMenuItem,
+            this.salvarConsultaToolStripMenuItem});
+            this.tsm_opcoes.Name = "tsm_opcoes";
+            this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
+            this.tsm_opcoes.Text = "Opções";
+            // 
+            // exportarCSVToolStripMenuItem
+            // 
+            this.exportarCSVToolStripMenuItem.Name = "exportarCSVToolStripMenuItem";
+            this.exportarCSVToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportarCSVToolStripMenuItem.Text = "Exportar CSV";
+            this.exportarCSVToolStripMenuItem.Click += new System.EventHandler(this.exportarCSVToolStripMenuItem_Click);
+            // 
+            // pan_fechar
+            // 
+            this.pan_fechar.Controls.Add(this.btn_fechar);
+            this.pan_fechar.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pan_fechar.Location = new System.Drawing.Point(720, 0);
+            this.pan_fechar.Name = "pan_fechar";
+            this.pan_fechar.Size = new System.Drawing.Size(20, 32);
+            this.pan_fechar.TabIndex = 18;
             // 
             // btn_fechar
             // 
             this.btn_fechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_fechar.BackColor = System.Drawing.Color.Red;
             this.btn_fechar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_fechar.Location = new System.Drawing.Point(720, 0);
+            this.btn_fechar.Location = new System.Drawing.Point(0, 0);
             this.btn_fechar.Name = "btn_fechar";
             this.btn_fechar.Size = new System.Drawing.Size(20, 20);
             this.btn_fechar.TabIndex = 17;
@@ -100,7 +156,7 @@ namespace Visao
             this.dgv_generico.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_generico.ShowCellErrors = false;
             this.dgv_generico.ShowCellToolTips = false;
-            this.dgv_generico.Size = new System.Drawing.Size(728, 451);
+            this.dgv_generico.Size = new System.Drawing.Size(728, 439);
             this.dgv_generico.StandardTab = true;
             this.dgv_generico.TabIndex = 12;
             // 
@@ -109,12 +165,22 @@ namespace Visao
             this.grb_geral.Controls.Add(this.lbl_quantidadeLinhas);
             this.grb_geral.Controls.Add(this.dgv_generico);
             this.grb_geral.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grb_geral.Location = new System.Drawing.Point(0, 20);
+            this.grb_geral.Location = new System.Drawing.Point(0, 32);
             this.grb_geral.Name = "grb_geral";
-            this.grb_geral.Size = new System.Drawing.Size(740, 506);
+            this.grb_geral.Size = new System.Drawing.Size(740, 494);
             this.grb_geral.TabIndex = 16;
             this.grb_geral.TabStop = false;
             this.grb_geral.Text = "<nome da tabela>";
+            // 
+            // lbl_quantidadeLinhas
+            // 
+            this.lbl_quantidadeLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_quantidadeLinhas.AutoSize = true;
+            this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(4, 476);
+            this.lbl_quantidadeLinhas.Name = "lbl_quantidadeLinhas";
+            this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(145, 19);
+            this.lbl_quantidadeLinhas.TabIndex = 13;
+            this.lbl_quantidadeLinhas.Text = "<qauntidade linhas>";
             // 
             // panel7
             // 
@@ -130,6 +196,7 @@ namespace Visao
             // 
             // pan_botton
             // 
+            this.pan_botton.Controls.Add(this.btn_orderBy);
             this.pan_botton.Controls.Add(this.btn_excluir);
             this.pan_botton.Controls.Add(this.btn_incluir);
             this.pan_botton.Controls.Add(this.btn_editar);
@@ -141,6 +208,18 @@ namespace Visao
             this.pan_botton.Name = "pan_botton";
             this.pan_botton.Size = new System.Drawing.Size(740, 36);
             this.pan_botton.TabIndex = 20;
+            // 
+            // btn_orderBy
+            // 
+            this.btn_orderBy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_orderBy.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_orderBy.Location = new System.Drawing.Point(395, 4);
+            this.btn_orderBy.Name = "btn_orderBy";
+            this.btn_orderBy.Size = new System.Drawing.Size(81, 29);
+            this.btn_orderBy.TabIndex = 17;
+            this.btn_orderBy.Text = "Order By";
+            this.btn_orderBy.UseVisualStyleBackColor = true;
+            this.btn_orderBy.Click += new System.EventHandler(this.btn_orderBy_Click);
             // 
             // btn_excluir
             // 
@@ -233,15 +312,12 @@ namespace Visao
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
             // 
-            // lbl_quantidadeLinhas
+            // salvarConsultaToolStripMenuItem
             // 
-            this.lbl_quantidadeLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbl_quantidadeLinhas.AutoSize = true;
-            this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(4, 488);
-            this.lbl_quantidadeLinhas.Name = "lbl_quantidadeLinhas";
-            this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(145, 19);
-            this.lbl_quantidadeLinhas.TabIndex = 13;
-            this.lbl_quantidadeLinhas.Text = "<qauntidade linhas>";
+            this.salvarConsultaToolStripMenuItem.Name = "salvarConsultaToolStripMenuItem";
+            this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.salvarConsultaToolStripMenuItem.Text = "Salvar Consulta";
+            this.salvarConsultaToolStripMenuItem.Click += new System.EventHandler(this.salvarConsultaToolStripMenuItem_Click);
             // 
             // UC_FormularioGenerico
             // 
@@ -254,6 +330,11 @@ namespace Visao
             this.Name = "UC_FormularioGenerico";
             this.Size = new System.Drawing.Size(740, 562);
             this.pan_top.ResumeLayout(false);
+            this.pan_opcoes.ResumeLayout(false);
+            this.pan_opcoes.PerformLayout();
+            this.mst_opcoes.ResumeLayout(false);
+            this.mst_opcoes.PerformLayout();
+            this.pan_fechar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_generico)).EndInit();
             this.grb_geral.ResumeLayout(false);
             this.grb_geral.PerformLayout();
@@ -282,5 +363,12 @@ namespace Visao
         private System.Windows.Forms.Button btn_excluir;
         private System.Windows.Forms.Button btn_incluir;
         private System.Windows.Forms.Label lbl_quantidadeLinhas;
+        private System.Windows.Forms.Button btn_orderBy;
+        private System.Windows.Forms.Panel pan_fechar;
+        private System.Windows.Forms.Panel pan_opcoes;
+        private System.Windows.Forms.MenuStrip mst_opcoes;
+        private System.Windows.Forms.ToolStripMenuItem tsm_opcoes;
+        private System.Windows.Forms.ToolStripMenuItem exportarCSVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salvarConsultaToolStripMenuItem;
     }
 }

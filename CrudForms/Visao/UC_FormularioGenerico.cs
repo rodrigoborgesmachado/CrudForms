@@ -15,6 +15,8 @@ namespace Visao
     {
         #region Atributos e Propriedades
 
+        string consulta = string.Empty;
+
         /// <summary>
         /// Tabela de controle do formulário
         /// </summary>
@@ -34,11 +36,31 @@ namespace Visao
         /// <summary>
         /// Lista de valores
         /// </summary>
-        List<Model.Valores> lista;
+        List<Model.Valores> valores;
 
         #endregion Atributos e Propriedades
 
         #region Eventos
+
+        /// <summary>
+        /// Evento lançado no clique da opção de salvar consulta
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void salvarConsultaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SalvaConsulta();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de gerar relatório CSV a partir 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exportarCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GerarCSV();
+        }
 
         /// <summary>
         /// Evento lançado no clique do botão de filtrar
@@ -59,11 +81,14 @@ namespace Visao
         private void btn_limparFiltro_Click(object sender, EventArgs e)
         {
             this.filtro = new Model.Filtro();
+            this.filtro.Order = new Model.OrderBy();
+
             this.colunas.ForEach(coluna =>
             {
                 filtro.campos.Add(coluna.DAO.Nome);
                 filtro.valores.Add(string.Empty);
             });
+
             this.FillGrid();
         }
 
@@ -111,7 +136,7 @@ namespace Visao
             else
             {
                 int index = this.dgv_generico.SelectedRows[0].Index;
-                if(!this.lista[index].DeleteValores(this.tabela, this.tabela.CamposDaTabela(), out var mensagem))
+                if(!this.valores[index].DeleteValores(this.tabela, this.tabela.CamposDaTabela(), out var mensagem))
                 {
                     Visao.Message.MensagemAlerta("Erro: " + mensagem);
                 }
@@ -130,9 +155,27 @@ namespace Visao
         /// <param name="e"></param>
         private void btn_fechar_Click(object sender, EventArgs e)
         {
-            this.lista.Clear();
-            this.colunas.Clear();
-            this.principal.FecharTela(this.tabela.DAO.Nome);
+            if(this.tabela == null)
+            {
+                this.principal.FecharTela("generica");
+            }
+            else
+            {
+                this.valores.Clear();
+                this.colunas.Clear();
+                this.principal.FecharTela(this.tabela?.DAO.Nome);
+            }
+        }
+
+        /// <summary>
+        /// Evento lançado no clique do botão de ordenação
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_orderBy_Click(object sender, EventArgs e)
+        {
+            FO_OrderBy orderBy = new FO_OrderBy(this, colunas, filtro);
+            orderBy.ShowDialog();
         }
 
         #endregion Eventos
@@ -150,13 +193,33 @@ namespace Visao
             this.Dock = DockStyle.Fill;
             this.tabela = tabela;
             this.colunas = this.tabela.CamposDaTabela();
+            this.consulta = string.Empty;
 
             this.filtro = new Model.Filtro();
+            this.filtro.Order = new Model.OrderBy();
             this.colunas.ForEach(coluna => 
             {
                 filtro.campos.Add(coluna.DAO.Nome);
                 filtro.valores.Add(string.Empty);
             });
+
+            this.principal = principal;
+            this.IniciaForm();
+        }
+
+        /// <summary>
+        /// Construtor secundario da classe
+        /// </summary>
+        /// <param name="consulta"></param>
+        /// <param name="principal"></param>
+        public UC_FormularioGenerico(string consulta, Visao.FO_Principal principal)
+        {
+            InitializeComponent();
+            this.Dock = DockStyle.Fill;
+            this.tabela = null;
+            this.colunas = null;
+            this.filtro = null;
+            this.consulta = consulta;
 
             this.principal = principal;
             this.IniciaForm();
@@ -171,11 +234,20 @@ namespace Visao
         /// </summary>
         public void IniciaForm()
         {
-            this.grb_geral.Text = this.tabela.DAO.Nome;
-            this.lbl_quantidadeLinhas.Visible = false;
-
-            if (Model.Parametros.FiltrarAutomaticamente)
+            if(this.tabela != null)
             {
+                this.grb_geral.Text = this.tabela.DAO.Nome;
+                this.lbl_quantidadeLinhas.Visible = false;
+
+                if (Model.Parametros.FiltrarAutomaticamente)
+                {
+                    this.FillGrid(this.filtro);
+                }
+            }
+            else
+            {
+                this.grb_geral.Text = "Consulta Genérica";
+                this.pan_botton.Visible = false;
                 this.FillGrid(this.filtro);
             }
         }
@@ -195,17 +267,43 @@ namespace Visao
         {
             this.dgv_generico.Columns.Clear();
             this.dgv_generico.Rows.Clear();
-
-            foreach(Model.MD_Campos campo in this.tabela.CamposDaTabela())
+            
+            if (this.tabela != null)
             {
-                this.dgv_generico.Columns.Add(campo.DAO.Nome, campo.DAO.Nome);
+                this.valores = Model.Valores.BuscaLista(tabela, colunas, filter, out consulta);
+
+                foreach (Model.MD_Campos campo in this.tabela.CamposDaTabela())
+                {
+                    this.dgv_generico.Columns.Add(campo.DAO.Nome, campo.DAO.Nome);
+                }
             }
+            else 
+            {
+                this.valores = Model.Valores.BuscaLista(consulta);
 
-            this.lista = Model.Valores.BuscaLista(tabela, colunas, filter);
+                bool dados = true;
+                if (dados) dados &= valores != null;
+                if (dados) dados &= valores.Count > 0;
+
+                if (!dados)
+                {
+                    Message.MensagemAlerta("Seleção não retornou dados!");
+                    this.principal.AbreJanelaFormularioConsultaGenerica(this.consulta);
+                    this.btn_fechar_Click(null, null);
+                    this.Dispose();
+                    return;
+                }
+
+                foreach (string campo in valores[0].campos)
+                {
+                    
+                    this.dgv_generico.Columns.Add(campo, campo);
+                }
+            }
             this.lbl_quantidadeLinhas.Visible = true;
-            this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.lista.Count.ToString()}";
+            this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.valores.Count.ToString()}";
 
-            FillGrid(lista);
+            FillGrid(valores);
         }
 
         /// <summary>
@@ -217,7 +315,7 @@ namespace Visao
             Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(lista.Count, "Carregando");
             barra.Show();
 
-            this.lista.ForEach(p =>
+            this.valores.ForEach(p =>
             {
                 FillGrid(p);
                 barra.AvancaBarra(1);
@@ -256,7 +354,7 @@ namespace Visao
                     Visao.Message.MensagemAlerta("Selecione um item no grid!");
                     return;
                 }
-                FO_FormularioCadastroGenerico formulario = new FO_FormularioCadastroGenerico(this, tabela, this.tabela.CamposDaTabela(), lista[this.dgv_generico.SelectedRows[0].Index], tarefa);
+                FO_FormularioCadastroGenerico formulario = new FO_FormularioCadastroGenerico(this, tabela, this.tabela.CamposDaTabela(), valores[this.dgv_generico.SelectedRows[0].Index], tarefa);
                 formulario.ShowDialog();
             }
             else
@@ -264,6 +362,66 @@ namespace Visao
                 FO_FormularioCadastroGenerico formulario = new FO_FormularioCadastroGenerico(this, tabela, this.tabela.CamposDaTabela(), new Model.Valores(), tarefa);
                 formulario.ShowDialog();
             }
+        }
+
+        /// <summary>
+        /// Método que gera o arquivo CSV
+        /// </summary>
+        public void GerarCSV()
+        {
+            bool haValores = true;
+            haValores &= valores != null;
+            haValores &= valores?.Count > 0;
+
+            if (!haValores)
+            {
+                Message.MensagemAlerta("Não há dados na busca para gerar relatório!");
+                return;
+            }
+
+            if(tabela != null)
+            {
+                if (!Regras.GerarCsv.GerarArquivo(this.valores, new System.IO.DirectoryInfo(Util.Global.app_rel_directory), this.tabela.DAO.Nome, out var mensagemErro))
+                {
+                    Message.MensagemErro("Houve erros.");
+                    Message.MensagemErro(mensagemErro);
+                }
+                else
+                {
+                    Message.MensagemSucesso($"Relatório {this.tabela.DAO.Nome}.csv gerado com sucesso no caminho:\n {Util.Global.app_rel_directory}");
+                }
+            }
+            else
+            {
+                if (!Regras.GerarCsv.GerarArquivo(this.valores, new System.IO.DirectoryInfo(Util.Global.app_rel_directory), "relatorio_generico", out var mensagemErro))
+                {
+                    Message.MensagemErro("Houve erros.");
+                    Message.MensagemErro(mensagemErro);
+                }
+                else
+                {
+                    Message.MensagemSucesso($"Relatório relatorio_generico.csv gerado com sucesso no caminho:\n {Util.Global.app_rel_directory}");
+                }
+            }
+            
+        }
+
+        /// <summary>
+        /// Método que salva a consulta que está na tela
+        /// </summary>
+        public void SalvaConsulta()
+        {
+            if (string.IsNullOrEmpty(this.consulta))
+            {
+                Message.MensagemAlerta("Não há consulta preenchida!");
+                return;
+            }
+
+            Model.MD_Consultas consulta = new Model.MD_Consultas(DataBase.Connection.GetIncrement(new DAO.MD_Consultas().table.Table_Name));
+            consulta.DAO.Consulta = this.consulta;
+            
+            Visao.FO_CadastraConsulta cadastraConsulta = new FO_CadastraConsulta(consulta, Tarefa.INCLUINDO);
+            cadastraConsulta.Show();
         }
 
         #endregion Métodos

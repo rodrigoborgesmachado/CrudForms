@@ -35,6 +35,17 @@ namespace Visao
         #region Eventos
 
         /// <summary>
+        /// Evento lançado no clique da opção de consultar consultas salvas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void consultasSalvasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_ConsultasSalvas consultasSalvas = new FO_ConsultasSalvas(this);
+            consultasSalvas.ShowDialog();
+        }
+
+        /// <summary>
         /// Evento lançado no clique da opção de filtrar automaticamente
         /// </summary>
         /// <param name="sender"></param>
@@ -115,6 +126,16 @@ namespace Visao
 
             string tag = this.trv_tabelas.SelectedNode.Tag.ToString();
             this.AbrirJanela(tag);
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de fazer consulta genérica
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void abrirConsultaGenéricaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.AbreJanelaFormularioConsultaGenerica();
         }
 
         #endregion Eventos
@@ -240,10 +261,34 @@ namespace Visao
         /// </summary>
         public void AbreJanelaFormularioGenerico(Model.MD_Tabela tabela)
         {
-            Util.CL_Files.WriteOnTheLog("FO_Principal.AbreJanelaLogeer()", Util.Global.TipoLog.DETALHADO);
+            Util.CL_Files.WriteOnTheLog("FO_Principal.AbreJanelaFormularioGenerico()", Util.Global.TipoLog.DETALHADO);
 
             UC_FormularioGenerico controle = new UC_FormularioGenerico(tabela, this);
             this.AbreJanela(controle, tabela.DAO.Nome, tabela.DAO.Nome);
+        }
+
+        /// <summary>
+        /// Método que abre a janela de log
+        /// </summary>
+        public void AbreJanelaFormularioGenerico(string consulta)
+        {
+            Util.CL_Files.WriteOnTheLog("FO_Principal.AbreJanelaFormularioGenerico()", Util.Global.TipoLog.DETALHADO);
+
+            UC_FormularioGenerico controle = new UC_FormularioGenerico(consulta, this);
+
+            if(controle.Controls.Count > 0)
+                this.AbreJanela(controle, "Tabela Genérica", "generica");
+        }
+
+        /// <summary>
+        /// Método que abre a janela de log
+        /// </summary>
+        public void AbreJanelaFormularioConsultaGenerica(string consulta = "")
+        {
+            Util.CL_Files.WriteOnTheLog("FO_Principal.AbreJanelaFormularioConsulta()", Util.Global.TipoLog.DETALHADO);
+
+            FO_BuscaGenerica controle = new FO_BuscaGenerica(this, consulta);
+            controle.Show();
         }
 
         /// <summary>
@@ -361,8 +406,8 @@ namespace Visao
         }
 
 
+
         #endregion Métodos
 
-        
     }
 }
