@@ -24,6 +24,7 @@ namespace Visao
         public void IniciaForm()
         {
             this.tbx_connectionStrings.Text = Model.Parametros.ConexaoBanco.DAO.Valor;
+            this.tbx_nome.Text = Model.Parametros.NomeConexao.DAO.Valor;
         }
 
         /// <summary>
@@ -67,7 +68,24 @@ namespace Visao
                 if (parametro.DAO.Update())
                 {
                     Model.Parametros.ConexaoBanco = parametro;
-                    Visao.Message.MensagemSucesso("Atualizado com sucesso, foi possível conectar");
+                    parametro = new Model.MD_Parametros(Util.Global.parametro_connectionName);
+                    parametro.DAO.Valor = tbx_nome.Text;
+                    if (parametro.DAO.Update())
+                    {
+                        Model.Parametros.NomeConexao = parametro;
+                        Visao.Message.MensagemSucesso("Atualizado com sucesso, foi possível conectar");
+
+                        this.DialogResult = DialogResult.OK;
+                        this.Dispose();
+                    }
+                    else
+                    {
+                        Visao.Message.MensagemErro("Erro ao atualizar;");
+                    }
+                }
+                else
+                {
+                    Visao.Message.MensagemErro("Erro ao atualizar;");
                 }
             }
         }

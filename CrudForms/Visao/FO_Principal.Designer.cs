@@ -40,13 +40,14 @@
             this.filtrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nãoFiltrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirConsultaGenéricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consultasSalvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.consultasSalvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbl_base = new System.Windows.Forms.Label();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -151,6 +152,13 @@
             this.abrirConsultaGenéricaToolStripMenuItem.Text = "Abrir Consulta Genérica";
             this.abrirConsultaGenéricaToolStripMenuItem.Click += new System.EventHandler(this.abrirConsultaGenéricaToolStripMenuItem_Click);
             // 
+            // consultasSalvasToolStripMenuItem
+            // 
+            this.consultasSalvasToolStripMenuItem.Name = "consultasSalvasToolStripMenuItem";
+            this.consultasSalvasToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.consultasSalvasToolStripMenuItem.Text = "Consultas Salvas";
+            this.consultasSalvasToolStripMenuItem.Click += new System.EventHandler(this.consultasSalvasToolStripMenuItem_Click);
+            // 
             // pan_principal
             // 
             this.pan_principal.Controls.Add(this.tbc_table_control);
@@ -172,6 +180,7 @@
             // 
             // pan_descricoes
             // 
+            this.pan_descricoes.Controls.Add(this.lbl_base);
             this.pan_descricoes.Controls.Add(this.lbl_valorVersao);
             this.pan_descricoes.Controls.Add(this.lbl_empresa);
             this.pan_descricoes.Controls.Add(this.lbl_versao);
@@ -214,12 +223,16 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // consultasSalvasToolStripMenuItem
+            // lbl_base
             // 
-            this.consultasSalvasToolStripMenuItem.Name = "consultasSalvasToolStripMenuItem";
-            this.consultasSalvasToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
-            this.consultasSalvasToolStripMenuItem.Text = "Consultas Salvas";
-            this.consultasSalvasToolStripMenuItem.Click += new System.EventHandler(this.consultasSalvasToolStripMenuItem_Click);
+            this.lbl_base.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_base.AutoSize = true;
+            this.lbl_base.Font = new System.Drawing.Font("Times New Roman", 9F);
+            this.lbl_base.Location = new System.Drawing.Point(6, 4);
+            this.lbl_base.Name = "lbl_base";
+            this.lbl_base.Size = new System.Drawing.Size(54, 17);
+            this.lbl_base.TabIndex = 2;
+            this.lbl_base.Text = "<Base>";
             // 
             // FO_Principal
             // 
@@ -270,6 +283,7 @@
         private System.Windows.Forms.ToolStripMenuItem nãoFiltrarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem abrirConsultaGenéricaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem consultasSalvasToolStripMenuItem;
+        private System.Windows.Forms.Label lbl_base;
     }
 }
 

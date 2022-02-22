@@ -30,9 +30,10 @@ namespace Visao
         private void InitializeComponent()
         {
             this.pan_botton = new System.Windows.Forms.Panel();
+            this.btn_excluir = new System.Windows.Forms.Button();
+            this.btn_editar = new System.Windows.Forms.Button();
             this.btn_executar = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
-            this.btn_editar = new System.Windows.Forms.Button();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
             this.pan_botton.SuspendLayout();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
@@ -41,6 +42,7 @@ namespace Visao
             // 
             // pan_botton
             // 
+            this.pan_botton.Controls.Add(this.btn_excluir);
             this.pan_botton.Controls.Add(this.btn_editar);
             this.pan_botton.Controls.Add(this.btn_executar);
             this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -48,6 +50,30 @@ namespace Visao
             this.pan_botton.Name = "pan_botton";
             this.pan_botton.Size = new System.Drawing.Size(744, 35);
             this.pan_botton.TabIndex = 14;
+            // 
+            // btn_excluir
+            // 
+            this.btn_excluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_excluir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_excluir.Location = new System.Drawing.Point(480, 3);
+            this.btn_excluir.Name = "btn_excluir";
+            this.btn_excluir.Size = new System.Drawing.Size(83, 29);
+            this.btn_excluir.TabIndex = 25;
+            this.btn_excluir.Text = "Excluir";
+            this.btn_excluir.UseVisualStyleBackColor = true;
+            this.btn_excluir.Click += new System.EventHandler(this.btn_excluir_Click);
+            // 
+            // btn_editar
+            // 
+            this.btn_editar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_editar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_editar.Location = new System.Drawing.Point(569, 3);
+            this.btn_editar.Name = "btn_editar";
+            this.btn_editar.Size = new System.Drawing.Size(83, 29);
+            this.btn_editar.TabIndex = 24;
+            this.btn_editar.Text = "Editar";
+            this.btn_editar.UseVisualStyleBackColor = true;
+            this.btn_editar.Click += new System.EventHandler(this.btn_editar_Click);
             // 
             // btn_executar
             // 
@@ -67,22 +93,10 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grb_configuracaoSQLSERVER.Location = new System.Drawing.Point(0, 0);
             this.grb_configuracaoSQLSERVER.Name = "grb_configuracaoSQLSERVER";
-            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(744, 460);
+            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(744, 425);
             this.grb_configuracaoSQLSERVER.TabIndex = 15;
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Consultas";
-            // 
-            // btn_editar
-            // 
-            this.btn_editar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_editar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_editar.Location = new System.Drawing.Point(569, 3);
-            this.btn_editar.Name = "btn_editar";
-            this.btn_editar.Size = new System.Drawing.Size(83, 29);
-            this.btn_editar.TabIndex = 24;
-            this.btn_editar.Text = "Editar";
-            this.btn_editar.UseVisualStyleBackColor = true;
-            this.btn_editar.Click += new System.EventHandler(this.btn_editar_Click);
             // 
             // dgv_generico
             // 
@@ -108,7 +122,7 @@ namespace Visao
             this.dgv_generico.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_generico.ShowCellErrors = false;
             this.dgv_generico.ShowCellToolTips = false;
-            this.dgv_generico.Size = new System.Drawing.Size(738, 434);
+            this.dgv_generico.Size = new System.Drawing.Size(738, 399);
             this.dgv_generico.StandardTab = true;
             this.dgv_generico.TabIndex = 13;
             // 
@@ -118,8 +132,8 @@ namespace Visao
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
             this.ClientSize = new System.Drawing.Size(744, 460);
-            this.Controls.Add(this.pan_botton);
             this.Controls.Add(this.grb_configuracaoSQLSERVER);
+            this.Controls.Add(this.pan_botton);
             this.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
@@ -143,5 +157,6 @@ namespace Visao
         private System.Windows.Forms.GroupBox grb_configuracaoSQLSERVER;
         private System.Windows.Forms.Button btn_editar;
         private System.Windows.Forms.DataGridView dgv_generico;
+        private System.Windows.Forms.Button btn_excluir;
     }
 }

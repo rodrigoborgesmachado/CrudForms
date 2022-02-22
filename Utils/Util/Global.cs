@@ -111,6 +111,9 @@ namespace Util
         // Parametro do connections
         public static string parametro_filtrarAutomaticamente = "FILTRARAUTOMATICAMENTE";
 
+        // Parametro do connections
+        public static string parametro_connectionName = "NOMECONEXAO";
+
         /// <summary>
         /// Enumerador referente ao tipo de log que o sistema irá persistir
         /// </summary>
@@ -178,6 +181,13 @@ namespace Util
             if (parametro.Empty)
             {
                 parametro.Valor = "1";
+                parametro.Insert();
+            }
+
+            parametro = new DAO.MD_Parametros(parametro_connectionName);
+            if (parametro.Empty)
+            {
+                parametro.Valor = string.Empty;
                 parametro.Insert();
             }
         }

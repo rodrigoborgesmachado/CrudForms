@@ -245,64 +245,71 @@ namespace Model
         {
             List<Valores> valores = new List<Valores>();
 
-            consulta = CreateCommandSQLTable(tabela, campos, filtro);
-
-            Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
-            barra.Show();
-
-            string connection = Parametros.ConexaoBanco.DAO.Valor;
-
-            DataBase.Connection.CloseConnection();
-            DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
-
-            DbDataReader reader = DataBase.Connection.Select(consulta);
-
-            if (reader == null) return null;
-
-            if (reader == null) return null;
-
-            List<string> columns = new List<string>();
-            campos.ForEach(campo => 
+            try
             {
-                columns.Add(campo.DAO.Nome);
-            });
-            
-            while (reader.Read())
-            {
-                List<string> values = new List<string>();
+                consulta = CreateCommandSQLTable(tabela, campos, filtro);
 
-                for(int i = 0; i< reader.FieldCount; i++)
+                Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
+                barra.Show();
+
+                string connection = Parametros.ConexaoBanco.DAO.Valor;
+
+                DataBase.Connection.CloseConnection();
+                DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
+
+                DbDataReader reader = DataBase.Connection.Select(consulta);
+
+                if (reader == null)
                 {
-                    var temp = reader[campos[i].DAO.Nome];
-
-                    if(campos[i].DAO.TipoCampo.Nome.Equals("VARBINARY"))
-                    {
-                        byte[] binaryString = (byte[])temp;
-
-                        // if the original encoding was UTF-8
-                        string y = Encoding.UTF8.GetString(binaryString);
-                        values.Add(y);
-                    }
-                    else
-                    {
-                        values.Add(temp.ToString());
-                    }
+                    barra.Dispose();
+                    return null;
                 }
 
-                valores.Add(new Valores()
+                List<string> columns = new List<string>();
+                campos.ForEach(campo =>
                 {
-                    campos = columns,
-                    valores = values
-                }) ;
-                barra.AvancaBarra(1);
+                    columns.Add(campo.DAO.Nome);
+                });
+
+                while (reader.Read())
+                {
+                    List<string> values = new List<string>();
+
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        var temp = reader[campos[i].DAO.Nome];
+
+                        if (campos[i].DAO.TipoCampo.Nome.Equals("VARBINARY"))
+                        {
+                            byte[] binaryString = (byte[])temp;
+
+                            // if the original encoding was UTF-8
+                            string y = Encoding.UTF8.GetString(binaryString);
+                            values.Add(y);
+                        }
+                        else
+                        {
+                            values.Add(temp.ToString());
+                        }
+                    }
+
+                    valores.Add(new Valores()
+                    {
+                        campos = columns,
+                        valores = values
+                    });
+                    barra.AvancaBarra(1);
+                }
+                reader.Close();
+                barra.Dispose();
+
+                return valores;
             }
-            reader.Close();
-            barra.Dispose();
-
-            DataBase.Connection.CloseConnection();
-            DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
-
-            return valores;
+            finally
+            {
+                DataBase.Connection.CloseConnection();
+                DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
+            }
         }
 
         /// <summary>

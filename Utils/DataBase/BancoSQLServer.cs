@@ -88,7 +88,9 @@ namespace DataBase
                 }
 
                 SqlCommand command = new SqlCommand(command_sql, m_dbConnection);
+                command.CommandTimeout = 100000000;
                 SqlDataReader reader = command.ExecuteReader();
+
                 return reader;
             }
             catch (Exception e)

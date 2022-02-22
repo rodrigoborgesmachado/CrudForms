@@ -21,7 +21,21 @@ namespace Model
                 conexaoBanco = value;
             }
         }
-        
+
+        private static Model.MD_Parametros nomeConexao;
+        public static Model.MD_Parametros NomeConexao
+        {
+            get
+            {
+                if (nomeConexao == null) nomeConexao = new Model.MD_Parametros(Util.Global.parametro_connectionName);
+                return nomeConexao;
+            }
+            set
+            {
+                nomeConexao = value;
+            }
+        }
+
         private static Model.MD_Parametros quantidadeLinhasTabelas;
         public static Model.MD_Parametros QuantidadeLinhasTabelas
         {

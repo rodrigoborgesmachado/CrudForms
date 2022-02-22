@@ -90,6 +90,7 @@ namespace Visao
                 Label labelTemp = new Label();
                 labelTemp.Location = new Point(15, 15);
                 labelTemp.Text = campo.DAO.Nome;
+                labelTemp.AutoSize = true;
                 this.labels.Add(labelTemp);
 
                 TextBox textBoxTemp = new TextBox();

@@ -22,6 +22,34 @@ namespace Visao
         #region Eventos
 
         /// <summary>
+        /// Evento lançado no clique da opção excluir
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_excluir_Click(object sender, EventArgs e)
+        {
+            if (this.dgv_generico.SelectedRows.Count == 0)
+            {
+                Message.MensagemAlerta("Selecione um item no grid");
+            }
+
+            Model.MD_Consultas consultas = this.lista[this.dgv_generico.SelectedRows[0].Index];
+
+            if(Message.MensagemConfirmaçãoYesNo($"Deseja realmente excluir a consulta {consultas.DAO.Nomeconsulta}?") == DialogResult.Yes)
+            {
+                if (consultas.DAO.Delete())
+                {
+                    Message.MensagemSucesso("Excluído com sucesso");
+                    FillGrid();
+                }
+                else
+                {
+                    Message.MensagemErro("Erro ao excluir");
+                }
+            }
+        }
+
+        /// <summary>
         /// Evento lançado no clique da opção de editar
         /// </summary>
         /// <param name="sender"></param>
@@ -34,7 +62,7 @@ namespace Visao
             }
 
             FO_CadastraConsulta cadastraConsulta = new FO_CadastraConsulta(this.lista[this.dgv_generico.SelectedRows[0].Index], Util.Enumerator.Tarefa.EDITANDO);
-            cadastraConsulta.Show();
+            cadastraConsulta.ShowDialog();
             this.FillGrid();
         }
 

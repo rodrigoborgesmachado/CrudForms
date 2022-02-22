@@ -36,12 +36,16 @@ namespace Visao
             this.btn_info_servidorSqlServer = new System.Windows.Forms.Button();
             this.tbx_connectionStrings = new System.Windows.Forms.TextBox();
             this.lbl_servidorSQLServer = new System.Windows.Forms.Label();
+            this.tbx_nome = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             this.pan_botton.SuspendLayout();
             this.SuspendLayout();
             // 
             // grb_configuracaoSQLSERVER
             // 
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.tbx_nome);
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.label1);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.pan_botton);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_info_servidorSqlServer);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.tbx_connectionStrings);
@@ -49,7 +53,7 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grb_configuracaoSQLSERVER.Location = new System.Drawing.Point(0, 0);
             this.grb_configuracaoSQLSERVER.Name = "grb_configuracaoSQLSERVER";
-            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(599, 113);
+            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(599, 130);
             this.grb_configuracaoSQLSERVER.TabIndex = 1;
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Configuração";
@@ -58,7 +62,7 @@ namespace Visao
             // 
             this.pan_botton.Controls.Add(this.btn_confirmar);
             this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pan_botton.Location = new System.Drawing.Point(3, 75);
+            this.pan_botton.Location = new System.Drawing.Point(3, 92);
             this.pan_botton.Name = "pan_botton";
             this.pan_botton.Size = new System.Drawing.Size(593, 35);
             this.pan_botton.TabIndex = 11;
@@ -102,12 +106,28 @@ namespace Visao
             this.lbl_servidorSQLServer.TabIndex = 0;
             this.lbl_servidorSQLServer.Text = "Connection String";
             // 
+            // tbx_nome
+            // 
+            this.tbx_nome.Location = new System.Drawing.Point(148, 56);
+            this.tbx_nome.Name = "tbx_nome";
+            this.tbx_nome.Size = new System.Drawing.Size(413, 27);
+            this.tbx_nome.TabIndex = 13;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 59);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 19);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Nome da base";
+            // 
             // FO_SelecionaConexao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
-            this.ClientSize = new System.Drawing.Size(599, 113);
+            this.ClientSize = new System.Drawing.Size(599, 130);
             this.Controls.Add(this.grb_configuracaoSQLSERVER);
             this.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -133,5 +153,7 @@ namespace Visao
         private System.Windows.Forms.Label lbl_servidorSQLServer;
         private System.Windows.Forms.Panel pan_botton;
         private System.Windows.Forms.Button btn_confirmar;
+        private System.Windows.Forms.TextBox tbx_nome;
+        private System.Windows.Forms.Label label1;
     }
 }

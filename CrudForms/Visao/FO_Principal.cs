@@ -102,7 +102,8 @@ namespace Visao
         {
 
             FO_SelecionaConexao selecionaConexao = new FO_SelecionaConexao();
-            selecionaConexao.ShowDialog();
+            if (selecionaConexao.ShowDialog() != DialogResult.OK)
+                return;
 
             if (!Regras.Importador.Importar(0))
             {
@@ -111,6 +112,7 @@ namespace Visao
 
             this.FecharTelas();
             this.CarregaTreeView();
+            this.IniciaForm();
         }
 
         /// <summary>
@@ -169,6 +171,18 @@ namespace Visao
             this.lbl_valorVersao.Text = version;
             this.filtrarToolStripMenuItem.Checked = Model.Parametros.FiltrarAutomaticamente;
             this.nãoFiltrarToolStripMenuItem.Checked = !Model.Parametros.FiltrarAutomaticamente;
+
+            string connection = Model.Parametros.NomeConexao.DAO.Valor;
+            if (string.IsNullOrEmpty(connection))
+            {
+                this.lbl_base.Visible = false;
+            }
+            else
+            {
+                this.lbl_base.Visible = true;
+                this.lbl_base.Text = "Base: " + connection;
+            }
+
         }
 
         /// <summary>

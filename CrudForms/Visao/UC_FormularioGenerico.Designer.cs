@@ -34,6 +34,7 @@ namespace Visao
             this.mst_opcoes = new System.Windows.Forms.MenuStrip();
             this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salvarConsultaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_fechar = new System.Windows.Forms.Panel();
             this.btn_fechar = new System.Windows.Forms.Button();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
@@ -50,7 +51,7 @@ namespace Visao
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
-            this.salvarConsultaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_reload = new System.Windows.Forms.Button();
             this.pan_top.SuspendLayout();
             this.pan_opcoes.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -105,9 +106,16 @@ namespace Visao
             // exportarCSVToolStripMenuItem
             // 
             this.exportarCSVToolStripMenuItem.Name = "exportarCSVToolStripMenuItem";
-            this.exportarCSVToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exportarCSVToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
             this.exportarCSVToolStripMenuItem.Text = "Exportar CSV";
             this.exportarCSVToolStripMenuItem.Click += new System.EventHandler(this.exportarCSVToolStripMenuItem_Click);
+            // 
+            // salvarConsultaToolStripMenuItem
+            // 
+            this.salvarConsultaToolStripMenuItem.Name = "salvarConsultaToolStripMenuItem";
+            this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
+            this.salvarConsultaToolStripMenuItem.Text = "Salvar Consulta";
+            this.salvarConsultaToolStripMenuItem.Click += new System.EventHandler(this.salvarConsultaToolStripMenuItem_Click);
             // 
             // pan_fechar
             // 
@@ -122,6 +130,7 @@ namespace Visao
             // 
             this.btn_fechar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_fechar.BackColor = System.Drawing.Color.Red;
+            this.btn_fechar.BackgroundImage = global::Pj.Properties.Resources.close_outline_100px20x20;
             this.btn_fechar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_fechar.Location = new System.Drawing.Point(0, 0);
             this.btn_fechar.Name = "btn_fechar";
@@ -162,6 +171,7 @@ namespace Visao
             // 
             // grb_geral
             // 
+            this.grb_geral.Controls.Add(this.btn_reload);
             this.grb_geral.Controls.Add(this.lbl_quantidadeLinhas);
             this.grb_geral.Controls.Add(this.dgv_generico);
             this.grb_geral.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -312,12 +322,17 @@ namespace Visao
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
             // 
-            // salvarConsultaToolStripMenuItem
+            // btn_reload
             // 
-            this.salvarConsultaToolStripMenuItem.Name = "salvarConsultaToolStripMenuItem";
-            this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.salvarConsultaToolStripMenuItem.Text = "Salvar Consulta";
-            this.salvarConsultaToolStripMenuItem.Click += new System.EventHandler(this.salvarConsultaToolStripMenuItem_Click);
+            this.btn_reload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_reload.BackgroundImage = global::Pj.Properties.Resources.loop_100px20x20;
+            this.btn_reload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_reload.Location = new System.Drawing.Point(714, 9);
+            this.btn_reload.Name = "btn_reload";
+            this.btn_reload.Size = new System.Drawing.Size(20, 20);
+            this.btn_reload.TabIndex = 14;
+            this.btn_reload.UseVisualStyleBackColor = true;
+            this.btn_reload.Click += new System.EventHandler(this.btn_reload_Click);
             // 
             // UC_FormularioGenerico
             // 
@@ -370,5 +385,6 @@ namespace Visao
         private System.Windows.Forms.ToolStripMenuItem tsm_opcoes;
         private System.Windows.Forms.ToolStripMenuItem exportarCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salvarConsultaToolStripMenuItem;
+        private System.Windows.Forms.Button btn_reload;
     }
 }

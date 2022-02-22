@@ -43,6 +43,16 @@ namespace Visao
         #region Eventos
 
         /// <summary>
+        /// Evento lançado no clique do botão de reload
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_reload_Click(object sender, EventArgs e)
+        {
+            this.FillGrid();
+        }
+
+        /// <summary>
         /// Evento lançado no clique da opção de salvar consulta
         /// </summary>
         /// <param name="sender"></param>
@@ -161,8 +171,11 @@ namespace Visao
             }
             else
             {
-                this.valores.Clear();
-                this.colunas.Clear();
+                if(this.valores != null)
+                {
+                    this.valores.Clear();
+                    this.colunas.Clear();
+                }
                 this.principal.FecharTela(this.tabela?.DAO.Nome);
             }
         }
@@ -300,10 +313,14 @@ namespace Visao
                     this.dgv_generico.Columns.Add(campo, campo);
                 }
             }
-            this.lbl_quantidadeLinhas.Visible = true;
-            this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.valores.Count.ToString()}";
 
-            FillGrid(valores);
+            if(valores != null)
+            {
+                this.lbl_quantidadeLinhas.Visible = true;
+                this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.valores.Count.ToString()}";
+
+                FillGrid(valores);
+            }
         }
 
         /// <summary>
