@@ -321,50 +321,55 @@ namespace Model
         {
             List<Valores> valores = new List<Valores>();
 
-            string connection = Parametros.ConexaoBanco.DAO.Valor;
-
-            Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
-            barra.Show();
-
-            DataBase.Connection.CloseConnection();
-            DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
-
-            DbDataReader reader = DataBase.Connection.Select(sentenca);
-
-            List<string> columns = new List<string>();
-
-            if (reader == null)
+            try
             {
-                barra.Dispose();
-                return null;
-            }
+                string connection = Parametros.ConexaoBanco.DAO.Valor;
 
-            int j = 0;
-            while (reader.Read())
-            {
-                List<string> values = new List<string>();
+                Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
+                barra.Show();
 
-                for (int i = 0; i < reader.FieldCount; i++)
+                DataBase.Connection.CloseConnection();
+                DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER);
+
+                DbDataReader reader = DataBase.Connection.Select(sentenca);
+
+                List<string> columns = new List<string>();
+
+                if (reader == null)
                 {
-                    if(j == 0)
-                        columns.Add(reader.GetName(i).ToString());
-
-                    values.Add(reader[i].ToString());
+                    barra.Dispose();
+                    return null;
                 }
 
-                valores.Add(new Valores()
+                int j = 0;
+                while (reader.Read())
                 {
-                    campos = columns,
-                    valores = values
-                });
-                barra.AvancaBarra(1);
-                j++;
-            }
-            reader.Close();
-            barra.Dispose();
+                    List<string> values = new List<string>();
 
-            DataBase.Connection.CloseConnection();
-            DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        if (j == 0)
+                            columns.Add(reader.GetName(i).ToString());
+
+                        values.Add(reader[i].ToString());
+                    }
+
+                    valores.Add(new Valores()
+                    {
+                        campos = columns,
+                        valores = values
+                    });
+                    barra.AvancaBarra(1);
+                    j++;
+                }
+                reader.Close();
+                barra.Dispose();
+            }
+            finally
+            {
+                DataBase.Connection.CloseConnection();
+                DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
+            }
 
             return valores;
         }
