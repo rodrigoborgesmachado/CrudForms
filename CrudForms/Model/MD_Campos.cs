@@ -142,6 +142,29 @@ namespace Model
             return retorno;
         }
 
+        private void teste(string[] temp)
+        {
+            List<int> lista = new List<int>();
+            int i = 0;
+            foreach(string t in temp)
+            {
+                if (t.Equals("C"))
+                {
+                    lista.RemoveAt(lista.Count - 1);
+                }
+                else if (t.Equals("+"))
+                {
+                    lista.Add(lista.ElementAt(i - 2) + lista.ElementAt(i - 1));
+                }
+                else if (int.TryParse(t, out var res))
+                {
+                }
+                i++;
+            }
+
+            lista.Sum();
+        }
+
         #endregion Métodos
     }
 }

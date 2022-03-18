@@ -100,24 +100,30 @@ namespace Model
 
             if (string.IsNullOrEmpty(update))
             {
+                mensagem = "Não há campos a atualizar!";
                 return false;
             }
 
             string connection = Parametros.ConexaoBanco.DAO.Valor;
 
-            DataBase.Connection.CloseConnection();
-            if(!DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER))
+            try
             {
-                mensagem = "Não foi possível conectar";
-                retorno = false;
+                DataBase.Connection.CloseConnection();
+                if (!DataBase.Connection.OpenConection(connection, Util.Enumerator.BancoDados.SQL_SERVER))
+                {
+                    mensagem = "Não foi possível conectar";
+                    retorno = false;
+                }
+                else
+                {
+                    retorno = DataBase.Connection.Update(update);
+                }
             }
-            else
+            finally
             {
-                retorno = DataBase.Connection.Update(update);
+                DataBase.Connection.CloseConnection();
+                DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
             }
-
-            DataBase.Connection.CloseConnection();
-            DataBase.Connection.OpenConection(Util.Global.app_base_file, Util.Enumerator.BancoDados.SQLite);
 
             return retorno;
         }
@@ -133,9 +139,10 @@ namespace Model
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"update {tabela} set ";
+            retorno = $"update [{tabela}] set ";
             List<Model.MD_Campos> camposPk = new List<MD_Campos>();
             List<int> listaCampos = new List<int>();
+            bool temAlteracao = false;
 
             for(int i = 0; i< campos.Count; i++)
             {
@@ -151,6 +158,7 @@ namespace Model
                     continue;
 
                 retorno += Valores.MontaCampoUpdate(campos[i], valores[i]) + ", ";
+                temAlteracao = true;
             }
 
             if(camposPk.Count == 0)
@@ -172,6 +180,8 @@ namespace Model
             }
 
             retorno = retorno.Replace(", WHERE", " WHERE");
+
+            if (!temAlteracao) retorno = string.Empty;
 
             return retorno;
         }
@@ -440,40 +450,40 @@ namespace Model
             switch (campo.DAO.TipoCampo.Nome)
             {
                 case "BIGINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "INT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "TINYINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "SMALLINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "DECIMAL":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "REAL":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "NVARCHAR":
-                    retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
                     break;
                 case "NTEXT":
-                    retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
                     break;
                 case "TEXT":
-                    retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
                     break;
                 case "VARCHAR":
-                    retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
                     break;
                 case "DATETIME":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 default:
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
             }
 
@@ -493,40 +503,40 @@ namespace Model
             switch (campo.DAO.TipoCampo.Nome)
             {
                 case "BIGINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "INT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "TINYINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "SMALLINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
                     break;
                 case "DECIMAL":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "REAL":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "NVARCHAR":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "NTEXT":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "TEXT":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "VARCHAR":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "DATETIME":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 default:
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
             }
 
