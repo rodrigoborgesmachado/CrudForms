@@ -26,10 +26,12 @@ namespace DataBase
                 if (bd == BancoDados.SQLite)
                 {
                     banco = new BancoSQLite();
+                    Util.Global.log_system = Util.Global.TipoLog.SIMPLES;
                 }
                 else if(bd == BancoDados.SQL_SERVER)
                 {
                     banco = new BancoSQLServer();
+                    Util.Global.log_system = Util.Global.TipoLog.DETALHADO;
                 }
 
                 retorno = banco.OpenConnection(conection);

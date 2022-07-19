@@ -194,8 +194,6 @@ namespace Visao
 
             this.trv_tabelas.Nodes.Clear();
 
-
-
             BarraDeCarregamento aguarde = new BarraDeCarregamento(this.BuscaTotalItensTreeView(), "Carregando TreeView");
 
             aguarde.Show();
@@ -250,7 +248,6 @@ namespace Visao
         private void IncluiMenuTabela(ref TreeNode nodeTabela, Model.MD_Tabela tabela)
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.IncluiMenuTabela()", Util.Global.TipoLog.DETALHADO);
-
         }
 
         /// <summary>

@@ -175,7 +175,7 @@ namespace Model
                     {
                         retorno += " AND ";
                     }
-                    retorno += Valores.MontaCampoWhere(camposPk[i], valores[listaCampos[i]]);
+                    retorno += Valores.MontaCampoWhereUpdateDelete(camposPk[i], valores[listaCampos[i]]);
                 }
             }
 
@@ -233,7 +233,7 @@ namespace Model
                 if (campos[i].DAO.PrimaryKey)
                 {
                     achouPk = true;
-                    retorno += Valores.MontaCampoWhere(campos[i], valores[i]);
+                    retorno += MontaCampoWhereUpdateDelete(campos[i], valores[i]);
                 }
             }
 
@@ -388,7 +388,7 @@ namespace Model
         /// Method that creates the command for select in table
         /// </summary>
         /// <returns>Command SQL</returns>
-        private static string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro)
+        private static string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro)
         {
             string command = $" SELECT TOP {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor} ";
             string fields = string.Empty;
@@ -478,6 +478,59 @@ namespace Model
                     break;
                 case "VARCHAR":
                     retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                    break;
+                case "DATETIME":
+                    retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                default:
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                    break;
+            }
+
+            return retorno;
+        }
+
+        /// <summary>
+        /// Método que monta o campo Where
+        /// </summary>
+        /// <param name="campo"></param>
+        /// <param name="valor"></param>
+        /// <returns></returns>
+        private static string MontaCampoWhereUpdateDelete(Model.MD_Campos campo, string valor)
+        {
+            string retorno = string.Empty;
+
+            switch (campo.DAO.TipoCampo.Nome)
+            {
+                case "BIGINT":
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    break;
+                case "INT":
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    break;
+                case "TINYINT":
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    break;
+                case "SMALLINT":
+                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    break;
+                case "DECIMAL":
+                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                    break;
+                case "REAL":
+                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                    break;
+                case "NVARCHAR":
+                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
+                    break;
+                case "NTEXT":
+                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
+                    break;
+                case "TEXT":
+                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
+                    break;
+                case "VARCHAR":
+                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
                     break;
                 case "DATETIME":
                     retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";

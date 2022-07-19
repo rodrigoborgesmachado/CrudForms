@@ -62,6 +62,7 @@ namespace DataBase
                 m_dbConnection.Dispose();
                 m_dbConnection = null;
                 is_open = false;
+                Util.CL_Files.WriteOnTheLog("Connection closed", Global.TipoLog.SIMPLES);
 
                 return true;
             }
@@ -90,6 +91,8 @@ namespace DataBase
                 SqlCommand command = new SqlCommand(command_sql, m_dbConnection);
                 command.CommandTimeout = 100000000;
                 SqlDataReader reader = command.ExecuteReader();
+                
+                Util.CL_Files.WriteOnTheLog("Select: " + command_sql, Global.TipoLog.DETALHADO);
 
                 return reader;
             }
@@ -159,6 +162,8 @@ namespace DataBase
                 command.ExecuteNonQuery();
                 command.Transaction.Commit();
                 command.Dispose();
+
+                Util.CL_Files.WriteOnTheLog("Execute: " + command_sql, Global.TipoLog.DETALHADO);
 
                 return true;
             }
