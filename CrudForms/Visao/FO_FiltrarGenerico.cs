@@ -149,30 +149,33 @@ namespace Visao
 
             if (!string.IsNullOrEmpty(tbx))
             {
-                switch (campo.DAO.TipoCampo.Nome)
+                tbx.Split(';').ToList().ForEach(item =>
                 {
-                    case "BIGINT":
-                        retorno &= int.TryParse(tbx, out var i);
-                        break;
-                    case "INT":
-                        retorno &= int.TryParse(tbx, out var i1);
-                        break;
-                    case "TINYINT":
-                        retorno &= int.TryParse(tbx, out var i2);
-                        break;
-                    case "SMALLINT":
-                        retorno &= int.TryParse(tbx, out var i3);
-                        break;
-                    case "DECIMAL":
-                        retorno &= decimal.TryParse(tbx, out var i4);
-                        break;
-                    case "REAL":
-                        retorno &= decimal.TryParse(tbx, out var i5);
-                        break;
-                    case "DATETIME":
-                        retorno &= DateTime.TryParse(tbx, out var i6);
-                        break;
-                }
+                    switch (campo.DAO.TipoCampo.Nome)
+                    {
+                        case "BIGINT":
+                            retorno &= int.TryParse(item, out var i);
+                            break;
+                        case "INT":
+                            retorno &= int.TryParse(item, out var i1);
+                            break;
+                        case "TINYINT":
+                            retorno &= int.TryParse(item, out var i2);
+                            break;
+                        case "SMALLINT":
+                            retorno &= int.TryParse(item, out var i3);
+                            break;
+                        case "DECIMAL":
+                            retorno &= decimal.TryParse(item, out var i4);
+                            break;
+                        case "REAL":
+                            retorno &= decimal.TryParse(item, out var i5);
+                            break;
+                        case "DATETIME":
+                            retorno &= DateTime.TryParse(item, out var i6);
+                            break;
+                    }
+                });
             }
 
             return retorno;

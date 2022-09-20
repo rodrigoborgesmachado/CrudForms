@@ -39,7 +39,8 @@ namespace Model
             }
             else
             {
-                retorno = DataBase.Connection.Delete(delete);
+                Util.CL_Files.WriteOnTheLog(delete, Util.Global.TipoLog.SIMPLES);
+                retorno = DataBase.Connection.Delete(delete); 
             }
 
             DataBase.Connection.CloseConnection();
@@ -77,6 +78,7 @@ namespace Model
             }
             else
             {
+                Util.CL_Files.WriteOnTheLog(insert, Util.Global.TipoLog.SIMPLES);
                 retorno = DataBase.Connection.Insert(insert);
             }
 
@@ -116,6 +118,7 @@ namespace Model
                 }
                 else
                 {
+                    Util.CL_Files.WriteOnTheLog(update, Util.Global.TipoLog.SIMPLES);
                     retorno = DataBase.Connection.Update(update);
                 }
             }
@@ -428,10 +431,10 @@ namespace Model
 
             for(int i = 0; i < filtro.valores.Count; i++)
             {
-                if (string.IsNullOrEmpty(filtro.valores[i]))
+                if (string.IsNullOrEmpty(filtro.valores[i].Replace(";", "")))
                     continue;
 
-                retorno += " AND " + MontaCampoWhere(campos[i], filtro.valores[i]);
+                retorno += " AND (" + MontaCampoWhere(campos[i], filtro.valores[i]) + ")";
             }
 
             return retorno;
@@ -447,44 +450,138 @@ namespace Model
         {
             string retorno = string.Empty;
 
-            switch (campo.DAO.TipoCampo.Nome)
+            if(valor.Contains(";"))
             {
-                case "BIGINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
-                    break;
-                case "INT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
-                    break;
-                case "TINYINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
-                    break;
-                case "SMALLINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
-                    break;
-                case "DECIMAL":
-                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
-                    break;
-                case "REAL":
-                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
-                    break;
-                case "NVARCHAR":
-                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
-                    break;
-                case "NTEXT":
-                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
-                    break;
-                case "TEXT":
-                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
-                    break;
-                case "VARCHAR":
-                    retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
-                    break;
-                case "DATETIME":
-                    retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
-                    break;
-                default:
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
-                    break;
+                bool first = true;
+
+                switch (campo.DAO.TipoCampo.Nome)
+                {
+                    case "BIGINT":
+                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        break;
+                    case "INT":
+                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        break;
+                    case "TINYINT":
+                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        break;
+                    case "SMALLINT":
+                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        break;
+                    case "DECIMAL":
+                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        break;
+                    case "REAL":
+                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        break;
+                    case "NVARCHAR":
+                        first = true;
+                        valor.Split(';').ToList().ForEach(item =>
+                        {
+                            if (first) first = false;
+                            else retorno += " OR ";
+
+                            retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                        });
+                        break;
+                    case "NTEXT":
+                        first = true;
+                        valor.Split(';').ToList().ForEach(item =>
+                        {
+                            if (!string.IsNullOrEmpty(item))
+                            {
+                                if (first) first = false;
+                                else retorno += " OR ";
+
+                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                            }
+                        });
+                        break;
+                    case "TEXT":
+                        first = true;
+                        valor.Split(';').ToList().ForEach(item =>
+                        {
+                            if (!string.IsNullOrEmpty(item))
+                            {
+                                if (first) first = false;
+                                else retorno += " OR ";
+
+                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                            }
+                        });
+                        break;
+                    case "VARCHAR":
+                        first = true;
+                        valor.Split(';').ToList().ForEach(item =>
+                        {
+                            if (!string.IsNullOrEmpty(item))
+                            {
+                                if (first) first = false;
+                                else retorno += " OR ";
+
+                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                            }
+                        });
+                        break;
+                    case "DATETIME":
+                        retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        break;
+                    default:
+                        first = true;
+                        valor.Split(';').ToList().ForEach(item =>
+                        {
+                            if (!string.IsNullOrEmpty(item))
+                            {
+                                if (first) first = false;
+                                else retorno += " OR ";
+
+                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                            }
+                        });
+                        break;
+                }
+            }
+            else
+            {
+                switch (campo.DAO.TipoCampo.Nome)
+                {
+                    case "BIGINT":
+                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        break;
+                    case "INT":
+                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        break;
+                    case "TINYINT":
+                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        break;
+                    case "SMALLINT":
+                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        break;
+                    case "DECIMAL":
+                        retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                        break;
+                    case "REAL":
+                        retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                        break;
+                    case "NVARCHAR":
+                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                        break;
+                    case "NTEXT":
+                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                        break;
+                    case "TEXT":
+                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                        break;
+                    case "VARCHAR":
+                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                        break;
+                    case "DATETIME":
+                        retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        break;
+                    default:
+                        retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                        break;
+                }
             }
 
             return retorno;
