@@ -30,8 +30,6 @@ namespace Visao
 
         public BarraDeCarregamento(int totalm, string texto)
         {
-            Util.CL_Files.WriteOnTheLog("BarraDeCarregamento()", Util.Global.TipoLog.DETALHADO);
-
             InitializeComponent();
             this.lbl_texto.Text = texto;
             this.total = totalm;
@@ -48,7 +46,6 @@ namespace Visao
         /// </summary>
         public void InicializaForm()
         {
-            Util.CL_Files.WriteOnTheLog("BarraDeCarregamento.InicializaForm()", Util.Global.TipoLog.DETALHADO);
 
             AtualizaLabel();
             pgb_progresso.Maximum = total;
@@ -60,7 +57,6 @@ namespace Visao
         /// </summary>
         public void AtualizaLabel()
         {
-            Util.CL_Files.WriteOnTheLog("BarraDeCarregamento.AtualizaLabel()", Util.Global.TipoLog.DETALHADO);
 
             this.lbl_valor.Text = "0" + total.ToString();
             Refresh();
@@ -72,7 +68,6 @@ namespace Visao
         /// <param name="valor"></param>
         public void AvancaBarra(int valor)
         {
-            Util.CL_Files.WriteOnTheLog("BarraDeCarregamento.AvancaBarra()", Util.Global.TipoLog.DETALHADO);
 
             pgb_progresso.Increment(valor);
             if (total >= prosseguindo) prosseguindo++;

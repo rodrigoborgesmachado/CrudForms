@@ -618,16 +618,16 @@ namespace Model
                     retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "NVARCHAR":
-                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "NTEXT":
-                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "TEXT":
-                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "VARCHAR":
-                    retorno += $"'{campo.DAO.Nome}' = '{valor}'";
+                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
                     break;
                 case "DATETIME":
                     retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
