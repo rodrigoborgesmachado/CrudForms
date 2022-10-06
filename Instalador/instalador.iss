@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Crud Creator"
-#define MyAppVersion "2.1"
+#define MyAppVersion "2.2"
 #define MyAppPublisher "SunSale System"
 #define MyAppURL "http://www.sunsalesystem.com.br/"
 #define MyAppExeName "CrudForms.exe"

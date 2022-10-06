@@ -106,7 +106,7 @@ namespace Regras
         {
             int quantidade = 0;
 
-            string sentenca = "SELECT COUNT(1) AS contador FROM " + new DAO.MD_Tabela().table.Table_Name;
+            string sentenca = "SELECT COUNT(1) AS contador FROM " + new DAO.MD_Tabela().table.Table_Name + " ORDER BY NOME";
 
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
