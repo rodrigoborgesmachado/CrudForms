@@ -106,7 +106,7 @@ namespace Regras
         {
             int quantidade = 0;
 
-            string sentenca = "SELECT COUNT(1) AS contador FROM " + new DAO.MD_Tabela().table.Table_Name + " ORDER BY NOME";
+            string sentenca = "SELECT COUNT(1) AS contador FROM " + new DAO.MD_Tabela().table.Table_Name;
 
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
@@ -118,23 +118,29 @@ namespace Regras
                 quantidade = int.Parse(reader["contador"].ToString());
             }
 
-            sentenca = new DAO.MD_Tabela().table.CreateCommandSQLTable();
-
-            reader = DataBase.Connection.Select(sentenca);
-
-            if (reader == null)
-                return;
-
             BarraDeCarregamento barraCarregamento = new BarraDeCarregamento(quantidade, "Criando DER");
             barraCarregamento.Show();
 
             builder_tableR.Append("<div class=\"bookmark\">" + Environment.NewLine);
 
+            sentenca = new DAO.MD_Tabela().table.CreateCommandSQLTable() + " ORDER BY NOME";
+            reader = DataBase.Connection.Select(sentenca);
+
+            if (reader == null)
+                return;
+
+            List<int> codigosTable = new List<int>();
             while (reader.Read())
+            {
+                codigosTable.Add(int.Parse(reader["CODIGO"].ToString()));
+            }
+            reader.Close();
+
+            foreach (int codigoTable in codigosTable)
             {
                 barraCarregamento.AvancaBarra(1);
 
-                Model.MD_Tabela tabela = new Model.MD_Tabela(int.Parse(reader["CODIGO"].ToString()), 0);
+                Model.MD_Tabela tabela = new Model.MD_Tabela(codigoTable, 0);
 
                 builder_tableB.Append("<a name = \"Table_" + tabela.DAO.Codigo + "\"></a>" + Environment.NewLine);
                 builder_tableB.Append("<div class=\"caption1\">" + tabela.DAO.Nome + "</div>" + Environment.NewLine);
@@ -142,8 +148,8 @@ namespace Regras
                 builder_tableB.Append("<div class=\"caption2\">Columns</div>" + Environment.NewLine);
                 PreencheColunas(tabela, ref builder_tableB);
 
-                builder_tableB.Append("<div class=\"caption2\">Relationships</div>" + Environment.NewLine);
-                PreencheRelationships(tabela, ref builder_tableB);
+                //builder_tableB.Append("<div class=\"caption2\">Relationships</div>" + Environment.NewLine);
+                //PreencheRelationships(tabela, ref builder_tableB);
 
                 builder_tableB.Append("<div class=\"caption2\">Notes</div>" + Environment.NewLine);
                 PreencheNotes(tabela, ref builder_tableB);
@@ -160,7 +166,6 @@ namespace Regras
             barraCarregamento.Dispose();
             barraCarregamento = null;
 
-            reader.Close();
         }
 
         /// <summary>
@@ -274,9 +279,16 @@ namespace Regras
 
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
+            List<int> codigosColunas = new List<int>();
             while (reader.Read())
             {
-                Model.MD_Campos campo = new Model.MD_Campos(int.Parse(reader["CODIGO"].ToString()), tabela.DAO.Codigo, tabela.DAO.Projeto);
+                codigosColunas.Add(int.Parse(reader["CODIGO"].ToString()));
+            }
+            reader.Close();
+
+            foreach (int codigoColuna in codigosColunas)
+            {
+                Model.MD_Campos campo = new Model.MD_Campos(codigoColuna, tabela.DAO.Codigo, tabela.DAO.Projeto);
 
                 string pfk = (campo.DAO.PrimaryKey ? (campo.DAO.ForeingKey ? "PFK" : "PK") : (campo.DAO.ForeingKey ? "FK" : string.Empty));
                 string nome = campo.DAO.Nome;
@@ -314,9 +326,6 @@ namespace Regras
 
                 builder.Append("</tr>" + Environment.NewLine);
             }
-
-            reader.Close();
-            reader = null;
 
             builder.Append("" + Environment.NewLine);
             builder.Append("</table>" + Environment.NewLine);
