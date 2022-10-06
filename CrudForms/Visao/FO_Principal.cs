@@ -100,7 +100,6 @@ namespace Visao
         /// <param name="e"></param>
         private void selecionaBaseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             FO_SelecionaConexao selecionaConexao = new FO_SelecionaConexao();
             if (selecionaConexao.ShowDialog() != DialogResult.OK)
                 return;
@@ -108,6 +107,11 @@ namespace Visao
             if (!Regras.Importador.Importar(0))
             {
                 Message.MensagemAlerta("Erro ao importar");
+            }
+
+            if (File.Exists(Util.Global.app_DER_file_TableB))
+            {
+                File.Delete(Util.Global.app_DER_file_TableB);
             }
 
             this.FecharTelas();

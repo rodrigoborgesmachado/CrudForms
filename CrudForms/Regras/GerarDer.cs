@@ -20,6 +20,11 @@ namespace Regras
         {
             try
             {
+                if (File.Exists(Util.Global.app_DER_file_TableB))
+                {
+                    return true;
+                }
+
                 CopiarIMG();
 
                 CriaCSS();
