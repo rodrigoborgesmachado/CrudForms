@@ -44,10 +44,11 @@
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
+            this.lbl_base = new System.Windows.Forms.Label();
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.lbl_base = new System.Windows.Forms.Label();
+            this.gerarDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -103,7 +104,8 @@
             this.quantidadeLinhasTabelasToolStripMenuItem,
             this.filtrarNaAberturaDaTelaToolStripMenuItem,
             this.abrirConsultaGenéricaToolStripMenuItem,
-            this.consultasSalvasToolStripMenuItem});
+            this.consultasSalvasToolStripMenuItem,
+            this.gerarDERToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
             this.tsm_opcoes.Text = "Opções";
@@ -190,6 +192,17 @@
             this.pan_descricoes.Size = new System.Drawing.Size(864, 23);
             this.pan_descricoes.TabIndex = 2;
             // 
+            // lbl_base
+            // 
+            this.lbl_base.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_base.AutoSize = true;
+            this.lbl_base.Font = new System.Drawing.Font("Times New Roman", 9F);
+            this.lbl_base.Location = new System.Drawing.Point(6, 4);
+            this.lbl_base.Name = "lbl_base";
+            this.lbl_base.Size = new System.Drawing.Size(54, 17);
+            this.lbl_base.TabIndex = 2;
+            this.lbl_base.Text = "<Base>";
+            // 
             // lbl_valorVersao
             // 
             this.lbl_valorVersao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -223,16 +236,12 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // lbl_base
+            // gerarDERToolStripMenuItem
             // 
-            this.lbl_base.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbl_base.AutoSize = true;
-            this.lbl_base.Font = new System.Drawing.Font("Times New Roman", 9F);
-            this.lbl_base.Location = new System.Drawing.Point(6, 4);
-            this.lbl_base.Name = "lbl_base";
-            this.lbl_base.Size = new System.Drawing.Size(54, 17);
-            this.lbl_base.TabIndex = 2;
-            this.lbl_base.Text = "<Base>";
+            this.gerarDERToolStripMenuItem.Name = "gerarDERToolStripMenuItem";
+            this.gerarDERToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.gerarDERToolStripMenuItem.Text = "Gerar DER";
+            this.gerarDERToolStripMenuItem.Click += new System.EventHandler(this.gerarDERToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
@@ -284,6 +293,7 @@
         private System.Windows.Forms.ToolStripMenuItem abrirConsultaGenéricaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem consultasSalvasToolStripMenuItem;
         private System.Windows.Forms.Label lbl_base;
+        private System.Windows.Forms.ToolStripMenuItem gerarDERToolStripMenuItem;
     }
 }
 

@@ -140,6 +140,24 @@ namespace Visao
             this.AbreJanelaFormularioConsultaGenerica();
         }
 
+        /// <summary>
+        /// Evento lançado no clique do botão de gerar o DER
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gerarDERToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Regras.GerarDer.Gerar())
+            {
+                Message.MensagemSucesso("Gerado com sucesso");
+                System.Diagnostics.Process.Start(Util.Global.app_DER_file_Table);
+            }
+            else
+            {
+                Message.MensagemAlerta("Erro ao gerar o DER");
+            }
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -420,5 +438,6 @@ namespace Visao
 
         #endregion Métodos
 
+        
     }
 }
