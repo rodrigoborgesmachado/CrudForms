@@ -113,10 +113,11 @@ namespace Regras
             if (reader == null)
                 return;
 
-            while (reader.Read())
+            if (reader.Read())
             {
                 quantidade = int.Parse(reader["contador"].ToString());
             }
+            reader.Close();
 
             BarraDeCarregamento barraCarregamento = new BarraDeCarregamento(quantidade, "Criando DER");
             barraCarregamento.Show();
