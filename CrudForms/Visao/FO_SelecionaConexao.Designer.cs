@@ -31,19 +31,23 @@ namespace Visao
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FO_SelecionaConexao));
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
+            this.tbx_nome = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.pan_botton = new System.Windows.Forms.Panel();
             this.btn_confirmar = new System.Windows.Forms.Button();
             this.btn_info_servidorSqlServer = new System.Windows.Forms.Button();
             this.tbx_connectionStrings = new System.Windows.Forms.TextBox();
             this.lbl_servidorSQLServer = new System.Windows.Forms.Label();
-            this.tbx_nome = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_banco_dados = new System.Windows.Forms.Label();
+            this.cbm_bancoDados = new System.Windows.Forms.ComboBox();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             this.pan_botton.SuspendLayout();
             this.SuspendLayout();
             // 
             // grb_configuracaoSQLSERVER
             // 
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.cbm_bancoDados);
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.lbl_banco_dados);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.tbx_nome);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.label1);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.pan_botton);
@@ -53,16 +57,32 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grb_configuracaoSQLSERVER.Location = new System.Drawing.Point(0, 0);
             this.grb_configuracaoSQLSERVER.Name = "grb_configuracaoSQLSERVER";
-            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(599, 130);
+            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(599, 171);
             this.grb_configuracaoSQLSERVER.TabIndex = 1;
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Configuração";
+            // 
+            // tbx_nome
+            // 
+            this.tbx_nome.Location = new System.Drawing.Point(148, 56);
+            this.tbx_nome.Name = "tbx_nome";
+            this.tbx_nome.Size = new System.Drawing.Size(413, 27);
+            this.tbx_nome.TabIndex = 13;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 59);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(104, 19);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Nome da base";
             // 
             // pan_botton
             // 
             this.pan_botton.Controls.Add(this.btn_confirmar);
             this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pan_botton.Location = new System.Drawing.Point(3, 92);
+            this.pan_botton.Location = new System.Drawing.Point(3, 133);
             this.pan_botton.Name = "pan_botton";
             this.pan_botton.Size = new System.Drawing.Size(593, 35);
             this.pan_botton.TabIndex = 11;
@@ -106,28 +126,34 @@ namespace Visao
             this.lbl_servidorSQLServer.TabIndex = 0;
             this.lbl_servidorSQLServer.Text = "Connection String";
             // 
-            // tbx_nome
+            // lbl_banco_dados
             // 
-            this.tbx_nome.Location = new System.Drawing.Point(148, 56);
-            this.tbx_nome.Name = "tbx_nome";
-            this.tbx_nome.Size = new System.Drawing.Size(413, 27);
-            this.tbx_nome.TabIndex = 13;
+            this.lbl_banco_dados.AutoSize = true;
+            this.lbl_banco_dados.Location = new System.Drawing.Point(12, 92);
+            this.lbl_banco_dados.Name = "lbl_banco_dados";
+            this.lbl_banco_dados.Size = new System.Drawing.Size(115, 19);
+            this.lbl_banco_dados.TabIndex = 14;
+            this.lbl_banco_dados.Text = "Banco de dados";
             // 
-            // label1
+            // cbm_bancoDados
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 59);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 19);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Nome da base";
+            this.cbm_bancoDados.FormattingEnabled = true;
+            this.cbm_bancoDados.Items.AddRange(new object[] {
+            "SQL Server",
+            "SQLite",
+            "Oracle",
+            "POSTGRE SQL"});
+            this.cbm_bancoDados.Location = new System.Drawing.Point(148, 92);
+            this.cbm_bancoDados.Name = "cbm_bancoDados";
+            this.cbm_bancoDados.Size = new System.Drawing.Size(413, 27);
+            this.cbm_bancoDados.TabIndex = 15;
             // 
             // FO_SelecionaConexao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
-            this.ClientSize = new System.Drawing.Size(599, 130);
+            this.ClientSize = new System.Drawing.Size(599, 171);
             this.Controls.Add(this.grb_configuracaoSQLSERVER);
             this.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -155,5 +181,7 @@ namespace Visao
         private System.Windows.Forms.Button btn_confirmar;
         private System.Windows.Forms.TextBox tbx_nome;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cbm_bancoDados;
+        private System.Windows.Forms.Label lbl_banco_dados;
     }
 }

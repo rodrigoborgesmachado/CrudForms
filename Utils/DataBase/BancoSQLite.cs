@@ -14,6 +14,11 @@ namespace DataBase
     class BancoSQLite : Banco
     {
 
+        public BancoSQLite()
+        {
+            this.tipoBanco = Enumerator.BancoDados.SQLite;
+        }
+
         /// <summary>
         /// Class of the connection with the data_base
         /// </summary>

@@ -30,9 +30,24 @@ namespace Regras
                     return true;
 
                 DataBase.Connection.CloseConnection();
-                if (DataBase.Connection.OpenConection(conexao, Enumerator.BancoDados.SQL_SERVER))
+                if (DataBase.Connection.OpenConection(conexao, Global.BancoDados))
                 {
-                    retorno = Util.DocumentSQLServer.Importar();
+                    Util.Document document = null;
+
+                    if(Global.BancoDados == Enumerator.BancoDados.SQL_SERVER)
+                    {
+                        document = new Util.DocumentSQLServer();
+                    }
+                    else if (Global.BancoDados == Enumerator.BancoDados.SQLite)
+                    {
+                        document = new Util.DocumentSQSLite();
+                    }
+                    else if(Global.BancoDados == Enumerator.BancoDados.POSTGRESQL)
+                    {
+                        document = new Util.DocumentPostGreSql();
+                    }
+
+                    retorno = document.Importar();
                 }
 
                 DataBase.Connection.CloseConnection();

@@ -12,6 +12,8 @@ namespace DataBase
     {
         #region Atributos e Propriedades
 
+        public Util.Enumerator.BancoDados tipoBanco;
+
         /// <summary>
         /// Checker is the connection is opened
         /// </summary>
@@ -26,6 +28,11 @@ namespace DataBase
         /// Name of the data_base of tests
         /// </summary>
         protected string name_table_test = "TESTE";
+
+        /// <summary>
+        /// Nome do schema
+        /// </summary>
+        public string Schema = string.Empty;
 
         #endregion Atributos e Propriedades
 

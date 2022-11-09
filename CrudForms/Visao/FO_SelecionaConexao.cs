@@ -16,6 +16,7 @@ namespace Visao
         {
             InitializeComponent();
             this.IniciaForm();
+            this.cbm_bancoDados.SelectedIndex = (int)Util.Global.BancoDados;
         }
 
         /// <summary>
@@ -36,6 +37,12 @@ namespace Visao
         {
             string connections = this.tbx_connectionStrings.Text;
 
+            if (this.cbm_bancoDados.SelectedIndex == -1)
+            {
+                Visao.Message.MensagemAlerta("Selecione o tipo de banco!");
+                return;
+            }
+
             if (string.IsNullOrEmpty(connections))
             {
                 Visao.Message.MensagemAlerta("Preencha o campo de conexão!");
@@ -52,7 +59,9 @@ namespace Visao
             DataBase.Connection.Delete(sentenca);
 
             DataBase.Connection.CloseConnection();
-            bool abriuConexao = DataBase.Connection.OpenConection(connections, Util.Enumerator.BancoDados.SQL_SERVER);
+            Util.Global.BancoDados = (Util.Enumerator.BancoDados)this.cbm_bancoDados.SelectedIndex;
+
+            bool abriuConexao = DataBase.Connection.OpenConection(connections, Util.Global.BancoDados, this.tbx_nome.Text);
             if (!abriuConexao)
             {
                 Visao.Message.MensagemAlerta("Não foi possível abrir conexão com os dados fornecidos!");
@@ -65,6 +74,7 @@ namespace Visao
             {
                 Model.MD_Parametros parametro = new Model.MD_Parametros(Util.Global.parametro_connectionStrings);
                 parametro.DAO.Valor = connections;
+
                 if (parametro.DAO.Update())
                 {
                     Model.Parametros.ConexaoBanco = parametro;
@@ -73,6 +83,12 @@ namespace Visao
                     if (parametro.DAO.Update())
                     {
                         Model.Parametros.NomeConexao = parametro;
+                        
+                        parametro = new Model.MD_Parametros(Util.Global.parametro_tipoBanco);
+                        parametro.DAO.Valor = ((int)Util.Global.BancoDados).ToString();
+                        parametro.DAO.Update();
+                        Model.Parametros.TipoBanco = parametro;
+
                         Visao.Message.MensagemSucesso("Atualizado com sucesso, foi possível conectar");
 
                         this.DialogResult = DialogResult.OK;

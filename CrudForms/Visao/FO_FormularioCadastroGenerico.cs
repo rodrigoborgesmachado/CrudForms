@@ -18,7 +18,7 @@ namespace Visao
         UC_FormularioGenerico formularioGenerico;
         Model.MD_Tabela tabela;
         List<Model.MD_Campos> campos;
-        Model.Valores Valores;
+        Regras.AcessoBancoCliente.AcessoBanco Valores;
         Tarefa tarefa;
         List<TextBox> textBoxes = new List<TextBox>();
         List<Panel> panels = new List<Panel>();
@@ -81,9 +81,9 @@ namespace Visao
         /// <param name="formularioGenerico">Formulário genérico que chama essa tela</param>
         /// <param name="tabela">Tabela que está sendo feito a manutenção</param>
         /// <param name="campos">Campos da tabela</param>
-        /// <param name="valores">Valores da linha atual</param>
+        /// <param name="valores">AcessoBancoSqlServer da linha atual</param>
         /// <param name="tarefa">Tarefa a ser feita na tela</param>
-        public FO_FormularioCadastroGenerico(UC_FormularioGenerico formularioGenerico, Model.MD_Tabela tabela, List<Model.MD_Campos> campos, Model.Valores valores, Tarefa tarefa)
+        public FO_FormularioCadastroGenerico(UC_FormularioGenerico formularioGenerico, Model.MD_Tabela tabela, List<Model.MD_Campos> campos, Regras.AcessoBancoCliente.AcessoBanco valores, Tarefa tarefa)
         {
             InitializeComponent();
             this.formularioGenerico = formularioGenerico;
@@ -165,9 +165,10 @@ namespace Visao
         /// <summary>
         /// Método que preenche filtro de acordo com o formulário
         /// </summary>
-        private bool PreencheValores(out Model.Valores valoresAnteriores)
+        private bool PreencheValores(out Regras.AcessoBancoCliente.AcessoBanco valoresAnteriores)
         {
-            valoresAnteriores = new Model.Valores();
+            valoresAnteriores = DataBase.Connection.GetTipoBanco() == Util.Enumerator.BancoDados.SQL_SERVER ?
+                new Regras.AcessoBancoCliente.AcessoBancoSqlServer() : new Regras.AcessoBancoCliente.AcessoBancoSqlServer();
 
             foreach(string valor in this.Valores.valores)
             {

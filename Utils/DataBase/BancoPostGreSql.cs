@@ -1,27 +1,32 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
 using Util;
-using System.Data.Common;
 
 namespace DataBase
 {
-    class BancoSQLServer : Banco
+    class BancoPostGreSql : Banco
     {
-        public BancoSQLServer()
+        /// <summary>
+        /// Construtor principal da classe
+        /// </summary>
+        /// <param name="schema"></param>
+        public BancoPostGreSql(string schema)
         {
-            this.tipoBanco = Enumerator.BancoDados.SQL_SERVER;
+            this.tipoBanco = Enumerator.BancoDados.POSTGRESQL;
+            this.Schema = schema;
         }
 
         /// <summary>
         /// Class of the connection with the data_base
         /// </summary>
-        private static SqlConnection m_dbConnection;
-        
+        private static NpgsqlConnection m_dbConnection;
+
         /// <summary>
         /// Method that open the transaction with the data_base
         /// </summary>
@@ -36,7 +41,7 @@ namespace DataBase
 
             try
             {
-                m_dbConnection = new SqlConnection(connectionString);
+                m_dbConnection = new NpgsqlConnection(connectionString);
                 m_dbConnection.Open();
                 while (m_dbConnection.State == ConnectionState.Connecting) ;
                 is_open = true;
@@ -93,10 +98,9 @@ namespace DataBase
                     OpenConnection();
                 }
 
-                SqlCommand command = new SqlCommand(command_sql, m_dbConnection);
-                command.CommandTimeout = 100000000;
-                SqlDataReader reader = command.ExecuteReader();
-                
+                NpgsqlCommand command = new NpgsqlCommand(command_sql, m_dbConnection);
+                NpgsqlDataReader reader = command.ExecuteReader();
+
                 Util.CL_Files.WriteOnTheLog("Select: " + command_sql, Global.TipoLog.DETALHADO);
 
                 return reader;
@@ -107,7 +111,7 @@ namespace DataBase
                 return null;
             }
         }
-        
+
         /// <summary>
         ///  Method that converts date to int
         /// </summary>
@@ -159,7 +163,7 @@ namespace DataBase
             if (!is_open)
                 OpenConnection();
 
-            SqlCommand command = new SqlCommand(command_sql, m_dbConnection);
+            NpgsqlCommand command = new NpgsqlCommand(command_sql, m_dbConnection);
             try
             {
                 command.Transaction = m_dbConnection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
@@ -168,14 +172,14 @@ namespace DataBase
                 command.Transaction.Commit();
                 command.Dispose();
 
-                Util.CL_Files.WriteOnTheLog("Execute: " + command_sql, Global.TipoLog.DETALHADO);
+                CL_Files.WriteOnTheLog("Execute: " + command_sql, Global.TipoLog.DETALHADO);
 
                 return true;
             }
             catch (Exception e)
             {
-                try 
-                { 
+                try
+                {
                     command.Transaction.Rollback();
                 }
                 catch { }

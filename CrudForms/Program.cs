@@ -25,6 +25,8 @@ namespace CrudForms
             Util.Global.log_system = DataBase.Connection.GetLog();
             Util.Global.CarregarAutomaticamente = DataBase.Connection.GetAutomatico();
             Util.Global.ApresentaInformacao = DataBase.Connection.GetApresentaInformacao();
+            Util.Global.BancoDados = (Util.Enumerator.BancoDados)int.Parse(string.IsNullOrEmpty(Model.Parametros.TipoBanco.DAO.Valor) ? "0" : Model.Parametros.TipoBanco.DAO.Valor);
+            Util.Global.connectionName = Model.Parametros.NomeConexao.DAO.Valor;
 
             // Chamadas das classes modelo para criação das tabelas
             DAO.MD_Campos campos = new DAO.MD_Campos();

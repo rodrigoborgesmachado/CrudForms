@@ -62,7 +62,31 @@ namespace Model
             {
                 filtrarAutomaticamente = new MD_Parametros(Util.Global.parametro_filtrarAutomaticamente);
                 filtrarAutomaticamente.DAO.Valor = (value ? "1" : "0");
-                filtrarAutomaticamente.DAO.Update();
+                
+                if(filtrarAutomaticamente.DAO.Empty)
+                    filtrarAutomaticamente.DAO.Insert();
+                else
+                    filtrarAutomaticamente.DAO.Update();
+            }
+        }
+
+        private static Model.MD_Parametros tipoBanco;
+        public static Model.MD_Parametros TipoBanco
+        {
+            get
+            {
+                if (tipoBanco == null) tipoBanco = new Model.MD_Parametros(Util.Global.parametro_tipoBanco);
+                return tipoBanco;
+            }
+            set
+            {
+                filtrarAutomaticamente = new MD_Parametros(Util.Global.parametro_tipoBanco);
+                filtrarAutomaticamente.DAO.Valor = value.DAO.Valor;
+
+                if (filtrarAutomaticamente.DAO.Empty)
+                    filtrarAutomaticamente.DAO.Insert();
+                else
+                    filtrarAutomaticamente.DAO.Update();
             }
         }
     }

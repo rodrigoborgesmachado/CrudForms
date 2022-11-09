@@ -81,9 +81,11 @@
     <Compile Include="Model\MD_TipoCampo.cs" />
     <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Model\Parametros.cs" />
-    <Compile Include="Model\Valores.cs" />
+    <Compile Include="Regras\AcessoBancoCliente\AcessoBancoPostGres.cs" />
+    <Compile Include="Regras\AcessoBancoCliente\AcessoBancoSqlServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Regras\AcessoBancoCliente\AcessoBanco.cs" />
     <Compile Include="Regras\GerarCsv.cs" />
     <Compile Include="Regras\GerarDer.cs" />
     <Compile Include="Regras\Importador.cs" />

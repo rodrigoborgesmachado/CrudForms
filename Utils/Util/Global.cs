@@ -10,6 +10,8 @@ namespace Util
 {
     public static class Global
     {
+        public static Util.Enumerator.BancoDados BancoDados = Enumerator.BancoDados.SQL_SERVER;
+
         public static string tempTable = "TESTE";
 
         // Caminho principal da aplicação
@@ -113,6 +115,11 @@ namespace Util
 
         // Parametro do connections
         public static string parametro_connectionName = "NOMECONEXAO";
+
+        public static string connectionName = string.Empty;
+
+        // Parametro do connections
+        public static string parametro_tipoBanco = "TIPOBANCO";
 
         /// <summary>
         /// Enumerador referente ao tipo de log que o sistema irá persistir

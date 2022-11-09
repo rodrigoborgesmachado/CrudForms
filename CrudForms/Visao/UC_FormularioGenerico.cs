@@ -36,7 +36,7 @@ namespace Visao
         /// <summary>
         /// Lista de valores
         /// </summary>
-        List<Model.Valores> valores;
+        List<Regras.AcessoBancoCliente.AcessoBanco> valores;
 
         #endregion Atributos e Propriedades
 
@@ -283,7 +283,11 @@ namespace Visao
             
             if (this.tabela != null)
             {
-                this.valores = Model.Valores.BuscaLista(tabela, colunas, filter, out consulta);
+                this.valores = Util.Global.BancoDados == BancoDados.SQL_SERVER ?
+                    new Regras.AcessoBancoCliente.AcessoBancoSqlServer().BuscaLista(tabela, colunas, filter, out consulta)
+                    :
+                    new Regras.AcessoBancoCliente.AcessoBancoPostGres().BuscaLista(tabela, colunas, filter, out consulta)
+                    ;
 
                 foreach (Model.MD_Campos campo in this.tabela.CamposDaTabela())
                 {
@@ -292,7 +296,11 @@ namespace Visao
             }
             else 
             {
-                this.valores = Model.Valores.BuscaLista(consulta);
+                this.valores = Util.Global.BancoDados == BancoDados.SQL_SERVER ?
+                    new Regras.AcessoBancoCliente.AcessoBancoSqlServer().BuscaLista(consulta)
+                    :
+                    new Regras.AcessoBancoCliente.AcessoBancoPostGres().BuscaLista(consulta)
+                    ;
 
                 bool dados = true;
                 if (dados) dados &= valores != null;
@@ -327,7 +335,7 @@ namespace Visao
         /// Método que preenche a tabela com a lista
         /// </summary>
         /// <param name="lista"></param>
-        private void FillGrid(List<Model.Valores> lista)
+        private void FillGrid(List<Regras.AcessoBancoCliente.AcessoBanco> lista)
         {
             Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(lista.Count, "Carregando");
             barra.Show();
@@ -352,7 +360,7 @@ namespace Visao
         /// Método que fill o grid
         /// </summary>
         /// <param name="valores"></param>
-        private void FillGrid(Model.Valores valores)
+        private void FillGrid(Regras.AcessoBancoCliente.AcessoBanco valores)
         {
             List<string> list = valores.valores;
 
@@ -376,7 +384,17 @@ namespace Visao
             }
             else
             {
-                FO_FormularioCadastroGenerico formulario = new FO_FormularioCadastroGenerico(this, tabela, this.tabela.CamposDaTabela(), new Model.Valores(), tarefa);
+                Regras.AcessoBancoCliente.AcessoBanco valores;
+                if (Util.Global.BancoDados == Util.Enumerator.BancoDados.SQL_SERVER)
+                {
+                    valores = new Regras.AcessoBancoCliente.AcessoBancoSqlServer();
+                }
+                else
+                {
+                    valores = new Regras.AcessoBancoCliente.AcessoBancoPostGres();
+                }
+
+                FO_FormularioCadastroGenerico formulario = new FO_FormularioCadastroGenerico(this, tabela, this.tabela.CamposDaTabela(), valores, tarefa);
                 formulario.ShowDialog();
             }
         }

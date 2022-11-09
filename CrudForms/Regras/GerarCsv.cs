@@ -17,7 +17,7 @@ namespace Regras
         /// <param name="nomeArquivo"></param>
         /// <param name="mensagemErro"></param>
         /// <returns></returns>
-        public static bool GerarArquivo(List<Model.Valores> valores, DirectoryInfo caminhoArquivo, string nomeArquivo, out string mensagemErro)
+        public static bool GerarArquivo(List<AcessoBancoCliente.AcessoBanco> valores, DirectoryInfo caminhoArquivo, string nomeArquivo, out string mensagemErro)
         {
             mensagemErro = string.Empty;
             bool retorno = true;
@@ -57,7 +57,7 @@ namespace Regras
         /// </summary>
         /// <param name="valores"></param>
         /// <returns></returns>
-        public static string MontaTextoCSV(List<Model.Valores> valores)
+        public static string MontaTextoCSV(List<AcessoBancoCliente.AcessoBanco> valores)
         {
             string retorno = string.Empty;
 

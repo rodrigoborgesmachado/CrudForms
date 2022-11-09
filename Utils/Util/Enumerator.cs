@@ -16,7 +16,8 @@ namespace Util
         {
             SQL_SERVER = 0,
             SQLite = 1,
-            ORACLE = 2
+            ORACLE = 2,
+            POSTGRESQL = 3
         }
 
         /// <summary>

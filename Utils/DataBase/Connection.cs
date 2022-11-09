@@ -12,13 +12,23 @@ namespace DataBase
     {
         private static Banco banco = null;
 
+        public static string GetBancoSchema()
+        {
+            return banco.Schema;
+        }
+
+        public static Util.Enumerator.BancoDados GetTipoBanco()
+        {
+            return banco.tipoBanco;
+        }
+
         /// <summary>
         /// Abrir conexão
         /// </summary>
         /// <param name="conection"></param>
         /// <param name="bd"></param>
         /// <returns></returns>
-        public static bool OpenConection(string conection, BancoDados bd)
+        public static bool OpenConection(string conection, BancoDados bd, string schema = "")
         {
             bool retorno = false;
             try
@@ -31,6 +41,14 @@ namespace DataBase
                 else if(bd == BancoDados.SQL_SERVER)
                 {
                     banco = new BancoSQLServer();
+                    Util.Global.log_system = Util.Global.TipoLog.DETALHADO;
+                }
+                else if (bd == BancoDados.POSTGRESQL)
+                {
+                    if (string.IsNullOrEmpty(schema))
+                        schema = Util.Global.connectionName;
+
+                    banco = new BancoPostGreSql(schema);
                     Util.Global.log_system = Util.Global.TipoLog.DETALHADO;
                 }
 
