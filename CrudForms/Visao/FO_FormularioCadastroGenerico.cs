@@ -167,10 +167,20 @@ namespace Visao
         /// </summary>
         private bool PreencheValores(out Regras.AcessoBancoCliente.AcessoBanco valoresAnteriores)
         {
-            valoresAnteriores = DataBase.Connection.GetTipoBanco() == Util.Enumerator.BancoDados.SQL_SERVER ?
-                new Regras.AcessoBancoCliente.AcessoBancoSqlServer() : new Regras.AcessoBancoCliente.AcessoBancoSqlServer();
+            if (DataBase.Connection.GetTipoBanco() == Util.Enumerator.BancoDados.SQL_SERVER)
+            {
+                valoresAnteriores = new Regras.AcessoBancoCliente.AcessoBancoSqlServer();
+            }
+            else if (DataBase.Connection.GetTipoBanco() == Util.Enumerator.BancoDados.POSTGRESQL)
+            {
+                valoresAnteriores = new Regras.AcessoBancoCliente.AcessoBancoPostGres();
+            }
+            else
+            {
+                valoresAnteriores = new Regras.AcessoBancoCliente.AcessoBancoMysql();
+            }
 
-            foreach(string valor in this.Valores.valores)
+            foreach (string valor in this.Valores.valores)
             {
                 valoresAnteriores.valores.Add(valor);
             }

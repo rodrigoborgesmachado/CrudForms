@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Regras.AcessoBancoCliente
 {
-    public class AcessoBancoSqlServer : AcessoBanco
+    public class AcessoBancoMysql : AcessoBanco
     {
         /// <summary>
         /// Método que monta o comando update
@@ -18,7 +18,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"update [{tabela}] set ";
+            retorno = $"update `{tabela}` set ";
             List<Model.MD_Campos> camposPk = new List<MD_Campos>();
             List<int> listaCampos = new List<int>();
             bool temAlteracao = false;
@@ -76,7 +76,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"insert into [{tabela}] (";
+            retorno = $"insert into `{tabela}` (";
             string values = ") VALUES (";
             for (int i = 0; i < campos.Count; i++)
             {
@@ -104,7 +104,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"DELETE FROM [{tabela}] WHERE ";
+            retorno = $"DELETE FROM `{tabela}` WHERE ";
             bool achouPk = false;
 
             for (int i = 0; i < campos.Count; i++)
@@ -131,18 +131,18 @@ namespace Regras.AcessoBancoCliente
         /// <returns>Command SQL</returns>
         protected override string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro)
         {
-            string command = $" SELECT TOP {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor} ";
+            string command = $" SELECT ";
             string fields = string.Empty;
             int qt = campos.Count, i = 1;
 
             foreach (Model.MD_Campos field in campos)
             {
-                fields += $"[{field.DAO.Nome}]";
+                fields += $"`{field.DAO.Nome}`";
                 if (i < qt)
                     fields += ", ";
                 i++;
             }
-            command += fields + " FROM [" + tabela.DAO.Nome + "]";
+            command += fields + " FROM `" + tabela.DAO.Nome + "`";
             command += MontaWhereSelect(filtro, campos);
 
             if(filtro.Order != null)
@@ -153,7 +153,7 @@ namespace Regras.AcessoBancoCliente
                 }
             }
 
-            return command;
+            return command + $" limit {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor}";
         }
 
         /// <summary>
@@ -195,34 +195,59 @@ namespace Regras.AcessoBancoCliente
                 switch (campo.DAO.TipoCampo.Nome)
                 {
                     case "BIGINT":
-                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
                         break;
                     case "INT":
-                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
+                        break;
+                    case "BOOL":
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
+                        break;
+                    case "BOOLEAN":
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
                         break;
                     case "TINYINT":
-                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
                         break;
                     case "SMALLINT":
-                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList())})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
                         break;
                     case "DECIMAL":
-                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
                         break;
-                    case "REAL":
-                        retorno += $"[{campo.DAO.Nome}] IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                    case "DOUBLE":
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
                         break;
-                    case "NVARCHAR":
+                    case "DOUBLE PRECISION":
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        break;
+                    case "DEC":
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        break;
+                    case "FLOAT":
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        break;
+                    case "CHAR":
                         first = true;
                         valor.Split(';').ToList().ForEach(item =>
                         {
                             if (first) first = false;
                             else retorno += " OR ";
 
-                            retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                            retorno += $"UPPER({campo.DAO.Nome}) like '%{item.ToUpper()}%'";
                         });
                         break;
-                    case "NTEXT":
+                    case "VARCHAR":
+                        first = true;
+                        valor.Split(';').ToList().ForEach(item =>
+                        {
+                            if (first) first = false;
+                            else retorno += " OR ";
+
+                            retorno += $"UPPER({campo.DAO.Nome}) like '%{item.ToUpper()}%'";
+                        });
+                        break;
+                    case "LONGTEXT":
                         first = true;
                         valor.Split(';').ToList().ForEach(item =>
                         {
@@ -231,7 +256,7 @@ namespace Regras.AcessoBancoCliente
                                 if (first) first = false;
                                 else retorno += " OR ";
 
-                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                                retorno += $"UPPER({campo.DAO.Nome}) like '%{item.ToUpper()}%'";
                             }
                         });
                         break;
@@ -244,25 +269,9 @@ namespace Regras.AcessoBancoCliente
                                 if (first) first = false;
                                 else retorno += " OR ";
 
-                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                                retorno += $"UPPER({campo.DAO.Nome}) like '%{item.ToUpper()}%'";
                             }
                         });
-                        break;
-                    case "VARCHAR":
-                        first = true;
-                        valor.Split(';').ToList().ForEach(item =>
-                        {
-                            if (!string.IsNullOrEmpty(item))
-                            {
-                                if (first) first = false;
-                                else retorno += " OR ";
-
-                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
-                            }
-                        });
-                        break;
-                    case "DATETIME":
-                        retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                         break;
                     default:
                         first = true;
@@ -273,7 +282,7 @@ namespace Regras.AcessoBancoCliente
                                 if (first) first = false;
                                 else retorno += " OR ";
 
-                                retorno += $"UPPER([{campo.DAO.Nome}]) like '%{item.ToUpper()}%'";
+                                retorno += $"UPPER({campo.DAO.Nome}) like '%{item.ToUpper()}%'";
                             }
                         });
                         break;
@@ -284,40 +293,64 @@ namespace Regras.AcessoBancoCliente
                 switch (campo.DAO.TipoCampo.Nome)
                 {
                     case "BIGINT":
-                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        retorno += $"{campo.DAO.Nome} = {valor}";
                         break;
                     case "INT":
-                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        retorno += $"{campo.DAO.Nome} = {valor}";
+                        break;
+                    case "BOOL":
+                        retorno += $"{campo.DAO.Nome} = {valor}";
+                        break;
+                    case "BOOLEAN":
+                        retorno += $"{campo.DAO.Nome} = {valor}";
                         break;
                     case "TINYINT":
-                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        retorno += $"{campo.DAO.Nome} = {valor}";
                         break;
                     case "SMALLINT":
-                        retorno += $"[{campo.DAO.Nome}] = {valor}";
+                        retorno += $"{campo.DAO.Nome} = {valor}";
                         break;
                     case "DECIMAL":
-                        retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                        retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                         break;
-                    case "REAL":
-                        retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                    case "DOUBLE":
+                        retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                         break;
-                    case "NVARCHAR":
-                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                    case "DOUBLE PRECISION":
+                        retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                         break;
-                    case "NTEXT":
-                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                    case "DEC":
+                        retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                        break;
+                    case "FLOAT":
+                        retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                        break;
+                    case "CHAR":
+                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                        break;
+                    case "LONGTEXT":
+                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
                         break;
                     case "TEXT":
-                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
                         break;
                     case "VARCHAR":
-                        retorno += $"UPPER([{campo.DAO.Nome}]) like '%{valor.ToUpper()}%'";
+                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
                         break;
                     case "DATETIME":
-                        retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        break;
+                    case "DATE":
+                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        break;
+                    case "TIMESTAMP":
+                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        break;
+                    case "TIME":
+                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                         break;
                     default:
-                        retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                        retorno += $"{campo.DAO.Nome} = '{valor}'";
                         break;
                 }
             }
@@ -338,40 +371,64 @@ namespace Regras.AcessoBancoCliente
             switch (campo.DAO.TipoCampo.Nome)
             {
                 case "BIGINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "INT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    break;
+                case "BOOL":
+                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    break;
+                case "BOOLEAN":
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "TINYINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "SMALLINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "DECIMAL":
-                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "REAL":
-                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                case "DOUBLE":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "NVARCHAR":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                case "DOUBLE PRECISION":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "NTEXT":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                case "DEC":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "TEXT":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                case "FLOAT":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    break;
+                case "CHAR":
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
                     break;
                 case "VARCHAR":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    break;
+                case "LONGTEXT":
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    break;
+                case "TEXT":
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
                     break;
                 case "DATETIME":
-                    retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "DATE":
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "TIMESTAMP":
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "TIME":
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 default:
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
                     break;
             }
 
@@ -391,40 +448,64 @@ namespace Regras.AcessoBancoCliente
             switch (campo.DAO.TipoCampo.Nome)
             {
                 case "BIGINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "INT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    break;
+                case "BOOL":
+                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    break;
+                case "BOOLEAN":
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "TINYINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "SMALLINT":
-                    retorno += $"[{campo.DAO.Nome}] = {valor}";
+                    retorno += $"{campo.DAO.Nome} = {valor}";
                     break;
                 case "DECIMAL":
-                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "REAL":
-                    retorno += $"[{campo.DAO.Nome}] = {valor.ToString().Replace(",", ".")}";
+                case "DOUBLE":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "NVARCHAR":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                case "DOUBLE PRECISION":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "NTEXT":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                case "DEC":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
                     break;
-                case "TEXT":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                case "FLOAT":
+                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    break;
+                case "CHAR":
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
                     break;
                 case "VARCHAR":
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    break;
+                case "LONGTEXT":
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    break;
+                case "TEXT":
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
                     break;
                 case "DATETIME":
-                    retorno += $"[{campo.DAO.Nome}] = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "DATE":
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "TIMESTAMP":
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "TIME":
+                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 default:
-                    retorno += $"[{campo.DAO.Nome}] = '{valor}'";
+                    retorno += $"{campo.DAO.Nome} = '{valor}'";
                     break;
             }
 
@@ -449,6 +530,12 @@ namespace Regras.AcessoBancoCliente
                 case "INT":
                     retorno += $"{valor}";
                     break;
+                case "BOOL":
+                    retorno += $"{valor}";
+                    break;
+                case "BOOLEAN":
+                    retorno += $"{valor}";
+                    break;
                 case "TINYINT":
                     retorno += $"{valor}";
                     break;
@@ -458,22 +545,40 @@ namespace Regras.AcessoBancoCliente
                 case "DECIMAL":
                     retorno += $"{valor.ToString().Replace(",", ".")}";
                     break;
-                case "REAL":
+                case "DOUBLE":
                     retorno += $"{valor.ToString().Replace(",", ".")}";
                     break;
-                case "NVARCHAR":
-                    retorno += $"'{valor}'";
+                case "DOUBLE PRECISION":
+                    retorno += $"{valor.ToString().Replace(",", ".")}";
                     break;
-                case "NTEXT":
-                    retorno += $"'{valor}'";
+                case "DEC":
+                    retorno += $"{valor.ToString().Replace(",", ".")}";
                     break;
-                case "TEXT":
+                case "FLOAT":
+                    retorno += $"{valor.ToString().Replace(",", ".")}";
+                    break;
+                case "CHAR":
                     retorno += $"'{valor}'";
                     break;
                 case "VARCHAR":
                     retorno += $"'{valor}'";
                     break;
+                case "LONGTEXT":
+                    retorno += $"'{valor}'";
+                    break;
+                case "TEXT":
+                    retorno += $"'{valor}'";
+                    break;
                 case "DATETIME":
+                    retorno += $"'{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "DATE":
+                    retorno += $"'{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "TIMESTAMP":
+                    retorno += $"'{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    break;
+                case "TIME":
                     retorno += $"'{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 default:

@@ -46,6 +46,10 @@ namespace Regras
                     {
                         document = new Util.DocumentPostGreSql();
                     }
+                    else if (Global.BancoDados == Enumerator.BancoDados.MYSQL)
+                    {
+                        document = new Util.DocumentMySql();
+                    }
 
                     retorno = document.Importar();
                 }

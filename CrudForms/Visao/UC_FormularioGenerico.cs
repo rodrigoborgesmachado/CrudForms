@@ -286,7 +286,10 @@ namespace Visao
                 this.valores = Util.Global.BancoDados == BancoDados.SQL_SERVER ?
                     new Regras.AcessoBancoCliente.AcessoBancoSqlServer().BuscaLista(tabela, colunas, filter, out consulta)
                     :
+                    (Util.Global.BancoDados == BancoDados.POSTGRESQL ?
                     new Regras.AcessoBancoCliente.AcessoBancoPostGres().BuscaLista(tabela, colunas, filter, out consulta)
+                    :
+                    new Regras.AcessoBancoCliente.AcessoBancoMysql().BuscaLista(tabela, colunas, filter, out consulta))
                     ;
 
                 foreach (Model.MD_Campos campo in this.tabela.CamposDaTabela())
@@ -389,9 +392,13 @@ namespace Visao
                 {
                     valores = new Regras.AcessoBancoCliente.AcessoBancoSqlServer();
                 }
-                else
+                else if (Util.Global.BancoDados == Util.Enumerator.BancoDados.POSTGRESQL)
                 {
                     valores = new Regras.AcessoBancoCliente.AcessoBancoPostGres();
+                }
+                else 
+                {
+                    valores = new Regras.AcessoBancoCliente.AcessoBancoMysql();
                 }
 
                 FO_FormularioCadastroGenerico formulario = new FO_FormularioCadastroGenerico(this, tabela, this.tabela.CamposDaTabela(), valores, tarefa);

@@ -82,6 +82,7 @@
     <Compile Include="Model\OrderBy.cs" />
     <Compile Include="Model\Parametros.cs" />
     <Compile Include="Regras\AcessoBancoCliente\AcessoBancoPostGres.cs" />
+    <Compile Include="Regras\AcessoBancoCliente\AcessoBancoMysql.cs" />
     <Compile Include="Regras\AcessoBancoCliente\AcessoBancoSqlServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

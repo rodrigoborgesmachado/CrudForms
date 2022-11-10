@@ -198,14 +198,23 @@ namespace Regras.AcessoBancoCliente
                             valores = values
                         };
                     }
-                    else{
+                    else if (Util.Global.BancoDados == Util.Enumerator.BancoDados.POSTGRESQL)
+                    {
                         temp2 = new AcessoBancoPostGres()
                         {
                             campos = columns,
                             valores = values
                         };
                     }
-                        
+                    else 
+                    {
+                        temp2 = new AcessoBancoMysql()
+                        {
+                            campos = columns,
+                            valores = values
+                        };
+                    }
+
                     valores.Add(
                         temp2
                     );
@@ -274,9 +283,17 @@ namespace Regras.AcessoBancoCliente
                             valores = values
                         };
                     }
-                    else
+                    else if (Util.Global.BancoDados == Util.Enumerator.BancoDados.POSTGRESQL)
                     {
                         temp2 = new AcessoBancoPostGres()
+                        {
+                            campos = columns,
+                            valores = values
+                        };
+                    }
+                    else
+                    {
+                        temp2 = new AcessoBancoMysql()
                         {
                             campos = columns,
                             valores = values

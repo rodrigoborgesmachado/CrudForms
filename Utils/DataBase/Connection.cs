@@ -51,6 +51,14 @@ namespace DataBase
                     banco = new BancoPostGreSql(schema);
                     Util.Global.log_system = Util.Global.TipoLog.DETALHADO;
                 }
+                else if (bd == BancoDados.MYSQL)
+                {
+                    if (string.IsNullOrEmpty(schema))
+                        schema = Util.Global.connectionName;
+
+                    banco = new BancoMysql(schema);
+                    Util.Global.log_system = Util.Global.TipoLog.DETALHADO;
+                }
 
                 retorno = banco.OpenConnection(conection);
             }

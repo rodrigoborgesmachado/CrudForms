@@ -31,6 +31,8 @@ namespace Visao
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FO_SelecionaConexao));
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
+            this.cbm_bancoDados = new System.Windows.Forms.ComboBox();
+            this.lbl_banco_dados = new System.Windows.Forms.Label();
             this.tbx_nome = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pan_botton = new System.Windows.Forms.Panel();
@@ -38,8 +40,6 @@ namespace Visao
             this.btn_info_servidorSqlServer = new System.Windows.Forms.Button();
             this.tbx_connectionStrings = new System.Windows.Forms.TextBox();
             this.lbl_servidorSQLServer = new System.Windows.Forms.Label();
-            this.lbl_banco_dados = new System.Windows.Forms.Label();
-            this.cbm_bancoDados = new System.Windows.Forms.ComboBox();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             this.pan_botton.SuspendLayout();
             this.SuspendLayout();
@@ -61,6 +61,29 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.TabIndex = 1;
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Configuração";
+            // 
+            // cbm_bancoDados
+            // 
+            this.cbm_bancoDados.FormattingEnabled = true;
+            this.cbm_bancoDados.Items.AddRange(new object[] {
+            "SQL Server",
+            "SQLite",
+            "Oracle",
+            "POSTGRE SQL",
+            "MySql"});
+            this.cbm_bancoDados.Location = new System.Drawing.Point(148, 92);
+            this.cbm_bancoDados.Name = "cbm_bancoDados";
+            this.cbm_bancoDados.Size = new System.Drawing.Size(413, 27);
+            this.cbm_bancoDados.TabIndex = 15;
+            // 
+            // lbl_banco_dados
+            // 
+            this.lbl_banco_dados.AutoSize = true;
+            this.lbl_banco_dados.Location = new System.Drawing.Point(12, 92);
+            this.lbl_banco_dados.Name = "lbl_banco_dados";
+            this.lbl_banco_dados.Size = new System.Drawing.Size(115, 19);
+            this.lbl_banco_dados.TabIndex = 14;
+            this.lbl_banco_dados.Text = "Banco de dados";
             // 
             // tbx_nome
             // 
@@ -125,28 +148,6 @@ namespace Visao
             this.lbl_servidorSQLServer.Size = new System.Drawing.Size(133, 19);
             this.lbl_servidorSQLServer.TabIndex = 0;
             this.lbl_servidorSQLServer.Text = "Connection String";
-            // 
-            // lbl_banco_dados
-            // 
-            this.lbl_banco_dados.AutoSize = true;
-            this.lbl_banco_dados.Location = new System.Drawing.Point(12, 92);
-            this.lbl_banco_dados.Name = "lbl_banco_dados";
-            this.lbl_banco_dados.Size = new System.Drawing.Size(115, 19);
-            this.lbl_banco_dados.TabIndex = 14;
-            this.lbl_banco_dados.Text = "Banco de dados";
-            // 
-            // cbm_bancoDados
-            // 
-            this.cbm_bancoDados.FormattingEnabled = true;
-            this.cbm_bancoDados.Items.AddRange(new object[] {
-            "SQL Server",
-            "SQLite",
-            "Oracle",
-            "POSTGRE SQL"});
-            this.cbm_bancoDados.Location = new System.Drawing.Point(148, 92);
-            this.cbm_bancoDados.Name = "cbm_bancoDados";
-            this.cbm_bancoDados.Size = new System.Drawing.Size(413, 27);
-            this.cbm_bancoDados.TabIndex = 15;
             // 
             // FO_SelecionaConexao
             // 

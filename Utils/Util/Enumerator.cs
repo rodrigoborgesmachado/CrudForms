@@ -17,7 +17,8 @@ namespace Util
             SQL_SERVER = 0,
             SQLite = 1,
             ORACLE = 2,
-            POSTGRESQL = 3
+            POSTGRESQL = 3,
+            MYSQL = 4
         }
 
         /// <summary>

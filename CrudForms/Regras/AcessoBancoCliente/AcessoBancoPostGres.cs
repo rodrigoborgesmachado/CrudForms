@@ -160,7 +160,7 @@ namespace Regras.AcessoBancoCliente
                 }
             }
 
-            return command;
+            return command + $" limit {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor}";
         }
 
         /// <summary>
