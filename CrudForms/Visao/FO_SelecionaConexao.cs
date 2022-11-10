@@ -89,6 +89,8 @@ namespace Visao
                         parametro.DAO.Update();
                         Model.Parametros.TipoBanco = parametro;
 
+                        Util.Global.connectionName = Model.Parametros.NomeConexao.DAO.Valor;
+                        
                         Visao.Message.MensagemSucesso("Atualizado com sucesso, foi possível conectar");
 
                         this.DialogResult = DialogResult.OK;
