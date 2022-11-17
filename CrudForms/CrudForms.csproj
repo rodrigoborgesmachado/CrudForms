@@ -108,6 +108,12 @@
     <Compile Include="Visao\FO_CadastraConsulta.Designer.cs">
       <DependentUpon>FO_CadastraConsulta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visao\FO_ConfigColunas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_ConfigColunas.Designer.cs">
+      <DependentUpon>FO_ConfigColunas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visao\FO_ConsultasSalvas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_CadastraConsulta.resx">
       <DependentUpon>FO_CadastraConsulta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_ConfigColunas.resx">
+      <DependentUpon>FO_ConfigColunas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_ConsultasSalvas.resx">
       <DependentUpon>FO_ConsultasSalvas.cs</DependentUpon>

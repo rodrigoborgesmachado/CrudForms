@@ -15,6 +15,21 @@ namespace Model
     {
         #region Atributos e Propriedades
 
+        private bool visible = true;
+        /// <summary>
+        /// Identifica se o campo deve ser visível ou não
+        /// </summary>
+        public bool Visible { 
+            get 
+            { 
+                return visible; 
+            } 
+            set 
+            {
+                this.visible = value;
+            } 
+        }
+
         /// <summary>
         /// DAO que representa a classe
         /// </summary>

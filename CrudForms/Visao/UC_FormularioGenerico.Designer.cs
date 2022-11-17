@@ -39,6 +39,7 @@ namespace Visao
             this.btn_fechar = new System.Windows.Forms.Button();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
             this.grb_geral = new System.Windows.Forms.GroupBox();
+            this.btn_reload = new System.Windows.Forms.Button();
             this.lbl_quantidadeLinhas = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.pan_botton = new System.Windows.Forms.Panel();
@@ -51,7 +52,7 @@ namespace Visao
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
-            this.btn_reload = new System.Windows.Forms.Button();
+            this.configuraçãoDasColunasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_top.SuspendLayout();
             this.pan_opcoes.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -98,7 +99,8 @@ namespace Visao
             // 
             this.tsm_opcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportarCSVToolStripMenuItem,
-            this.salvarConsultaToolStripMenuItem});
+            this.salvarConsultaToolStripMenuItem,
+            this.configuraçãoDasColunasToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
             this.tsm_opcoes.Text = "Opções";
@@ -106,14 +108,14 @@ namespace Visao
             // exportarCSVToolStripMenuItem
             // 
             this.exportarCSVToolStripMenuItem.Name = "exportarCSVToolStripMenuItem";
-            this.exportarCSVToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
+            this.exportarCSVToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.exportarCSVToolStripMenuItem.Text = "Exportar CSV";
             this.exportarCSVToolStripMenuItem.Click += new System.EventHandler(this.exportarCSVToolStripMenuItem_Click);
             // 
             // salvarConsultaToolStripMenuItem
             // 
             this.salvarConsultaToolStripMenuItem.Name = "salvarConsultaToolStripMenuItem";
-            this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(193, 26);
+            this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.salvarConsultaToolStripMenuItem.Text = "Salvar Consulta";
             this.salvarConsultaToolStripMenuItem.Click += new System.EventHandler(this.salvarConsultaToolStripMenuItem_Click);
             // 
@@ -181,6 +183,18 @@ namespace Visao
             this.grb_geral.TabIndex = 16;
             this.grb_geral.TabStop = false;
             this.grb_geral.Text = "<nome da tabela>";
+            // 
+            // btn_reload
+            // 
+            this.btn_reload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_reload.BackgroundImage = global::Pj.Properties.Resources.loop_100px20x20;
+            this.btn_reload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_reload.Location = new System.Drawing.Point(714, 9);
+            this.btn_reload.Name = "btn_reload";
+            this.btn_reload.Size = new System.Drawing.Size(20, 20);
+            this.btn_reload.TabIndex = 14;
+            this.btn_reload.UseVisualStyleBackColor = true;
+            this.btn_reload.Click += new System.EventHandler(this.btn_reload_Click);
             // 
             // lbl_quantidadeLinhas
             // 
@@ -322,17 +336,12 @@ namespace Visao
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
             // 
-            // btn_reload
+            // configuraçãoDasColunasToolStripMenuItem
             // 
-            this.btn_reload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_reload.BackgroundImage = global::Pj.Properties.Resources.loop_100px20x20;
-            this.btn_reload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_reload.Location = new System.Drawing.Point(714, 9);
-            this.btn_reload.Name = "btn_reload";
-            this.btn_reload.Size = new System.Drawing.Size(20, 20);
-            this.btn_reload.TabIndex = 14;
-            this.btn_reload.UseVisualStyleBackColor = true;
-            this.btn_reload.Click += new System.EventHandler(this.btn_reload_Click);
+            this.configuraçãoDasColunasToolStripMenuItem.Name = "configuraçãoDasColunasToolStripMenuItem";
+            this.configuraçãoDasColunasToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.configuraçãoDasColunasToolStripMenuItem.Text = "Configuração das colunas";
+            this.configuraçãoDasColunasToolStripMenuItem.Click += new System.EventHandler(this.configuraçãoDasColunasToolStripMenuItem_Click);
             // 
             // UC_FormularioGenerico
             // 
@@ -386,5 +395,6 @@ namespace Visao
         private System.Windows.Forms.ToolStripMenuItem exportarCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salvarConsultaToolStripMenuItem;
         private System.Windows.Forms.Button btn_reload;
+        private System.Windows.Forms.ToolStripMenuItem configuraçãoDasColunasToolStripMenuItem;
     }
 }

@@ -22,6 +22,17 @@ namespace Visao
         /// </summary>
         Model.MD_Tabela tabela;
         List<Model.MD_Campos> colunas;
+        public List<Model.MD_Campos> Colunas
+        {
+            get
+            {
+                return colunas;
+            }
+            set
+            {
+                this.colunas = value;
+            }
+        }
 
         /// <summary>
         /// Controle da tela principal
@@ -191,6 +202,17 @@ namespace Visao
             orderBy.ShowDialog();
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de configuração das colunas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void configuraçãoDasColunasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_ConfigColunas configColunas = new FO_ConfigColunas(this);
+            configColunas.ShowDialog();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -292,9 +314,10 @@ namespace Visao
                     new Regras.AcessoBancoCliente.AcessoBancoMysql().BuscaLista(tabela, colunas, filter, out consulta))
                     ;
 
-                foreach (Model.MD_Campos campo in this.tabela.CamposDaTabela())
+                foreach (Model.MD_Campos campo in colunas)
                 {
-                    this.dgv_generico.Columns.Add(campo.DAO.Nome, campo.DAO.Nome);
+                    if(campo.Visible)
+                        this.dgv_generico.Columns.Add(campo.DAO.Nome, campo.DAO.Nome);
                 }
             }
             else 
@@ -320,7 +343,6 @@ namespace Visao
 
                 foreach (string campo in valores[0].campos)
                 {
-                    
                     this.dgv_generico.Columns.Add(campo, campo);
                 }
             }
@@ -365,7 +387,15 @@ namespace Visao
         /// <param name="valores"></param>
         private void FillGrid(Regras.AcessoBancoCliente.AcessoBanco valores)
         {
-            List<string> list = valores.valores;
+            List<string> list = new List<string>();
+            for (int i = 0;i<colunas.Count;i++)
+            {
+                if (colunas[i].Visible)
+                {
+                    list.Add(valores.valores[i]);
+                }
+            }
+
 
             this.dgv_generico.Rows.Add(list.ToArray());
         }
