@@ -200,7 +200,7 @@ namespace Regras
             BarraDeCarregamento barraCarregamento = new BarraDeCarregamento(tabelas.Count(), "Importando Tabelas");
             barraCarregamento.Show();
 
-            TratarTabelas(ref tabelas, ref barraCarregamento);
+            List<Model.MD_Tabela> tabelasModel = TratarTabelas(ref tabelas, ref barraCarregamento);
 
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
@@ -209,7 +209,7 @@ namespace Regras
             barraCarregamento = new BarraDeCarregamento(campos.Count(), "Importando Colunas");
             barraCarregamento.Show();
 
-            TratarColunas(ref campos, ref barraCarregamento);
+            List<Model.MD_Campos> camposModel = TratarColunas(tabelasModel, ref campos, ref barraCarregamento);
 
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
@@ -218,142 +218,10 @@ namespace Regras
             barraCarregamento = new BarraDeCarregamento(relacionamentos.Count(), "Importando Relacionamentos");
 
             barraCarregamento.Show();
-            TratarRelacionamento(ref relacionamentos, ref barraCarregamento);
+            TratarRelacionamento(camposModel, tabelasModel, ref relacionamentos, ref barraCarregamento);
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
             barraCarregamento = null;
-        }
-
-        /// <summary>
-        /// Método que trata os relacionamentos
-        /// </summary>
-        /// <param name="projeto">Projeto ao qual o relacionamento pertence</param>
-        /// <param name="relacionamentos">Relacionamentos a serem importadas para o projeto</param>
-        private static void TratarRelacionamento(ref List<Model.Relacionamento> relacionamentos, ref BarraDeCarregamento barra)
-        {
-            Util.CL_Files.WriteOnTheLog("Importador.TratarRelacionamento()", Util.Global.TipoLog.DETALHADO);
-
-            foreach (Model.Relacionamento r in relacionamentos)
-            {
-                barra.AvancaBarra(1);
-
-                bool existe = false;
-                int rCodigo = CodigoRelacionamento(r, 0, ref existe);
-                Model.Tabela tabelaOrigemDesc = new Model.Tabela();
-                tabelaOrigemDesc.nome = r.tabelaOrigem;
-
-                Model.Tabela tabelaDestinoDesc = new Model.Tabela();
-                tabelaDestinoDesc.nome = r.tabelaDestino;
-
-                Model.Campo campoOrigemDesc = new Model.Campo();
-                campoOrigemDesc.Name_Field = r.campoOrigem;
-                campoOrigemDesc.Tabela = tabelaOrigemDesc.nome;
-
-                Model.Campo campoDestinoDesc = new Model.Campo();
-                campoDestinoDesc.Name_Field = r.campoDestino;
-                campoDestinoDesc.Tabela = tabelaDestinoDesc.nome;
-
-                bool x = true;
-                Model.MD_Tabela tabelaOrigem = new Model.MD_Tabela(CodigoTabela(tabelaOrigemDesc, 0, ref x), 0);
-                if (!x)
-                {
-                    continue;
-                }
-
-                Model.MD_Tabela tabelaDestino = new Model.MD_Tabela(CodigoTabela(tabelaDestinoDesc, 0, ref x), 0);
-                if (!x)
-                {
-                    continue;
-                }
-
-                Model.MD_Campos campoOrigem = new Model.MD_Campos(CodigoColuna(campoOrigemDesc, 0, ref x), tabelaOrigem.DAO.Codigo, 0);
-                if (!x)
-                {
-                    continue;
-                }
-
-                Model.MD_Campos campoDestino = new Model.MD_Campos(CodigoColuna(campoDestinoDesc, 0, ref x), tabelaDestino.DAO.Codigo, 0);
-                if (!x)
-                {
-                    continue;
-                }
-
-                Model.MD_Relacao relacao = new Model.MD_Relacao(rCodigo, 0, tabelaOrigem.DAO, tabelaDestino.DAO, campoOrigem.DAO, campoDestino.DAO);
-
-                relacao.DAO.NomeForeingKey = r.constraintName;
-
-                if (!existe)
-                {
-                    relacao.DAO.Insert();
-                }
-
-                tabelaOrigemDesc = null;
-                tabelaDestinoDesc = null;
-                campoOrigemDesc = null;
-                campoDestinoDesc = null;
-                relacao = null;
-                tabelaOrigem = null;
-                tabelaDestino = null;
-                campoOrigem = null;
-                campoDestino = null;
-            }
-        }
-
-        /// <summary>
-        /// Método que retorna o código da tabela
-        /// </summary>
-        /// <param name="tabela">Nome da tabela</param>
-        /// <returns>Código da tabela</returns>
-        public static int CodigoRelacionamento(Model.Relacionamento relacionamento, int codigoProjeto, ref bool existe)
-        {
-            Util.CL_Files.WriteOnTheLog("Importador.CodigoRelacionamento()", Util.Global.TipoLog.DETALHADO);
-
-            int codigo = -1;
-            Model.Tabela tabelaOrigem = new Model.Tabela();
-            tabelaOrigem.nome = relacionamento.tabelaOrigem;
-
-            Model.Tabela tabelaDestino = new Model.Tabela();
-            tabelaDestino.nome = relacionamento.tabelaDestino;
-
-            Model.Campo campoOrigem = new Model.Campo();
-            campoOrigem.Name_Field = relacionamento.campoOrigem;
-            campoOrigem.Tabela = tabelaOrigem.nome;
-
-            Model.Campo campoDestino = new Model.Campo();
-            campoDestino.Name_Field = relacionamento.campoDestino;
-            campoDestino.Tabela = tabelaDestino.nome;
-
-            bool x = true;
-            int codigoTabelaOrigem = CodigoTabela(tabelaOrigem, codigoProjeto,  ref x);
-            int codigoTabelaDestino = CodigoTabela(tabelaDestino, codigoProjeto, ref x);
-            int codigoCampoOrigem = CodigoColuna(campoOrigem, codigoProjeto, ref x);
-            int codigoCampoDestino = CodigoColuna(campoDestino, codigoProjeto, ref x);
-
-            string sentenca = new DAO.MD_Relacao().table.CreateCommandSQLTable() + " WHERE TABELAORIGEM = " + codigoTabelaOrigem + " AND CAMPOORIGEM = " + codigoCampoOrigem + " AND TABELADESTINO = " + codigoTabelaDestino + " AND CAMPODESTINO = " + codigoCampoDestino;
-
-            DbDataReader reader = DataBase.Connection.Select(sentenca);
-            if (reader != null)
-            {
-                if (reader.Read())
-                {
-                    codigo = int.Parse(reader["CODIGO"].ToString());
-                    existe = true;
-                }
-                else
-                {
-                    codigo = DataBase.Connection.GetIncrement("RELACAO");
-                    existe = false;
-                }
-                reader.Close();
-            }
-
-            reader = null;
-            tabelaOrigem = null;
-            tabelaDestino = null;
-            campoOrigem = null;
-            campoDestino = null;
-
-            return codigo;
         }
 
         /// <summary>
@@ -361,23 +229,20 @@ namespace Regras
         /// </summary>
         /// <param name="projeto">Projeto ao qual a tabela pertence</param>
         /// <param name="tabelas">Tabelas a serem importadas para o projeto</param>
-        private static void TratarColunas(ref List<Model.Campo> campos, ref BarraDeCarregamento barra)
+        private static List<Model.MD_Campos> TratarColunas(List<Model.MD_Tabela> tabelaModel, ref List<Model.Campo> campos, ref BarraDeCarregamento barra)
         {
             Util.CL_Files.WriteOnTheLog("Importador.TratarColunas()", Util.Global.TipoLog.DETALHADO);
+            List<Model.MD_Campos> camposModel = new List<Model.MD_Campos>();
 
             foreach (Model.Campo c in campos)
             {
                 barra.AvancaBarra(1);
 
-                bool existe = false;
-                int campoCodigo = CodigoColuna(c, 0, ref existe);
-                Model.Tabela t = new Model.Tabela();
-                t.nome = c.Tabela;
+                int campoCodigo = CodigoColuna();
 
-                bool x = true;
-
-                Model.MD_Tabela tabela = new Model.MD_Tabela(CodigoTabela(t, 0, ref x), 0);
-                Model.MD_Campos campo = new Model.MD_Campos(campoCodigo, tabela.DAO.Codigo, 0);
+                Model.MD_Tabela tabela = tabelaModel.Where(t => t.DAO.Nome.ToUpper().Equals(c.Tabela.ToUpper())).FirstOrDefault();
+                Model.MD_Campos campo = new Model.MD_Campos(campoCodigo, tabela.DAO.Codigo, 0, false);
+                campo.DAO.Tabela = tabela.DAO;
                 campo.DAO.Nome = c.Name_Field;
                 campo.DAO.Default = c.ValueDefault;
                 campo.DAO.NotNull = c.NotNull;
@@ -388,13 +253,12 @@ namespace Regras
                 campo.DAO.TipoCampo = Model.MD_TipoCampo.RetornaTipoCampo(c.Type).DAO;
                 campo.DAO.Unique = c.Unique;
 
-                if (!existe)
-                {
-                    campo.DAO.Insert();
-                }
-                campo = null;
-                tabela = null;
+                campo.DAO.Insert();
+
+                camposModel.Add(campo);
             }
+
+            return camposModel;
         }
 
         /// <summary>
@@ -402,36 +266,11 @@ namespace Regras
         /// </summary>
         /// <param name="campo">Nome do campo</param>
         /// <returns>Código do campo</returns>
-        public static int CodigoColuna(Model.Campo campo, int codigoProjeto, ref bool existe)
+        public static int CodigoColuna()
         {
             Util.CL_Files.WriteOnTheLog("Importador.CodigoColuna()", Util.Global.TipoLog.DETALHADO);
 
-            Model.Tabela tabela = new Model.Tabela();
-            bool x = true;
-
-            tabela.nome = campo.Tabela;
-            int codigo = -1;
-            string sentenca = new DAO.MD_Campos().table.CreateCommandSQLTable() + " WHERE NOME = '" + campo.Name_Field + "' AND CODIGOTABELA = " + CodigoTabela(tabela, codigoProjeto, ref x);
-            tabela = null;
-
-            DbDataReader reader = DataBase.Connection.Select(sentenca);
-            if (reader != null)
-            {
-                if (reader.Read())
-                {
-                    codigo = int.Parse(reader["CODIGO"].ToString());
-                    existe = true;
-                }
-                else
-                {
-                    codigo = DataBase.Connection.GetIncrement("CAMPOS");
-                    existe = false;
-                }
-                reader.Close();
-            }
-            reader = null;
-
-            return codigo;
+            return DataBase.Connection.GetIncrement("CAMPOS");
         }
 
         /// <summary>
@@ -439,15 +278,15 @@ namespace Regras
         /// </summary>
         /// <param name="projeto">Projeto ao qual a tabela pertence</param>
         /// <param name="tabelas">Tabelas a serem importadas para o projeto</param>
-        private static void TratarTabelas(ref List<Model.Tabela> tabelas, ref BarraDeCarregamento barra)
+        private static List<Model.MD_Tabela> TratarTabelas(ref List<Model.Tabela> tabelas, ref BarraDeCarregamento barra)
         {
             Util.CL_Files.WriteOnTheLog("Importador.TratarTabelas()", Util.Global.TipoLog.DETALHADO);
-
+            List<Model.MD_Tabela> tabelasRetorno = new List<Model.MD_Tabela>();
             foreach (Model.Tabela t in tabelas)
             {
                 barra.AvancaBarra(1);
                 bool existe = false;
-                int tableCodigo = CodigoTabela(t, 0, ref existe);
+                int tableCodigo = CodigoTabela();
 
                 Model.MD_Tabela tabela = new Model.MD_Tabela(tableCodigo, 0);
                 tabela.DAO.Nome = t.nome;
@@ -456,8 +295,11 @@ namespace Regras
                 {
                     tabela.DAO.Insert();
                 }
-                tabela = null;
+
+                tabelasRetorno.Add(tabela);
             }
+
+            return tabelasRetorno;
         }
 
         /// <summary>
@@ -465,32 +307,33 @@ namespace Regras
         /// </summary>
         /// <param name="tabela">Nome da tabela</param>
         /// <returns>Código da tabela</returns>
-        public static int CodigoTabela(Model.Tabela tabela, int codigoProjeto, ref bool existe)
+        public static int CodigoTabela()
         {
             Util.CL_Files.WriteOnTheLog("Importador.CodigoTabela()", Util.Global.TipoLog.DETALHADO);
 
-            int codigo = -1;
-            string sentenca = new DAO.MD_Tabela().table.CreateCommandSQLTable() + " WHERE NOME = '" + tabela.nome + "' AND PROJETO = " + codigoProjeto;
-            
+            return DataBase.Connection.GetIncrement("TABELA");
+        }
 
-            DbDataReader reader = DataBase.Connection.Select(sentenca);
-            if (reader != null)
+        /// <summary>
+        /// Método que trata os relacionamentos
+        /// </summary>
+        /// <param name="projeto">Projeto ao qual o relacionamento pertence</param>
+        /// <param name="relacionamentos">Relacionamentos a serem importadas para o projeto</param>
+        private static void TratarRelacionamento(List<Model.MD_Campos> camposModel, List<Model.MD_Tabela> tabelasModel, ref List<Model.Relacionamento> relacionamentos, ref BarraDeCarregamento barra)
+        {
+            Util.CL_Files.WriteOnTheLog("Importador.TratarRelacionamento()", Util.Global.TipoLog.DETALHADO);
+
+            relacionamentos.ForEach(relacionamento =>
             {
-                if (reader.Read())
-                {
-                    codigo = int.Parse(reader["CODIGO"].ToString());
-                    existe = true;    
-                }
-                else
-                {
-                    codigo = DataBase.Connection.GetIncrement("TABELA");
-                    existe = false;
-                }
-                reader.Close();
-            }
-            reader = null;
+                DAO.MD_Tabela tabelaOrigem = tabelasModel.Where(tabela => tabela.DAO.Nome.ToUpper().Equals(relacionamento.tabelaOrigem.ToUpper())).FirstOrDefault()?.DAO;
+                DAO.MD_Tabela tabelaDestino = tabelasModel.Where(tabela => tabela.DAO.Nome.ToUpper().Equals(relacionamento.tabelaDestino.ToUpper())).FirstOrDefault()?.DAO;
+                DAO.MD_Campos campoOrigem = camposModel.Where(campo => campo.DAO.Nome.ToUpper().Equals(relacionamento.campoOrigem.ToUpper())).FirstOrDefault()?.DAO;
+                DAO.MD_Campos campoDestino = camposModel.Where(campo => campo.DAO.Nome.ToUpper().Equals(relacionamento.campoDestino.ToUpper())).FirstOrDefault()?.DAO;
 
-            return codigo;
+                Model.MD_Relacao relacao = new Model.MD_Relacao(DataBase.Connection.GetIncrement("RELACAO"), 0, tabelaOrigem, tabelaDestino, campoOrigem, campoDestino);
+                relacao.DAO.NomeForeingKey = relacionamento.constraintName;
+                relacao.DAO.Insert();
+            });
         }
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace Model
         /// </summary>
         /// <param name="codigo">Código do campo</param>
         /// <param name="codigoTabela">Código da tabela</param>
-        public MD_Campos(int codigo, int codigoTabela, int codigoProjeto)
+        public MD_Campos(int codigo, int codigoTabela, int codigoProjeto, bool load = true)
         {
             this.DAO = new DAO.MD_Campos(codigo, new DAO.MD_Tabela(codigoTabela, codigoProjeto));
         }

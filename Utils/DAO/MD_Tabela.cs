@@ -116,14 +116,14 @@ namespace DAO
         /// </summary>
         /// <param name="codigo">Código da tabela</param>
         /// <param name="projeto">Código do projeto</param>
-        public MD_Tabela(int codigo, int projeto):
+        public MD_Tabela(int codigo, int projeto, bool load = true):
             this()
         {
             Util.CL_Files.WriteOnTheLog("MD_Tabela()", Util.Global.TipoLog.DETALHADO);
 
             this.codigo = codigo;
             this.projeto = projeto;
-            this.Load();
+            if(load) this.Load();
         }
 
         #endregion Contrutores

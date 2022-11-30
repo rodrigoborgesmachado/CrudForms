@@ -55,7 +55,7 @@ namespace Util
         /// <returns>total</returns>
         public static int Total()
         {
-            return 1000;
+            return 100000;
         }
 
         /// <summary>
