@@ -9,14 +9,14 @@ using System.Data.Common;
 
 namespace Regras
 {
-    public static class Importador
+    public class Importador
     {
         /// <summary>
         /// Método que faz a importação dos arquivos JSON
         /// </summary>
         /// <param name="projeto">Código do projeto para associar os dados</param>
         /// <returns></returns>
-        public static bool Importar(int projeto)
+        public bool Importar(int projeto)
         {
             Util.CL_Files.WriteOnTheLog("Importador.Importar()", Util.Global.TipoLog.DETALHADO);
             bool retorno = true;
@@ -70,7 +70,7 @@ namespace Regras
         /// <summary>
         /// Método que apaga os arquivos json old
         /// </summary>
-        private static void ApagaArquivosExportacao()
+        private void ApagaArquivosExportacao()
         {
             Util.CL_Files.WriteOnTheLog("Importador.ApagaArquivosExportacao()", Util.Global.TipoLog.DETALHADO);
 
@@ -81,24 +81,9 @@ namespace Regras
         }
 
         /// <summary>
-        /// Método que valida se foram criados arquivos de impotação
-        /// </summary>
-        /// <returns></returns>
-        private static bool VerificaArquivosCriados()
-        {
-            Util.CL_Files.WriteOnTheLog("Importador.VerificaArquivosCriados()", Util.Global.TipoLog.DETALHADO);
-
-            bool retorno = true;
-
-            retorno = Directory.GetFiles(Util.Global.app_exportacao_directory).Count() > 0;
-
-            return retorno;
-        }
-
-        /// <summary>
         /// Método que faz a importação dos arquivos para o banco de dados
         /// </summary>
-        private static void ImportarArquivos(int projeto)
+        private void ImportarArquivos(int projeto)
         {
             Util.CL_Files.WriteOnTheLog("Importador.ImportarArquivos()", Util.Global.TipoLog.DETALHADO);
 
@@ -113,15 +98,6 @@ namespace Regras
 
             TratarImportacao(projeto, ref tabelas, ref campos, ref relacionamentos);
 
-            tabelas.Clear();
-            tabelas = null;
-
-            campos.Clear();
-            campos = null;
-
-            relacionamentos.Clear();
-            relacionamentos = null;
-
             CopiaArquivos();
         }
 
@@ -129,7 +105,7 @@ namespace Regras
         /// Método que preenche a lista com as tabelas do arquivo JSON
         /// </summary>
         /// <param name="tabelas">Lista de tabelas a ser preenchida</param>
-        private static void PreencheLista(ref List<Model.Tabela> tabelas)
+        private void PreencheLista(ref List<Model.Tabela> tabelas)
         {
             Util.CL_Files.WriteOnTheLog("Importador.PreencheLista()", Util.Global.TipoLog.DETALHADO);
 
@@ -151,7 +127,7 @@ namespace Regras
         /// Método que preenche a lista com os campos do arquivo JSON
         /// </summary>
         /// <param name="campos">Lista de campos a ser preenchida</param>
-        private static void PreencheLista(ref List<Model.Campo> campos)
+        private void PreencheLista(ref List<Model.Campo> campos)
         {
             Util.CL_Files.WriteOnTheLog("Importador.PreencheLista()", Util.Global.TipoLog.DETALHADO);
 
@@ -172,7 +148,7 @@ namespace Regras
         /// Método que preenche a lista com os relacionamentos do arquivo JSON
         /// </summary>
         /// <param name="relacionamentos">Lista de relacionamentos a ser preenchida</param>
-        private static void PreencheLista(ref List<Model.Relacionamento> relacionamentos)
+        private void PreencheLista(ref List<Model.Relacionamento> relacionamentos)
         {
             Util.CL_Files.WriteOnTheLog("Importador.PreencheLista()", Util.Global.TipoLog.DETALHADO);
 
@@ -193,11 +169,13 @@ namespace Regras
         /// Método que trata as tabelas de importação e coloca nas tabelas definitivas vinculando com o projeto
         /// </summary>
         /// <param name="projeto">Código do projeto a se vincular as tabelas</param>
-        private static void TratarImportacao(int codigo, ref List<Model.Tabela> tabelas, ref List<Model.Campo> campos, ref List<Model.Relacionamento> relacionamentos)
+        private void TratarImportacao(int codigo, ref List<Model.Tabela> tabelas, ref List<Model.Campo> campos, ref List<Model.Relacionamento> relacionamentos)
         {
             Util.CL_Files.WriteOnTheLog("Importador.TratarImportacao()", Util.Global.TipoLog.DETALHADO);
 
-            BarraDeCarregamento barraCarregamento = new BarraDeCarregamento(tabelas.Count(), "Importando Tabelas");
+            ZeraDados();
+
+            BarraDeCarregamento barraCarregamento = new BarraDeCarregamento(tabelas.Count(), "Montando Tabelas");
             barraCarregamento.Show();
 
             List<Model.MD_Tabela> tabelasModel = TratarTabelas(ref tabelas, ref barraCarregamento);
@@ -206,7 +184,7 @@ namespace Regras
             barraCarregamento.Dispose();
             barraCarregamento = null;
 
-            barraCarregamento = new BarraDeCarregamento(campos.Count(), "Importando Colunas");
+            barraCarregamento = new BarraDeCarregamento(campos.Count(), "Montando Colunas");
             barraCarregamento.Show();
 
             List<Model.MD_Campos> camposModel = TratarColunas(tabelasModel, ref campos, ref barraCarregamento);
@@ -215,12 +193,46 @@ namespace Regras
             barraCarregamento.Dispose();
             barraCarregamento = null;
 
-            barraCarregamento = new BarraDeCarregamento(relacionamentos.Count(), "Importando Relacionamentos");
+            barraCarregamento = new BarraDeCarregamento(relacionamentos.Count(), "Montando Relacionamentos");
 
             barraCarregamento.Show();
-            TratarRelacionamento(camposModel, tabelasModel, ref relacionamentos, ref barraCarregamento);
+            List<Model.MD_Relacao> relacaoModel = TratarRelacionamento(camposModel, tabelasModel, ref relacionamentos, ref barraCarregamento);
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
+
+
+            barraCarregamento = new BarraDeCarregamento(camposModel.Count() + tabelasModel.Count() + relacaoModel.Count(), "Inserindo informações");
+            barraCarregamento.Show();
+
+            tabelasModel.ForEach(t => 
+            {
+                t.DAO.Insert();
+                barraCarregamento.AvancaBarra(1);
+            }
+            );
+            camposModel.ForEach(c =>
+            {
+                c.DAO.Insert();
+                barraCarregamento.AvancaBarra(1);
+            }
+            );
+            relacaoModel.ForEach(r =>
+            {
+                r.DAO.Insert();
+                barraCarregamento.AvancaBarra(1);
+            }
+            );
+
+            barraCarregamento.Hide();
+            barraCarregamento.Dispose();
+
+            tabelas.Clear();
+            tabelasModel.Clear();
+            campos.Clear();
+            camposModel.Clear();
+            relacionamentos.Clear();
+            relacaoModel.Clear();
+
             barraCarregamento = null;
         }
 
@@ -229,16 +241,16 @@ namespace Regras
         /// </summary>
         /// <param name="projeto">Projeto ao qual a tabela pertence</param>
         /// <param name="tabelas">Tabelas a serem importadas para o projeto</param>
-        private static List<Model.MD_Campos> TratarColunas(List<Model.MD_Tabela> tabelaModel, ref List<Model.Campo> campos, ref BarraDeCarregamento barra)
+        private List<Model.MD_Campos> TratarColunas(List<Model.MD_Tabela> tabelaModel, ref List<Model.Campo> campos, ref BarraDeCarregamento barra)
         {
             Util.CL_Files.WriteOnTheLog("Importador.TratarColunas()", Util.Global.TipoLog.DETALHADO);
             List<Model.MD_Campos> camposModel = new List<Model.MD_Campos>();
 
+            int campoCodigo = DataBase.Connection.GetIncrement("CAMPOS");
+
             foreach (Model.Campo c in campos)
             {
                 barra.AvancaBarra(1);
-
-                int campoCodigo = CodigoColuna();
 
                 Model.MD_Tabela tabela = tabelaModel.Where(t => t.DAO.Nome.ToUpper().Equals(c.Tabela.ToUpper())).FirstOrDefault();
                 Model.MD_Campos campo = new Model.MD_Campos(campoCodigo, tabela.DAO.Codigo, 0, false);
@@ -253,24 +265,13 @@ namespace Regras
                 campo.DAO.TipoCampo = Model.MD_TipoCampo.RetornaTipoCampo(c.Type).DAO;
                 campo.DAO.Unique = c.Unique;
 
-                campo.DAO.Insert();
-
                 camposModel.Add(campo);
+                campoCodigo++;
             }
 
+            DataBase.Connection.SetIncrement("CAMPOS", campoCodigo);
+
             return camposModel;
-        }
-
-        /// <summary>
-        /// Método que retorna o código do campo
-        /// </summary>
-        /// <param name="campo">Nome do campo</param>
-        /// <returns>Código do campo</returns>
-        public static int CodigoColuna()
-        {
-            Util.CL_Files.WriteOnTheLog("Importador.CodigoColuna()", Util.Global.TipoLog.DETALHADO);
-
-            return DataBase.Connection.GetIncrement("CAMPOS");
         }
 
         /// <summary>
@@ -278,40 +279,25 @@ namespace Regras
         /// </summary>
         /// <param name="projeto">Projeto ao qual a tabela pertence</param>
         /// <param name="tabelas">Tabelas a serem importadas para o projeto</param>
-        private static List<Model.MD_Tabela> TratarTabelas(ref List<Model.Tabela> tabelas, ref BarraDeCarregamento barra)
+        private List<Model.MD_Tabela> TratarTabelas(ref List<Model.Tabela> tabelas, ref BarraDeCarregamento barra)
         {
             Util.CL_Files.WriteOnTheLog("Importador.TratarTabelas()", Util.Global.TipoLog.DETALHADO);
             List<Model.MD_Tabela> tabelasRetorno = new List<Model.MD_Tabela>();
+            int tableCodigo = DataBase.Connection.GetIncrement("TABELA");
+
             foreach (Model.Tabela t in tabelas)
             {
                 barra.AvancaBarra(1);
-                bool existe = false;
-                int tableCodigo = CodigoTabela();
-
                 Model.MD_Tabela tabela = new Model.MD_Tabela(tableCodigo, 0);
                 tabela.DAO.Nome = t.nome;
 
-                if (!existe)
-                {
-                    tabela.DAO.Insert();
-                }
-
                 tabelasRetorno.Add(tabela);
+                tableCodigo++;
             }
 
+            DataBase.Connection.SetIncrement("TABELA", tableCodigo+1);
+
             return tabelasRetorno;
-        }
-
-        /// <summary>
-        /// Método que retorna o código da tabela
-        /// </summary>
-        /// <param name="tabela">Nome da tabela</param>
-        /// <returns>Código da tabela</returns>
-        public static int CodigoTabela()
-        {
-            Util.CL_Files.WriteOnTheLog("Importador.CodigoTabela()", Util.Global.TipoLog.DETALHADO);
-
-            return DataBase.Connection.GetIncrement("TABELA");
         }
 
         /// <summary>
@@ -319,27 +305,47 @@ namespace Regras
         /// </summary>
         /// <param name="projeto">Projeto ao qual o relacionamento pertence</param>
         /// <param name="relacionamentos">Relacionamentos a serem importadas para o projeto</param>
-        private static void TratarRelacionamento(List<Model.MD_Campos> camposModel, List<Model.MD_Tabela> tabelasModel, ref List<Model.Relacionamento> relacionamentos, ref BarraDeCarregamento barra)
+        private List<Model.MD_Relacao> TratarRelacionamento(List<Model.MD_Campos> camposModel, List<Model.MD_Tabela> tabelasModel, ref List<Model.Relacionamento> relacionamentos, ref BarraDeCarregamento barra)
         {
             Util.CL_Files.WriteOnTheLog("Importador.TratarRelacionamento()", Util.Global.TipoLog.DETALHADO);
-
+            List<Model.MD_Relacao> retorno = new List<Model.MD_Relacao>();
+            int codigoRelacao = DataBase.Connection.GetIncrement("RELACAO");
             relacionamentos.ForEach(relacionamento =>
             {
+
                 DAO.MD_Tabela tabelaOrigem = tabelasModel.Where(tabela => tabela.DAO.Nome.ToUpper().Equals(relacionamento.tabelaOrigem.ToUpper())).FirstOrDefault()?.DAO;
                 DAO.MD_Tabela tabelaDestino = tabelasModel.Where(tabela => tabela.DAO.Nome.ToUpper().Equals(relacionamento.tabelaDestino.ToUpper())).FirstOrDefault()?.DAO;
                 DAO.MD_Campos campoOrigem = camposModel.Where(campo => campo.DAO.Nome.ToUpper().Equals(relacionamento.campoOrigem.ToUpper())).FirstOrDefault()?.DAO;
                 DAO.MD_Campos campoDestino = camposModel.Where(campo => campo.DAO.Nome.ToUpper().Equals(relacionamento.campoDestino.ToUpper())).FirstOrDefault()?.DAO;
 
-                Model.MD_Relacao relacao = new Model.MD_Relacao(DataBase.Connection.GetIncrement("RELACAO"), 0, tabelaOrigem, tabelaDestino, campoOrigem, campoDestino);
+                Model.MD_Relacao relacao = new Model.MD_Relacao(codigoRelacao, 0, tabelaOrigem, tabelaDestino, campoOrigem, campoDestino);
                 relacao.DAO.NomeForeingKey = relacionamento.constraintName;
-                relacao.DAO.Insert();
+                retorno.Add(relacao);
+                codigoRelacao++;
             });
+
+            DataBase.Connection.SetIncrement("RELACAO", codigoRelacao);
+
+            return retorno;
+        }
+
+        /// <summary>
+        /// Método que apaga os registros do banco
+        /// </summary>
+        private void ZeraDados()
+        {
+            List<string> sentenca = new List<string>();
+            sentenca.Add("DELETE FROM TABELA");
+            sentenca.Add("DELETE FROM CAMPOS");
+            sentenca.Add("DELETE FROM RELACAO");
+
+            sentenca.ForEach(s => DataBase.Connection.Delete(s));
         }
 
         /// <summary>
         /// Método que copia os arquivos de exportação para importação
         /// </summary>
-        public static void CopiaArquivos()
+        public void CopiaArquivos()
         {
             Util.CL_Files.WriteOnTheLog("Importador.CopiaArquivos()", Util.Global.TipoLog.DETALHADO);
 

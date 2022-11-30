@@ -170,6 +170,16 @@ namespace DataBase
         }
 
         /// <summary>
+        /// Método que pega o incremental
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static int SetIncrement(string table, int valor)
+        {
+            return banco.SetIncrement(table, valor);
+        }
+
+        /// <summary>
         /// Método que seta o tipo do log
         /// </summary>
         /// <param name="tipo">Tipo do log</param>

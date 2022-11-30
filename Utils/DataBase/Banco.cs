@@ -181,6 +181,19 @@ namespace DataBase
         }
 
         /// <summary>
+        /// Método que pega o incremental da tabela
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public int SetIncrement(string table, int valor)
+        {
+            string senteca = "UPDATE CODIGOS_TABLE SET CODIGO = " + valor + " WHERE TABELA = '" + table + "'";
+            Update(senteca);
+
+            return valor;
+        }
+
+        /// <summary>
         /// Método que cria tabela de incrementais
         /// </summary>
         public void CriaTabelaIncrementais()

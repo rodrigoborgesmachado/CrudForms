@@ -104,7 +104,7 @@ namespace Visao
             if (selecionaConexao.ShowDialog() != DialogResult.OK)
                 return;
 
-            if (!Regras.Importador.Importar(0))
+            if (!new Regras.Importador().Importar(0))
             {
                 Message.MensagemAlerta("Erro ao importar");
             }
