@@ -114,6 +114,8 @@ namespace Visao
             }
             else
             {
+                importador.tabelasModel = importador.tabelasModel.OrderByDescending(t => t.DAO.Nome).Reverse().ToList();
+                importador.camposModel = importador.camposModel.OrderByDescending(c => c.DAO.Nome).Reverse().ToList();
                 this.GerarDer(importador.tabelasModel, importador.camposModel, false);
             }
 
