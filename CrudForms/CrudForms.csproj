@@ -90,6 +90,7 @@
     <Compile Include="Regras\GerarCsv.cs" />
     <Compile Include="Regras\GerarDer.cs" />
     <Compile Include="Regras\Importador.cs" />
+    <Compile Include="Regras\InformacoesSaidaImportador.cs" />
     <Compile Include="Visao\FO_Aguarde.cs">
       <SubType>Form</SubType>
     </Compile>

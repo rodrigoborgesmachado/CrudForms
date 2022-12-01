@@ -10,21 +10,16 @@ using Visao;
 
 namespace Regras
 {
-    public static class GerarDer
+    public class GerarDer
     {
         /// <summary>
         /// Método que gera o html do relatório
         /// </summary>
         /// <param name="project"></param>
-        public static bool Gerar()
+        public bool Gerar(List<Model.MD_Tabela> tabelas, List<Model.MD_Campos> campos)
         {
             try
             {
-                if (File.Exists(Util.Global.app_DER_file_TableB))
-                {
-                    return true;
-                }
-
                 CopiarIMG();
 
                 CriaCSS();
@@ -36,7 +31,7 @@ namespace Regras
 
                 PreencheCabecalho(ref builder_tableB, ref builder_tableR);
 
-                PreencheText(ref builder_tableB, ref builder_tableR);
+                PreencheText(tabelas, campos, ref builder_tableB, ref builder_tableR);
 
                 PreencheFinalTexto(ref builder_tableB, ref builder_tableR);
 
@@ -56,7 +51,7 @@ namespace Regras
         /// Método que armazena no arquivo css todo o texto do builder
         /// </summary>
         /// <param name="builderB">Builder</param>
-        private static void ArmazenaBuilderHTML(StringBuilder builderB, StringBuilder builderR)
+        private void ArmazenaBuilderHTML(StringBuilder builderB, StringBuilder builderR)
         {
             Util.CL_Files.WriteOnTheLog("Document.ArmazenaBuilderHTML", Global.TipoLog.SIMPLES);
 
@@ -77,7 +72,7 @@ namespace Regras
         /// Método que cria o buider do table
         /// </summary>
         /// <returns>String builder com o html</returns>
-        private static StringBuilder BuilderTable()
+        private StringBuilder BuilderTable()
         {
             Util.CL_Files.WriteOnTheLog("Document.BuilderTable()", Util.Global.TipoLog.DETALHADO);
 
@@ -102,7 +97,7 @@ namespace Regras
         /// </summary>
         /// <param name="projeto">Projeto para se preencher o corpo do html</param>
         /// <param name="builder_tableB">string builder para montar o html</param>
-        private static void PreencheText(ref StringBuilder builder_tableB, ref StringBuilder builder_tableR)
+        private void PreencheText(List<Model.MD_Tabela> tabelas, List<Model.MD_Campos> campos, ref StringBuilder builder_tableB, ref StringBuilder builder_tableR)
         {
             int quantidade = 0;
 
@@ -124,30 +119,15 @@ namespace Regras
 
             builder_tableR.Append("<div class=\"bookmark\">" + Environment.NewLine);
 
-            sentenca = new DAO.MD_Tabela().table.CreateCommandSQLTable() + " ORDER BY NOME";
-            reader = DataBase.Connection.Select(sentenca);
-
-            if (reader == null)
-                return;
-
-            List<int> codigosTable = new List<int>();
-            while (reader.Read())
-            {
-                codigosTable.Add(int.Parse(reader["CODIGO"].ToString()));
-            }
-            reader.Close();
-
-            foreach (int codigoTable in codigosTable)
+            foreach (Model.MD_Tabela tabela in tabelas)
             {
                 barraCarregamento.AvancaBarra(1);
-
-                Model.MD_Tabela tabela = new Model.MD_Tabela(codigoTable, 0);
 
                 builder_tableB.Append("<a name = \"Table_" + tabela.DAO.Codigo + "\"></a>" + Environment.NewLine);
                 builder_tableB.Append("<div class=\"caption1\">" + tabela.DAO.Nome + "</div>" + Environment.NewLine);
 
                 builder_tableB.Append("<div class=\"caption2\">Columns</div>" + Environment.NewLine);
-                PreencheColunas(tabela, ref builder_tableB);
+                PreencheColunas(campos.Where(c => c.DAO.Tabela.Codigo.Equals(tabela.DAO.Codigo)).ToList(), ref builder_tableB);
 
                 //builder_tableB.Append("<div class=\"caption2\">Relationships</div>" + Environment.NewLine);
                 //PreencheRelationships(tabela, ref builder_tableB);
@@ -158,8 +138,6 @@ namespace Regras
                 builder_tableB.Append("<br><br> " + Environment.NewLine);
 
                 builder_tableR.Append("<a href=\"TableB.html#Table_" + tabela.DAO.Codigo + "\"target=\"body\">" + tabela.DAO.Nome + "</a>" + Environment.NewLine);
-
-                tabela = null;
             }
             builder_tableR.Append("</div>" + Environment.NewLine);
 
@@ -174,7 +152,7 @@ namespace Regras
         /// </summary>
         /// <param name="tabela">Tabela para filtar as colunas</param>
         /// <param name="builder">Builder para montar o HTML</param>
-        private static void PreencheNotes(Model.MD_Tabela tabela, ref StringBuilder builder)
+        private void PreencheNotes(Model.MD_Tabela tabela, ref StringBuilder builder)
         {
             Util.CL_Files.WriteOnTheLog("Document.PreencheNotes()", Util.Global.TipoLog.DETALHADO);
 
@@ -195,7 +173,7 @@ namespace Regras
         /// </summary>
         /// <param name="tabela">Tabela para filtar as colunas</param>
         /// <param name="builder">Builder para montar o HTML</param>
-        private static void PreencheRelationships(Model.MD_Tabela tabela, ref StringBuilder builder)
+        private void PreencheRelationships(Model.MD_Tabela tabela, ref StringBuilder builder)
         {
             Util.CL_Files.WriteOnTheLog("Document.PreencheRelationships()", Util.Global.TipoLog.DETALHADO);
 
@@ -256,7 +234,7 @@ namespace Regras
         /// </summary>
         /// <param name="tabela">Tabela para filtar as colunas</param>
         /// <param name="builder">Builder para montar o HTML</param>
-        private static void PreencheColunas(Model.MD_Tabela tabela, ref StringBuilder builder)
+        private void PreencheColunas(List<Model.MD_Campos> campos, ref StringBuilder builder)
         {
             Util.CL_Files.WriteOnTheLog("Document.PreencheColunas()", Util.Global.TipoLog.DETALHADO);
 
@@ -276,21 +254,8 @@ namespace Regras
 
             builder.Append("</tr>" + Environment.NewLine);
 
-            string sentenca = new DAO.MD_Campos().table.CreateCommandSQLTable() + " WHERE CODIGOTABELA = " + tabela.DAO.Codigo + " ORDER BY CHAVE DESC,  NOME ";
-
-            DbDataReader reader = DataBase.Connection.Select(sentenca);
-
-            List<int> codigosColunas = new List<int>();
-            while (reader.Read())
+            foreach (Model.MD_Campos campo in campos)
             {
-                codigosColunas.Add(int.Parse(reader["CODIGO"].ToString()));
-            }
-            reader.Close();
-
-            foreach (int codigoColuna in codigosColunas)
-            {
-                Model.MD_Campos campo = new Model.MD_Campos(codigoColuna, tabela.DAO.Codigo, tabela.DAO.Projeto);
-
                 string pfk = (campo.DAO.PrimaryKey ? (campo.DAO.ForeingKey ? "PFK" : "PK") : (campo.DAO.ForeingKey ? "FK" : string.Empty));
                 string nome = campo.DAO.Nome;
                 string dominio = campo.DAO.Dominio;
@@ -310,8 +275,6 @@ namespace Regras
                 string check = campo.DAO.Check;
                 string _default = campo.DAO.Default == null ? string.Empty : campo.DAO.Default.ToString();
                 string comments = campo.DAO.Comentario;
-
-                campo = null;
 
                 builder.Append("<tr>" + Environment.NewLine);
 
@@ -336,7 +299,7 @@ namespace Regras
         /// Método que preenche o cabeçalho
         /// </summary>
         /// <param name="builder_tableB"></param>
-        private static void PreencheCabecalho(ref StringBuilder builder_tableB, ref StringBuilder builder_tableR)
+        private void PreencheCabecalho(ref StringBuilder builder_tableB, ref StringBuilder builder_tableR)
         {
             Util.CL_Files.WriteOnTheLog("Document.PreencheCabecalho", Global.TipoLog.SIMPLES);
 
@@ -368,7 +331,7 @@ namespace Regras
         /// <summary>
         /// Método que finaliza o html
         /// </summary>
-        private static void PreencheFinalTexto(ref StringBuilder builder_tableB, ref StringBuilder builder_tableR)
+        private void PreencheFinalTexto(ref StringBuilder builder_tableB, ref StringBuilder builder_tableR)
         {
             Util.CL_Files.WriteOnTheLog("Document.PreencheFinalTexto", Global.TipoLog.SIMPLES);
 
@@ -382,7 +345,7 @@ namespace Regras
         /// <summary>
         /// Método que apaga o arquivo html
         /// </summary>
-        private static void ApagaArquivoHtml()
+        private void ApagaArquivoHtml()
         {
             Util.CL_Files.WriteOnTheLog("Document.ApagaArquivoHtml", Global.TipoLog.SIMPLES);
 
@@ -409,7 +372,7 @@ namespace Regras
         /// <summary>
         /// Método que cria o arquivo css
         /// </summary>
-        private static void CriaCSS()
+        private void CriaCSS()
         {
             Util.CL_Files.WriteOnTheLog("Document.CriaCSS", Global.TipoLog.SIMPLES);
 
@@ -435,7 +398,7 @@ namespace Regras
         /// <summary>
         /// Método que cria o arquivo html
         /// </summary>
-        private static void ApagaArquivoCSS()
+        private void ApagaArquivoCSS()
         {
             Util.CL_Files.WriteOnTheLog("Document.ApagaArquivoCSS()", Util.Global.TipoLog.DETALHADO);
 
@@ -447,7 +410,7 @@ namespace Regras
         /// Método que preenche o arquivo css
         /// </summary>
         /// <param name="builder">builder do css</param>
-        private static void PreencheArquivoCSS(ref StringBuilder builder)
+        private void PreencheArquivoCSS(ref StringBuilder builder)
         {
             Util.CL_Files.WriteOnTheLog("Document.PreencheArquivoCSS()", Util.Global.TipoLog.DETALHADO);
 
@@ -817,7 +780,7 @@ namespace Regras
         /// <summary>
         /// Método que copia os arquivos para a pasta do DER
         /// </summary>
-        private static void CopiarIMG()
+        private void CopiarIMG()
         {
             Util.CL_Files.WriteOnTheLog("Document.CopiarIMG", Global.TipoLog.SIMPLES);
 

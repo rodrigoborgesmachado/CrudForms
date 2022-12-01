@@ -16,55 +16,65 @@ namespace Regras
         /// </summary>
         /// <param name="projeto">Código do projeto para associar os dados</param>
         /// <returns></returns>
-        public bool Importar(int projeto)
+        public InformacoesSaidaImportador Importar(int projeto)
         {
             Util.CL_Files.WriteOnTheLog("Importador.Importar()", Util.Global.TipoLog.DETALHADO);
-            bool retorno = true;
+            InformacoesSaidaImportador importador = new InformacoesSaidaImportador();
+            importador.Importado = false;
 
             try
             {
                 ApagaArquivosExportacao();
                 string conexao = Model.Parametros.ConexaoBanco.DAO.Valor;
 
-                if (string.IsNullOrEmpty(conexao))
-                    return true;
-
-                DataBase.Connection.CloseConnection();
-                if (DataBase.Connection.OpenConection(conexao, Global.BancoDados))
+                if (!string.IsNullOrEmpty(conexao))
                 {
-                    Util.Document document = null;
+                    DataBase.Connection.CloseConnection();
+                    if (DataBase.Connection.OpenConection(conexao, Global.BancoDados))
+                    {
+                        Util.Document document = null;
 
-                    if(Global.BancoDados == Enumerator.BancoDados.SQL_SERVER)
-                    {
-                        document = new Util.DocumentSQLServer();
-                    }
-                    else if (Global.BancoDados == Enumerator.BancoDados.SQLite)
-                    {
-                        document = new Util.DocumentSQSLite();
-                    }
-                    else if(Global.BancoDados == Enumerator.BancoDados.POSTGRESQL)
-                    {
-                        document = new Util.DocumentPostGreSql();
-                    }
-                    else if (Global.BancoDados == Enumerator.BancoDados.MYSQL)
-                    {
-                        document = new Util.DocumentMySql();
-                    }
+                        if (Global.BancoDados == Enumerator.BancoDados.SQL_SERVER)
+                        {
+                            document = new Util.DocumentSQLServer();
+                        }
+                        else if (Global.BancoDados == Enumerator.BancoDados.SQLite)
+                        {
+                            document = new Util.DocumentSQSLite();
+                        }
+                        else if (Global.BancoDados == Enumerator.BancoDados.POSTGRESQL)
+                        {
+                            document = new Util.DocumentPostGreSql();
+                        }
+                        else if (Global.BancoDados == Enumerator.BancoDados.MYSQL)
+                        {
+                            document = new Util.DocumentMySql();
+                        }
 
-                    retorno = document.Importar();
+                        importador.Importado = document.Importar();
+
+                        DataBase.Connection.CloseConnection();
+                        DataBase.Connection.OpenConection(Util.Global.app_base_file, Enumerator.BancoDados.SQLite);
+                        if (importador.Importado)
+                        {
+                            importador = ImportarArquivos(projeto);
+                            importador.Importado = true;
+                        }
+                    }
+                    else
+                    {
+                        DataBase.Connection.CloseConnection();
+                        DataBase.Connection.OpenConection(Util.Global.app_base_file, Enumerator.BancoDados.SQLite);
+                    }
                 }
-
-                DataBase.Connection.CloseConnection();
-                DataBase.Connection.OpenConection(Util.Global.app_base_file, Enumerator.BancoDados.SQLite);
-                ImportarArquivos(projeto);
             }
             catch (Exception e)
             {
                 Util.CL_Files.WriteOnTheLog("Error: " + e.Message, Global.TipoLog.SIMPLES);
-                return false;
+                importador.Importado = false;
             }
 
-            return retorno;
+            return importador;
         }
 
         /// <summary>
@@ -78,12 +88,17 @@ namespace Regras
             {
                 File.Delete(file);
             }
+
+            foreach(string file in Directory.GetFiles(Util.Global.app_DER_directory))
+            {
+                File.Delete(file);
+            }
         }
 
         /// <summary>
         /// Método que faz a importação dos arquivos para o banco de dados
         /// </summary>
-        private void ImportarArquivos(int projeto)
+        private InformacoesSaidaImportador ImportarArquivos(int projeto)
         {
             Util.CL_Files.WriteOnTheLog("Importador.ImportarArquivos()", Util.Global.TipoLog.DETALHADO);
 
@@ -96,9 +111,11 @@ namespace Regras
             List<Model.Relacionamento> relacionamentos = new List<Model.Relacionamento>();
             PreencheLista(ref relacionamentos);
 
-            TratarImportacao(projeto, ref tabelas, ref campos, ref relacionamentos);
+            InformacoesSaidaImportador importador = TratarImportacao(projeto, ref tabelas, ref campos, ref relacionamentos);
 
             CopiaArquivos();
+
+            return importador;
         }
 
         /// <summary>
@@ -169,16 +186,18 @@ namespace Regras
         /// Método que trata as tabelas de importação e coloca nas tabelas definitivas vinculando com o projeto
         /// </summary>
         /// <param name="projeto">Código do projeto a se vincular as tabelas</param>
-        private void TratarImportacao(int codigo, ref List<Model.Tabela> tabelas, ref List<Model.Campo> campos, ref List<Model.Relacionamento> relacionamentos)
+        private InformacoesSaidaImportador TratarImportacao(int codigo, ref List<Model.Tabela> tabelas, ref List<Model.Campo> campos, ref List<Model.Relacionamento> relacionamentos)
         {
             Util.CL_Files.WriteOnTheLog("Importador.TratarImportacao()", Util.Global.TipoLog.DETALHADO);
 
             ZeraDados();
 
+            InformacoesSaidaImportador importador = new InformacoesSaidaImportador();
+
             BarraDeCarregamento barraCarregamento = new BarraDeCarregamento(tabelas.Count(), "Montando Tabelas");
             barraCarregamento.Show();
 
-            List<Model.MD_Tabela> tabelasModel = TratarTabelas(ref tabelas, ref barraCarregamento);
+            importador.tabelasModel = TratarTabelas(ref tabelas, ref barraCarregamento);
 
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
@@ -187,7 +206,7 @@ namespace Regras
             barraCarregamento = new BarraDeCarregamento(campos.Count(), "Montando Colunas");
             barraCarregamento.Show();
 
-            List<Model.MD_Campos> camposModel = TratarColunas(tabelasModel, ref campos, ref barraCarregamento);
+            importador.camposModel = TratarColunas(importador.tabelasModel, ref campos, ref barraCarregamento);
 
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
@@ -196,27 +215,27 @@ namespace Regras
             barraCarregamento = new BarraDeCarregamento(relacionamentos.Count(), "Montando Relacionamentos");
 
             barraCarregamento.Show();
-            List<Model.MD_Relacao> relacaoModel = TratarRelacionamento(camposModel, tabelasModel, ref relacionamentos, ref barraCarregamento);
+            importador.relacoesModel = TratarRelacionamento(importador.camposModel, importador.tabelasModel, ref relacionamentos, ref barraCarregamento);
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
 
 
-            barraCarregamento = new BarraDeCarregamento(camposModel.Count() + tabelasModel.Count() + relacaoModel.Count(), "Inserindo informações");
+            barraCarregamento = new BarraDeCarregamento(importador.camposModel.Count() + importador.tabelasModel.Count() + importador.relacoesModel.Count(), "Inserindo informações");
             barraCarregamento.Show();
 
-            tabelasModel.ForEach(t => 
+            importador.tabelasModel.ForEach(t => 
             {
                 t.DAO.Insert();
                 barraCarregamento.AvancaBarra(1);
             }
             );
-            camposModel.ForEach(c =>
+            importador.camposModel.ForEach(c =>
             {
                 c.DAO.Insert();
                 barraCarregamento.AvancaBarra(1);
             }
             );
-            relacaoModel.ForEach(r =>
+            importador.relacoesModel.ForEach(r =>
             {
                 r.DAO.Insert();
                 barraCarregamento.AvancaBarra(1);
@@ -225,15 +244,9 @@ namespace Regras
 
             barraCarregamento.Hide();
             barraCarregamento.Dispose();
-
-            tabelas.Clear();
-            tabelasModel.Clear();
-            campos.Clear();
-            camposModel.Clear();
-            relacionamentos.Clear();
-            relacaoModel.Clear();
-
             barraCarregamento = null;
+
+            return importador;
         }
 
         /// <summary>

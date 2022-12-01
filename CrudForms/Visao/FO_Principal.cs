@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Regras;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -104,14 +105,16 @@ namespace Visao
             if (selecionaConexao.ShowDialog() != DialogResult.OK)
                 return;
 
-            if (!new Regras.Importador().Importar(0))
+            Importador importar = new Importador();
+            InformacoesSaidaImportador importador = importar.Importar(0);
+
+            if (!importador.Importado)
             {
                 Message.MensagemAlerta("Erro ao importar");
             }
-
-            if (File.Exists(Util.Global.app_DER_file_TableB))
+            else
             {
-                File.Delete(Util.Global.app_DER_file_TableB);
+                this.GerarDer(importador.tabelasModel, importador.camposModel, false);
             }
 
             this.FecharTelas();
@@ -151,15 +154,7 @@ namespace Visao
         /// <param name="e"></param>
         private void gerarDERToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Regras.GerarDer.Gerar())
-            {
-                Message.MensagemSucesso("Gerado com sucesso");
-                System.Diagnostics.Process.Start(Util.Global.app_DER_file_Table);
-            }
-            else
-            {
-                Message.MensagemAlerta("Erro ao gerar o DER");
-            }
+            this.GerarDer();
         }
 
         #endregion Eventos
@@ -438,7 +433,44 @@ namespace Visao
             return retorno;
         }
 
+        /// <summary>
+        /// Método que gera der
+        /// </summary>
+        public void GerarDer(List<Model.MD_Tabela> tabelas = null, List<Model.MD_Campos> campos = null, bool abrir = true)
+        {
+            if (File.Exists(Util.Global.app_DER_file_TableB))
+            {
+                if (abrir)
+                {
+                    Message.MensagemSucesso("Gerado com sucesso");
+                    System.Diagnostics.Process.Start(Util.Global.app_DER_file_Table);
+                }
+                return;
+            }
 
+            if (tabelas == null)
+            {
+                tabelas = Model.MD_Tabela.RetornaTodasTabelas(0);
+            }
+
+            if(campos == null)
+            {
+                campos = Model.MD_Campos.RetornaTodosCampos();
+            }
+
+            if (new GerarDer().Gerar(tabelas, campos))
+            {
+                if (abrir)
+                {
+                    Message.MensagemSucesso("Gerado com sucesso");
+                    System.Diagnostics.Process.Start(Util.Global.app_DER_file_Table);
+                }
+            }
+            else
+            {
+                Message.MensagemAlerta("Erro ao gerar o DER");
+            }
+        }
 
         #endregion Métodos
 

@@ -12,6 +12,9 @@ namespace Util
     {
         public static Util.Enumerator.BancoDados BancoDados = Enumerator.BancoDados.SQL_SERVER;
 
+        public static List<string> tabelasVerificadas = new List<string>();
+
+
         public static string tempTable = "TESTE";
 
         // Caminho principal da aplicação

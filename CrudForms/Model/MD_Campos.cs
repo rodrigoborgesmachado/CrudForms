@@ -180,6 +180,36 @@ namespace Model
             lista.Sum();
         }
 
+        /// <summary>
+        /// Método que busca todas as tabelas do projeto
+        /// </summary>
+        /// <returns></returns>
+        public static List<MD_Campos> RetornaTodosCampos()
+        {
+            List<MD_Campos> retorno = new List<MD_Campos>();
+
+            string sentenca = "SELECT CODIGO, CODIGOTABELA FROM CAMPOS";
+
+            DbDataReader reader = DataBase.Connection.Select(sentenca);
+            List<int> campos = new List<int>();
+            List<int> tabelas = new List<int>();
+
+            while (reader.Read())
+            {
+                // Se o retorno for diferente de 0 então existe coluna na tabela com o mesmo nome
+                campos.Add(int.Parse(reader["CODIGO"].ToString()));
+                tabelas.Add(int.Parse(reader["CODIGOTABELA"].ToString()));
+            }
+            reader.Close();
+
+            for(int i = 0; i < campos.Count; i++)
+            {
+                retorno.Add(new MD_Campos(campos[i], tabelas[i], 0));
+            }
+
+            return retorno;
+        }
+
         #endregion Métodos
     }
 }

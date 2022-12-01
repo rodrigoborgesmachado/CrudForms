@@ -82,6 +82,32 @@ namespace Model
             return retorno;
         }
 
+        /// <summary>
+        /// Método que busca todas as tabelas do projeto
+        /// </summary>
+        /// <param name="projeto">Código do projeto</param>
+        /// <returns></returns>
+        public static List<MD_Tabela> RetornaTodasTabelas(int projeto)
+        {
+            List<MD_Tabela> retorno = new List<MD_Tabela>();
+
+            string sentenca = "SELECT CODIGO FROM TABELA WHERE  PROJETO = " + projeto + "";
+
+            DbDataReader reader = DataBase.Connection.Select(sentenca);
+            List<int> codigos = new List<int>();
+
+            while (reader.Read())
+            {
+                // Se o retorno for diferente de 0 então existe coluna na tabela com o mesmo nome
+                codigos.Add(int.Parse(reader["CODIGO"].ToString()));
+            }
+            reader.Close();
+
+            codigos.ForEach(c => retorno.Add(new MD_Tabela(c, projeto)));
+
+            return retorno;
+        }
+
         #endregion Métodos
     }
 }
