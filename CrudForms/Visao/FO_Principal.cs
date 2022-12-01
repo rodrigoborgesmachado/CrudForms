@@ -159,6 +159,17 @@ namespace Visao
             this.GerarDer();
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de identar json
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void identarJsonToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FO_IdentaJson identaJson = new FO_IdentaJson();
+            identaJson.Show();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -473,6 +484,8 @@ namespace Visao
                 Message.MensagemAlerta("Erro ao gerar o DER");
             }
         }
+
+
 
         #endregion Métodos
 

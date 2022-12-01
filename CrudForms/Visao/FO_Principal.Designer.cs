@@ -41,6 +41,7 @@
             this.nãoFiltrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirConsultaGenéricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consultasSalvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gerarDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
@@ -48,7 +49,8 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.gerarDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devtoolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.identarJsonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -105,7 +107,8 @@
             this.filtrarNaAberturaDaTelaToolStripMenuItem,
             this.abrirConsultaGenéricaToolStripMenuItem,
             this.consultasSalvasToolStripMenuItem,
-            this.gerarDERToolStripMenuItem});
+            this.gerarDERToolStripMenuItem,
+            this.devtoolsToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
             this.tsm_opcoes.Text = "Opções";
@@ -160,6 +163,13 @@
             this.consultasSalvasToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
             this.consultasSalvasToolStripMenuItem.Text = "Consultas Salvas";
             this.consultasSalvasToolStripMenuItem.Click += new System.EventHandler(this.consultasSalvasToolStripMenuItem_Click);
+            // 
+            // gerarDERToolStripMenuItem
+            // 
+            this.gerarDERToolStripMenuItem.Name = "gerarDERToolStripMenuItem";
+            this.gerarDERToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.gerarDERToolStripMenuItem.Text = "Gerar DER";
+            this.gerarDERToolStripMenuItem.Click += new System.EventHandler(this.gerarDERToolStripMenuItem_Click);
             // 
             // pan_principal
             // 
@@ -236,12 +246,20 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // gerarDERToolStripMenuItem
+            // devtoolsToolStripMenuItem
             // 
-            this.gerarDERToolStripMenuItem.Name = "gerarDERToolStripMenuItem";
-            this.gerarDERToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
-            this.gerarDERToolStripMenuItem.Text = "Gerar DER";
-            this.gerarDERToolStripMenuItem.Click += new System.EventHandler(this.gerarDERToolStripMenuItem_Click);
+            this.devtoolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.identarJsonToolStripMenuItem1});
+            this.devtoolsToolStripMenuItem.Name = "devtoolsToolStripMenuItem";
+            this.devtoolsToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.devtoolsToolStripMenuItem.Text = "Devtools";
+            // 
+            // identarJsonToolStripMenuItem1
+            // 
+            this.identarJsonToolStripMenuItem1.Name = "identarJsonToolStripMenuItem1";
+            this.identarJsonToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.identarJsonToolStripMenuItem1.Text = "Identar Json";
+            this.identarJsonToolStripMenuItem1.Click += new System.EventHandler(this.identarJsonToolStripMenuItem1_Click);
             // 
             // FO_Principal
             // 
@@ -294,6 +312,8 @@
         private System.Windows.Forms.ToolStripMenuItem consultasSalvasToolStripMenuItem;
         private System.Windows.Forms.Label lbl_base;
         private System.Windows.Forms.ToolStripMenuItem gerarDERToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem devtoolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem identarJsonToolStripMenuItem1;
     }
 }
 

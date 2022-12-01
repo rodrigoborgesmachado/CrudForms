@@ -89,6 +89,7 @@
     <Compile Include="Regras\AcessoBancoCliente\AcessoBanco.cs" />
     <Compile Include="Regras\GerarCsv.cs" />
     <Compile Include="Regras\GerarDer.cs" />
+    <Compile Include="Regras\IdentJsonString.cs" />
     <Compile Include="Regras\Importador.cs" />
     <Compile Include="Regras\InformacoesSaidaImportador.cs" />
     <Compile Include="Visao\FO_Aguarde.cs">
@@ -132,6 +133,12 @@
     </Compile>
     <Compile Include="Visao\FO_FormularioCadastroGenerico.Designer.cs">
       <DependentUpon>FO_FormularioCadastroGenerico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_IdentaJson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_IdentaJson.Designer.cs">
+      <DependentUpon>FO_IdentaJson.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\FO_Login.cs">
       <SubType>Form</SubType>
@@ -202,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_FormularioCadastroGenerico.resx">
       <DependentUpon>FO_FormularioCadastroGenerico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_IdentaJson.resx">
+      <DependentUpon>FO_IdentaJson.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_Login.resx">
       <DependentUpon>FO_Login.cs</DependentUpon>
