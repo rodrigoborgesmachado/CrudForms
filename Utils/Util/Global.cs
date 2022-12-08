@@ -1,10 +1,5 @@
-﻿using System;
+﻿using JSON;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Util
 {
@@ -14,6 +9,7 @@ namespace Util
 
         public static List<string> tabelasVerificadas = new List<string>();
 
+        public static JS_Usuario usuarioLogado = new JS_Usuario();
 
         public static string tempTable = "TESTE";
 

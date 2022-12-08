@@ -159,13 +159,7 @@
     <Compile Include="DataBase\Connection.cs" />
     <Compile Include="Importador\Document.cs" />
     <Compile Include="Importador\DocumentMySql.cs" />
-    <Compile Include="JSON\JS_Chamado.cs" />
-    <Compile Include="JSON\JS_Cliente.cs" />
-    <Compile Include="JSON\JS_CodigoSuporte.cs" />
-    <Compile Include="JSON\JS_Licenca.cs" />
-    <Compile Include="JSON\JS_Resposta.cs" />
     <Compile Include="JSON\JS_Usuario.cs" />
-    <Compile Include="JSON\WebResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CL_Files.cs" />
@@ -183,8 +177,6 @@
       <DependentUpon>BarraDeCarregamento.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\Message.cs" />
-    <Compile Include="WebUtil\Clientes.cs" />
-    <Compile Include="WebUtil\Licenciamento.cs" />
     <Compile Include="WebUtil\Login.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

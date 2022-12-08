@@ -278,8 +278,11 @@ namespace Regras
                 campo.DAO.TipoCampo = Model.MD_TipoCampo.RetornaTipoCampo(c.Type).DAO;
                 campo.DAO.Unique = c.Unique;
 
-                camposModel.Add(campo);
-                campoCodigo++;
+                if(!camposModel.Exists(item => item.DAO.Nome == campo.DAO.Nome && item.DAO.Tabela.Nome == campo.DAO.Tabela.Nome))
+                {
+                    camposModel.Add(campo);
+                    campoCodigo++;
+                }
             }
 
             DataBase.Connection.SetIncrement("CAMPOS", campoCodigo);

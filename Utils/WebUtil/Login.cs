@@ -20,7 +20,7 @@ namespace Util.WebUtil
         /// <returns></returns>
         public static bool ValidaLogin(string login, string pass)
         {
-            bool retorno = true;
+            JS_Usuario retorno = new JS_Usuario();
 
             try
             {
@@ -46,7 +46,18 @@ namespace Util.WebUtil
                     var streamDados = resposta.GetResponseStream();
                     StreamReader reader = new StreamReader(streamDados);
                     object objResponse = reader.ReadToEnd();
-                    retorno = JsonConvert.DeserializeObject<List<JS_Cliente>>(objResponse.ToString()).Count > 0 ;
+
+                    List<JS_Usuario> lista = JsonConvert.DeserializeObject<List<JS_Usuario>>(objResponse.ToString());
+                    if(lista.Count > 0)
+                    {
+                        retorno = lista[0];
+                        Util.Global.usuarioLogado = retorno;
+                    }
+                    else
+                    {
+                        retorno = null;
+                    }
+
                     streamDados.Close();
                     resposta.Close();
                 }
@@ -55,10 +66,10 @@ namespace Util.WebUtil
             catch (Exception e)
             {
                 Util.CL_Files.WriteOnTheLog("Erro: " + e.Message, Global.TipoLog.SIMPLES);
-                retorno = false;
+                return false;
             }
 
-            return retorno;
+            return retorno != null;
         }
     }
 }

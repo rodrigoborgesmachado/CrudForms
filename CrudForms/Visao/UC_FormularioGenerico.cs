@@ -269,6 +269,7 @@ namespace Visao
         /// </summary>
         public void IniciaForm()
         {
+            ValidaPermissoes();
             if(this.tabela != null)
             {
                 this.grb_geral.Text = this.tabela.DAO.Nome;
@@ -285,6 +286,14 @@ namespace Visao
                 this.pan_botton.Visible = false;
                 this.FillGrid(this.filtro);
             }
+        }
+
+        /// <summary>
+        /// Método que valida as permissões de acesso
+        /// </summary>
+        private void ValidaPermissoes()
+        {
+            this.btn_editar.Enabled = this.btn_excluir.Enabled = this.btn_incluir.Enabled = Util.Global.usuarioLogado.ADMINISTRADOR.Equals("1");
         }
 
         /// <summary>

@@ -104,6 +104,7 @@ namespace Visao
         private void IniciaForm()
         {
             this.Text = this.tabela.DAO.Nome;
+            if (!Util.Global.usuarioLogado.ADMINISTRADOR.Equals("1")) this.btn_acao.Visible = false;
 
             if (this.tarefa == Tarefa.VISUALIZANDO)
             {
@@ -150,7 +151,6 @@ namespace Visao
                 textBoxTemp.Location = new Point(181, 12);
                 textBoxTemp.Size = new Size(730, 27);
                 textBoxTemp.Text = (this.tarefa == Tarefa.INCLUINDO ? string.Empty : this.Valores.valores[i]);
-                textBoxTemp.Enabled = this.tarefa != Tarefa.VISUALIZANDO;
                 this.textBoxes.Add(textBoxTemp);
 
                 tempPanel.Controls.Add(labelTemp);
