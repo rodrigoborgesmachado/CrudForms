@@ -20,26 +20,14 @@ namespace Util.WebUtil
         /// <returns></returns>
         public static bool ValidaLogin(string login, string pass)
         {
-            JS_Usuario retorno = new JS_Usuario();
+            JS_RetornoLogin retorno = new JS_RetornoLogin();
 
             try
             {
-                string dadosPOST = "usu=" + login +
-                                   "&pass=" + pass;
-
-                var dados = Encoding.UTF8.GetBytes(dadosPOST);
-
-                var requisicaoWeb = WebRequest.CreateHttp("http://www.sunsalesystem.com.br/php/login.php");
-                requisicaoWeb.Method = "POST";
+                var requisicaoWeb = WebRequest.CreateHttp($"http://teste.sunsalesystem.com.br/api/usuarioscrudforms/login?login={login}&senha={pass}");
+                requisicaoWeb.Method = "GET";
                 requisicaoWeb.ContentType = "application/x-www-form-urlencoded";
-                requisicaoWeb.ContentLength = dados.Length;
                 requisicaoWeb.UserAgent = "RequisicaoDevTools";
-
-                using (var stream = requisicaoWeb.GetRequestStream())
-                {
-                    stream.Write(dados, 0, dados.Length);
-                    stream.Close();
-                }
 
                 using (var resposta = requisicaoWeb.GetResponse())
                 {
@@ -47,11 +35,10 @@ namespace Util.WebUtil
                     StreamReader reader = new StreamReader(streamDados);
                     object objResponse = reader.ReadToEnd();
 
-                    List<JS_Usuario> lista = JsonConvert.DeserializeObject<List<JS_Usuario>>(objResponse.ToString());
-                    if(lista.Count > 0)
+                    retorno = JsonConvert.DeserializeObject<JS_RetornoLogin>(objResponse.ToString());
+                    if (retorno.Sucesso)
                     {
-                        retorno = lista[0];
-                        Util.Global.usuarioLogado = retorno;
+                        Util.Global.usuarioLogado = retorno.Usuario;
                     }
                     else
                     {

@@ -159,6 +159,7 @@
     <Compile Include="DataBase\Connection.cs" />
     <Compile Include="Importador\Document.cs" />
     <Compile Include="Importador\DocumentMySql.cs" />
+    <Compile Include="JSON\JS_RetornoLogin.cs" />
     <Compile Include="JSON\JS_Usuario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,9 +171,7 @@
     <Compile Include="Util\Enumerator.cs" />
     <Compile Include="Util\Funcoes.cs" />
     <Compile Include="Util\Global.cs" />
-    <Compile Include="Visao\BarraDeCarregamento.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Visao\BarraDeCarregamento.cs" />
     <Compile Include="Visao\BarraDeCarregamento.Designer.cs">
       <DependentUpon>BarraDeCarregamento.cs</DependentUpon>
     </Compile>
