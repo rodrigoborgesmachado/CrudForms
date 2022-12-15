@@ -105,23 +105,7 @@ namespace Visao
             if (selecionaConexao.ShowDialog() != DialogResult.OK)
                 return;
 
-            Importador importar = new Importador();
-            InformacoesSaidaImportador importador = importar.Importar(0);
-
-            if (!importador.Importado)
-            {
-                Message.MensagemAlerta("Erro ao importar");
-            }
-            else
-            {
-                importador.tabelasModel = importador.tabelasModel.OrderByDescending(t => t.DAO.Nome).Reverse().ToList();
-                importador.camposModel = importador.camposModel.OrderByDescending(c => c.DAO.Nome).Reverse().ToList();
-                this.GerarDer(importador.tabelasModel, importador.camposModel, false);
-            }
-
-            this.FecharTelas();
-            this.CarregaTreeView();
-            this.IniciaForm();
+            this.Importa();
         }
 
         /// <summary>
@@ -168,6 +152,16 @@ namespace Visao
         {
             FO_IdentaJson identaJson = new FO_IdentaJson();
             identaJson.Show();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique dá opção de atualizar o 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void atualizaTabelasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Importa();
         }
 
         #endregion Eventos
@@ -455,7 +449,6 @@ namespace Visao
             {
                 if (abrir)
                 {
-                    Message.MensagemSucesso("Gerado com sucesso");
                     System.Diagnostics.Process.Start(Util.Global.app_DER_file_Table);
                 }
                 return;
@@ -475,7 +468,6 @@ namespace Visao
             {
                 if (abrir)
                 {
-                    Message.MensagemSucesso("Gerado com sucesso");
                     System.Diagnostics.Process.Start(Util.Global.app_DER_file_Table);
                 }
             }
@@ -485,7 +477,29 @@ namespace Visao
             }
         }
 
+        /// <summary>
+        /// Método que faz importação dos dados do banco
+        /// </summary>
+        public void Importa()
+        {
+            Importador importar = new Importador();
+            InformacoesSaidaImportador importador = importar.Importar(0);
 
+            if (!importador.Importado)
+            {
+                Message.MensagemAlerta("Erro ao importar");
+            }
+            else
+            {
+                importador.tabelasModel = importador.tabelasModel.OrderByDescending(t => t.DAO.Nome).Reverse().ToList();
+                importador.camposModel = importador.camposModel.OrderByDescending(c => c.DAO.Nome).Reverse().ToList();
+                this.GerarDer(importador.tabelasModel, importador.camposModel, false);
+            }
+
+            this.FecharTelas();
+            this.CarregaTreeView();
+            this.IniciaForm();
+        }
 
         #endregion Métodos
 

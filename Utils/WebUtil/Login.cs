@@ -24,7 +24,7 @@ namespace Util.WebUtil
 
             try
             {
-                var requisicaoWeb = WebRequest.CreateHttp($"http://teste.sunsalesystem.com.br/api/usuarioscrudforms/login?login={login}&senha={pass}");
+                var requisicaoWeb = WebRequest.CreateHttp($"http://devtoolsapi.sunsalesystem.com.br/api/usuarioscrudforms/login?login={login}&senha={pass}");
                 requisicaoWeb.Method = "GET";
                 requisicaoWeb.ContentType = "application/x-www-form-urlencoded";
                 requisicaoWeb.UserAgent = "RequisicaoDevTools";
@@ -38,7 +38,7 @@ namespace Util.WebUtil
                     retorno = JsonConvert.DeserializeObject<JS_RetornoLogin>(objResponse.ToString());
                     if (retorno.Sucesso)
                     {
-                        Util.Global.usuarioLogado = retorno.Usuario;
+                        Util.Global.usuarioLogado = retorno.Objeto;
                     }
                     else
                     {

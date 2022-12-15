@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Util.Enumerator;
+using Newtonsoft;
 
 namespace Regras
 {
-    public static class GerarCsv
+    public static class GerarArquivoExportacao
     {
         /// <summary>
         /// Método que gera o arquivo CSV
@@ -17,29 +16,30 @@ namespace Regras
         /// <param name="nomeArquivo"></param>
         /// <param name="mensagemErro"></param>
         /// <returns></returns>
-        public static bool GerarArquivo(List<AcessoBancoCliente.AcessoBanco> valores, DirectoryInfo caminhoArquivo, string nomeArquivo, out string mensagemErro)
+        public static bool GerarArquivo(TipoArquivoExportacao tipo, List<AcessoBancoCliente.AcessoBanco> valores, DirectoryInfo caminhoArquivo, string nomeArquivo, out string mensagemErro)
         {
             mensagemErro = string.Empty;
             bool retorno = true;
+            string extensao = tipo == TipoArquivoExportacao.CSV ? ".csv" : ".json";
 
             if (!caminhoArquivo.Exists)
                 caminhoArquivo.Create();
 
             if (string.IsNullOrEmpty(nomeArquivo))
-                nomeArquivo = "relatorio.csv";
+                nomeArquivo = $"relatorio{extensao}";
 
-            if (!nomeArquivo.EndsWith(".csv"))
-                nomeArquivo += ".csv";
+            if (!nomeArquivo.EndsWith(extensao))
+                nomeArquivo += extensao;
 
             try
             {
-                FileInfo file = new FileInfo(caminhoArquivo.FullName + nomeArquivo);
+                FileInfo file = new FileInfo(caminhoArquivo.FullName + "\\" + nomeArquivo);
                 if (file.Exists)
                     file.Delete();
 
-                string textoCsv = MontaTextoCSV(valores);
+                string texto = tipo == TipoArquivoExportacao.CSV ? MontaTextoCSV(valores) : MontaTextoJson(valores);
 
-                File.WriteAllText(file.FullName, textoCsv);
+                File.WriteAllText(file.FullName, texto);
 
             }
             catch (Exception ex)
@@ -102,6 +102,31 @@ namespace Regras
             barra.Dispose();
 
             return retorno;
+        }
+
+        /// <summary>
+        /// Método que exporta os dados para json
+        /// </summary>
+        /// <param name="valores"></param>
+        /// <returns></returns>
+        public static string MontaTextoJson(List<AcessoBancoCliente.AcessoBanco> valores)
+        {
+            if (valores.Count == 0) return string.Empty;
+
+            List<dynamic> lista = new List<dynamic>();
+
+            List<string> campos = valores[0].campos;
+            valores.ForEach(valor =>
+            {
+                dynamic temp = new System.Dynamic.ExpandoObject();
+                for(int i = 0; i< valor.valores.Count; i++)
+                {
+                    ((IDictionary<string, Object>)temp).Add(campos[i], valor.valores[i]);
+                }
+                lista.Add(temp);
+            });
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(lista, Newtonsoft.Json.Formatting.Indented);
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Visao
             this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salvarConsultaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configuraçãoDasColunasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_fechar = new System.Windows.Forms.Panel();
             this.btn_fechar = new System.Windows.Forms.Button();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
@@ -52,7 +53,7 @@ namespace Visao
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
-            this.configuraçãoDasColunasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportarJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_top.SuspendLayout();
             this.pan_opcoes.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -99,6 +100,7 @@ namespace Visao
             // 
             this.tsm_opcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportarCSVToolStripMenuItem,
+            this.exportarJSONToolStripMenuItem,
             this.salvarConsultaToolStripMenuItem,
             this.configuraçãoDasColunasToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
@@ -118,6 +120,13 @@ namespace Visao
             this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.salvarConsultaToolStripMenuItem.Text = "Salvar Consulta";
             this.salvarConsultaToolStripMenuItem.Click += new System.EventHandler(this.salvarConsultaToolStripMenuItem_Click);
+            // 
+            // configuraçãoDasColunasToolStripMenuItem
+            // 
+            this.configuraçãoDasColunasToolStripMenuItem.Name = "configuraçãoDasColunasToolStripMenuItem";
+            this.configuraçãoDasColunasToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.configuraçãoDasColunasToolStripMenuItem.Text = "Configuração das colunas";
+            this.configuraçãoDasColunasToolStripMenuItem.Click += new System.EventHandler(this.configuraçãoDasColunasToolStripMenuItem_Click);
             // 
             // pan_fechar
             // 
@@ -336,12 +345,12 @@ namespace Visao
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
             // 
-            // configuraçãoDasColunasToolStripMenuItem
+            // exportarJSONToolStripMenuItem
             // 
-            this.configuraçãoDasColunasToolStripMenuItem.Name = "configuraçãoDasColunasToolStripMenuItem";
-            this.configuraçãoDasColunasToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
-            this.configuraçãoDasColunasToolStripMenuItem.Text = "Configuração das colunas";
-            this.configuraçãoDasColunasToolStripMenuItem.Click += new System.EventHandler(this.configuraçãoDasColunasToolStripMenuItem_Click);
+            this.exportarJSONToolStripMenuItem.Name = "exportarJSONToolStripMenuItem";
+            this.exportarJSONToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.exportarJSONToolStripMenuItem.Text = "Exportar JSON";
+            this.exportarJSONToolStripMenuItem.Click += new System.EventHandler(this.exportarJSONToolStripMenuItem_Click);
             // 
             // UC_FormularioGenerico
             // 
@@ -396,5 +405,6 @@ namespace Visao
         private System.Windows.Forms.ToolStripMenuItem salvarConsultaToolStripMenuItem;
         private System.Windows.Forms.Button btn_reload;
         private System.Windows.Forms.ToolStripMenuItem configuraçãoDasColunasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportarJSONToolStripMenuItem;
     }
 }

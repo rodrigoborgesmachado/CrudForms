@@ -42,6 +42,8 @@
             this.abrirConsultaGenéricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consultasSalvasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gerarDERToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devtoolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.identarJsonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
@@ -49,8 +51,7 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.devtoolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.identarJsonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.atualizaTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -103,6 +104,7 @@
             // 
             this.tsm_opcoes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selecionaBaseToolStripMenuItem,
+            this.atualizaTabelasToolStripMenuItem,
             this.quantidadeLinhasTabelasToolStripMenuItem,
             this.filtrarNaAberturaDaTelaToolStripMenuItem,
             this.abrirConsultaGenéricaToolStripMenuItem,
@@ -170,6 +172,21 @@
             this.gerarDERToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
             this.gerarDERToolStripMenuItem.Text = "Gerar DER";
             this.gerarDERToolStripMenuItem.Click += new System.EventHandler(this.gerarDERToolStripMenuItem_Click);
+            // 
+            // devtoolsToolStripMenuItem
+            // 
+            this.devtoolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.identarJsonToolStripMenuItem1});
+            this.devtoolsToolStripMenuItem.Name = "devtoolsToolStripMenuItem";
+            this.devtoolsToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.devtoolsToolStripMenuItem.Text = "Devtools";
+            // 
+            // identarJsonToolStripMenuItem1
+            // 
+            this.identarJsonToolStripMenuItem1.Name = "identarJsonToolStripMenuItem1";
+            this.identarJsonToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.identarJsonToolStripMenuItem1.Text = "Identar Json";
+            this.identarJsonToolStripMenuItem1.Click += new System.EventHandler(this.identarJsonToolStripMenuItem1_Click);
             // 
             // pan_principal
             // 
@@ -246,20 +263,12 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // devtoolsToolStripMenuItem
+            // atualizaTabelasToolStripMenuItem
             // 
-            this.devtoolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.identarJsonToolStripMenuItem1});
-            this.devtoolsToolStripMenuItem.Name = "devtoolsToolStripMenuItem";
-            this.devtoolsToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
-            this.devtoolsToolStripMenuItem.Text = "Devtools";
-            // 
-            // identarJsonToolStripMenuItem1
-            // 
-            this.identarJsonToolStripMenuItem1.Name = "identarJsonToolStripMenuItem1";
-            this.identarJsonToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.identarJsonToolStripMenuItem1.Text = "Identar Json";
-            this.identarJsonToolStripMenuItem1.Click += new System.EventHandler(this.identarJsonToolStripMenuItem1_Click);
+            this.atualizaTabelasToolStripMenuItem.Name = "atualizaTabelasToolStripMenuItem";
+            this.atualizaTabelasToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+            this.atualizaTabelasToolStripMenuItem.Text = "Atualizar Tabelas";
+            this.atualizaTabelasToolStripMenuItem.Click += new System.EventHandler(this.atualizaTabelasToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
@@ -314,6 +323,7 @@
         private System.Windows.Forms.ToolStripMenuItem gerarDERToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem devtoolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem identarJsonToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem atualizaTabelasToolStripMenuItem;
     }
 }
 

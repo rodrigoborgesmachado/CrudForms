@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,7 +81,7 @@ namespace Visao
         /// <param name="e"></param>
         private void exportarCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GerarCSV();
+            GerarCSV(TipoArquivoExportacao.CSV);
         }
 
         /// <summary>
@@ -211,6 +212,16 @@ namespace Visao
         {
             FO_ConfigColunas configColunas = new FO_ConfigColunas(this);
             configColunas.ShowDialog();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique do botão exportar para json
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exportarJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GerarCSV(TipoArquivoExportacao.JSON);
         }
 
         #endregion Eventos
@@ -448,7 +459,7 @@ namespace Visao
         /// <summary>
         /// Método que gera o arquivo CSV
         /// </summary>
-        public void GerarCSV()
+        public void GerarCSV(TipoArquivoExportacao tipo)
         {
             bool haValores = true;
             haValores &= valores != null;
@@ -460,31 +471,24 @@ namespace Visao
                 return;
             }
 
-            if(tabela != null)
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "Selecione onde deseja salvar o arquivo";
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                if (!Regras.GerarCsv.GerarArquivo(this.valores, new System.IO.DirectoryInfo(Util.Global.app_rel_directory), this.tabela.DAO.Nome, out var mensagemErro))
+                DirectoryInfo directory = new DirectoryInfo(dialog.SelectedPath);
+                string nomeArquivo = tabela != null ? this.tabela.DAO.Nome : "relatorio_generico";
+
+
+                if (!Regras.GerarArquivoExportacao.GerarArquivo(tipo, this.valores, directory, nomeArquivo, out var mensagemErro))
                 {
                     Message.MensagemErro("Houve erros.");
                     Message.MensagemErro(mensagemErro);
                 }
                 else
                 {
-                    Message.MensagemSucesso($"Relatório {this.tabela.DAO.Nome}.csv gerado com sucesso no caminho:\n {Util.Global.app_rel_directory}");
+                    Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : "json")} gerado com sucesso no caminho:\n {dialog.SelectedPath}");
                 }
             }
-            else
-            {
-                if (!Regras.GerarCsv.GerarArquivo(this.valores, new System.IO.DirectoryInfo(Util.Global.app_rel_directory), "relatorio_generico", out var mensagemErro))
-                {
-                    Message.MensagemErro("Houve erros.");
-                    Message.MensagemErro(mensagemErro);
-                }
-                else
-                {
-                    Message.MensagemSucesso($"Relatório relatorio_generico.csv gerado com sucesso no caminho:\n {Util.Global.app_rel_directory}");
-                }
-            }
-            
         }
 
         /// <summary>
@@ -507,5 +511,6 @@ namespace Visao
 
         #endregion Métodos
 
+        
     }
 }

@@ -22,27 +22,6 @@ namespace Util
         }
 
         /// <summary>
-        /// Enum referente à tela a ser aberta
-        /// </summary>
-        public enum Telas
-        {
-            CADASTRO_PROJETO = 0,
-            CADASTRO_TABELAS = 1,
-            CADASTRO_CAMPOS = 2,
-            CADASTRO_MODULO = 3,
-            CADASTRO_RELATORIO = 4,
-            CADASTRO_TESTES = 5,
-            CADASTRO_CLIENTE = 6,
-            CADASTRO_CONTRATO = 7,
-            CONTROLE_LICENCA = 8,
-            CADASTRO_CHAMADO = 9,
-            LISTAR_CHAMADO = 10,
-            LISTAR_TODOS_CHAMADOS = 11,
-            CADASTRO_VERSAO = 12,
-            CONTROLE_PAGAMENTO = 13
-        }
-
-        /// <summary>
         /// Tarefa sendo executada na tela
         /// </summary>
         public enum Tarefa
@@ -65,20 +44,13 @@ namespace Util
             DECIMAL
         }
 
-        public enum Status
+        /// <summary>
+        /// Enumerador para identificar o tipo do arquivo sendo exportado
+        /// </summary>
+        public enum TipoArquivoExportacao
         {
-            // Status desativado
-            DESATIVADO = 0,
-            // Status ativado
-            ATIVO = 1
-        }
-
-        public enum ArquivosGerados
-        {
-            // Arquivos da UTIL
-            UTIL = 0,
-            // Arquivos do Model
-            MODEL = 1
+            JSON = 0,
+            CSV = 1
         }
     }
 }

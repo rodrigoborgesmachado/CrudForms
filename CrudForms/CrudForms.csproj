@@ -87,7 +87,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regras\AcessoBancoCliente\AcessoBanco.cs" />
-    <Compile Include="Regras\GerarCsv.cs" />
+    <Compile Include="Regras\GerarArquivoExportacao.cs" />
     <Compile Include="Regras\GerarDer.cs" />
     <Compile Include="Regras\IdentJsonString.cs" />
     <Compile Include="Regras\Importador.cs" />

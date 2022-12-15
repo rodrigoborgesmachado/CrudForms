@@ -8,7 +8,7 @@ namespace JSON
 {
     public class JS_RetornoLogin
     {
-        public JS_Usuario Usuario { get; set; }
+        public JS_Usuario Objeto { get; set; }
         public int Codigo { get; set; }
         public string Mensagem { get; set; }
         public bool Sucesso { get; set; }
