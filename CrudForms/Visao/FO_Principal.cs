@@ -164,6 +164,19 @@ namespace Visao
             this.Importa();
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de enumerar as linhas das tabelas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void enumeraLinhasDasTabelasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lockchange) return;
+
+            enumeraLinhasDasTabelasToolStripMenuItem.Checked = !enumeraLinhasDasTabelasToolStripMenuItem.Checked;
+            Model.Parametros.NumeracaoLinhasTabelas = enumeraLinhasDasTabelasToolStripMenuItem.Checked;
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -195,6 +208,7 @@ namespace Visao
             this.lbl_valorVersao.Text = version;
             this.filtrarToolStripMenuItem.Checked = Model.Parametros.FiltrarAutomaticamente;
             this.nãoFiltrarToolStripMenuItem.Checked = !Model.Parametros.FiltrarAutomaticamente;
+            this.enumeraLinhasDasTabelasToolStripMenuItem.Checked = Model.Parametros.NumeracaoLinhasTabelas;
 
             string connection = Model.Parametros.NomeConexao.DAO.Valor;
             if (string.IsNullOrEmpty(connection))
@@ -500,6 +514,7 @@ namespace Visao
             this.CarregaTreeView();
             this.IniciaForm();
         }
+
 
         #endregion Métodos
 

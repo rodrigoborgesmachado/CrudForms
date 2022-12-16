@@ -112,6 +112,9 @@ namespace Util
         // Parametro do connections
         public static string parametro_filtrarAutomaticamente = "FILTRARAUTOMATICAMENTE";
 
+        // Parâmetro que identifica se deve ser incrementado a numeração das linhas da tabela
+        public static string parametro_numeracaoLinhasTabelas = "ENUMERALINHASTABELAS";
+
         // Parametro do connections
         public static string parametro_connectionName = "NOMECONEXAO";
 

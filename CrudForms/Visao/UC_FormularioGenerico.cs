@@ -322,9 +322,16 @@ namespace Visao
         {
             this.dgv_generico.Columns.Clear();
             this.dgv_generico.Rows.Clear();
+
+            if (Model.Parametros.NumeracaoLinhasTabelas)
+            {
+                this.dgv_generico.Columns.Add("", "");
+            }
             
             if (this.tabela != null)
             {
+                this.configuraçãoDasColunasToolStripMenuItem.Visible = true;
+
                 this.valores = Util.Global.BancoDados == BancoDados.SQL_SERVER ?
                     new Regras.AcessoBancoCliente.AcessoBancoSqlServer().BuscaLista(tabela, colunas, filter, out consulta)
                     :
@@ -342,6 +349,8 @@ namespace Visao
             }
             else 
             {
+                this.configuraçãoDasColunasToolStripMenuItem.Visible = false;
+
                 this.valores = Util.Global.BancoDados == BancoDados.SQL_SERVER ?
                     new Regras.AcessoBancoCliente.AcessoBancoSqlServer().BuscaLista(consulta)
                     :
@@ -385,9 +394,10 @@ namespace Visao
             Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(lista.Count, "Carregando");
             barra.Show();
 
+            int index = 1;
             this.valores.ForEach(p =>
             {
-                FillGrid(p);
+                FillGrid(p, index++);
                 barra.AvancaBarra(1);
             });
 
@@ -405,17 +415,30 @@ namespace Visao
         /// Método que fill o grid
         /// </summary>
         /// <param name="valores"></param>
-        private void FillGrid(Regras.AcessoBancoCliente.AcessoBanco valores)
+        private void FillGrid(Regras.AcessoBancoCliente.AcessoBanco valores, int index)
         {
             List<string> list = new List<string>();
-            for (int i = 0;i<colunas.Count;i++)
+
+            if (Model.Parametros.NumeracaoLinhasTabelas)
             {
-                if (colunas[i].Visible)
+                list.Add(index.ToString());
+            }
+
+            int tamanho = colunas == null ? valores.campos.Count() : colunas.Count();
+            for (int i = 0;i< tamanho; i++)
+            {
+                if(colunas != null)
+                {
+                    if (colunas[i].Visible)
+                    {
+                        list.Add(valores.valores[i]);
+                    }
+                }
+                else
                 {
                     list.Add(valores.valores[i]);
                 }
             }
-
 
             this.dgv_generico.Rows.Add(list.ToArray());
         }

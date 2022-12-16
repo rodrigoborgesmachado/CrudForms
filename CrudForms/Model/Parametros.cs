@@ -80,13 +80,37 @@ namespace Model
             }
             set
             {
-                filtrarAutomaticamente = new MD_Parametros(Util.Global.parametro_tipoBanco);
-                filtrarAutomaticamente.DAO.Valor = value.DAO.Valor;
+                tipoBanco = new MD_Parametros(Util.Global.parametro_tipoBanco);
+                tipoBanco.DAO.Valor = value.DAO.Valor;
 
-                if (filtrarAutomaticamente.DAO.Empty)
-                    filtrarAutomaticamente.DAO.Insert();
+                if (tipoBanco.DAO.Empty)
+                    tipoBanco.DAO.Insert();
                 else
-                    filtrarAutomaticamente.DAO.Update();
+                    tipoBanco.DAO.Update();
+            }
+        }
+
+        private static Model.MD_Parametros numeracaoLinhasTabelas;
+        public static bool NumeracaoLinhasTabelas
+        {
+            get
+            {
+                if (numeracaoLinhasTabelas == null)
+                {
+                    numeracaoLinhasTabelas = new Model.MD_Parametros(Util.Global.parametro_filtrarAutomaticamente);
+                    numeracaoLinhasTabelas.DAO.Valor = "1";
+                }
+                return numeracaoLinhasTabelas.DAO.Valor.Equals("1");
+            }
+            set
+            {
+                numeracaoLinhasTabelas = new MD_Parametros(Util.Global.parametro_filtrarAutomaticamente);
+                numeracaoLinhasTabelas.DAO.Valor = (value ? "1" : "0");
+
+                if (numeracaoLinhasTabelas.DAO.Empty)
+                    numeracaoLinhasTabelas.DAO.Insert();
+                else
+                    numeracaoLinhasTabelas.DAO.Update();
             }
         }
     }
