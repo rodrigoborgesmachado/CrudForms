@@ -92,6 +92,7 @@ namespace Visao
         private void FO_Principal_Load(object sender, EventArgs e)
         {
             this.CarregaTreeView();
+            this.VerificaAtualizacoes();
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace Visao
             if (selecionaConexao.ShowDialog() != DialogResult.OK)
                 return;
 
-            this.Importa();
+            this.ImportaDadosBanco();
         }
 
         /// <summary>
@@ -161,7 +162,7 @@ namespace Visao
         /// <param name="e"></param>
         private void atualizaTabelasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Importa();
+            this.ImportaDadosBanco();
         }
 
         /// <summary>
@@ -175,6 +176,31 @@ namespace Visao
 
             enumeraLinhasDasTabelasToolStripMenuItem.Checked = !enumeraLinhasDasTabelasToolStripMenuItem.Checked;
             Model.Parametros.NumeracaoLinhasTabelas = enumeraLinhasDasTabelasToolStripMenuItem.Checked;
+        }
+
+        /// <summary>
+        /// Evento lançado quando digitado a quantidade de dias
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbx_quantidade_dias_atualizacao_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (lockchange) return;
+
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+                return;
+            }
+            else
+            {
+                e.Handled = false;
+            }
+
+            if (int.TryParse(this.tbx_quantidade_dias_atualizacao.Text, out int numero))
+            {
+                Model.Parametros.QuantidadeDiasAtualizacaoTabela = numero;
+            }
         }
 
         #endregion Eventos
@@ -209,6 +235,7 @@ namespace Visao
             this.filtrarToolStripMenuItem.Checked = Model.Parametros.FiltrarAutomaticamente;
             this.nãoFiltrarToolStripMenuItem.Checked = !Model.Parametros.FiltrarAutomaticamente;
             this.enumeraLinhasDasTabelasToolStripMenuItem.Checked = Model.Parametros.NumeracaoLinhasTabelas;
+            this.tbx_quantidade_dias_atualizacao.Text = Model.Parametros.QuantidadeDiasAtualizacaoTabela.ToString();
 
             string connection = Model.Parametros.NomeConexao.DAO.Valor;
             if (string.IsNullOrEmpty(connection))
@@ -494,7 +521,7 @@ namespace Visao
         /// <summary>
         /// Método que faz importação dos dados do banco
         /// </summary>
-        public void Importa()
+        public void ImportaDadosBanco()
         {
             Importador importar = new Importador();
             InformacoesSaidaImportador importador = importar.Importar(0);
@@ -505,6 +532,7 @@ namespace Visao
             }
             else
             {
+                Model.Parametros.UltimaAtualizacaoTabela = DateTime.Now;
                 importador.tabelasModel = importador.tabelasModel.OrderByDescending(t => t.DAO.Nome).Reverse().ToList();
                 importador.camposModel = importador.camposModel.OrderByDescending(c => c.DAO.Nome).Reverse().ToList();
                 this.GerarDer(importador.tabelasModel, importador.camposModel, false);
@@ -515,9 +543,26 @@ namespace Visao
             this.IniciaForm();
         }
 
+        /// <summary>
+        /// Método que verifica as atualizações
+        /// </summary>
+        public void VerificaAtualizacoes()
+        {
+            VerificaAtualizacoesTabelas();
+        }
+
+        /// <summary>
+        /// Método que verifica se é necessário atualizar os dados com o banco de dados
+        /// </summary>
+        public void VerificaAtualizacoesTabelas()
+        {
+            if (Model.Parametros.UltimaAtualizacaoTabela.AddDays(Model.Parametros.QuantidadeDiasAtualizacaoTabela) < DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd")))
+            {
+                this.ImportaDadosBanco();
+            }
+        }
 
         #endregion Métodos
 
-        
     }
 }

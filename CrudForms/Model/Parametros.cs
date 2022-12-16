@@ -98,7 +98,8 @@ namespace Model
                 if (numeracaoLinhasTabelas == null)
                 {
                     numeracaoLinhasTabelas = new Model.MD_Parametros(Util.Global.parametro_filtrarAutomaticamente);
-                    numeracaoLinhasTabelas.DAO.Valor = "1";
+                    if(numeracaoLinhasTabelas.DAO.Empty)
+                        numeracaoLinhasTabelas.DAO.Valor = "1";
                 }
                 return numeracaoLinhasTabelas.DAO.Valor.Equals("1");
             }
@@ -111,6 +112,56 @@ namespace Model
                     numeracaoLinhasTabelas.DAO.Insert();
                 else
                     numeracaoLinhasTabelas.DAO.Update();
+            }
+        }
+
+        private static Model.MD_Parametros quantidadeDiasTabela;
+        public static int QuantidadeDiasAtualizacaoTabela
+        {
+            get
+            {
+                if (quantidadeDiasTabela == null)
+                {
+                    quantidadeDiasTabela = new Model.MD_Parametros(Util.Global.parametro_quantidadeDiasAtualizaTabelas);
+                    if(quantidadeDiasTabela.DAO.Empty)
+                        quantidadeDiasTabela.DAO.Valor = "30";
+                }
+                return int.Parse(quantidadeDiasTabela.DAO.Valor);
+            }
+            set
+            {
+                quantidadeDiasTabela = new MD_Parametros(Util.Global.parametro_quantidadeDiasAtualizaTabelas);
+                quantidadeDiasTabela.DAO.Valor = value.ToString();
+
+                if (quantidadeDiasTabela.DAO.Empty)
+                    quantidadeDiasTabela.DAO.Insert();
+                else
+                    quantidadeDiasTabela.DAO.Update();
+            }
+        }
+
+        private static Model.MD_Parametros ultimaAtualizacaoTabela;
+        public static DateTime UltimaAtualizacaoTabela
+        {
+            get
+            {
+                if (ultimaAtualizacaoTabela == null)
+                {
+                    ultimaAtualizacaoTabela = new Model.MD_Parametros(Util.Global.parametro_ultimaAtualizacaoTabela);
+                    if (ultimaAtualizacaoTabela.DAO.Empty)
+                        ultimaAtualizacaoTabela.DAO.Valor = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                return DateTime.Parse(ultimaAtualizacaoTabela.DAO.Valor);
+            }
+            set
+            {
+                ultimaAtualizacaoTabela = new MD_Parametros(Util.Global.parametro_ultimaAtualizacaoTabela);
+                ultimaAtualizacaoTabela.DAO.Valor = value.ToString("yyyy-MM-dd");
+
+                if (ultimaAtualizacaoTabela.DAO.Empty)
+                    ultimaAtualizacaoTabela.DAO.Insert();
+                else
+                    ultimaAtualizacaoTabela.DAO.Update();
             }
         }
     }

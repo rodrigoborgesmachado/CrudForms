@@ -109,8 +109,14 @@ namespace Util
         // Parametro do connections
         public static string parametro_quantidadeItensPorTabela = "QUANTIDADEITENSTABELA";
 
-        // Parametro do connections
+        // Parametro do filtrar automaticamente
         public static string parametro_filtrarAutomaticamente = "FILTRARAUTOMATICAMENTE";
+
+        // Parametro de quantidades de dias para atualizar a tabela
+        public static string parametro_quantidadeDiasAtualizaTabelas = "QUANTIDADEDIASATUALIZARTABELA";
+
+        // Parametro da última data de atualização dos dados
+        public static string parametro_ultimaAtualizacaoTabela = "ULTIMAATUALIZACAOTABELA";
 
         // Parâmetro que identifica se deve ser incrementado a numeração das linhas da tabela
         public static string parametro_numeracaoLinhasTabelas = "ENUMERALINHASTABELAS";
