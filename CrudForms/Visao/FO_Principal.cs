@@ -376,43 +376,30 @@ namespace Visao
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.AbreJanela()", Util.Global.TipoLog.DETALHADO);
 
-            int index = 0;
-            string tag_aberto = "";
-            bool aberto = false;
+            bool opened = false;
             foreach (TabPage p in Pages)
             {
                 if (p.Tag.ToString().Equals(tag))
                 {
-                    tag_aberto = p.Tag.ToString();
-                    aberto = true;
+                    this.tbc_table_control.SelectedTab = p;
+                    opened = true;
                     break;
                 }
-                else index++;
             }
 
-            if (aberto)
-                FecharTela(tag_aberto);
-            TabPage page = new TabPage(titulo);
-
-            TabPage tabPage1 = new TabPage(titulo);
-            tabPage1.Tag = tag;
-            Pages.Add(tabPage1);
-
-            tabPage1.Controls.Add(control);
-            this.tbc_table_control.Controls.Add(tabPage1);
-            this.tbc_table_control.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbc_table_control.Name = titulo;
-
-            index = 0;
-            foreach (TabPage p in this.tbc_table_control.Controls)
+            if (!opened)
             {
-                if (p.Tag.ToString().Equals(tag))
-                        break;
-                index++;
-            }
+                TabPage page = new TabPage(titulo);
 
-            this.tbc_table_control.TabIndex = index;
-            this.tbc_table_control.SelectedIndex = index;
+                page.Tag = tag;
+                Pages.Add(page);
+
+                page.Controls.Add(control);
+                this.tbc_table_control.Controls.Add(page);
+                this.tbc_table_control.Dock = DockStyle.Fill;
+                this.tbc_table_control.Name = titulo;
+                this.tbc_table_control.SelectedTab = page;
+            }
         }
 
         /// <summary>
