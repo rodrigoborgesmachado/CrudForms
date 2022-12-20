@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Crud Creator"
-#define MyAppVersion "4.9.0.0"
+#define MyAppVersion "5.0.0.0"
 #define MyAppPublisher "SunSale System"
 #define MyAppURL "http://www.sunsalesystem.com.br/"
 #define MyAppExeName "CrudForms.exe"
@@ -43,6 +43,8 @@ Source: "D:\Instalador\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignorevers
 Source: "D:\Instalador\Newtonsoft.Json.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Data.SQLite.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Data.SQLite.EF6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\RestSharp.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\RestSharp.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Data.SQLite.Linq.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\Utils.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs

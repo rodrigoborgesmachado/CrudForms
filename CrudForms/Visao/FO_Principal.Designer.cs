@@ -46,6 +46,8 @@
             this.devtoolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.identarJsonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.enumeraLinhasDasTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbx_quantidade_dias_atualizacao = new System.Windows.Forms.ToolStripTextBox();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
@@ -53,8 +55,7 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbx_quantidade_dias_atualizacao = new System.Windows.Forms.ToolStripTextBox();
+            this.buscarAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -115,7 +116,8 @@
             this.gerarDERToolStripMenuItem,
             this.devtoolsToolStripMenuItem,
             this.enumeraLinhasDasTabelasToolStripMenuItem,
-            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem});
+            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem,
+            this.buscarAtualizaçãoToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
             this.tsm_opcoes.Text = "Opções";
@@ -207,6 +209,21 @@
             this.enumeraLinhasDasTabelasToolStripMenuItem.Text = "Enumera linhas das tabelas";
             this.enumeraLinhasDasTabelasToolStripMenuItem.Click += new System.EventHandler(this.enumeraLinhasDasTabelasToolStripMenuItem_Click);
             // 
+            // quantidadeDeDiasParaAtualizaçãoToolStripMenuItem
+            // 
+            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbx_quantidade_dias_atualizacao});
+            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.Name = "quantidadeDeDiasParaAtualizaçãoToolStripMenuItem";
+            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.Size = new System.Drawing.Size(336, 26);
+            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.Text = "Quantidade de dias para atualização";
+            // 
+            // tbx_quantidade_dias_atualizacao
+            // 
+            this.tbx_quantidade_dias_atualizacao.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tbx_quantidade_dias_atualizacao.Name = "tbx_quantidade_dias_atualizacao";
+            this.tbx_quantidade_dias_atualizacao.Size = new System.Drawing.Size(100, 27);
+            this.tbx_quantidade_dias_atualizacao.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_quantidade_dias_atualizacao_KeyPress);
+            // 
             // pan_principal
             // 
             this.pan_principal.Controls.Add(this.tbc_table_control);
@@ -282,20 +299,12 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // quantidadeDeDiasParaAtualizaçãoToolStripMenuItem
+            // buscarAtualizaçãoToolStripMenuItem
             // 
-            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbx_quantidade_dias_atualizacao});
-            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.Name = "quantidadeDeDiasParaAtualizaçãoToolStripMenuItem";
-            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.Size = new System.Drawing.Size(336, 26);
-            this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem.Text = "Quantidade de dias para atualização";
-            // 
-            // tbx_quantidade_dias_atualizacao
-            // 
-            this.tbx_quantidade_dias_atualizacao.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tbx_quantidade_dias_atualizacao.Name = "tbx_quantidade_dias_atualizacao";
-            this.tbx_quantidade_dias_atualizacao.Size = new System.Drawing.Size(100, 27);
-            this.tbx_quantidade_dias_atualizacao.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_quantidade_dias_atualizacao_KeyPress);
+            this.buscarAtualizaçãoToolStripMenuItem.Name = "buscarAtualizaçãoToolStripMenuItem";
+            this.buscarAtualizaçãoToolStripMenuItem.Size = new System.Drawing.Size(336, 26);
+            this.buscarAtualizaçãoToolStripMenuItem.Text = "Buscar Atualização";
+            this.buscarAtualizaçãoToolStripMenuItem.Click += new System.EventHandler(this.buscarAtualizaçãoToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
@@ -354,6 +363,7 @@
         private System.Windows.Forms.ToolStripMenuItem enumeraLinhasDasTabelasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quantidadeDeDiasParaAtualizaçãoToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox tbx_quantidade_dias_atualizacao;
+        private System.Windows.Forms.ToolStripMenuItem buscarAtualizaçãoToolStripMenuItem;
     }
 }
 

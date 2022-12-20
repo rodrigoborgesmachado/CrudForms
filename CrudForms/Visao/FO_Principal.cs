@@ -31,6 +31,8 @@ namespace Visao
         /// </summary>
         List<TabPage> Pages = new List<TabPage>();
 
+        System.Diagnostics.FileVersionInfo fvi;
+
         #endregion Atributos e Propriedades
 
         #region Eventos
@@ -203,6 +205,16 @@ namespace Visao
             }
         }
 
+        /// <summary>
+        /// Evento lançado no clique do botão de atualizar o sistema
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buscarAtualizaçãoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.BuscaAtualização();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -229,7 +241,7 @@ namespace Visao
             Util.CL_Files.WriteOnTheLog("FO_Principal.IniciaForm()", Util.Global.TipoLog.DETALHADO);
 
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
             this.lbl_valorVersao.Text = version;
             this.filtrarToolStripMenuItem.Checked = Model.Parametros.FiltrarAutomaticamente;
@@ -536,6 +548,7 @@ namespace Visao
         public void VerificaAtualizacoes()
         {
             VerificaAtualizacoesTabelas();
+            VerificaAtualizacaoSistema();
         }
 
         /// <summary>
@@ -549,7 +562,61 @@ namespace Visao
             }
         }
 
+        /// <summary>
+        /// Método que verifica se existe atualização pendente para o sistema
+        /// </summary>
+        public void VerificaAtualizacaoSistema()
+        {
+            if(PrecisaAtualizarSistema())
+            {
+                if(Message.MensagemConfirmaçãoYesNo("Há uma nova versão disponível. Deseja atualizar?") == DialogResult.Yes)
+                {
+                    this.BuscaAtualização();
+                }
+                else
+                {
+                    this.buscarAtualizaçãoToolStripMenuItem.Text = "*" + this.buscarAtualizaçãoToolStripMenuItem.Text + "*";
+                    this.buscarAtualizaçãoToolStripMenuItem.BackColor = Color.Green;
+                }
+            }
+            else
+            {
+                this.buscarAtualizaçãoToolStripMenuItem.BackColor = Color.Transparent;
+            }
+        }
+
+        /// <summary>
+        /// Método que valida se precisa atualizar o sistema
+        /// </summary>
+        /// <returns></returns>
+        private bool PrecisaAtualizarSistema()
+        {
+            int lastVersion = int.Parse(Util.Global.usuarioLogado.LASTVERSION.Replace(".", ""));
+            int currentVersion = int.Parse(fvi.FileVersion.Replace(".", ""));
+
+            return lastVersion > currentVersion;
+        }
+
+        /// <summary>
+        /// Método que busca a atualização
+        /// </summary>
+        public void BuscaAtualização()
+        {
+            BuscaNovaVersaoSistema busca = new BuscaNovaVersaoSistema();
+            if (PrecisaAtualizarSistema())
+            {
+                this.buscarAtualizaçãoToolStripMenuItem.BackColor = Color.Transparent;
+                busca.BuscaNovaVersao(Util.Global.usuarioLogado.LASTVERSION);
+            }
+            else
+            {
+                Message.MensagemAlerta("Não há nova versão disponível");
+            }
+
+        }
+
         #endregion Métodos
+
 
     }
 }

@@ -160,7 +160,9 @@
     <Compile Include="Importador\Document.cs" />
     <Compile Include="Importador\DocumentMySql.cs" />
     <Compile Include="JSON\JS_RetornoLogin.cs" />
+    <Compile Include="JSON\JS_RetornoVersao.cs" />
     <Compile Include="JSON\JS_Usuario.cs" />
+    <Compile Include="JSON\JS_Versao.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\CL_Files.cs" />

@@ -14,5 +14,6 @@ namespace JSON
         public string EMAIL { get; set; }
         public string LOGIN { get; set; }
         public string SENHA { get; set; }
+        public string LASTVERSION { get; set; }
     }
 }
