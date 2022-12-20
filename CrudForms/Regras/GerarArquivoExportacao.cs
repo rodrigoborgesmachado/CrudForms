@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using static Util.Enumerator;
 using Newtonsoft;
+using System.Xml;
+using Newtonsoft.Json;
+using System.Xml.Linq;
 
 namespace Regras
 {
@@ -20,7 +23,7 @@ namespace Regras
         {
             mensagemErro = string.Empty;
             bool retorno = true;
-            string extensao = tipo == TipoArquivoExportacao.CSV ? ".csv" : ".json";
+            string extensao = tipo == TipoArquivoExportacao.CSV ? ".csv" : (tipo == TipoArquivoExportacao.JSON ? ".json" : ".xml");
 
             if (!caminhoArquivo.Exists)
                 caminhoArquivo.Create();
@@ -37,7 +40,7 @@ namespace Regras
                 if (file.Exists)
                     file.Delete();
 
-                string texto = tipo == TipoArquivoExportacao.CSV ? MontaTextoCSV(valores) : MontaTextoJson(valores);
+                string texto = tipo == TipoArquivoExportacao.CSV ? MontaTextoCSV(valores) : (tipo == TipoArquivoExportacao.JSON ? MontaTextoJson(valores) : MontaTexotXml(valores));
 
                 File.WriteAllText(file.FullName, texto);
 
@@ -127,6 +130,42 @@ namespace Regras
             });
 
             return Newtonsoft.Json.JsonConvert.SerializeObject(lista, Newtonsoft.Json.Formatting.Indented);
+        }
+
+        /// <summary>
+        /// Método que exporta os dados para xml
+        /// </summary>
+        /// <param name="valores"></param>
+        /// <returns></returns>
+        public static string MontaTexotXml(List<AcessoBancoCliente.AcessoBanco> valores)
+        {
+            string json = MontaTextoJson(valores);
+
+            string retorno = XDocument.Parse(DeserializeXmlNode(json, "root", "object").InnerXml).ToString();
+
+            return retorno;
+        }
+
+        public static XmlDocument DeserializeXmlNode(string json, string rootName, string rootPropertyName)
+        {
+            return DeserializeXmlNode(new StringReader(json), rootName, rootPropertyName);
+        }
+
+        public static XmlDocument DeserializeXmlNode(TextReader textReader, string rootName, string rootPropertyName)
+        {
+            var prefix = "{" + JsonConvert.SerializeObject(rootPropertyName) + ":";
+            var postfix = "}";
+
+            string combinedReader = prefix + textReader.ReadToEnd() + postfix;
+            var settings = new JsonSerializerSettings
+            {
+                Converters = { new Newtonsoft.Json.Converters.XmlNodeConverter() { DeserializeRootElementName = rootName } },
+                DateParseHandling = DateParseHandling.None,
+            };
+            using (var jsonReader = new JsonTextReader(new StringReader(combinedReader)) { CloseInput = false, DateParseHandling = DateParseHandling.None })
+            {
+                return JsonSerializer.CreateDefault(settings).Deserialize<XmlDocument>(jsonReader);
+            }
         }
     }
 }

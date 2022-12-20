@@ -81,7 +81,7 @@ namespace Visao
         /// <param name="e"></param>
         private void exportarCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GerarCSV(TipoArquivoExportacao.CSV);
+            GerarExportacao(TipoArquivoExportacao.CSV);
         }
 
         /// <summary>
@@ -221,7 +221,17 @@ namespace Visao
         /// <param name="e"></param>
         private void exportarJSONToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GerarCSV(TipoArquivoExportacao.JSON);
+            GerarExportacao(TipoArquivoExportacao.JSON);
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção para salvar como xml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exportarXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GerarExportacao(TipoArquivoExportacao.XML);
         }
 
         #endregion Eventos
@@ -482,7 +492,7 @@ namespace Visao
         /// <summary>
         /// Método que gera o arquivo CSV
         /// </summary>
-        public void GerarCSV(TipoArquivoExportacao tipo)
+        public void GerarExportacao(TipoArquivoExportacao tipo)
         {
             bool haValores = true;
             haValores &= valores != null;
@@ -509,7 +519,7 @@ namespace Visao
                 }
                 else
                 {
-                    Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : "json")} gerado com sucesso no caminho:\n {dialog.SelectedPath}");
+                    Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "csv"))} gerado com sucesso no caminho:\n {dialog.SelectedPath}");
                 }
             }
         }
@@ -531,6 +541,7 @@ namespace Visao
             Visao.FO_CadastraConsulta cadastraConsulta = new FO_CadastraConsulta(consulta, Tarefa.INCLUINDO);
             cadastraConsulta.Show();
         }
+
 
         #endregion Métodos
 
