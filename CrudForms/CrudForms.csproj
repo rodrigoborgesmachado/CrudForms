@@ -107,6 +107,7 @@
     <Compile Include="Model\MD_Campos.cs" />
     <Compile Include="Model\MD_Consultas.cs" />
     <Compile Include="Model\MD_Observer.cs" />
+    <Compile Include="Model\MD_Observersenviados.cs" />
     <Compile Include="Model\MD_Parametros.cs" />
     <Compile Include="Model\MD_Relacao.cs" />
     <Compile Include="Model\MD_Tabela.cs" />
