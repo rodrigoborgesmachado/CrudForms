@@ -152,8 +152,7 @@ namespace DAO
                     command_sql += (notnull ? " DEFAULT '" + (this.ValueDefault == null ? "" : this.ValueDefault.ToString()) + "' NOT NULL " : (unique ? " UNIQUE " : ""));
                     break;
                 case DataType.DATE:
-                    command_sql += " INTEGER ";
-                    command_sql += (notnull ? " DEFAULT " + DataBase.Connection.Date_to_Int(DateTime.Parse((this.ValueDefault == null ? 0.ToString() : this.ValueDefault.ToString()))) + " NOT NULL " : (unique ? "UNIQUE" : ""));
+                    command_sql += " VARCHAR(" + this.size + ") ";
                     break;
                 case DataType.DECIMAL:
                     command_sql += " DECIMAL(" + this.size + "," + precision + ") ";

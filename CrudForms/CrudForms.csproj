@@ -125,6 +125,7 @@
     <Compile Include="Regras\IdentJsonString.cs" />
     <Compile Include="Regras\Importador.cs" />
     <Compile Include="Regras\InformacoesSaidaImportador.cs" />
+    <Compile Include="Regras\ValidaQuery.cs" />
     <Compile Include="Visao\FO_Aguarde.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +143,12 @@
     </Compile>
     <Compile Include="Visao\FO_CadastraConsulta.Designer.cs">
       <DependentUpon>FO_CadastraConsulta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_CadastraObserver.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_CadastraObserver.Designer.cs">
+      <DependentUpon>FO_CadastraObserver.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\FO_ConfigColunas.cs">
       <SubType>Form</SubType>
@@ -178,6 +185,12 @@
     </Compile>
     <Compile Include="Visao\FO_Login.Designer.cs">
       <DependentUpon>FO_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_Observer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_Observer.Designer.cs">
+      <DependentUpon>FO_Observer.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\FO_OrderBy.cs">
       <SubType>Form</SubType>
@@ -231,6 +244,9 @@
     <EmbeddedResource Include="Visao\FO_CadastraConsulta.resx">
       <DependentUpon>FO_CadastraConsulta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_CadastraObserver.resx">
+      <DependentUpon>FO_CadastraObserver.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_ConfigColunas.resx">
       <DependentUpon>FO_ConfigColunas.cs</DependentUpon>
     </EmbeddedResource>
@@ -248,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_Login.resx">
       <DependentUpon>FO_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_Observer.resx">
+      <DependentUpon>FO_Observer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_OrderBy.resx">
       <DependentUpon>FO_OrderBy.cs</DependentUpon>

@@ -48,6 +48,7 @@
             this.enumeraLinhasDasTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_quantidade_dias_atualizacao = new System.Windows.Forms.ToolStripTextBox();
+            this.buscarAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
@@ -55,7 +56,7 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.buscarAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.adicionarInspeçãoAutomáticaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -117,7 +118,8 @@
             this.devtoolsToolStripMenuItem,
             this.enumeraLinhasDasTabelasToolStripMenuItem,
             this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem,
-            this.buscarAtualizaçãoToolStripMenuItem});
+            this.buscarAtualizaçãoToolStripMenuItem,
+            this.adicionarInspeçãoAutomáticaToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
             this.tsm_opcoes.Text = "Opções";
@@ -224,6 +226,13 @@
             this.tbx_quantidade_dias_atualizacao.Size = new System.Drawing.Size(100, 27);
             this.tbx_quantidade_dias_atualizacao.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_quantidade_dias_atualizacao_KeyPress);
             // 
+            // buscarAtualizaçãoToolStripMenuItem
+            // 
+            this.buscarAtualizaçãoToolStripMenuItem.Name = "buscarAtualizaçãoToolStripMenuItem";
+            this.buscarAtualizaçãoToolStripMenuItem.Size = new System.Drawing.Size(336, 26);
+            this.buscarAtualizaçãoToolStripMenuItem.Text = "Buscar Atualização";
+            this.buscarAtualizaçãoToolStripMenuItem.Click += new System.EventHandler(this.buscarAtualizaçãoToolStripMenuItem_Click);
+            // 
             // pan_principal
             // 
             this.pan_principal.Controls.Add(this.tbc_table_control);
@@ -299,12 +308,12 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // buscarAtualizaçãoToolStripMenuItem
+            // adicionarInspeçãoAutomáticaToolStripMenuItem
             // 
-            this.buscarAtualizaçãoToolStripMenuItem.Name = "buscarAtualizaçãoToolStripMenuItem";
-            this.buscarAtualizaçãoToolStripMenuItem.Size = new System.Drawing.Size(336, 26);
-            this.buscarAtualizaçãoToolStripMenuItem.Text = "Buscar Atualização";
-            this.buscarAtualizaçãoToolStripMenuItem.Click += new System.EventHandler(this.buscarAtualizaçãoToolStripMenuItem_Click);
+            this.adicionarInspeçãoAutomáticaToolStripMenuItem.Name = "adicionarInspeçãoAutomáticaToolStripMenuItem";
+            this.adicionarInspeçãoAutomáticaToolStripMenuItem.Size = new System.Drawing.Size(336, 26);
+            this.adicionarInspeçãoAutomáticaToolStripMenuItem.Text = "Adicionar inspeção automática";
+            this.adicionarInspeçãoAutomáticaToolStripMenuItem.Click += new System.EventHandler(this.adicionarInspeçãoAutomáticaToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
@@ -364,6 +373,7 @@
         private System.Windows.Forms.ToolStripMenuItem quantidadeDeDiasParaAtualizaçãoToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox tbx_quantidade_dias_atualizacao;
         private System.Windows.Forms.ToolStripMenuItem buscarAtualizaçãoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem adicionarInspeçãoAutomáticaToolStripMenuItem;
     }
 }
 

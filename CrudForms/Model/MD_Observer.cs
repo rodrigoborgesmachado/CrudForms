@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,26 @@ namespace Model
         #endregion Construtores
 
         #region Métodos
+
+        /// <summary>
+        /// Método que busca todos os observers
+        /// </summary>
+        /// <returns></returns>
+        public static List<MD_Observer> BuscaTodos()
+        {
+            List<int> codigos = new List<int>();
+            List<MD_Observer> lista = new List<MD_Observer>();
+
+            DbDataReader reader = DataBase.Connection.Select(new DAO.MD_Observer().table.CreateCommandSQLTable());
+            while (reader.Read())
+            {
+                codigos.Add(int.Parse(reader["CODIGO"].ToString()));
+            }
+
+            codigos.ForEach(c => lista.Add(new MD_Observer(c)));
+
+            return lista;
+        }
 
         #endregion Métodos
 

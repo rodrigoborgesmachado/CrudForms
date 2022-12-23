@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
 
-namespace DAO.
+namespace DAO
 {
 
     /// <summary>
@@ -158,14 +158,14 @@ namespace DAO.
             this.table.Fields_Table.Add(new MDN_Campo("CODIGO", false, Util.Enumerator.DataType.INT, 0, true, false, 0, 0));
             this.table.Fields_Table.Add(new MDN_Campo("DESCRICAO", true, Util.Enumerator.DataType.STRING, "", false, false, 400, 0));
             this.table.Fields_Table.Add(new MDN_Campo("CONSULTA", true, Util.Enumerator.DataType.STRING, "", false, false, 4500, 0));
-            this.table.Fields_Table.Add(new MDN_Campo("CREATED", true, Util.Enumerator.DataType.DATE, DateTime.Now, false, false, 0, 0));
-            this.table.Fields_Table.Add(new MDN_Campo("UPDATED", true, Util.Enumerator.DataType.DATE, DateTime.Now, false, false, 0, 0));
+            this.table.Fields_Table.Add(new MDN_Campo("CREATED", true, Util.Enumerator.DataType.DATE, DateTime.Now, false, false, 20, 0));
+            this.table.Fields_Table.Add(new MDN_Campo("UPDATED", true, Util.Enumerator.DataType.DATE, DateTime.Now, false, false, 20, 0));
             this.table.Fields_Table.Add(new MDN_Campo("ISACTIVE", true, Util.Enumerator.DataType.CHAR, "1", false, false, 1, 0));
             this.table.Fields_Table.Add(new MDN_Campo("EMAILSENVIAR", true, Util.Enumerator.DataType.STRING, "", false, false, 2000, 0));
             this.table.Fields_Table.Add(new MDN_Campo("INTERVALORODAR", true, Util.Enumerator.DataType.INT, 0, false, false, 0, 0));
 
             if (!base.table.ExistsTable())
-                base.table.CreateTable(false);
+                base.table.CreateTable(false);  
 
             base.table.VerificaColunas();
         }
@@ -204,8 +204,10 @@ namespace DAO.
             {
                 this.Descricao = reader["DESCRICAO"].ToString();
                 this.Consulta = reader["CONSULTA"].ToString();
-                this.Created = DateTime.Parse(reader["CREATED"].ToString());
-                this.Updated = DateTime.Parse(reader["UPDATED"].ToString());
+                string temp = reader["CREATED"].ToString();
+                this.Created = DateTime.Parse(temp);
+                temp = reader["UPDATED"].ToString();
+                this.Updated = DateTime.Parse(temp);
                 this.Isactive = reader["ISACTIVE"].ToString();
                 this.Emailsenviar = reader["EMAILSENVIAR"].ToString();
                 this.Intervalorodar = int.Parse(reader["INTERVALORODAR"].ToString());
@@ -239,7 +241,7 @@ namespace DAO.
             string sentenca = string.Empty;
 
             sentenca = "INSERT INTO " + table.Table_Name + " (" + table.TodosCampos() + ")" + 
-                              " VALUES (" + this.codigo + ",  '" + this.descricao + "',  '" + this.consulta + "', " + MontaStringDateFromDateTime(this.created) + ", " + MontaStringDateFromDateTime(this.updated) + ",  '" + this.isactive + "',  '" + this.emailsenviar + "', " + this.intervalorodar + ")";
+                              " VALUES (" + this.codigo + ",  '" + this.descricao + "',  '" + this.consulta.Replace("'", "\"") + "', '" + MontaStringDateTimeFromDateTime(this.created) + "', '" + MontaStringDateTimeFromDateTime(this.updated) + "',  '" + this.isactive + "',  '" + this.emailsenviar + "', " + this.intervalorodar + ")";
             if (DataBase.Connection.Insert(sentenca))
             {
                 Empty = false;
@@ -257,7 +259,7 @@ namespace DAO.
             string sentenca = string.Empty;
 
             sentenca = "UPDATE " + table.Table_Name + " SET " + 
-                        "CODIGO = " + Codigo + ", DESCRICAO = '" + Descricao + "', CONSULTA = '" + Consulta + "', CREATED = '" + MontaStringDateFromDateTime(Created) + "', UPDATED = '" + MontaStringDateFromDateTime(Updated) + "', ISACTIVE = '" + Isactive + "', EMAILSENVIAR = '" + Emailsenviar + "', INTERVALORODAR = " + Intervalorodar + "" + 
+                        "CODIGO = " + Codigo + ", DESCRICAO = '" + Descricao + "', CONSULTA = '" + Consulta.Replace("'", "\"") + "', CREATED = '" + MontaStringDateTimeFromDateTime(Created) + "', UPDATED = '" + MontaStringDateTimeFromDateTime(Updated) + "', ISACTIVE = '" + Isactive + "', EMAILSENVIAR = '" + Emailsenviar + "', INTERVALORODAR = " + Intervalorodar + "" + 
                         " WHERE CODIGO = " + Codigo + "";
 
             return DataBase.Connection.Update(sentenca);

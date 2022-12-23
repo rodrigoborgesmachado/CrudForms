@@ -32,7 +32,7 @@ namespace Visao
             this.pan_botton = new System.Windows.Forms.Panel();
             this.btn_excluir = new System.Windows.Forms.Button();
             this.btn_editar = new System.Windows.Forms.Button();
-            this.btn_executar = new System.Windows.Forms.Button();
+            this.btn_incluir = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
             this.pan_botton.SuspendLayout();
@@ -44,7 +44,7 @@ namespace Visao
             // 
             this.pan_botton.Controls.Add(this.btn_excluir);
             this.pan_botton.Controls.Add(this.btn_editar);
-            this.pan_botton.Controls.Add(this.btn_executar);
+            this.pan_botton.Controls.Add(this.btn_incluir);
             this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pan_botton.Location = new System.Drawing.Point(0, 425);
             this.pan_botton.Name = "pan_botton";
@@ -75,17 +75,17 @@ namespace Visao
             this.btn_editar.UseVisualStyleBackColor = true;
             this.btn_editar.Click += new System.EventHandler(this.btn_editar_Click);
             // 
-            // btn_executar
+            // btn_incluir
             // 
-            this.btn_executar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_executar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_executar.Location = new System.Drawing.Point(658, 3);
-            this.btn_executar.Name = "btn_executar";
-            this.btn_executar.Size = new System.Drawing.Size(83, 29);
-            this.btn_executar.TabIndex = 23;
-            this.btn_executar.Text = "Executar";
-            this.btn_executar.UseVisualStyleBackColor = true;
-            this.btn_executar.Click += new System.EventHandler(this.btn_executar_Click);
+            this.btn_incluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_incluir.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_incluir.Location = new System.Drawing.Point(658, 3);
+            this.btn_incluir.Name = "btn_incluir";
+            this.btn_incluir.Size = new System.Drawing.Size(83, 29);
+            this.btn_incluir.TabIndex = 23;
+            this.btn_incluir.Text = "Incluir";
+            this.btn_incluir.UseVisualStyleBackColor = true;
+            this.btn_incluir.Click += new System.EventHandler(this.btn_executar_Click);
             // 
             // grb_configuracaoSQLSERVER
             // 
@@ -153,7 +153,7 @@ namespace Visao
         #endregion
 
         private System.Windows.Forms.Panel pan_botton;
-        private System.Windows.Forms.Button btn_executar;
+        private System.Windows.Forms.Button btn_incluir;
         private System.Windows.Forms.GroupBox grb_configuracaoSQLSERVER;
         private System.Windows.Forms.Button btn_editar;
         private System.Windows.Forms.DataGridView dgv_generico;

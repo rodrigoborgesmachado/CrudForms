@@ -215,6 +215,17 @@ namespace Visao
             this.BuscaAtualização();
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de adicionar inspeção automática
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void adicionarInspeçãoAutomáticaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_Observer observer = new FO_Observer();
+            observer.ShowDialog();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -615,8 +626,9 @@ namespace Visao
 
         }
 
+
         #endregion Métodos
 
-
+        
     }
 }
