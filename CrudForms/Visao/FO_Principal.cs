@@ -95,6 +95,7 @@ namespace Visao
         {
             this.CarregaTreeView();
             this.VerificaAtualizacoes();
+            this.CarregaObservers();
         }
 
         /// <summary>
@@ -626,9 +627,35 @@ namespace Visao
 
         }
 
+        /// <summary>
+        /// Método que carrega os observers
+        /// </summary>
+        private void CarregaObservers()
+        {
+            List<Model.MD_Observer> observers = Model.MD_Observer.BuscaTodos().Where(l => l.DAO.Isactive.Equals("1")).ToList();
+            List<Timer> timers = new List<Timer>();
+
+            observers.ForEach(observer =>
+            {
+                Timer t = new Timer();
+
+                t.Interval = observer.DAO.Intervalorodar * 60000;
+                
+                RodaObservers exec = new RodaObservers();
+                t.Tick += delegate
+                {
+                    exec.Processa(observer);
+                };
+
+                exec.Processa(observer);
+                t.Start();
+                timers.Add(t);
+            });
+            
+        }
 
         #endregion Métodos
 
-        
+
     }
 }

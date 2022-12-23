@@ -249,6 +249,15 @@ namespace Util
         }
 
         /// <summary>
+        /// Método que loga a exception
+        /// </summary>
+        /// <param name="e"></param>
+        public static void LogException(Exception e)
+        {
+            WriteOnTheLog(e.Message, Global.TipoLog.SIMPLES);
+        }
+
+        /// <summary>
         /// Method that write on the log
         /// </summary>
         /// <param name="message"></param>

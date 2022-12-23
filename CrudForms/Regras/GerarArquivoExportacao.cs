@@ -47,7 +47,7 @@ namespace Regras
             }
             catch (Exception ex)
             {
-                Util.CL_Files.WriteOnTheLog("Erro: " + ex.Message, Util.Global.TipoLog.SIMPLES);
+                Util.CL_Files.LogException(ex);
                 mensagemErro = "Erro: " + ex.Message;
                 retorno = false;
             }
@@ -132,6 +132,39 @@ namespace Regras
             return Newtonsoft.Json.JsonConvert.SerializeObject(lista, Newtonsoft.Json.Formatting.Indented);
         }
 
+
+        /// <summary>
+        /// Método que exporta os dados para json
+        /// </summary>
+        /// <param name="valores"></param>
+        /// <returns></returns>
+        public static List<string> MontaTextoJsonPorLinha(List<AcessoBancoCliente.AcessoBanco> valores, bool identa = true)
+        {
+            if (valores.Count == 0) return new List<string>();
+
+            List<dynamic> lista = new List<dynamic>();
+
+            List<string> campos = valores[0].campos;
+            valores.ForEach(valor =>
+            {
+                dynamic temp = new System.Dynamic.ExpandoObject();
+                for (int i = 0; i < valor.valores.Count; i++)
+                {
+                    ((IDictionary<string, Object>)temp).Add(campos[i], valor.valores[i]);
+                }
+                lista.Add(temp);
+            });
+
+            List<string> linhas = new List<string>();
+
+            if(identa)
+                lista.ForEach(l => linhas.Add(Newtonsoft.Json.JsonConvert.SerializeObject(l, Newtonsoft.Json.Formatting.Indented)));
+            else 
+                lista.ForEach(l => linhas.Add(Newtonsoft.Json.JsonConvert.SerializeObject(l)));
+
+            return linhas;
+        }
+
         /// <summary>
         /// Método que exporta os dados para xml
         /// </summary>
@@ -146,12 +179,12 @@ namespace Regras
             return retorno;
         }
 
-        public static XmlDocument DeserializeXmlNode(string json, string rootName, string rootPropertyName)
+        private static XmlDocument DeserializeXmlNode(string json, string rootName, string rootPropertyName)
         {
             return DeserializeXmlNode(new StringReader(json), rootName, rootPropertyName);
         }
 
-        public static XmlDocument DeserializeXmlNode(TextReader textReader, string rootName, string rootPropertyName)
+        private static XmlDocument DeserializeXmlNode(TextReader textReader, string rootName, string rootPropertyName)
         {
             var prefix = "{" + JsonConvert.SerializeObject(rootPropertyName) + ":";
             var postfix = "}";

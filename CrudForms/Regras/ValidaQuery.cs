@@ -44,7 +44,7 @@ namespace Regras
             }
             catch(Exception e)
             {
-                Util.CL_Files.WriteOnTheLog("Erro: " + e.Message, Util.Global.TipoLog.SIMPLES);
+                Util.CL_Files.LogException(e);
                 retorno = false;
             }
             finally

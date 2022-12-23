@@ -52,7 +52,7 @@ namespace Util.WebUtil
             }
             catch (Exception e)
             {
-                Util.CL_Files.WriteOnTheLog("Erro: " + e.Message, Global.TipoLog.SIMPLES);
+                Util.CL_Files.LogException(e);
                 return false;
             }
 

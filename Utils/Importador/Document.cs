@@ -41,7 +41,7 @@ namespace Util
             }
             catch (Exception e)
             {
-                Util.CL_Files.WriteOnTheLog("Error: " + e.Message, Global.TipoLog.SIMPLES);
+                Util.CL_Files.LogException(e);
                 return false;
             }
 

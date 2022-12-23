@@ -161,6 +161,7 @@
     <Compile Include="DataBase\Connection.cs" />
     <Compile Include="Importador\Document.cs" />
     <Compile Include="Importador\DocumentMySql.cs" />
+    <Compile Include="JSON\JS_RetornoEnvioEmail.cs" />
     <Compile Include="JSON\JS_RetornoLogin.cs" />
     <Compile Include="JSON\JS_RetornoVersao.cs" />
     <Compile Include="JSON\JS_Usuario.cs" />

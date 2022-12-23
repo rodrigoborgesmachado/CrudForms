@@ -470,7 +470,7 @@ namespace DAO
             }
             catch(Exception e)
             {
-                Util.CL_Files.WriteOnTheLog("Error: " + e.Message, Util.Global.TipoLog.SIMPLES);
+                Util.CL_Files.LogException(e);
                 retorno = false;
             }
 

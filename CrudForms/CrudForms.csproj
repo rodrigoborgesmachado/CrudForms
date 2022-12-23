@@ -121,11 +121,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regras\AcessoBancoCliente\AcessoBanco.cs" />
     <Compile Include="Regras\BuscaNovaVersaoSistema.cs" />
+    <Compile Include="Regras\EnviarEmail.cs" />
     <Compile Include="Regras\GerarArquivoExportacao.cs" />
     <Compile Include="Regras\GerarDer.cs" />
     <Compile Include="Regras\IdentJsonString.cs" />
     <Compile Include="Regras\Importador.cs" />
     <Compile Include="Regras\InformacoesSaidaImportador.cs" />
+    <Compile Include="Regras\RodaObservers.cs" />
     <Compile Include="Regras\ValidaQuery.cs" />
     <Compile Include="Visao\FO_Aguarde.cs">
       <SubType>Form</SubType>

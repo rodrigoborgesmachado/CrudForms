@@ -96,6 +96,10 @@ namespace Visao
             {
                 Message.MensagemAlerta("Consulta inválida");
             }
+            else if(intervalo < 5)
+            {
+                Message.MensagemAlerta("Intervalo mínimo de 5 minutos!");
+            }
             else
             {
                 model.DAO.Descricao = this.tbx_descricao.Text;

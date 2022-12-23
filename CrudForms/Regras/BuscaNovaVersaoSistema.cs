@@ -28,7 +28,7 @@ namespace Regras
             }
             catch(Exception ex)
             {
-                Util.CL_Files.WriteOnTheLog(ex.Message, Util.Global.TipoLog.SIMPLES);
+                Util.CL_Files.LogException(ex);
                 retorno = false;
             }
 
