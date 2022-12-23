@@ -16,6 +16,7 @@ namespace Visao
 
         List<Model.MD_Observer> lista = new List<Model.MD_Observer>();
         bool locked = false;
+        FO_Principal principal;
 
         #endregion Atributos e Proriedades
 
@@ -106,9 +107,10 @@ namespace Visao
         /// <summary>
         /// Construtor principal da classe
         /// </summary>
-        public FO_Observer()
+        public FO_Observer(FO_Principal principal)
         {
             InitializeComponent();
+            this.principal = principal;
             this.IniciaForm();
         }
 
@@ -142,7 +144,7 @@ namespace Visao
 
             for (int i = 0; i < this.dgv_observers.Columns.Count; i++)
             {
-                this.dgv_observers.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                this.dgv_observers.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 this.dgv_observers.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
             locked = false;
@@ -184,7 +186,7 @@ namespace Visao
         /// <param name="tarefa"></param>
         private void AbreTelaCadastro(Model.MD_Observer model, Util.Enumerator.Tarefa tarefa)
         {
-            FO_CadastraObserver cadastraObserver = new FO_CadastraObserver(this, model, tarefa);
+            FO_CadastraObserver cadastraObserver = new FO_CadastraObserver(this.principal, this, model, tarefa);
             cadastraObserver.ShowDialog();
         }
 

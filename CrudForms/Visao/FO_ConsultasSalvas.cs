@@ -59,6 +59,7 @@ namespace Visao
             if(this.dgv_generico.SelectedRows.Count == 0)
             {
                 Message.MensagemAlerta("Selecione um item no grid");
+                return;
             }
 
             FO_CadastraConsulta cadastraConsulta = new FO_CadastraConsulta(this.lista[this.dgv_generico.SelectedRows[0].Index], Util.Enumerator.Tarefa.EDITANDO);
@@ -76,10 +77,32 @@ namespace Visao
             if (this.dgv_generico.SelectedRows.Count == 0)
             {
                 Message.MensagemAlerta("Selecione um item no grid");
+                return;
             }
             
             this.principal.AbreJanelaFormularioGenerico(this.lista[this.dgv_generico.SelectedRows[0].Index].DAO.Consulta.Replace("\"", "'"));
             this.Dispose();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção para adicionar alarme
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_add_alarme_Click(object sender, EventArgs e)
+        {
+            if (this.dgv_generico.SelectedRows.Count == 0)
+            {
+                Message.MensagemAlerta("Selecione um item no grid");
+                return;
+            }
+
+            Model.MD_Consultas consultas = this.lista[this.dgv_generico.SelectedRows[0].Index];
+
+            FO_Observer observer = new FO_Observer(this.principal);
+            observer.Show();
+            FO_CadastraObserver cadastraObserver = new FO_CadastraObserver(this.principal, observer, null, consultas.DAO.Consulta);
+            cadastraObserver.Show();
         }
 
         #endregion Eventos
@@ -168,5 +191,6 @@ namespace Visao
 
         #endregion Métodos
 
+        
     }
 }

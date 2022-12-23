@@ -35,6 +35,7 @@ namespace Visao
             this.btn_incluir = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
             this.dgv_generico = new System.Windows.Forms.DataGridView();
+            this.btn_add_alarme = new System.Windows.Forms.Button();
             this.pan_botton.SuspendLayout();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_generico)).BeginInit();
@@ -42,6 +43,7 @@ namespace Visao
             // 
             // pan_botton
             // 
+            this.pan_botton.Controls.Add(this.btn_add_alarme);
             this.pan_botton.Controls.Add(this.btn_excluir);
             this.pan_botton.Controls.Add(this.btn_editar);
             this.pan_botton.Controls.Add(this.btn_incluir);
@@ -83,7 +85,7 @@ namespace Visao
             this.btn_incluir.Name = "btn_incluir";
             this.btn_incluir.Size = new System.Drawing.Size(83, 29);
             this.btn_incluir.TabIndex = 23;
-            this.btn_incluir.Text = "Incluir";
+            this.btn_incluir.Text = "Executar";
             this.btn_incluir.UseVisualStyleBackColor = true;
             this.btn_incluir.Click += new System.EventHandler(this.btn_executar_Click);
             // 
@@ -126,6 +128,18 @@ namespace Visao
             this.dgv_generico.StandardTab = true;
             this.dgv_generico.TabIndex = 13;
             // 
+            // btn_add_alarme
+            // 
+            this.btn_add_alarme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_add_alarme.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_add_alarme.Location = new System.Drawing.Point(3, 3);
+            this.btn_add_alarme.Name = "btn_add_alarme";
+            this.btn_add_alarme.Size = new System.Drawing.Size(147, 29);
+            this.btn_add_alarme.TabIndex = 26;
+            this.btn_add_alarme.Text = "Adicionar alarme";
+            this.btn_add_alarme.UseVisualStyleBackColor = true;
+            this.btn_add_alarme.Click += new System.EventHandler(this.btn_add_alarme_Click);
+            // 
             // FO_ConsultasSalvas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -158,5 +172,6 @@ namespace Visao
         private System.Windows.Forms.Button btn_editar;
         private System.Windows.Forms.DataGridView dgv_generico;
         private System.Windows.Forms.Button btn_excluir;
+        private System.Windows.Forms.Button btn_add_alarme;
     }
 }

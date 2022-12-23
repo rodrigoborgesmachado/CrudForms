@@ -12,6 +12,7 @@ namespace Visao
         Tarefa tarefa;
         MD_Observer model;
         FO_Observer tela;
+        FO_Principal principal;
 
         #endregion Atribuitos e Propriedades
 
@@ -37,9 +38,27 @@ namespace Visao
         /// <param name="tela"></param>
         /// <param name="observer"></param>
         /// <param name="tarefa"></param>
-        public FO_CadastraObserver(FO_Observer tela, MD_Observer observer, Tarefa tarefa)
+        public FO_CadastraObserver(FO_Principal principal, FO_Observer tela, MD_Observer observer, string query)
         {
             InitializeComponent();
+            this.principal = principal;
+            this.tela = tela;
+            this.model = observer;
+            this.tarefa = Tarefa.INCLUINDO;
+            this.tbx_consulta.Text = query;
+            this.IniciaForm();
+        }
+
+        /// <summary>
+        /// Construtor principal da classe
+        /// </summary>
+        /// <param name="tela"></param>
+        /// <param name="observer"></param>
+        /// <param name="tarefa"></param>
+        public FO_CadastraObserver(FO_Principal principal, FO_Observer tela, MD_Observer observer, Tarefa tarefa)
+        {
+            InitializeComponent();
+            this.principal = principal;
             this.tela = tela;
             this.model = observer;
             this.tarefa = tarefa;
@@ -116,6 +135,7 @@ namespace Visao
                 {
                     Message.MensagemSucesso((tarefa == Tarefa.INCLUINDO ? "Inclído" : "Alterado") + $" com sucesso\n. O processo será executado a cada {model.DAO.Intervalorodar} minutos");
                     this.tela.IniciaForm();
+                    this.principal.CarregaObservers();
                     this.Dispose();
                 }
                 else

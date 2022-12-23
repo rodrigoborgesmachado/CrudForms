@@ -33,6 +33,8 @@ namespace Visao
 
         System.Diagnostics.FileVersionInfo fvi;
 
+        List<Timer> timers = new List<Timer>();
+
         #endregion Atributos e Propriedades
 
         #region Eventos
@@ -223,7 +225,7 @@ namespace Visao
         /// <param name="e"></param>
         private void adicionarInspeçãoAutomáticaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FO_Observer observer = new FO_Observer();
+            FO_Observer observer = new FO_Observer(this);
             observer.ShowDialog();
         }
 
@@ -630,11 +632,12 @@ namespace Visao
         /// <summary>
         /// Método que carrega os observers
         /// </summary>
-        private void CarregaObservers()
+        public void CarregaObservers()
         {
             List<Model.MD_Observer> observers = Model.MD_Observer.BuscaTodos().Where(l => l.DAO.Isactive.Equals("1")).ToList();
-            List<Timer> timers = new List<Timer>();
+            timers.ForEach(t => t.Stop());
 
+            timers = new List<Timer>();
             observers.ForEach(observer =>
             {
                 Timer t = new Timer();
