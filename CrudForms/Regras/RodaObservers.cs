@@ -23,6 +23,8 @@ namespace Regras
         /// <param name="observer"></param>
         public void Processa(MD_Observer observer)
         {
+            Util.CL_Files.WriteOnTheLog("ProcessaObserver Inicio", Util.Global.TipoLog.SIMPLES);
+
             Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(1, "Processos automaticos");
             barra.Show();
             try
@@ -40,6 +42,8 @@ namespace Regras
                     new Regras.AcessoBancoCliente.AcessoBancoMysql().BuscaLista(query))
                     ;
 
+                Util.CL_Files.WriteOnTheLog("Quantidade de itens da consulta: " + valores.Count, Util.Global.TipoLog.SIMPLES);
+
                 List<string> json = GerarArquivoExportacao.MontaTextoJsonPorLinha(valores, false);
                 List<string> hash = new List<string>();
                 json.ForEach(j => hash.Add(j.GetHashCode().ToString()));
@@ -48,6 +52,9 @@ namespace Regras
 
                 hash.RemoveAll(h => enviados.Exists(i => i.DAO.Jsonsended.Equals(h)));
                 json.RemoveAll(j => !hash.Exists(h => h.Equals(j.GetHashCode().ToString())));
+
+                Util.CL_Files.WriteOnTheLog("Quantidade a processar: " + json.Count, Util.Global.TipoLog.SIMPLES);
+
 
                 if (json.Count > 0)
                 {
@@ -73,6 +80,7 @@ namespace Regras
         /// <param name="emails"></param>
         private void EnviaEmail(List<string> json, int codigo, string emails)
         {
+
             Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(json.Count, "Enviando emails");
             barra.Show();
 
@@ -80,6 +88,7 @@ namespace Regras
             {
                 foreach (string j in json)
                 {
+                    Util.CL_Files.WriteOnTheLog("Envia Email: " + j, Util.Global.TipoLog.SIMPLES);
                     string textoEmail = MontaEmail(j);
 
                     emails = emails.Replace(",", ";").Replace("|", ";");
