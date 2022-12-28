@@ -59,7 +59,7 @@ namespace Regras
 
                 if (json.Count > 0)
                 {
-                    EnviaEmail(json, observer.DAO.Codigo, observer.DAO.Emailsenviar);
+                    EnviaEmail(json, observer.DAO.Codigo, observer.DAO.Emailsenviar, observer.DAO.Descricao);
                 }
                 barra.AvancaBarra(1);
             }
@@ -79,12 +79,12 @@ namespace Regras
         /// <param name="json"></param>
         /// <param name="codigo"></param>
         /// <param name="emails"></param>
-        private void EnviaEmail(List<string> json, int codigo, string emails)
+        private void EnviaEmail(List<string> json, int codigo, string emails, string descricao)
         {
 
             try
             {
-                string textoEmail = MontaInicioEmail();
+                string textoEmail = MontaInicioEmail(descricao);
                 string textoTabela = string.Empty;
                 string header = string.Empty;
 
@@ -122,7 +122,7 @@ namespace Regras
         /// Método que monta o início do email automático
         /// </summary>
         /// <returns></returns>
-        private string MontaInicioEmail()
+        private string MontaInicioEmail(string descricao)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -205,7 +205,7 @@ namespace Regras
             builder.AppendLine("<tr>");
             builder.AppendLine("<td> ");
             builder.AppendLine("<font size=\"+1\">");
-            builder.AppendLine("Consulta dos itens vendidos");
+            builder.AppendLine(descricao);
             builder.AppendLine("</font>");
             builder.AppendLine("<br>");
             builder.AppendLine("<font size=\"-1\" color=\"#777\">");
