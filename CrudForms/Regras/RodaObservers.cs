@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Model;
 using Newtonsoft.Json;
@@ -81,40 +82,173 @@ namespace Regras
         private void EnviaEmail(List<string> json, int codigo, string emails)
         {
 
-            Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(json.Count, "Enviando emails");
-            barra.Show();
-
             try
             {
-                foreach (string j in json)
+                string textoEmail = MontaInicioEmail();
+                string textoTabela = string.Empty;
+                string header = string.Empty;
+
+                int i = 0;
+                json.ForEach(j =>
                 {
-                    Util.CL_Files.WriteOnTheLog("Envia Email: " + j, Util.Global.TipoLog.SIMPLES);
-                    string textoEmail = MontaEmail(j);
+                    if(i == 0)
+                        header += "<tr>" + MontaColunasEmail(j) + "</tr>";
+                    textoTabela += "<tr>" + MontaLinhaEmail(j) + "</tr>";
+                    this.InsereObserverEnviado(codigo, j);
+                    i++;
+                });
+                
+                textoEmail = textoEmail.Replace("#HEADER", header);
+                textoEmail = textoEmail.Replace("#TABELA", textoTabela);
 
-                    emails = emails.Replace(",", ";").Replace("|", ";");
-                    List<string> emailsList = emails.Split(';').ToList();
-                    emailsList.RemoveAll(e => string.IsNullOrEmpty(e));
+                Util.CL_Files.WriteOnTheLog("Envia Email: " + textoEmail, Util.Global.TipoLog.SIMPLES);
 
-                    emailsList.ForEach(email =>
-                    {
-                        JSON.JS_RetornoEnvioEmail retorno = EnviarEmail.EnviaEmail(email, "Atividade automática - CrudForms", textoEmail);
+                emails = emails.Replace(",", ";").Replace("|", ";");
+                List<string> emailsList = emails.Split(';').ToList();
+                emailsList.RemoveAll(e => string.IsNullOrEmpty(e));
 
-                        if (retorno.Sucesso)
-                        {
-                            this.InsereObserverEnviado(codigo, j);
-                        }
-                    });
-                    barra.AvancaBarra(1);
-                }
+                emailsList.ForEach(email =>
+                {
+                    JSON.JS_RetornoEnvioEmail retorno = EnviarEmail.EnviaEmail(email, "Atividade automática - CrudForms", textoEmail);
+                });
             }
             catch(Exception e)
             {
                 Util.CL_Files.LogException(e);
             }
-            finally
-            {
-                barra.Dispose();
-            }
+        }
+
+        /// <summary>
+        /// Método que monta o início do email automático
+        /// </summary>
+        /// <returns></returns>
+        private string MontaInicioEmail()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine("<!DOCTYPE html PUBLIC \" -//W3C//DTD HTML 4.01//EN\" \"https://www.w3.org/TR/html4/strict.dtd\">");
+            builder.AppendLine("<html lang=\"pt-BR\">");
+            builder.AppendLine("<head>");
+            builder.AppendLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
+            builder.AppendLine("<style type=\"text/css\" nonce=\"\">");
+            builder.AppendLine("body,");
+            builder.AppendLine("td,");
+            builder.AppendLine("div,");
+            builder.AppendLine("p,");
+            builder.AppendLine("a,");
+            builder.AppendLine("input {");
+            builder.AppendLine("font-family: arial, sans-serif;");
+            builder.AppendLine("}");
+            builder.AppendLine("</style>");
+            builder.AppendLine("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
+            builder.AppendLine("<title>Relatório Automático</title>");
+            builder.AppendLine("<style type=\"text/css\" nonce=\"\">");
+            builder.AppendLine("body {");
+            builder.AppendLine("background: #FFFFE0");
+            builder.AppendLine("}");
+            builder.AppendLine("body,");
+            builder.AppendLine("td {");
+            builder.AppendLine("font-size: 13px");
+            builder.AppendLine("}");
+            builder.AppendLine("a:link,");
+            builder.AppendLine("a:active {");
+            builder.AppendLine("color: #1155CC;");
+            builder.AppendLine("text-decoration: none");
+            builder.AppendLine("}");
+            builder.AppendLine("a:hover {");
+            builder.AppendLine("text-decoration: underline;");
+            builder.AppendLine("cursor: pointer");
+            builder.AppendLine("}");
+            builder.AppendLine("a:visited {");
+            builder.AppendLine("color: #6611CC");
+            builder.AppendLine("}");
+            builder.AppendLine("img {");
+            builder.AppendLine("border: 1px");
+            builder.AppendLine("}");
+            builder.AppendLine("pre {");
+            builder.AppendLine("white-space: pre;");
+            builder.AppendLine("white-space: -moz-pre-wrap;");
+            builder.AppendLine("white-space: -o-pre-wrap;");
+            builder.AppendLine("white-space: pre-wrap;");
+            builder.AppendLine("word-wrap: break-word;");
+            builder.AppendLine("max-width: 800px;");
+            builder.AppendLine("overflow: auto;");
+            builder.AppendLine("}");
+            builder.AppendLine(".logo {");
+            builder.AppendLine("left: -7px;");
+            builder.AppendLine("position: relative;");
+            builder.AppendLine("}");
+            builder.AppendLine("</style>");
+            builder.AppendLine("<style type=\"text/css\"></style>");
+            builder.AppendLine("</head>");
+            builder.AppendLine("<body>");
+            builder.AppendLine("<div class=\"bodycontainer\" align=\"justify\">");
+            builder.AppendLine("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">");
+            builder.AppendLine("<tbody>");
+            builder.AppendLine("<tr height=\"14px\">");
+            builder.AppendLine("<td width=\"143\"> ");
+            builder.AppendLine("<b>SunSale System</b> ");
+            builder.AppendLine("</td>");
+            builder.AppendLine("<td align=\"right\">");
+            builder.AppendLine("<font size=\"-1\" color=\"#777\">");
+            builder.AppendLine("<b>SunSale System &lt;sunsalesystem@gmail.com&gt;</b>");
+            builder.AppendLine("</font> ");
+            builder.AppendLine("</td>");
+            builder.AppendLine("</tr>");
+            builder.AppendLine("</tbody>");
+            builder.AppendLine("</table>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<hr>");
+            builder.AppendLine("<div class=\"maincontent\">");
+            builder.AppendLine("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">");
+            builder.AppendLine("<tbody>");
+            builder.AppendLine("<tr>");
+            builder.AppendLine("<td> ");
+            builder.AppendLine("<font size=\"+1\">");
+            builder.AppendLine("Consulta dos itens vendidos");
+            builder.AppendLine("</font>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<font size=\"-1\" color=\"#777\">");
+            builder.AppendLine("Relatório automático");
+            builder.AppendLine("</font> ");
+            builder.AppendLine("</td>");
+            builder.AppendLine("<td align=\"right\">");
+            builder.AppendLine("<font size=\"-1\">");
+            builder.AppendLine("" + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString());
+            builder.AppendLine("</font>");
+            builder.AppendLine("</td>");
+            builder.AppendLine("</tr>");
+            builder.AppendLine("</tbody>");
+            builder.AppendLine("</table>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"message\">");
+            builder.AppendLine("<tbody>");
+            builder.AppendLine("<tr>");
+            builder.AppendLine("<td colspan=\"2\">");
+            builder.AppendLine("<table width=\"100%\" cellpadding=\"12\" cellspacing=\"0\" border=\"1\">");
+            builder.AppendLine("<thead>");
+            builder.AppendLine("#HEADER");
+            builder.AppendLine("</thead>");
+            builder.AppendLine("<tbody>");
+            builder.AppendLine("#TABELA");
+            builder.AppendLine("</tbody>");
+            builder.AppendLine("</table>");
+            builder.AppendLine("</td>");
+            builder.AppendLine("</tr>");
+            builder.AppendLine("</tbody>");
+            builder.AppendLine("</table>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<br>");
+            builder.AppendLine("<hr> ");
+            builder.AppendLine("</div>");
+            builder.AppendLine("</div>");
+            builder.AppendLine("</body>");
+            builder.AppendLine("</html>");
+
+            return builder.ToString();
         }
 
         /// <summary>
@@ -122,9 +256,35 @@ namespace Regras
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        private string MontaEmail(string json)
+        private string MontaLinhaEmail(string json)
         {
-            return "Objeto do processo automatico:\n" + JsonConvert.SerializeObject(json);
+            string retorno = string.Empty;
+            dynamic obj = JsonConvert.DeserializeObject(json);
+
+            foreach (Newtonsoft.Json.Linq.JProperty jproperty in obj)
+            {
+                retorno += $"<td>{jproperty.Value}</td>";
+            }
+
+            return retorno;
+        }
+
+        /// <summary>
+        /// Método que transforma todos os json
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        private string MontaColunasEmail(string json)
+        {
+            string retorno = string.Empty;
+            dynamic obj = JsonConvert.DeserializeObject(json);
+
+            foreach (Newtonsoft.Json.Linq.JProperty jproperty in obj)
+            {
+                retorno += $"<th>{jproperty.Name}</th>";
+            }
+
+            return retorno;
         }
 
         /// <summary>
