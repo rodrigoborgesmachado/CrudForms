@@ -109,7 +109,7 @@ namespace Regras
 
                 emailsList.ForEach(email =>
                 {
-                    JSON.JS_RetornoEnvioEmail retorno = EnviarEmail.EnviaEmail(email, "Atividade automática - CrudForms", textoEmail);
+                    JSON.JS_RetornoEnvioEmail retorno = EnviarEmail.EnviaEmail(email, "Atividade automática - " + descricao, textoEmail);
                 });
             }
             catch(Exception e)
