@@ -38,13 +38,14 @@ namespace Visao
         /// <param name="tela"></param>
         /// <param name="observer"></param>
         /// <param name="tarefa"></param>
-        public FO_CadastraObserver(FO_Principal principal, FO_Observer tela, MD_Observer observer, string query)
+        public FO_CadastraObserver(FO_Principal principal, FO_Observer tela, MD_Observer observer, string nome, string query)
         {
             InitializeComponent();
             this.principal = principal;
             this.tela = tela;
             this.model = observer;
             this.tarefa = Tarefa.INCLUINDO;
+            this.tbx_descricao.Text = nome;
             this.tbx_consulta.Text = query;
             this.IniciaForm();
         }
@@ -86,6 +87,7 @@ namespace Visao
             {
                 this.model = new MD_Observer(DataBase.Connection.GetIncrement(new DAO.MD_Observer().table.Table_Name));
                 this.btn_executar.Text = "Incluir";
+                this.tbx_intervalo.Text = "5";
             }
         }
 

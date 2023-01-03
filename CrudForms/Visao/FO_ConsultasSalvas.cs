@@ -101,7 +101,7 @@ namespace Visao
 
             FO_Observer observer = new FO_Observer(this.principal);
             observer.Show();
-            FO_CadastraObserver cadastraObserver = new FO_CadastraObserver(this.principal, observer, null, consultas.DAO.Consulta);
+            FO_CadastraObserver cadastraObserver = new FO_CadastraObserver(this.principal, observer, null, consultas.DAO.Nomeconsulta, consultas.DAO.Consulta);
             cadastraObserver.Show();
         }
 

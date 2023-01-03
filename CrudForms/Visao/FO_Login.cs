@@ -30,7 +30,8 @@ namespace Visao
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            if(Util.WebUtil.Login.ValidaLogin(this.tbx_login.Text, this.tbx_password.Text.GetHashCode().ToString()))
+            string pass = Hash(this.tbx_password.Text).ToString();
+            if (Util.WebUtil.Login.ValidaLogin(this.tbx_login.Text, pass))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Dispose();
@@ -44,6 +45,27 @@ namespace Visao
         private void FO_Login_Load(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Método que calcula o hash de uma string
+        /// </summary>
+        /// <param name="texto"></param>
+        /// <returns></returns>
+        private long Hash(string texto)
+        {
+            long hash = 0;
+
+            if (texto.Length == 0) return hash;
+
+            for (int i = 0; i< texto.Length; i++)
+            {
+                int t = (int)texto[i];
+                hash = ((hash << 5) - hash) + t;
+                hash = hash & hash;
+            }
+
+            return hash;
         }
     }
 }
