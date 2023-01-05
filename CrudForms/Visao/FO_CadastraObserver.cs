@@ -86,6 +86,7 @@ namespace Visao
             else
             {
                 this.model = new MD_Observer(DataBase.Connection.GetIncrement(new DAO.MD_Observer().table.Table_Name));
+                this.tbx_emails.Text = Util.Global.usuarioLogado.EMAIL + ";";
                 this.btn_executar.Text = "Incluir";
                 this.tbx_intervalo.Text = "5";
             }
