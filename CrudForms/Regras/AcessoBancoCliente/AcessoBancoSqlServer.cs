@@ -129,9 +129,9 @@ namespace Regras.AcessoBancoCliente
         /// Method that creates the command for select in table
         /// </summary>
         /// <returns>Command SQL</returns>
-        protected override string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro)
+        protected override string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, bool limite = true)
         {
-            string command = $" SELECT TOP {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor} ";
+            string command = limite ? $" SELECT TOP {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor} " : "SELECT ";
             string fields = string.Empty;
             int qt = campos.Count, i = 1;
 

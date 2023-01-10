@@ -14,6 +14,22 @@ namespace Regras.AcessoBancoCliente
         public List<string> valores = new List<string>();
 
         /// <summary>
+        /// Método que retorna a instância do banco do cliente
+        /// </summary>
+        /// <returns></returns>
+        public static AcessoBanco GetInstanciaBancoCliente()
+        {
+            AcessoBanco retorno = new AcessoBancoMysql();
+            if (Util.Global.BancoDados == Util.Enumerator.BancoDados.SQL_SERVER)
+                retorno = new AcessoBancoSqlServer();
+            else if (Util.Global.BancoDados == Util.Enumerator.BancoDados.POSTGRESQL)
+                retorno = new AcessoBancoPostGres();
+
+            return retorno;
+
+        }
+
+        /// <summary>
         /// Método que atualiza os valores no banco
         /// </summary>
         /// <param name="tabela"></param>
@@ -137,13 +153,13 @@ namespace Regras.AcessoBancoCliente
         /// </summary>
         /// <param name="tabela"></param>
         /// <returns></returns>
-        public List<AcessoBanco> BuscaLista(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro, out string consulta)
+        public List<AcessoBanco> BuscaLista(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro, out string consulta, bool limite = true)
         {
             List<AcessoBanco> valores = new List<AcessoBanco>();
 
             try
             {
-                consulta = CreateCommandSQLTable(tabela, campos, filtro);
+                consulta = CreateCommandSQLTable(tabela, campos, filtro, limite);
 
                 Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
                 barra.Show();
@@ -322,7 +338,7 @@ namespace Regras.AcessoBancoCliente
 
         protected abstract string MontaComandoUpdate(string tabela, List<Model.MD_Campos> campos, AcessoBanco valoresAnteriores, out string mensagem);
 
-        protected abstract string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro);
+        protected abstract string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, bool limita = true);
 
         protected abstract string MontaWhereSelect(Model.Filtro filtro, List<MD_Campos> campos);
 

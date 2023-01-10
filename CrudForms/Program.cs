@@ -35,13 +35,11 @@ namespace CrudForms
             DAO.MD_Tabela tab = new DAO.MD_Tabela();
             DAO.MD_TipoCampo tipo = new DAO.MD_TipoCampo();
 
-#if (!DEMO)
             Visao.FO_Login login = new Visao.FO_Login();
-            if(login.ShowDialog() == DialogResult.Cancel)
+            if (login.ShowDialog() == DialogResult.Cancel)
             {
                 return;
             }
-#endif
             Application.Run(new Visao.FO_Principal());
 
             DataBase.Connection.CloseConnection();

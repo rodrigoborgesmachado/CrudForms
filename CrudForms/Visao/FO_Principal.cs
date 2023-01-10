@@ -339,6 +339,18 @@ namespace Visao
         private void IncluiMenuTabela(ref TreeNode nodeTabela, Model.MD_Tabela tabela)
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.IncluiMenuTabela()", Util.Global.TipoLog.DETALHADO);
+            
+            MenuItem menu1 = new MenuItem("CSV", delegate { this.ExportaTabela(tabela.DAO.Codigo, TipoArquivoExportacao.CSV); });
+            MenuItem menu2 = new MenuItem("JSON", delegate { this.ExportaTabela(tabela.DAO.Codigo, TipoArquivoExportacao.JSON); });
+            MenuItem menu3 = new MenuItem("XML", delegate { this.ExportaTabela(tabela.DAO.Codigo, TipoArquivoExportacao.XML); });
+
+            MenuItem menu = new MenuItem("Exportar tabela");
+            menu.MenuItems.Add(menu1);
+            menu.MenuItems.Add(menu2);
+            menu.MenuItems.Add(menu3);
+
+            nodeTabela.ContextMenu = new ContextMenu();
+            nodeTabela.ContextMenu.MenuItems.Add(menu);
         }
 
         /// <summary>
@@ -655,6 +667,28 @@ namespace Visao
                 timers.Add(t);
             });
             
+        }
+
+        /// <summary>
+        /// Método que faz exportação de toda a tabela dado o código da mesma e o tipo de exportação
+        /// </summary>
+        /// <param name="codigoTabela"></param>
+        /// <param name="tipo"></param>
+        public void ExportaTabela(int codigoTabela, TipoArquivoExportacao tipo)
+        {
+            Model.MD_Tabela tabela = new Model.MD_Tabela(codigoTabela, 0);
+            var valores = Regras.AcessoBancoCliente.AcessoBanco.GetInstanciaBancoCliente().BuscaLista(tabela, tabela.CamposDaTabela(), new Model.Filtro(), out string consulta, false);
+            string nomeArquivo = tabela != null ? tabela.DAO.Nome : "relatorio_generico";
+
+            if (!GerarArquivoExportacao.GerarArquivoSolicitandoCaminho(tipo, valores, nomeArquivo, out var mensagemErro, out var diretorio))
+            {
+                Message.MensagemErro("Houve erros.");
+                Message.MensagemErro(mensagemErro);
+            }
+            else
+            {
+                Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "csv"))} gerado com sucesso no caminho:\n {diretorio}");
+            }
         }
 
         #endregion Métodos

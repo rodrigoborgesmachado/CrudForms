@@ -6,11 +6,37 @@ using Newtonsoft;
 using System.Xml;
 using Newtonsoft.Json;
 using System.Xml.Linq;
+using System.Windows.Forms;
 
 namespace Regras
 {
     public static class GerarArquivoExportacao
     {
+        /// <summary>
+        /// Método que gera o arquivo de relatório questionando o caminho
+        /// </summary>
+        /// <param name="tipo"></param>
+        /// <param name="valores"></param>
+        /// <param name="nomeArquivo"></param>
+        /// <param name="mensagemErro"></param>
+        /// <returns></returns>
+        public static bool GerarArquivoSolicitandoCaminho(TipoArquivoExportacao tipo, List<AcessoBancoCliente.AcessoBanco> valores, string nomeArquivo, out string mensagemErro, out string diretorio)
+        {
+            mensagemErro = string.Empty;
+            diretorio = string.Empty;
+
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.Description = "Selecione onde deseja salvar o arquivo";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                DirectoryInfo directory = new DirectoryInfo(dialog.SelectedPath);
+                diretorio = directory.FullName;
+                return GerarArquivoExportacao.GerarArquivo(tipo, valores, directory, nomeArquivo, out mensagemErro);
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Método que gera o arquivo CSV
         /// </summary>
