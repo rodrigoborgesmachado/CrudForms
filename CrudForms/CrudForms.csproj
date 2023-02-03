@@ -133,6 +133,7 @@
     <Compile Include="Regras\GerarDer.cs" />
     <Compile Include="Regras\IdentJsonString.cs" />
     <Compile Include="Regras\Importador.cs" />
+    <Compile Include="Regras\ImportarPlanilhaCsv.cs" />
     <Compile Include="Regras\InformacoesSaidaImportador.cs" />
     <Compile Include="Regras\RodaObservers.cs" />
     <Compile Include="Regras\ValidaQuery.cs" />
@@ -189,6 +190,12 @@
     </Compile>
     <Compile Include="Visao\FO_IdentaJson.Designer.cs">
       <DependentUpon>FO_IdentaJson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_ImportaPlanilha.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_ImportaPlanilha.Designer.cs">
+      <DependentUpon>FO_ImportaPlanilha.cs</DependentUpon>
     </Compile>
     <Compile Include="Visao\FO_Login.cs">
       <SubType>Form</SubType>
@@ -271,6 +278,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_IdentaJson.resx">
       <DependentUpon>FO_IdentaJson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_ImportaPlanilha.resx">
+      <DependentUpon>FO_ImportaPlanilha.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_Login.resx">
       <DependentUpon>FO_Login.cs</DependentUpon>

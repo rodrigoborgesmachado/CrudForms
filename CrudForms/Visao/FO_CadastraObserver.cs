@@ -97,7 +97,7 @@ namespace Visao
         /// </summary>
         private void Inserir()
         {
-            string query = this.tbx_consulta.Text.Replace("\"", "'");
+            string query = this.tbx_consulta.Text;
             if (string.IsNullOrEmpty(this.tbx_descricao.Text))
             {
                 Message.MensagemAlerta("Descrição não está preenchida");

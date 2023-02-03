@@ -68,6 +68,7 @@ namespace Visao
             this.tbx_json.MaxLength = 999999999;
             this.tbx_json.Multiline = true;
             this.tbx_json.Name = "tbx_json";
+            this.tbx_json.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbx_json.Size = new System.Drawing.Size(535, 371);
             this.tbx_json.TabIndex = 0;
             // 

@@ -229,6 +229,28 @@ namespace Visao
             observer.ShowDialog();
         }
 
+        /// <summary>
+        /// Método que importa planilha
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void importarPlanilhaCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_ImportaPlanilha importaPlanilha = new FO_ImportaPlanilha(this);
+            importaPlanilha.ShowDialog();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção para gerar planilha de csv
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void importarPlanilhaCSVToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            FO_ImportaPlanilha importaPlanilha = new FO_ImportaPlanilha(this);
+            importaPlanilha.ShowDialog();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -306,7 +328,8 @@ namespace Visao
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.CarregaTabelas()", Util.Global.TipoLog.DETALHADO);
 
-            DbDataReader reader = DataBase.Connection.Select(new DAO.MD_Tabela().table.CreateCommandSQLTable() + " ORDER BY NOME");
+            string select = new DAO.MD_Tabela().table.CreateCommandSQLTable() + " ORDER BY NOME";
+            DbDataReader reader = DataBase.Connection.Select(select);
 
             TreeNode nodeTabelas = new TreeNode("Tabelas");
             nodeTabelas.Tag = string.Empty;
@@ -482,9 +505,9 @@ namespace Visao
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.CarregaTreeViewAutomaticamente()", Util.Global.TipoLog.DETALHADO);
 
+                this.CarregaTreeView();
             if (Util.Global.CarregarAutomaticamente == Automatico.Automatico)
             {
-                this.CarregaTreeView();
             }
         }
 
@@ -691,8 +714,9 @@ namespace Visao
             }
         }
 
+
+
         #endregion Métodos
-
-
+        
     }
 }

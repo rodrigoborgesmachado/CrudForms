@@ -119,11 +119,6 @@ namespace DAO
                 {
                     data_table.Columns.Add(new DataColumn(field.Name_Field));
                 }
-
-                if (!Table_Name.Equals("TABELAS"))
-                {
-                    FillLib();
-                }
             }
 
             return command;
