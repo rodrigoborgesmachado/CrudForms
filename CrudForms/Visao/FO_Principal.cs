@@ -35,6 +35,8 @@ namespace Visao
 
         List<Timer> timers = new List<Timer>();
 
+        ContextMenuStrip contextMenuStrip;
+
         #endregion Atributos e Propriedades
 
         #region Eventos
@@ -251,6 +253,19 @@ namespace Visao
             importaPlanilha.ShowDialog();
         }
 
+        /// <summary>
+        /// Evento lançado no clique do botão direito no tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tbc_table_control_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                this.contextMenuStrip.Show(this.tbc_table_control, e.Location);
+            }
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -284,6 +299,13 @@ namespace Visao
             this.nãoFiltrarToolStripMenuItem.Checked = !Model.Parametros.FiltrarAutomaticamente;
             this.enumeraLinhasDasTabelasToolStripMenuItem.Checked = Model.Parametros.NumeracaoLinhasTabelas;
             this.tbx_quantidade_dias_atualizacao.Text = Model.Parametros.QuantidadeDiasAtualizacaoTabela.ToString();
+
+            ToolStripMenuItem closeAllPages = new ToolStripMenuItem();
+            closeAllPages.Text = "Fechar todas as telas";
+            closeAllPages.Click += delegate { FecharTelas(); };
+
+            this.contextMenuStrip = new ContextMenuStrip();
+            this.contextMenuStrip.Items.Add(closeAllPages);
 
             string connection = Model.Parametros.NomeConexao.DAO.Valor;
             if (string.IsNullOrEmpty(connection))
@@ -454,12 +476,13 @@ namespace Visao
 
                 page.Tag = tag;
                 Pages.Add(page);
-
+                
                 page.Controls.Add(control);
                 this.tbc_table_control.Controls.Add(page);
                 this.tbc_table_control.Dock = DockStyle.Fill;
                 this.tbc_table_control.Name = titulo;
                 this.tbc_table_control.SelectedTab = page;
+                this.tbc_table_control.MouseClick += Tbc_table_control_MouseClick;
             }
         }
 

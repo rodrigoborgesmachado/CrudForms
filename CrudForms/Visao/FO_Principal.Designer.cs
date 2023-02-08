@@ -51,6 +51,7 @@
             this.tbx_quantidade_dias_atualizacao = new System.Windows.Forms.ToolStripTextBox();
             this.buscarAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adicionarInspeçãoAutomáticaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importarPlanilhaCSVToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
             this.pan_descricoes = new System.Windows.Forms.Panel();
@@ -58,7 +59,6 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.importarPlanilhaCSVToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -251,6 +251,13 @@
             this.adicionarInspeçãoAutomáticaToolStripMenuItem.Text = "Gerenciar Alarmes";
             this.adicionarInspeçãoAutomáticaToolStripMenuItem.Click += new System.EventHandler(this.adicionarInspeçãoAutomáticaToolStripMenuItem_Click);
             // 
+            // importarPlanilhaCSVToolStripMenuItem1
+            // 
+            this.importarPlanilhaCSVToolStripMenuItem1.Name = "importarPlanilhaCSVToolStripMenuItem1";
+            this.importarPlanilhaCSVToolStripMenuItem1.Size = new System.Drawing.Size(336, 26);
+            this.importarPlanilhaCSVToolStripMenuItem1.Text = "Importar planilha CSV";
+            this.importarPlanilhaCSVToolStripMenuItem1.Click += new System.EventHandler(this.importarPlanilhaCSVToolStripMenuItem1_Click);
+            // 
             // pan_principal
             // 
             this.pan_principal.Controls.Add(this.tbc_table_control);
@@ -325,13 +332,6 @@
             this.lbl_versao.Size = new System.Drawing.Size(52, 17);
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
-            // 
-            // importarPlanilhaCSVToolStripMenuItem1
-            // 
-            this.importarPlanilhaCSVToolStripMenuItem1.Name = "importarPlanilhaCSVToolStripMenuItem1";
-            this.importarPlanilhaCSVToolStripMenuItem1.Size = new System.Drawing.Size(336, 26);
-            this.importarPlanilhaCSVToolStripMenuItem1.Text = "Importar planilha CSV";
-            this.importarPlanilhaCSVToolStripMenuItem1.Click += new System.EventHandler(this.importarPlanilhaCSVToolStripMenuItem1_Click);
             // 
             // FO_Principal
             // 
