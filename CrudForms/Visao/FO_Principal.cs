@@ -519,6 +519,9 @@ namespace Visao
 
             if (index < Pages.Count)
                 Pages.RemoveAt(index);
+
+            if (this.tbc_table_control.TabPages.Count > 1)
+                this.tbc_table_control.SelectedTab = this.tbc_table_control.TabPages[this.tbc_table_control.TabPages.Count - 1];
         }
 
         /// <summary>
