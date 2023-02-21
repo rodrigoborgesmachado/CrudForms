@@ -44,7 +44,7 @@ namespace Model
         {
             List<int> codigos = new List<int>();
 
-            DbDataReader reader = DataBase.Connection.Select(new DAO.MD_Observersenviados().table.CreateCommandSQLTable() + (codigoObserver > -1 ? $" where CODIGOOBSERVER = {codigoObserver}" : string.Empty));
+            DbDataReader reader = DataBase.Connection.Select(new DAO.MD_Observersenviados().table.CreateCommandSQLTable() + (codigoObserver > -1 ? $" where CODIGOOBSERVER = {codigoObserver}" : string.Empty) + " order by codigo desc limit 1000");
 
             while (reader.Read())
             {
