@@ -84,7 +84,7 @@ namespace Regras
 
             try
             {
-                string textoEmail = MontaInicioEmail(descricao);
+                string textoEmail = MontaInicioEmail(descricao, json.Count);
                 string textoTabela = string.Empty;
                 string header = string.Empty;
 
@@ -122,7 +122,7 @@ namespace Regras
         /// Método que monta o início do email automático
         /// </summary>
         /// <returns></returns>
-        private string MontaInicioEmail(string descricao)
+        private string MontaInicioEmail(string descricao, int itensQt)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -209,7 +209,7 @@ namespace Regras
             builder.AppendLine("</font>");
             builder.AppendLine("<br>");
             builder.AppendLine("<font size=\"-1\" color=\"#777\">");
-            builder.AppendLine("Relatório automático");
+            builder.AppendLine($"Quantidade de itens: {itensQt}");
             builder.AppendLine("</font> ");
             builder.AppendLine("</td>");
             builder.AppendLine("<td align=\"right\">");
