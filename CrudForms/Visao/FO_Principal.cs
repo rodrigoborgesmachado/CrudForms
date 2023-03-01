@@ -266,6 +266,16 @@ namespace Visao
             }
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção para fechar demais telas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseAllOthersPages_Click(object sender, EventArgs e)
+        {
+            FecharDemaisTelas();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -304,8 +314,14 @@ namespace Visao
             closeAllPages.Text = "Fechar todas as telas";
             closeAllPages.Click += delegate { FecharTelas(); };
 
+            ToolStripMenuItem closeAllOthersPages = new ToolStripMenuItem();
+            closeAllOthersPages.Text = "Fechar as demais telas";
+            closeAllOthersPages.Click += CloseAllOthersPages_Click;
+
+
             this.contextMenuStrip = new ContextMenuStrip();
             this.contextMenuStrip.Items.Add(closeAllPages);
+            this.contextMenuStrip.Items.Add(closeAllOthersPages);
 
             string connection = Model.Parametros.NomeConexao.DAO.Valor;
             if (string.IsNullOrEmpty(connection))
@@ -494,6 +510,19 @@ namespace Visao
             List<string> lista = new List<string>();
             
             this.Pages.ForEach(elem => lista.Add(elem.Tag.ToString()));
+
+            lista.ForEach(elem => FecharTela(elem));
+        }
+
+        /// <summary>
+        /// Método que fecha todas as telas
+        /// </summary>
+        public void FecharDemaisTelas()
+        {
+            List<string> lista = new List<string>();
+
+            this.Pages.ForEach(elem => lista.Add(elem.Tag.ToString()));
+            lista.RemoveAll(i => i.Equals(this.tbc_table_control.SelectedTab.Tag));
 
             lista.ForEach(elem => FecharTela(elem));
         }

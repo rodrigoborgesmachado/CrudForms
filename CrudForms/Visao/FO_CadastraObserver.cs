@@ -78,7 +78,7 @@ namespace Visao
             if (this.tarefa == Tarefa.EDITANDO)
             {
                 this.tbx_descricao.Text = this.model.DAO.Descricao;
-                this.tbx_consulta.Text = this.model.DAO.Consulta;
+                this.tbx_consulta.Text = this.model.DAO.Consulta.Replace("\"", "'");
                 this.tbx_emails.Text = this.model.DAO.Emailsenviar;
                 this.tbx_intervalo.Text = this.model.DAO.Intervalorodar.ToString();
                 this.btn_executar.Text = "Atualizar";
