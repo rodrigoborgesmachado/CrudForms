@@ -239,6 +239,12 @@
     <Compile Include="Visao\UC_FormularioGenerico.Designer.cs">
       <DependentUpon>UC_FormularioGenerico.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visao\UC_Padrao.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Visao\UC_Padrao.Designer.cs">
+      <DependentUpon>UC_Padrao.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visao\UC_WEB.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     <EmbeddedResource Include="Visao\UC_FormularioGenerico.resx">
       <DependentUpon>UC_FormularioGenerico.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Visao\UC_Padrao.resx">
+      <DependentUpon>UC_Padrao.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -343,6 +352,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dev200x200.ico" />
+    <None Include="Resources\logonew.png" />
     <None Include="Resources\window-close_100px20x20.png" />
     <None Include="Resources\window-close_100px.png" />
     <None Include="Resources\wifi-off_100px20x20.png" />

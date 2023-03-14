@@ -333,7 +333,7 @@ namespace Visao
                 this.lbl_base.Visible = true;
                 this.lbl_base.Text = "Base: " + connection;
             }
-
+            AbreJanela(new UC_Padrao(), string.Empty, "padrao");
         }
 
         /// <summary>
@@ -499,6 +499,9 @@ namespace Visao
                 this.tbc_table_control.Name = titulo;
                 this.tbc_table_control.SelectedTab = page;
                 this.tbc_table_control.MouseClick += Tbc_table_control_MouseClick;
+
+                if (this.Pages.Count > 1 && this.Pages.Where(p => p.Tag.ToString().Equals("padrao")).Count() > 0)
+                    FecharTela("padrao");
             }
         }
 
@@ -551,6 +554,9 @@ namespace Visao
 
             if (this.tbc_table_control.TabPages.Count > 1)
                 this.tbc_table_control.SelectedTab = this.tbc_table_control.TabPages[this.tbc_table_control.TabPages.Count - 1];
+            
+            if(this.Pages.Count == 0)
+                AbreJanela(new UC_Padrao(), string.Empty, "padrao");
         }
 
         /// <summary>
