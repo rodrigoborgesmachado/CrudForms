@@ -32,6 +32,9 @@
             this.pan_left = new System.Windows.Forms.Panel();
             this.pan_projetos = new System.Windows.Forms.Panel();
             this.trv_tabelas = new System.Windows.Forms.TreeView();
+            this.pan_filtro = new System.Windows.Forms.Panel();
+            this.btn_limpar_filtro = new System.Windows.Forms.Button();
+            this.tbx_filtro = new System.Windows.Forms.TextBox();
             this.mst_opcoes = new System.Windows.Forms.MenuStrip();
             this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
             this.selecionaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,8 +62,10 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
+            this.lbl_filtrar = new System.Windows.Forms.Label();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
+            this.pan_filtro.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
             this.pan_principal.SuspendLayout();
             this.pan_descricoes.SuspendLayout();
@@ -69,6 +74,7 @@
             // pan_left
             // 
             this.pan_left.Controls.Add(this.pan_projetos);
+            this.pan_left.Controls.Add(this.pan_filtro);
             this.pan_left.Controls.Add(this.mst_opcoes);
             this.pan_left.Dock = System.Windows.Forms.DockStyle.Left;
             this.pan_left.Location = new System.Drawing.Point(0, 0);
@@ -80,9 +86,9 @@
             // 
             this.pan_projetos.Controls.Add(this.trv_tabelas);
             this.pan_projetos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pan_projetos.Location = new System.Drawing.Point(0, 28);
+            this.pan_projetos.Location = new System.Drawing.Point(0, 86);
             this.pan_projetos.Name = "pan_projetos";
-            this.pan_projetos.Size = new System.Drawing.Size(246, 578);
+            this.pan_projetos.Size = new System.Drawing.Size(246, 520);
             this.pan_projetos.TabIndex = 1;
             // 
             // trv_tabelas
@@ -92,9 +98,40 @@
             this.trv_tabelas.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.trv_tabelas.Location = new System.Drawing.Point(0, 0);
             this.trv_tabelas.Name = "trv_tabelas";
-            this.trv_tabelas.Size = new System.Drawing.Size(246, 578);
+            this.trv_tabelas.Size = new System.Drawing.Size(246, 520);
             this.trv_tabelas.TabIndex = 0;
             this.trv_tabelas.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trv_projetos_AfterSelect);
+            // 
+            // pan_filtro
+            // 
+            this.pan_filtro.Controls.Add(this.lbl_filtrar);
+            this.pan_filtro.Controls.Add(this.btn_limpar_filtro);
+            this.pan_filtro.Controls.Add(this.tbx_filtro);
+            this.pan_filtro.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pan_filtro.Location = new System.Drawing.Point(0, 30);
+            this.pan_filtro.Name = "pan_filtro";
+            this.pan_filtro.Size = new System.Drawing.Size(246, 56);
+            this.pan_filtro.TabIndex = 1;
+            // 
+            // btn_limpar_filtro
+            // 
+            this.btn_limpar_filtro.BackColor = System.Drawing.Color.Transparent;
+            this.btn_limpar_filtro.Image = global::Pj.Properties.Resources.filter_remove_100px20x20;
+            this.btn_limpar_filtro.Location = new System.Drawing.Point(207, 24);
+            this.btn_limpar_filtro.Name = "btn_limpar_filtro";
+            this.btn_limpar_filtro.Size = new System.Drawing.Size(32, 23);
+            this.btn_limpar_filtro.TabIndex = 1;
+            this.btn_limpar_filtro.UseVisualStyleBackColor = false;
+            this.btn_limpar_filtro.Click += new System.EventHandler(this.btn_limpar_filtro_Click);
+            // 
+            // tbx_filtro
+            // 
+            this.tbx_filtro.Location = new System.Drawing.Point(12, 23);
+            this.tbx_filtro.Name = "tbx_filtro";
+            this.tbx_filtro.Size = new System.Drawing.Size(189, 27);
+            this.tbx_filtro.TabIndex = 0;
+            this.tbx_filtro.TextChanged += new System.EventHandler(this.tbx_filtro_TextChanged);
+            this.tbx_filtro.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_filtro_KeyPress);
             // 
             // mst_opcoes
             // 
@@ -103,7 +140,7 @@
             this.tsm_opcoes});
             this.mst_opcoes.Location = new System.Drawing.Point(0, 0);
             this.mst_opcoes.Name = "mst_opcoes";
-            this.mst_opcoes.Size = new System.Drawing.Size(246, 28);
+            this.mst_opcoes.Size = new System.Drawing.Size(246, 30);
             this.mst_opcoes.TabIndex = 1;
             this.mst_opcoes.Text = "menuStrip1";
             // 
@@ -124,7 +161,7 @@
             this.adicionarInspeçãoAutomáticaToolStripMenuItem,
             this.importarPlanilhaCSVToolStripMenuItem1});
             this.tsm_opcoes.Name = "tsm_opcoes";
-            this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
+            this.tsm_opcoes.Size = new System.Drawing.Size(73, 26);
             this.tsm_opcoes.Text = "Opções";
             // 
             // selecionaBaseToolStripMenuItem
@@ -232,7 +269,6 @@
             // 
             // tbx_quantidade_dias_atualizacao
             // 
-            this.tbx_quantidade_dias_atualizacao.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tbx_quantidade_dias_atualizacao.Name = "tbx_quantidade_dias_atualizacao";
             this.tbx_quantidade_dias_atualizacao.Size = new System.Drawing.Size(100, 27);
             this.tbx_quantidade_dias_atualizacao.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_quantidade_dias_atualizacao_KeyPress);
@@ -333,6 +369,15 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
+            // lbl_filtrar
+            // 
+            this.lbl_filtrar.AutoSize = true;
+            this.lbl_filtrar.Location = new System.Drawing.Point(13, 2);
+            this.lbl_filtrar.Name = "lbl_filtrar";
+            this.lbl_filtrar.Size = new System.Drawing.Size(57, 19);
+            this.lbl_filtrar.TabIndex = 2;
+            this.lbl_filtrar.Text = "Filtrar:";
+            // 
             // FO_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -353,6 +398,8 @@
             this.pan_left.ResumeLayout(false);
             this.pan_left.PerformLayout();
             this.pan_projetos.ResumeLayout(false);
+            this.pan_filtro.ResumeLayout(false);
+            this.pan_filtro.PerformLayout();
             this.mst_opcoes.ResumeLayout(false);
             this.mst_opcoes.PerformLayout();
             this.pan_principal.ResumeLayout(false);
@@ -394,6 +441,10 @@
         private System.Windows.Forms.ToolStripMenuItem adicionarInspeçãoAutomáticaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importarPlanilhaCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importarPlanilhaCSVToolStripMenuItem1;
+        private System.Windows.Forms.Panel pan_filtro;
+        private System.Windows.Forms.Button btn_limpar_filtro;
+        private System.Windows.Forms.TextBox tbx_filtro;
+        private System.Windows.Forms.Label lbl_filtrar;
     }
 }
 

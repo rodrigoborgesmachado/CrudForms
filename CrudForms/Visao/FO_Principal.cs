@@ -276,6 +276,51 @@ namespace Visao
             FecharDemaisTelas();
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de limpar filtragem do treeview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_limpar_filtro_Click(object sender, EventArgs e)
+        {
+            this.tbx_filtro.Text = string.Empty;
+        }
+
+        /// <summary>
+        /// Evento lançado na alteração do texto do filtro
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbx_filtro_TextChanged(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(this.tbx_filtro.Text))
+                this.CarregaTreeView(false);
+
+            List<TreeNode> nodeToAdd = new List<TreeNode>();
+            foreach(TreeNode node in this.trv_tabelas.Nodes[0].Nodes)
+            {
+                if (node.Text.ToUpper().Contains(this.tbx_filtro.Text.ToUpper()))
+                {
+                    nodeToAdd.Add(node);
+                }
+            }
+            this.trv_tabelas.Nodes[0].Nodes.Clear();
+            nodeToAdd.ForEach(node => this.trv_tabelas.Nodes[0].Nodes.Add(node));
+        }
+
+        /// <summary>
+        /// Evento lançado na entrada de botão backspace
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbx_filtro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Delete || e.KeyChar == (char)Keys.Back)
+            {
+                this.CarregaTreeView(false);
+            }
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -339,20 +384,24 @@ namespace Visao
         /// <summary>
         /// Método que carrega o tree view
         /// </summary>
-        private void CarregaTreeView()
+        private void CarregaTreeView(bool showBarra = true)
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.CarregaTreeView()", Util.Global.TipoLog.DETALHADO);
 
             this.trv_tabelas.Nodes.Clear();
 
             BarraDeCarregamento aguarde = new BarraDeCarregamento(this.BuscaTotalItensTreeView(), "Carregando TreeView");
-
-            aguarde.Show();
+            if(showBarra)
+                aguarde.Show();
             this.trv_tabelas.Scrollable = true;
 
             this.CarregaTabelas(ref aguarde);
 
-            aguarde.Close();
+            if (showBarra)
+            {
+                aguarde.Close();
+            }
+            
             aguarde.Dispose();
             aguarde = null;
         }
@@ -777,7 +826,8 @@ namespace Visao
 
 
 
+
         #endregion Métodos
-        
+
     }
 }
