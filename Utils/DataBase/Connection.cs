@@ -59,6 +59,11 @@ namespace DataBase
                     banco = new BancoMysql(schema);
                     Util.Global.log_system = Util.Global.TipoLog.DETALHADO;
                 }
+                else if (bd == BancoDados.ORACLE)
+                {
+                    banco = new BancoOracle();
+                    Util.Global.log_system = Util.Global.TipoLog.DETALHADO;
+                }
 
                 retorno = banco.OpenConnection(conection);
             }

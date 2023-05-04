@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudForms", "CrudForms\CrudForms.csproj", "{2F0DDE70-E5B5-44C6-8129-B1E41A77ACAA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3CA7EE4E-9566-418D-BDE3-B35DBBE02B4A} = {3CA7EE4E-9566-418D-BDE3-B35DBBE02B4A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{3CA7EE4E-9566-418D-BDE3-B35DBBE02B4A}"
 EndProject

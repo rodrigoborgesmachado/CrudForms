@@ -24,9 +24,10 @@ namespace Regras.AcessoBancoCliente
                 retorno = new AcessoBancoSqlServer();
             else if (Util.Global.BancoDados == Util.Enumerator.BancoDados.POSTGRESQL)
                 retorno = new AcessoBancoPostGres();
+            else if (Util.Global.BancoDados == Util.Enumerator.BancoDados.ORACLE)
+                retorno = new AcessoBancoOracle();
 
             return retorno;
-
         }
 
         /// <summary>
