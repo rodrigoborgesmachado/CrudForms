@@ -31,7 +31,9 @@ namespace Visao
         private void btn_login_Click(object sender, EventArgs e)
         {
             string pass = Hash(this.tbx_password.Text).ToString();
-            if (Util.WebUtil.Login.ValidaLogin(this.tbx_login.Text, pass))
+            var taask = Util.WebUtil.Login.ValidaLoginAsync(this.tbx_login.Text, pass);
+            while (!taask.IsCompleted) ;
+            if (taask.Result)
             {
                 this.DialogResult = DialogResult.OK;
                 this.Dispose();

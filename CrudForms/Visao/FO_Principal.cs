@@ -332,6 +332,7 @@ namespace Visao
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.FO_Principal()", Util.Global.TipoLog.DETALHADO);
             this.InitializeComponent();
+
             IniciaForm();
         }
 

@@ -8,9 +8,10 @@ namespace JSON
 {
     public class JS_RetornoLogin
     {
-        public JS_Usuario Objeto { get; set; }
-        public int Codigo { get; set; }
-        public string Mensagem { get; set; }
-        public bool Sucesso { get; set; }
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Admin { get; set; }
+        public string token { get; set; }
+        public string CrudVersao { get; set; }
     }
 }

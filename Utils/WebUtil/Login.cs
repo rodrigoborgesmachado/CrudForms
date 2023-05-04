@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,37 +19,41 @@ namespace Util.WebUtil
         /// <param name="login"></param>
         /// <param name="pass"></param>
         /// <returns></returns>
-        public static bool ValidaLogin(string login, string pass)
+        public static async Task<bool> ValidaLoginAsync(string login, string pass)
         {
             JS_RetornoLogin retorno = new JS_RetornoLogin();
 
             try
             {
-                var requisicaoWeb = WebRequest.CreateHttp($"http://devtoolsapi.sunsalesystem.com.br/api/usuarioscrudforms/login?login={login}&senha={pass}");
-                requisicaoWeb.Method = "GET";
-                requisicaoWeb.ContentType = "application/x-www-form-urlencoded";
-                requisicaoWeb.UserAgent = "RequisicaoDevTools";
+                var url = "https://apisunsale.azurewebsites.net/api/Token";
+                var json = JsonConvert.SerializeObject(new { userName = login, password = pass });
 
-                using (var resposta = requisicaoWeb.GetResponse())
+
+                var request = WebRequest.Create(url);
+                request.Method = "POST";
+                request.ContentType = "application/json";
+
+                using (var streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
-                    var streamDados = resposta.GetResponseStream();
-                    StreamReader reader = new StreamReader(streamDados);
-                    object objResponse = reader.ReadToEnd();
-
-                    retorno = JsonConvert.DeserializeObject<JS_RetornoLogin>(objResponse.ToString());
-                    if (retorno.Sucesso)
-                    {
-                        Util.Global.usuarioLogado = retorno.Objeto;
-                    }
-                    else
-                    {
-                        retorno = null;
-                    }
-
-                    streamDados.Close();
-                    resposta.Close();
+                    streamWriter.Write(json);
                 }
 
+                var response = request.GetResponse();
+                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    string result = streamReader.ReadToEnd();
+                    
+                    retorno = JsonConvert.DeserializeObject<JS_RetornoLogin>(result);
+                    Util.Global.usuarioLogado = new JS_Usuario()
+                    {
+                        ADMINISTRADOR = retorno.Admin,
+                        CODIGO = retorno.Id,
+                        DESENVOLVEDOR = retorno.Admin,
+                        EMAIL = retorno.Username,
+                        LASTVERSION = retorno.CrudVersao,
+                        TOKEN = retorno.token
+                    };
+                }
             }
             catch (Exception e)
             {

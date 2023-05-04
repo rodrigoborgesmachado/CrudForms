@@ -12,8 +12,7 @@ namespace JSON
         public int CODIGO { get; set; }
         public string DESENVOLVEDOR { get; set; }
         public string EMAIL { get; set; }
-        public string LOGIN { get; set; }
-        public string SENHA { get; set; }
         public string LASTVERSION { get; set; }
+        public string TOKEN { get; set; }
     }
 }
