@@ -474,6 +474,12 @@ namespace Visao
 
             if (string.IsNullOrEmpty(code)) return;
 
+            if (!string.IsNullOrEmpty(this.tbx_filtro.Text))
+            {
+                this.tbx_filtro.Text = string.Empty;
+                this.CarregaTreeView(false);
+            }
+
             string codigoTabela = code.Split(':')[1];
 
             Model.MD_Tabela tabela = new Model.MD_Tabela(int.Parse(codigoTabela), 0);
