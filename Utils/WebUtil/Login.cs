@@ -25,7 +25,7 @@ namespace Util.WebUtil
 
             try
             {
-                var url = "https://apisunsale.azurewebsites.net/api/Token";
+                var url = "https://apisunsale.azurewebsites.net/api/Token/crudforms";
                 var json = JsonConvert.SerializeObject(new { userName = login, password = pass });
 
 
