@@ -136,7 +136,7 @@ namespace Visao
 
                 if (retorno)
                 {
-                    Message.MensagemSucesso((tarefa == Tarefa.INCLUINDO ? "Inclído" : "Alterado") + $" com sucesso\n. O processo será executado a cada {model.DAO.Intervalorodar} minutos");
+                    Message.MensagemSucesso((tarefa == Tarefa.INCLUINDO ? "Inclído" : "Alterado") + $" com sucesso.\n O processo será executado a cada {model.DAO.Intervalorodar} minutos");
                     this.tela.IniciaForm();
                     this.principal.CarregaObservers();
                     this.Dispose();

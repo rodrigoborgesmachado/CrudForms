@@ -827,7 +827,7 @@ namespace Visao
             }
             else
             {
-                Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "csv"))} gerado com sucesso no caminho:\n {diretorio}");
+                Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "xml"))} gerado com sucesso no caminho:\n {diretorio}");
             }
         }
 

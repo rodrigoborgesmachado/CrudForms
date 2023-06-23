@@ -158,14 +158,18 @@ namespace Visao
             else
             {
                 int index = this.dgv_generico.SelectedRows[0].Index;
-                if(!this.valores[index].DeleteValores(this.tabela, this.tabela.CamposDaTabela(), out var mensagem))
+
+                if(Visao.Message.MensagemConfirmaçãoYesNo("Deseja realmente excluir o item?") == DialogResult.Yes)
                 {
-                    Visao.Message.MensagemAlerta("Erro: " + mensagem);
-                }
-                else
-                {
-                    Visao.Message.MensagemSucesso("Excluído com sucesso");
-                    this.FillGrid();
+                    if (!this.valores[index].DeleteValores(this.tabela, this.tabela.CamposDaTabela(), out var mensagem))
+                    {
+                        Visao.Message.MensagemAlerta("Erro: " + mensagem);
+                    }
+                    else
+                    {
+                        Visao.Message.MensagemSucesso("Excluído com sucesso");
+                        this.FillGrid();
+                    }
                 }
             }
         }
@@ -519,7 +523,7 @@ namespace Visao
                 }
                 else
                 {
-                    Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "csv"))} gerado com sucesso no caminho:\n {dialog.SelectedPath}");
+                    Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "xml"))} gerado com sucesso no caminho:\n {dialog.SelectedPath}");
                 }
             }
         }
