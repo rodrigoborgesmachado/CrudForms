@@ -1133,6 +1133,16 @@ namespace Pj.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap logonewwhite {
+            get {
+                object obj = ResourceManager.GetObject("logonewwhite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap loop_100px {
             get {
                 object obj = ResourceManager.GetObject("loop_100px", resourceCulture);
@@ -1406,6 +1416,16 @@ namespace Pj.Properties {
         public static System.Drawing.Bitmap power_100px20x20 {
             get {
                 object obj = ResourceManager.GetObject("power_100px20x20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap project_management_white_200x200 {
+            get {
+                object obj = ResourceManager.GetObject("project_management_white_200x200", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

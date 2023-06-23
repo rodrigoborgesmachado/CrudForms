@@ -145,6 +145,7 @@
             // 
             // mst_opcoes
             // 
+            this.mst_opcoes.BackColor = System.Drawing.Color.Transparent;
             this.mst_opcoes.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mst_opcoes.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsm_opcoes});

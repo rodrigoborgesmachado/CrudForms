@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Visao
@@ -21,9 +15,11 @@ namespace Visao
             {
                 this.BackColor = Color.FromArgb(51, 51, 51);
                 this.ForeColor = Color.White;
+                this.BackgroundImage = global::Pj.Properties.Resources.logonewwhite;
             }
             else
             {
+                this.BackgroundImage = global::Pj.Properties.Resources.logonew;
                 this.BackColor = Color.FromArgb(251, 249, 238);
                 this.ForeColor = Color.Black;
             }

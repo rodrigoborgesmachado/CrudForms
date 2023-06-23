@@ -365,7 +365,7 @@ namespace Visao
                 e.Graphics.FillRectangle(br, e.Bounds);
                 SizeF sz = e.Graphics.MeasureString(Pages[e.Index].Text, e.Font);
                 e.Graphics.DrawString(Pages[e.Index].Text, e.Font, Model.Parametros.ModoDark ? Brushes.White : Brushes.Black, e.Bounds.Left + (e.Bounds.Width - sz.Width) / 2, e.Bounds.Top + (e.Bounds.Height - sz.Height) / 2 + 1);
-
+                
                 Rectangle rect = e.Bounds;
                 rect.Offset(0, 1);
                 rect.Inflate(0, -1);
@@ -400,10 +400,6 @@ namespace Visao
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.IniciaForm()", Util.Global.TipoLog.DETALHADO);
 
-            this.mst_opcoes.BackColor = Color.Transparent;
-
-            this.tbc_table_control.BackColor = Color.Transparent;
-            
             if (Model.Parametros.ModoDark)
             {
                 this.BackColor = Color.FromArgb(51, 51, 51);
@@ -416,10 +412,17 @@ namespace Visao
                 this.ForeColor = Color.Black;
                 this.mst_opcoes.ForeColor = Color.Black;
             }
+            
             foreach (Button button in this.Controls.OfType<Button>())
             {
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
+            }
+
+            foreach (ToolStripMenuItem option in this.Controls.OfType<ToolStripMenuItem>())
+            {
+                option.BackColor = this.BackColor;
+                option.ForeColor = this.ForeColor;
             }
 
             this.trv_tabelas.BackColor = this.BackColor;

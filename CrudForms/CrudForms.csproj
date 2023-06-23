@@ -360,6 +360,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dev200x200.ico" />
+    <None Include="Resources\logonewwhite.png" />
+    <None Include="Resources\logo_black.png" />
+    <None Include="Resources\project-management-white-200x200.png" />
     <None Include="Resources\logonew.png" />
     <None Include="Resources\window-close_100px20x20.png" />
     <None Include="Resources\window-close_100px.png" />
