@@ -41,14 +41,14 @@ namespace Regras
         /// <returns></returns>
         private string BuscaUrlDownload(string versao)
         {
-            string url = $"http://devtoolsapi.sunsalesystem.com.br/api/crudformsinstalador/getItem?versao={versao}";
+            string url = $"https://apisunsale.azurewebsites.net/api/CrudFormsInstalador/getByVersao?versao={versao}";
             
             var client = new RestClient(url);
             var request = new RestRequest(url , Method.Get);
             RestResponse response = client.Execute(request);
             JSON.JS_RetornoVersao retorno = JsonConvert.DeserializeObject<JSON.JS_RetornoVersao>(response.Content);
 
-            string urlretorno = retorno.Objeto.Diretorio;
+            string urlretorno = retorno.Object.diretorio;
 
             return urlretorno;
         }
