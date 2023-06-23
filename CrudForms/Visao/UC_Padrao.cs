@@ -15,11 +15,11 @@ namespace Visao
             {
                 this.BackColor = Color.FromArgb(51, 51, 51);
                 this.ForeColor = Color.White;
-                this.BackgroundImage = global::Pj.Properties.Resources.logonewwhite;
+                this.BackgroundImage = global::Pj.Properties.Resources.project_management_white_200x200;
             }
             else
             {
-                this.BackgroundImage = global::Pj.Properties.Resources.logonew;
+                this.BackgroundImage = global::Pj.Properties.Resources.project_management200x200;
                 this.BackColor = Color.FromArgb(251, 249, 238);
                 this.ForeColor = Color.Black;
             }
