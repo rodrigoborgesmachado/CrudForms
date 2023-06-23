@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using Newtonsoft.Json;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.Data.Common;
-using Model;
 
-namespace Util
+namespace ImportadorNamespace
 {
-    public class DocumentSQLServer : Document
+    public class DocumentPostGreSql : Document
     {
         /// <summary>
         /// Método que retorna uma lista de tabelas e suas descrições
@@ -20,18 +11,11 @@ namespace Util
         /// <returns></returns>
         public override void RetornaDetalhesCampos(Visao.BarraDeCarregamento barra, ref List<Model.Campo> campos)
         {
-            string sentenca = @"SELECT case
-                                    		when OBJECTPROPERTY(OBJECT_ID(constraint_name), 'IsPrimaryKey') = 1 then '1'
-                                	    	else '0' 
-                                		end as primarykey, 
-                                        case
-		                                    when OBJECTPROPERTY(OBJECT_ID(constraint_name), 'IsUniqueCnst') = 1 then '1'
-		                                    else '0' 
-		                                end as isunique,
-                                        c.*
-                                FROM information_schema.COLUMNS c 
-                                LEFT join INFORMATION_SCHEMA.KEY_COLUMN_USAGE pk 
-                                on (c.COLUMN_NAME = pk.COLUMN_NAME and c.TABLE_NAME = pk.TABLE_NAME)";
+            string sentenca = @"SELECT 
+                                c.*
+                                FROM information_schema.columns c 
+                                LEFT join INFORMATION_SCHEMA.KEY_COLUMN_USAGE pk on (c.COLUMN_NAME = pk.COLUMN_NAME and c.TABLE_NAME = pk.TABLE_NAME)
+                                where c.table_schema not in ('pg_catalog', 'information_schema')";
 
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
@@ -43,8 +27,6 @@ namespace Util
                 bool notnull = reader["IS_NULLABLE"].ToString().ToUpper().Equals("YES");
                 string tipo = reader["DATA_TYPE"].ToString();
                 string valueDefault = reader["COLUMN_DEFAULT"].ToString().Replace('(', ' ').Replace(')', ' ').Trim();
-                bool primarykey = reader["primarykey"].ToString().Equals("1");
-                bool unique = reader["isunique"].ToString().Equals("1");
                 string tamanho = reader["CHARACTER_MAXIMUM_LENGTH"].ToString();
                 string precisao = reader["NUMERIC_PRECISION"].ToString();
                 string tabela = reader["TABLE_NAME"].ToString();
@@ -52,10 +34,9 @@ namespace Util
                 Model.Campo c = new Model.Campo();
                 c.Name_Field = nome;
                 c.NotNull = notnull;
+                c.Unique = false;
                 c.Type = tipo;
                 c.ValueDefault = valueDefault;
-                c.PrimaryKey = primarykey;
-                c.Unique = unique;
                 c.Size = string.IsNullOrEmpty(tamanho) ? 0 : int.Parse(tamanho);
                 c.Precision = string.IsNullOrEmpty(precisao) ? decimal.Zero : decimal.Parse(precisao);
                 c.Tabela = tabela;
@@ -63,6 +44,36 @@ namespace Util
                 campos.Add(c);
             }
             reader.Close();
+
+            campos.ForEach(campo =>
+            {
+                sentenca = @"select count(1) as qt from (
+                    SELECT cast(c.conrelid::regclass as varchar) AS table_from,
+                           c.conname colname,
+                           cast(pg_get_constraintdef(c.oid) as varchar) const,
+                           a.attname
+                           FROM pg_constraint c
+                                INNER JOIN pg_namespace n
+                                           ON n.oid = c.connamespace
+                                CROSS JOIN LATERAL unnest(c.conkey) ak(k)
+                                INNER JOIN pg_attribute a
+                                           ON a.attrelid = c.conrelid
+                                              AND a.attnum = ak.k
+                           ) t
+                           where t.table_from = '" + DataBase.Connection.GetBancoSchema() + "." + campo.Tabela + @"'
+                           and t.attname = '" + campo.Name_Field + @"'
+                           and t.const like '%PRIMARY%'
+                    ";
+
+                reader = DataBase.Connection.Select(sentenca);
+
+                if (reader.Read())
+                {
+                    campo.PrimaryKey = (int.Parse(reader["QT"].ToString())).Equals(1);
+                }
+                reader.Close();
+
+            });
 
         }
 
@@ -74,15 +85,14 @@ namespace Util
         {
             List<DAO.MDN_Table> tables = new List<DAO.MDN_Table>();
 
-            string sentenca = "SELECT table_catalog, table_schema, table_name, table_type FROM information_schema.tables";
-
+            string sentenca = "SELECT tablename FROM pg_tables where schemaname  not in ('pg_catalog', 'information_schema')";
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
             while (reader.Read())
             {
                 barra.AvancaBarra(1);
 
-                DAO.MDN_Table table = new DAO.MDN_Table(reader["table_name"].ToString());
+                DAO.MDN_Table table = new DAO.MDN_Table(reader["tablename"].ToString());
                 tables.Add(table);
             }
             reader.Close();
@@ -97,6 +107,9 @@ namespace Util
         /// <param name="relacionamentos"></param>
         public override void RetornaDetalhesRelacionamentos(Visao.BarraDeCarregamento barra, ref List<Model.Relacionamento> relacionamentos)
         {
+            return;
+
+            // alterar select para buscar os relacionamentos
             string sentenca = @" SELECT
                                      f.name constraint_name
                                     ,OBJECT_NAME(f.parent_object_id) referencing_table_name
@@ -133,5 +146,4 @@ namespace Util
             reader.Close();
         }
     }
-
 }

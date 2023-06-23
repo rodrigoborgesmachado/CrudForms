@@ -123,6 +123,8 @@ namespace Util
 
         // Parametro do connections
         public static string parametro_connectionName = "NOMECONEXAO";
+        
+        public static string parametro_mododark = "MODODARK";
 
         public static string connectionName = string.Empty;
 

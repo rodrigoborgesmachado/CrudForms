@@ -164,5 +164,30 @@ namespace Model
                     ultimaAtualizacaoTabela.DAO.Update();
             }
         }
+
+        private static Model.MD_Parametros modoDark;
+        public static bool ModoDark
+        {
+            get
+            {
+                if (modoDark == null)
+                {
+                    modoDark = new Model.MD_Parametros(Util.Global.parametro_mododark);
+                    if (modoDark.DAO.Empty)
+                        modoDark.DAO.Valor = "0";
+                }
+                return modoDark.DAO.Valor.Equals("1");
+            }
+            set
+            {
+                modoDark = new MD_Parametros(Util.Global.parametro_mododark);
+                modoDark.DAO.Valor = (value ? "1" : "0");
+
+                if (modoDark.DAO.Empty)
+                    modoDark.DAO.Insert();
+                else
+                    modoDark.DAO.Update();
+            }
+        }
     }
 }

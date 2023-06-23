@@ -35,6 +35,7 @@ namespace Visao
             this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportarJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportarXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salvarConsultaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configuraçãoDasColunasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_fechar = new System.Windows.Forms.Panel();
@@ -54,7 +55,6 @@ namespace Visao
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
-            this.exportarXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_top.SuspendLayout();
             this.pan_opcoes.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -122,6 +122,13 @@ namespace Visao
             this.exportarJSONToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.exportarJSONToolStripMenuItem.Text = "Exportar JSON";
             this.exportarJSONToolStripMenuItem.Click += new System.EventHandler(this.exportarJSONToolStripMenuItem_Click);
+            // 
+            // exportarXMLToolStripMenuItem
+            // 
+            this.exportarXMLToolStripMenuItem.Name = "exportarXMLToolStripMenuItem";
+            this.exportarXMLToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.exportarXMLToolStripMenuItem.Text = "Exportar XML";
+            this.exportarXMLToolStripMenuItem.Click += new System.EventHandler(this.exportarXMLToolStripMenuItem_Click);
             // 
             // salvarConsultaToolStripMenuItem
             // 
@@ -205,13 +212,14 @@ namespace Visao
             // btn_reload
             // 
             this.btn_reload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_reload.BackColor = System.Drawing.Color.LightGray;
             this.btn_reload.BackgroundImage = global::Pj.Properties.Resources.loop_100px20x20;
             this.btn_reload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btn_reload.Location = new System.Drawing.Point(714, 9);
             this.btn_reload.Name = "btn_reload";
             this.btn_reload.Size = new System.Drawing.Size(20, 20);
             this.btn_reload.TabIndex = 14;
-            this.btn_reload.UseVisualStyleBackColor = true;
+            this.btn_reload.UseVisualStyleBackColor = false;
             this.btn_reload.Click += new System.EventHandler(this.btn_reload_Click);
             // 
             // lbl_quantidadeLinhas
@@ -353,13 +361,6 @@ namespace Visao
             this.pan_tot.Name = "pan_tot";
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
-            // 
-            // exportarXMLToolStripMenuItem
-            // 
-            this.exportarXMLToolStripMenuItem.Name = "exportarXMLToolStripMenuItem";
-            this.exportarXMLToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
-            this.exportarXMLToolStripMenuItem.Text = "Exportar XML";
-            this.exportarXMLToolStripMenuItem.Click += new System.EventHandler(this.exportarXMLToolStripMenuItem_Click);
             // 
             // UC_FormularioGenerico
             // 

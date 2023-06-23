@@ -16,6 +16,22 @@ namespace Visao
         {
             InitializeComponent();
             this.Dock = DockStyle.Fill;
+
+            if (Model.Parametros.ModoDark)
+            {
+                this.BackColor = Color.FromArgb(51, 51, 51);
+                this.ForeColor = Color.White;
+            }
+            else
+            {
+                this.BackColor = Color.FromArgb(251, 249, 238);
+                this.ForeColor = Color.Black;
+            }
+            foreach (Button button in this.Controls.OfType<Button>())
+            {
+                button.BackColor = this.BackColor;
+                button.ForeColor = this.ForeColor;
+            }
         }
     }
 }

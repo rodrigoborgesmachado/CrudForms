@@ -20,6 +20,23 @@ namespace Visao
             string version = fvi.FileVersion;
 
             this.lbl_versao.Text = "Versão: " + version;
+
+            if (Model.Parametros.ModoDark)
+            {
+                this.BackColor = Color.FromArgb(51, 51, 51);
+                this.ForeColor = Color.White;
+            }
+            else
+            {
+                this.BackColor = Color.FromArgb(251, 249, 238);
+                this.ForeColor = Color.Black;
+            }
+
+            foreach (Button button in this.Controls.OfType<Button>())
+            {
+                button.BackColor = this.BackColor;
+                button.ForeColor = this.ForeColor;
+            }
         }
 
         private void btn_sair_Click(object sender, EventArgs e)

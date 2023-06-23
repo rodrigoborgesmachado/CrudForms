@@ -2,13 +2,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Util
+namespace ImportadorNamespace
 {
     public abstract class Document
     {
@@ -64,13 +60,13 @@ namespace Util
         /// <param name="tabelas"></param>
         private static void PreencheArquivoCampos(List<Campo> campo)
         {
-            if (File.Exists(Global.app_exportacao_campos_file))
+            if (File.Exists(Util.Global.app_exportacao_campos_file))
             {
-                File.Delete(Global.app_exportacao_campos_file);
+                File.Delete(Util.Global.app_exportacao_campos_file);
             }
 
             string json = JsonConvert.SerializeObject(campo);
-            File.WriteAllLines(Global.app_exportacao_campos_file, json.Split(Environment.NewLine.ToCharArray()));
+            File.WriteAllLines(Util.Global.app_exportacao_campos_file, json.Split(Environment.NewLine.ToCharArray()));
         }
 
         /// <summary>
@@ -119,13 +115,13 @@ namespace Util
         /// <param name="tabelas"></param>
         private static void PreencheArquivo(List<Tabela> tabelas)
         {
-            if (File.Exists(Global.app_exportacao_tabela_file))
+            if (File.Exists(Util.Global.app_exportacao_tabela_file))
             {
-                File.Delete(Global.app_exportacao_tabela_file);
+                File.Delete(Util.Global.app_exportacao_tabela_file);
             }
 
             string json = JsonConvert.SerializeObject(tabelas);
-            File.WriteAllLines(Global.app_exportacao_tabela_file, json.Split(Environment.NewLine.ToCharArray()));
+            File.WriteAllLines(Util.Global.app_exportacao_tabela_file, json.Split(Environment.NewLine.ToCharArray()));
         }
 
         /// <summary>
@@ -134,13 +130,13 @@ namespace Util
         /// <param name="tabelas"></param>
         internal void PreencheArquivoRelacionamentos(List<Relacionamento> relacionamentos)
         {
-            if (File.Exists(Global.app_exportacao_relacionamentos_file))
+            if (File.Exists(Util.Global.app_exportacao_relacionamentos_file))
             {
-                File.Delete(Global.app_exportacao_relacionamentos_file);
+                File.Delete(Util.Global.app_exportacao_relacionamentos_file);
             }
 
             string json = JsonConvert.SerializeObject(relacionamentos);
-            File.WriteAllLines(Global.app_exportacao_relacionamentos_file, json.Split(Environment.NewLine.ToCharArray()));
+            File.WriteAllLines(Util.Global.app_exportacao_relacionamentos_file, json.Split(Environment.NewLine.ToCharArray()));
         }
 
         /// <summary>

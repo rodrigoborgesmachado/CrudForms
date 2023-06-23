@@ -1,16 +1,9 @@
-﻿using Model;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Common;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Util
+namespace ImportadorNamespace
 {
-    public class DocumentPostGreSql : Document
+    public class DocumentMySql : Document
     {
         /// <summary>
         /// Método que retorna uma lista de tabelas e suas descrições
@@ -18,11 +11,7 @@ namespace Util
         /// <returns></returns>
         public override void RetornaDetalhesCampos(Visao.BarraDeCarregamento barra, ref List<Model.Campo> campos)
         {
-            string sentenca = @"SELECT 
-                                c.*
-                                FROM information_schema.columns c 
-                                LEFT join INFORMATION_SCHEMA.KEY_COLUMN_USAGE pk on (c.COLUMN_NAME = pk.COLUMN_NAME and c.TABLE_NAME = pk.TABLE_NAME)
-                                where c.table_schema not in ('pg_catalog', 'information_schema')";
+            string sentenca = @"select * from `information_schema`.`columns` where table_schema not in ('information_schema')";
 
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
@@ -54,23 +43,7 @@ namespace Util
 
             campos.ForEach(campo =>
             {
-                sentenca = @"select count(1) as qt from (
-                    SELECT cast(c.conrelid::regclass as varchar) AS table_from,
-                           c.conname colname,
-                           cast(pg_get_constraintdef(c.oid) as varchar) const,
-                           a.attname
-                           FROM pg_constraint c
-                                INNER JOIN pg_namespace n
-                                           ON n.oid = c.connamespace
-                                CROSS JOIN LATERAL unnest(c.conkey) ak(k)
-                                INNER JOIN pg_attribute a
-                                           ON a.attrelid = c.conrelid
-                                              AND a.attnum = ak.k
-                           ) t
-                           where t.table_from = '" + DataBase.Connection.GetBancoSchema() + "." + campo.Tabela + @"'
-                           and t.attname = '" + campo.Name_Field + @"'
-                           and t.const like '%PRIMARY%'
-                    ";
+                sentenca = $"SELECT COUNT(1) as QT FROM information_schema.columns WHERE table_name='{campo.Tabela}' and COLUMN_NAME = '{campo.Name_Field}' and column_key = 'PRI'";
 
                 reader = DataBase.Connection.Select(sentenca);
 
@@ -92,14 +65,14 @@ namespace Util
         {
             List<DAO.MDN_Table> tables = new List<DAO.MDN_Table>();
 
-            string sentenca = "SELECT tablename FROM pg_tables where schemaname  not in ('pg_catalog', 'information_schema')";
+            string sentenca = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES where table_schema not in ('information_schema')";
             DbDataReader reader = DataBase.Connection.Select(sentenca);
 
             while (reader.Read())
             {
                 barra.AvancaBarra(1);
 
-                DAO.MDN_Table table = new DAO.MDN_Table(reader["tablename"].ToString());
+                DAO.MDN_Table table = new DAO.MDN_Table(reader["table_name"].ToString());
                 tables.Add(table);
             }
             reader.Close();

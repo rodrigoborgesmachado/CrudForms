@@ -186,6 +186,21 @@ namespace Visao
         }
 
         /// <summary>
+        /// Evento lançado no clique da opção de dark mode
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void modoDarkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lockchange) return;
+
+            modoDarkToolStripMenuItem.Checked = !modoDarkToolStripMenuItem.Checked;
+            Model.Parametros.ModoDark = modoDarkToolStripMenuItem.Checked;
+            FecharTelas();
+            this.IniciaForm();
+        }
+
+        /// <summary>
         /// Evento lançado quando digitado a quantidade de dias
         /// </summary>
         /// <param name="sender"></param>
@@ -321,6 +336,44 @@ namespace Visao
             }
         }
 
+        private void tsm_opcoes_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_Paint(object sender, PaintEventArgs e)
+        {
+            // Set the background color to transparent
+            mst_opcoes.BackColor = Color.Transparent;
+
+            // Set the text color
+            using (Brush brush = new SolidBrush(Color.White))
+            {
+                foreach (ToolStripMenuItem item in mst_opcoes.Items)
+                {
+                    // Draw the text using custom color
+                    e.Graphics.DrawString(item.Text, item.Font, brush, item.Bounds);
+                }
+            }
+        }
+
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            //e.DrawBackground();
+            using (Brush br = new SolidBrush(BackColor))
+            {
+                e.Graphics.FillRectangle(br, e.Bounds);
+                SizeF sz = e.Graphics.MeasureString(Pages[e.Index].Text, e.Font);
+                e.Graphics.DrawString(Pages[e.Index].Text, e.Font, Model.Parametros.ModoDark ? Brushes.White : Brushes.Black, e.Bounds.Left + (e.Bounds.Width - sz.Width) / 2, e.Bounds.Top + (e.Bounds.Height - sz.Height) / 2 + 1);
+
+                Rectangle rect = e.Bounds;
+                rect.Offset(0, 1);
+                rect.Inflate(0, -1);
+                e.Graphics.DrawRectangle(Pens.DarkGray, rect);
+                e.DrawFocusRectangle();
+            }
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -347,6 +400,34 @@ namespace Visao
         {
             Util.CL_Files.WriteOnTheLog("FO_Principal.IniciaForm()", Util.Global.TipoLog.DETALHADO);
 
+            this.mst_opcoes.BackColor = Color.Transparent;
+
+            this.tbc_table_control.BackColor = Color.Transparent;
+            
+            if (Model.Parametros.ModoDark)
+            {
+                this.BackColor = Color.FromArgb(51, 51, 51);
+                this.ForeColor = Color.White;
+                this.mst_opcoes.ForeColor = Color.White;
+            }
+            else
+            {
+                this.BackColor = Color.FromArgb(251, 249, 238);
+                this.ForeColor = Color.Black;
+                this.mst_opcoes.ForeColor = Color.Black;
+            }
+            foreach (Button button in this.Controls.OfType<Button>())
+            {
+                button.BackColor = this.BackColor;
+                button.ForeColor = this.ForeColor;
+            }
+
+            this.trv_tabelas.BackColor = this.BackColor;
+            this.trv_tabelas.ForeColor = this.ForeColor;
+
+            this.tbc_table_control.DrawMode = TabDrawMode.OwnerDrawFixed;
+            this.tbc_table_control.DrawItem += new DrawItemEventHandler(this.tabControl1_DrawItem);
+
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
@@ -355,6 +436,7 @@ namespace Visao
             this.nãoFiltrarToolStripMenuItem.Checked = !Model.Parametros.FiltrarAutomaticamente;
             this.enumeraLinhasDasTabelasToolStripMenuItem.Checked = Model.Parametros.NumeracaoLinhasTabelas;
             this.tbx_quantidade_dias_atualizacao.Text = Model.Parametros.QuantidadeDiasAtualizacaoTabela.ToString();
+            this.modoDarkToolStripMenuItem.Checked = Model.Parametros.ModoDark;
 
             ToolStripMenuItem closeAllPages = new ToolStripMenuItem();
             closeAllPages.Text = "Fechar todas as telas";
@@ -831,10 +913,8 @@ namespace Visao
             }
         }
 
-
-
-
         #endregion Métodos
 
+        
     }
 }

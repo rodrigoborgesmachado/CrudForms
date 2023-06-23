@@ -294,6 +294,38 @@ namespace Visao
         /// </summary>
         public void IniciaForm()
         {
+            this.mst_opcoes.BackColor = Color.Transparent;
+            this.tsm_opcoes.BackColor = Color.Transparent;
+            
+            if (Model.Parametros.ModoDark)
+            {
+                this.BackColor = Color.FromArgb(51, 51, 51);
+                this.ForeColor = Color.White;
+                this.mst_opcoes.ForeColor = Color.White;
+                
+            }
+            else
+            {
+                this.BackColor = Color.FromArgb(251, 249, 238);
+                this.ForeColor = Color.Black;
+                this.mst_opcoes.ForeColor = Color.Black;
+            }
+            foreach (Button button in this.Controls.OfType<Button>())
+            {
+                button.BackColor = this.BackColor;
+                button.ForeColor = this.ForeColor;
+            }
+
+            this.grb_geral.ForeColor = this.ForeColor;
+            this.dgv_generico.GridColor = this.ForeColor;
+            this.dgv_generico.BackgroundColor = this.BackColor;
+            this.dgv_generico.DefaultCellStyle.BackColor = this.BackColor;
+            this.dgv_generico.DefaultCellStyle.ForeColor = this.ForeColor;
+            this.dgv_generico.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
+            this.dgv_generico.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
+            this.dgv_generico.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
+            this.dgv_generico.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
+
             ValidaPermissoes();
             if(this.tabela != null)
             {
@@ -420,7 +452,7 @@ namespace Visao
                 this.dgv_generico.Columns[i].Width = 100;
                 this.dgv_generico.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 this.dgv_generico.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
+            }            
 
             barra.Dispose();
         }

@@ -1,14 +1,7 @@
-﻿using Model;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Common;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Util
+namespace ImportadorNamespace
 {
     public class DocumentSQSLite : Document
     {

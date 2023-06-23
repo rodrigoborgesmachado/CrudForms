@@ -106,6 +106,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Importador\Document.cs" />
+    <Compile Include="Importador\DocumentMySql.cs" />
+    <Compile Include="Importador\DocumentPostGreSql.cs" />
+    <Compile Include="Importador\DocumentSQLServer.cs" />
+    <Compile Include="Importador\DocumentSQSLite.cs" />
     <Compile Include="Model\Filtro.cs" />
     <Compile Include="Model\MD_Campos.cs" />
     <Compile Include="Model\MD_Consultas.cs" />
@@ -133,6 +138,12 @@
     <Compile Include="Regras\InformacoesSaidaImportador.cs" />
     <Compile Include="Regras\RodaObservers.cs" />
     <Compile Include="Regras\ValidaQuery.cs" />
+    <Compile Include="Visao\BarraDeCarregamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\BarraDeCarregamento.Designer.cs">
+      <DependentUpon>BarraDeCarregamento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visao\FO_Aguarde.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +240,7 @@
     <Compile Include="Visao\FO_SelecionaConexao.Designer.cs">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visao\Message.cs" />
     <Compile Include="Visao\UC_FormularioGenerico.cs">
       <SubType>UserControl</SubType>
     </Compile>

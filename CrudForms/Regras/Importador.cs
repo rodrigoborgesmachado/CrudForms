@@ -32,23 +32,23 @@ namespace Regras
                     DataBase.Connection.CloseConnection();
                     if (DataBase.Connection.OpenConection(conexao, Global.BancoDados))
                     {
-                        Util.Document document = null;
+                        ImportadorNamespace.Document document = null;
 
                         if (Global.BancoDados == Enumerator.BancoDados.SQL_SERVER)
                         {
-                            document = new Util.DocumentSQLServer();
+                            document = new ImportadorNamespace.DocumentSQLServer();
                         }
                         else if (Global.BancoDados == Enumerator.BancoDados.SQLite)
                         {
-                            document = new Util.DocumentSQSLite();
+                            document = new ImportadorNamespace.DocumentSQSLite();
                         }
                         else if (Global.BancoDados == Enumerator.BancoDados.POSTGRESQL)
                         {
-                            document = new Util.DocumentPostGreSql();
+                            document = new ImportadorNamespace.DocumentPostGreSql();
                         }
                         else if (Global.BancoDados == Enumerator.BancoDados.MYSQL)
                         {
-                            document = new Util.DocumentMySql();
+                            document = new ImportadorNamespace.DocumentMySql();
                         }
 
                         importador.Importado = document.Importar();
