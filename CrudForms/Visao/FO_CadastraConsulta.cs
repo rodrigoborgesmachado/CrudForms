@@ -42,6 +42,8 @@ namespace Visao
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
             }
+            this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
+
         }
 
         private void btn_confirmar_Click(object sender, EventArgs e)

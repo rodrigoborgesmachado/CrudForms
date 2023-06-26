@@ -92,6 +92,7 @@ namespace Visao
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
             }
+            this.grb_formulario.ForeColor = this.ForeColor;
 
             if (this.tarefa == Tarefa.EDITANDO)
             {

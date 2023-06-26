@@ -40,8 +40,9 @@ namespace Visao
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
             }
+            this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
         }
-        
+
         /// <summary>
         /// Evento lançado no clique da opção de confirmação
         /// </summary>

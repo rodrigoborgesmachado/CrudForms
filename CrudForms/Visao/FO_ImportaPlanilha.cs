@@ -65,6 +65,8 @@ namespace Visao
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
             }
+            this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
+
         }
 
         #endregion Construtores

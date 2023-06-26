@@ -143,6 +143,17 @@ namespace Visao
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
             }
+            this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
+
+            this.dgv_colunas.GridColor = this.ForeColor;
+            this.dgv_colunas.BackgroundColor = this.BackColor;
+            this.dgv_colunas.DefaultCellStyle.BackColor = this.BackColor;
+            this.dgv_colunas.DefaultCellStyle.ForeColor = this.ForeColor;
+            this.dgv_colunas.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
+            this.dgv_colunas.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
+            this.dgv_colunas.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
+            this.dgv_colunas.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
+
             this.FillGrid();
         }
 

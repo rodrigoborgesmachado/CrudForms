@@ -29,6 +29,7 @@ namespace Visao
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
             }
+            this.grb_total.ForeColor = this.ForeColor;
 
             InitializeComponent();
         }

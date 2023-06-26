@@ -39,6 +39,7 @@ namespace Visao
                 button.BackColor = this.BackColor;
                 button.ForeColor = this.ForeColor;
             }
+            this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
 
             this.tbx_connectionStrings.Text = Model.Parametros.ConexaoBanco.DAO.Valor;
             this.tbx_nome.Text = Model.Parametros.NomeConexao.DAO.Valor;
