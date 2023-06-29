@@ -56,6 +56,7 @@ namespace Visao
             }
             else
             {
+                this.principal.FecharTela("generica");
                 this.principal.AbreJanelaFormularioGenerico(this.tbx_consulta.Text);
                 this.Dispose();
             }
