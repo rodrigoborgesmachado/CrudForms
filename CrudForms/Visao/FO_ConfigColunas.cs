@@ -132,6 +132,15 @@ namespace Visao
             {
                 this.BackColor = Color.FromArgb(51, 51, 51);
                 this.ForeColor = Color.White;
+
+                this.dgv_colunas.GridColor = this.ForeColor;
+                this.dgv_colunas.BackgroundColor = this.BackColor;
+                this.dgv_colunas.DefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_colunas.DefaultCellStyle.ForeColor = this.ForeColor;
+                this.dgv_colunas.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_colunas.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
+                this.dgv_colunas.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_colunas.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
             }
             else
             {
@@ -144,15 +153,6 @@ namespace Visao
                 button.ForeColor = this.ForeColor;
             }
             this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
-
-            this.dgv_colunas.GridColor = this.ForeColor;
-            this.dgv_colunas.BackgroundColor = this.BackColor;
-            this.dgv_colunas.DefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_colunas.DefaultCellStyle.ForeColor = this.ForeColor;
-            this.dgv_colunas.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_colunas.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
-            this.dgv_colunas.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_colunas.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
 
             this.FillGrid();
         }

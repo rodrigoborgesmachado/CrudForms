@@ -127,6 +127,15 @@ namespace Visao
             {
                 this.BackColor = Color.FromArgb(51, 51, 51);
                 this.ForeColor = Color.White;
+
+                this.dgv_observers.GridColor = this.ForeColor;
+                this.dgv_observers.BackgroundColor = this.BackColor;
+                this.dgv_observers.DefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_observers.DefaultCellStyle.ForeColor = this.ForeColor;
+                this.dgv_observers.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_observers.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
+                this.dgv_observers.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_observers.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
             }
             else
             {
@@ -140,15 +149,7 @@ namespace Visao
             }
 
             this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
-            this.dgv_observers.GridColor = this.ForeColor;
-            this.dgv_observers.BackgroundColor = this.BackColor;
-            this.dgv_observers.DefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_observers.DefaultCellStyle.ForeColor = this.ForeColor;
-            this.dgv_observers.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_observers.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
-            this.dgv_observers.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_observers.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
-
+            
             this.FillGrid();
         }
 

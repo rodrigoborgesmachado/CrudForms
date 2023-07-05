@@ -302,7 +302,14 @@ namespace Visao
                 this.BackColor = Color.FromArgb(51, 51, 51);
                 this.ForeColor = Color.White;
                 this.mst_opcoes.ForeColor = Color.White;
-                
+                this.dgv_generico.GridColor = this.ForeColor;
+                this.dgv_generico.BackgroundColor = this.BackColor;
+                this.dgv_generico.DefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_generico.DefaultCellStyle.ForeColor = this.ForeColor;
+                this.dgv_generico.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_generico.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
+                this.dgv_generico.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
+                this.dgv_generico.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
             }
             else
             {
@@ -317,16 +324,9 @@ namespace Visao
             }
 
             this.grb_geral.ForeColor = this.ForeColor;
-            this.dgv_generico.GridColor = this.ForeColor;
-            this.dgv_generico.BackgroundColor = this.BackColor;
-            this.dgv_generico.DefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_generico.DefaultCellStyle.ForeColor = this.ForeColor;
-            this.dgv_generico.RowHeadersDefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_generico.RowHeadersDefaultCellStyle.ForeColor = this.ForeColor;
-            this.dgv_generico.ColumnHeadersDefaultCellStyle.BackColor = this.BackColor;
-            this.dgv_generico.ColumnHeadersDefaultCellStyle.ForeColor = this.ForeColor;
 
             ValidaPermissoes();
+            
             if(this.tabela != null)
             {
                 this.grb_geral.Text = this.tabela.DAO.Nome;
