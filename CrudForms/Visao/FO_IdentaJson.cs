@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Visao
@@ -14,6 +9,8 @@ namespace Visao
     {
         public FO_IdentaJson()
         {
+            InitializeComponent();
+
             if (Model.Parametros.ModoDark)
             {
                 this.BackColor = Color.FromArgb(51, 51, 51);
@@ -30,8 +27,6 @@ namespace Visao
                 button.ForeColor = this.ForeColor;
             }
             this.grb_total.ForeColor = this.ForeColor;
-
-            InitializeComponent();
         }
 
         private void btn_confirmar_Click(object sender, EventArgs e)
