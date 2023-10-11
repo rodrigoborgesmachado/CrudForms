@@ -148,7 +148,27 @@ namespace Visao
         /// <param name="e"></param>
         private void gerarDERToolStripMenuItem_Click(object sender, EventArgs e)
         {
+        }
+
+        /// <summary>
+        /// evento lançado no clique do botão de gerar o der completo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void completoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             this.GerarDer();
+        }
+
+        /// <summary>
+        /// evento lançado no clique de gerar o der por tabelas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void filtrarTabelasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_SelecioneTabelasDer tela = new FO_SelecioneTabelasDer(this);
+                tela.ShowDialog();
         }
 
         /// <summary>
@@ -734,9 +754,9 @@ namespace Visao
         /// <summary>
         /// Método que gera der
         /// </summary>
-        public void GerarDer(List<Model.MD_Tabela> tabelas = null, List<Model.MD_Campos> campos = null, bool abrir = true)
+        public void GerarDer(List<Model.MD_Tabela> tabelas = null, List<Model.MD_Campos> campos = null, bool abrir = true, bool forcar = false)
         {
-            if (File.Exists(Util.Global.app_DER_file_TableB))
+            if (File.Exists(Util.Global.app_DER_file_TableB) && !forcar)
             {
                 if (abrir)
                 {
@@ -916,8 +936,8 @@ namespace Visao
             }
         }
 
+
         #endregion Métodos
 
-        
     }
 }

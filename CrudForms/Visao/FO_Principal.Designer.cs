@@ -34,7 +34,6 @@
             this.trv_tabelas = new System.Windows.Forms.TreeView();
             this.pan_filtro = new System.Windows.Forms.Panel();
             this.lbl_filtrar = new System.Windows.Forms.Label();
-            this.btn_limpar_filtro = new System.Windows.Forms.Button();
             this.tbx_filtro = new System.Windows.Forms.TextBox();
             this.mst_opcoes = new System.Windows.Forms.MenuStrip();
             this.tsm_opcoes = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +63,9 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
+            this.completoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filtrarTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_limpar_filtro = new System.Windows.Forms.Button();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.pan_filtro.SuspendLayout();
@@ -122,17 +124,6 @@
             this.lbl_filtrar.Size = new System.Drawing.Size(57, 19);
             this.lbl_filtrar.TabIndex = 2;
             this.lbl_filtrar.Text = "Filtrar:";
-            // 
-            // btn_limpar_filtro
-            // 
-            this.btn_limpar_filtro.BackColor = System.Drawing.Color.Transparent;
-            this.btn_limpar_filtro.Image = global::Pj.Properties.Resources.filter_remove_100px20x20;
-            this.btn_limpar_filtro.Location = new System.Drawing.Point(207, 24);
-            this.btn_limpar_filtro.Name = "btn_limpar_filtro";
-            this.btn_limpar_filtro.Size = new System.Drawing.Size(32, 23);
-            this.btn_limpar_filtro.TabIndex = 1;
-            this.btn_limpar_filtro.UseVisualStyleBackColor = false;
-            this.btn_limpar_filtro.Click += new System.EventHandler(this.btn_limpar_filtro_Click);
             // 
             // tbx_filtro
             // 
@@ -238,6 +229,9 @@
             // 
             // gerarDERToolStripMenuItem
             // 
+            this.gerarDERToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.completoToolStripMenuItem,
+            this.filtrarTabelasToolStripMenuItem});
             this.gerarDERToolStripMenuItem.Name = "gerarDERToolStripMenuItem";
             this.gerarDERToolStripMenuItem.Size = new System.Drawing.Size(336, 26);
             this.gerarDERToolStripMenuItem.Text = "Gerar DER";
@@ -391,6 +385,31 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
+            // completoToolStripMenuItem
+            // 
+            this.completoToolStripMenuItem.Name = "completoToolStripMenuItem";
+            this.completoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.completoToolStripMenuItem.Text = "Completo";
+            this.completoToolStripMenuItem.Click += new System.EventHandler(this.completoToolStripMenuItem_Click);
+            // 
+            // filtrarTabelasToolStripMenuItem
+            // 
+            this.filtrarTabelasToolStripMenuItem.Name = "filtrarTabelasToolStripMenuItem";
+            this.filtrarTabelasToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.filtrarTabelasToolStripMenuItem.Text = "Filtrar tabelas";
+            this.filtrarTabelasToolStripMenuItem.Click += new System.EventHandler(this.filtrarTabelasToolStripMenuItem_Click);
+            // 
+            // btn_limpar_filtro
+            // 
+            this.btn_limpar_filtro.BackColor = System.Drawing.Color.Transparent;
+            this.btn_limpar_filtro.Image = global::Pj.Properties.Resources.filter_remove_100px20x20;
+            this.btn_limpar_filtro.Location = new System.Drawing.Point(207, 24);
+            this.btn_limpar_filtro.Name = "btn_limpar_filtro";
+            this.btn_limpar_filtro.Size = new System.Drawing.Size(32, 23);
+            this.btn_limpar_filtro.TabIndex = 1;
+            this.btn_limpar_filtro.UseVisualStyleBackColor = false;
+            this.btn_limpar_filtro.Click += new System.EventHandler(this.btn_limpar_filtro_Click);
+            // 
             // FO_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -459,6 +478,8 @@
         private System.Windows.Forms.TextBox tbx_filtro;
         private System.Windows.Forms.Label lbl_filtrar;
         private System.Windows.Forms.ToolStripMenuItem modoDarkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem completoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filtrarTabelasToolStripMenuItem;
     }
 }
 

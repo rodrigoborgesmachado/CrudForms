@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -240,6 +240,12 @@
     <Compile Include="Visao\FO_SelecionaConexao.Designer.cs">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visao\FO_SelecioneTabelasDer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_SelecioneTabelasDer.Designer.cs">
+      <DependentUpon>FO_SelecioneTabelasDer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visao\Message.cs" />
     <Compile Include="Visao\UC_FormularioGenerico.cs">
       <SubType>UserControl</SubType>
@@ -313,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_SelecionaConexao.resx">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_SelecioneTabelasDer.resx">
+      <DependentUpon>FO_SelecioneTabelasDer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\UC_FormularioGenerico.resx">
       <DependentUpon>UC_FormularioGenerico.cs</DependentUpon>
