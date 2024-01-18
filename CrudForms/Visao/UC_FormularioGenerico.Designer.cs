@@ -93,7 +93,7 @@ namespace Visao
             this.tsm_opcoes});
             this.mst_opcoes.Location = new System.Drawing.Point(0, 0);
             this.mst_opcoes.Name = "mst_opcoes";
-            this.mst_opcoes.Size = new System.Drawing.Size(720, 28);
+            this.mst_opcoes.Size = new System.Drawing.Size(720, 24);
             this.mst_opcoes.TabIndex = 2;
             this.mst_opcoes.Text = "menuStrip1";
             // 
@@ -106,41 +106,41 @@ namespace Visao
             this.salvarConsultaToolStripMenuItem,
             this.configuraçãoDasColunasToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
-            this.tsm_opcoes.Size = new System.Drawing.Size(73, 24);
+            this.tsm_opcoes.Size = new System.Drawing.Size(59, 20);
             this.tsm_opcoes.Text = "Opções";
             // 
             // exportarCSVToolStripMenuItem
             // 
             this.exportarCSVToolStripMenuItem.Name = "exportarCSVToolStripMenuItem";
-            this.exportarCSVToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.exportarCSVToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.exportarCSVToolStripMenuItem.Text = "Exportar CSV";
             this.exportarCSVToolStripMenuItem.Click += new System.EventHandler(this.exportarCSVToolStripMenuItem_Click);
             // 
             // exportarJSONToolStripMenuItem
             // 
             this.exportarJSONToolStripMenuItem.Name = "exportarJSONToolStripMenuItem";
-            this.exportarJSONToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.exportarJSONToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.exportarJSONToolStripMenuItem.Text = "Exportar JSON";
             this.exportarJSONToolStripMenuItem.Click += new System.EventHandler(this.exportarJSONToolStripMenuItem_Click);
             // 
             // exportarXMLToolStripMenuItem
             // 
             this.exportarXMLToolStripMenuItem.Name = "exportarXMLToolStripMenuItem";
-            this.exportarXMLToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.exportarXMLToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.exportarXMLToolStripMenuItem.Text = "Exportar XML";
             this.exportarXMLToolStripMenuItem.Click += new System.EventHandler(this.exportarXMLToolStripMenuItem_Click);
             // 
             // salvarConsultaToolStripMenuItem
             // 
             this.salvarConsultaToolStripMenuItem.Name = "salvarConsultaToolStripMenuItem";
-            this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.salvarConsultaToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.salvarConsultaToolStripMenuItem.Text = "Salvar Consulta";
             this.salvarConsultaToolStripMenuItem.Click += new System.EventHandler(this.salvarConsultaToolStripMenuItem_Click);
             // 
             // configuraçãoDasColunasToolStripMenuItem
             // 
             this.configuraçãoDasColunasToolStripMenuItem.Name = "configuraçãoDasColunasToolStripMenuItem";
-            this.configuraçãoDasColunasToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
+            this.configuraçãoDasColunasToolStripMenuItem.Size = new System.Drawing.Size(211, 22);
             this.configuraçãoDasColunasToolStripMenuItem.Text = "Configuração das colunas";
             this.configuraçãoDasColunasToolStripMenuItem.Click += new System.EventHandler(this.configuraçãoDasColunasToolStripMenuItem_Click);
             // 
@@ -195,6 +195,7 @@ namespace Visao
             this.dgv_generico.Size = new System.Drawing.Size(728, 439);
             this.dgv_generico.StandardTab = true;
             this.dgv_generico.TabIndex = 12;
+            this.dgv_generico.DoubleClick += new System.EventHandler(this.dgv_generico_DoubleClick);
             // 
             // grb_geral
             // 
@@ -228,7 +229,7 @@ namespace Visao
             this.lbl_quantidadeLinhas.AutoSize = true;
             this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(4, 476);
             this.lbl_quantidadeLinhas.Name = "lbl_quantidadeLinhas";
-            this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(145, 19);
+            this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(120, 16);
             this.lbl_quantidadeLinhas.TabIndex = 13;
             this.lbl_quantidadeLinhas.Text = "<qauntidade linhas>";
             // 
@@ -364,7 +365,7 @@ namespace Visao
             // 
             // UC_FormularioGenerico
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
             this.Controls.Add(this.pan_tot);

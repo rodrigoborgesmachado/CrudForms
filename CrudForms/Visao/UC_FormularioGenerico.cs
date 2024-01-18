@@ -238,6 +238,16 @@ namespace Visao
             GerarExportacao(TipoArquivoExportacao.XML);
         }
 
+        /// <summary>
+        /// Evento lançado ao clique duplo no grid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgv_generico_DoubleClick(object sender, EventArgs e)
+        {
+            this.AbrirTelaCadastro(Tarefa.VISUALIZANDO);
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -577,6 +587,7 @@ namespace Visao
             Visao.FO_CadastraConsulta cadastraConsulta = new FO_CadastraConsulta(consulta, Tarefa.INCLUINDO);
             cadastraConsulta.Show();
         }
+
 
 
         #endregion Métodos
