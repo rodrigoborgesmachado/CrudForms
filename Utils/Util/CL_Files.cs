@@ -296,6 +296,37 @@ namespace Util
             file = null;
         }
 
+        /// <summary>
+        /// Método que faz manutenção dos arquivos de log
+        /// </summary>
+        /// <param name="numeroDias"></param>
+        public static bool ManutencaoArquivosLogs(int numeroDias)
+        {
+            bool resultado = true;
+
+            try
+            {
+                DateTime dateLimit = DateTime.Now.AddDays(-1 * numeroDias);
+
+                var files = Directory.GetFiles(Global.app_logs_directoty);
+                foreach (var file in files)
+                {
+                    FileInfo info = new FileInfo(file);
+                    if (info.CreationTime <= dateLimit)
+                    {
+                        info.Delete();
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                LogException(e);
+                resultado = false;
+            }
+
+            return resultado;
+        }
+
         #endregion Methods        
     }
 }

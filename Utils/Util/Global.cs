@@ -131,6 +131,8 @@ namespace Util
         // Parametro do connections
         public static string parametro_tipoBanco = "TIPOBANCO";
 
+        public static string parametro_quantidadeDiasManterLog = "QUANTIDADEDIASLOG";
+
         /// <summary>
         /// Enumerador referente ao tipo de log que o sistema irá persistir
         /// </summary>

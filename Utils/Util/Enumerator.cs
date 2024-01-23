@@ -64,5 +64,14 @@ namespace Util
             TRANSFORMAR_XML_TO_JSON = 2,
             TRANSFORMAR_JSON_TO_XML = 3
         }
+
+        /// <summary>
+        /// Enumerator para controlar qual o tipo de manutenção será feito com o texto
+        /// </summary>
+        public enum TipoNumero
+        {
+            QUANTIDADE_ITENS_TABELA = 0,
+            QUANTIDADE_DIAS_LOG = 1
+        }
     }
 }

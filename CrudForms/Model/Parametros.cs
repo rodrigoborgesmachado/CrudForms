@@ -189,5 +189,30 @@ namespace Model
                     modoDark.DAO.Update();
             }
         }
+
+        private static Model.MD_Parametros quantidadeDiasLog;
+        public static int QuantidadeDiasLog
+        {
+            get
+            {
+                if (quantidadeDiasLog == null)
+                {
+                    quantidadeDiasLog = new Model.MD_Parametros(Util.Global.parametro_quantidadeDiasManterLog);
+                    if (quantidadeDiasLog.DAO.Empty)
+                        quantidadeDiasLog.DAO.Valor = "100";
+                }
+                return int.Parse(quantidadeDiasLog.DAO.Valor);
+            }
+            set
+            {
+                quantidadeDiasLog = new MD_Parametros(Util.Global.parametro_quantidadeDiasManterLog);
+                quantidadeDiasLog.DAO.Valor = value.ToString();
+
+                if (quantidadeDiasLog.DAO.Empty)
+                    quantidadeDiasLog.DAO.Insert();
+                else
+                    quantidadeDiasLog.DAO.Update();
+            }
+        }
     }
 }

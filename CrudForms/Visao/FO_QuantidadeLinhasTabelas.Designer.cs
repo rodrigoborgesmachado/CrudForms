@@ -43,7 +43,7 @@ namespace Visao
             // 
             this.pan_option.Controls.Add(this.btn_acao);
             this.pan_option.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pan_option.Location = new System.Drawing.Point(0, 89);
+            this.pan_option.Location = new System.Drawing.Point(0, 65);
             this.pan_option.Name = "pan_option";
             this.pan_option.Size = new System.Drawing.Size(374, 39);
             this.pan_option.TabIndex = 3;
@@ -66,7 +66,7 @@ namespace Visao
             this.pan_tot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pan_tot.Location = new System.Drawing.Point(0, 0);
             this.pan_tot.Name = "pan_tot";
-            this.pan_tot.Size = new System.Drawing.Size(374, 89);
+            this.pan_tot.Size = new System.Drawing.Size(374, 65);
             this.pan_tot.TabIndex = 4;
             // 
             // grb_total
@@ -75,24 +75,24 @@ namespace Visao
             this.grb_total.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grb_total.Location = new System.Drawing.Point(0, 0);
             this.grb_total.Name = "grb_total";
-            this.grb_total.Size = new System.Drawing.Size(374, 89);
+            this.grb_total.Size = new System.Drawing.Size(374, 65);
             this.grb_total.TabIndex = 0;
             this.grb_total.TabStop = false;
             this.grb_total.Text = "Quantidade itens por tabela";
             // 
-            // textBox1
+            // tbx_quantidade
             // 
             this.tbx_quantidade.Location = new System.Drawing.Point(13, 27);
-            this.tbx_quantidade.Name = "textBox1";
-            this.tbx_quantidade.Size = new System.Drawing.Size(355, 27);
+            this.tbx_quantidade.Name = "tbx_quantidade";
+            this.tbx_quantidade.Size = new System.Drawing.Size(355, 23);
             this.tbx_quantidade.TabIndex = 0;
             // 
             // FO_QuantidadeLinhasTabelas
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
-            this.ClientSize = new System.Drawing.Size(374, 128);
+            this.ClientSize = new System.Drawing.Size(374, 104);
             this.Controls.Add(this.pan_tot);
             this.Controls.Add(this.pan_option);
             this.Font = new System.Drawing.Font("Times New Roman", 10F);

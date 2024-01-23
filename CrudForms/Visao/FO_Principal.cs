@@ -86,7 +86,18 @@ namespace Visao
         /// <param name="e"></param>
         private void quantidadeLinhasTabelasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FO_QuantidadeLinhasTabelas linhasTabelas = new FO_QuantidadeLinhasTabelas();
+            FO_QuantidadeLinhasTabelas linhasTabelas = new FO_QuantidadeLinhasTabelas(TipoNumero.QUANTIDADE_ITENS_TABELA);
+            linhasTabelas.ShowDialog();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de quantidade de dias para manter log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void quantidadeDeDiasParaManterLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_QuantidadeLinhasTabelas linhasTabelas = new FO_QuantidadeLinhasTabelas(TipoNumero.QUANTIDADE_DIAS_LOG);
             linhasTabelas.ShowDialog();
         }
 
@@ -971,6 +982,6 @@ namespace Visao
 
 
         #endregion Métodos
-
+        
     }
 }

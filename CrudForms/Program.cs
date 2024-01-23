@@ -34,6 +34,7 @@ namespace CrudForms
             DAO.MD_Relacao rel = new DAO.MD_Relacao();
             DAO.MD_Tabela tab = new DAO.MD_Tabela();
             DAO.MD_TipoCampo tipo = new DAO.MD_TipoCampo();
+            Util.CL_Files.ManutencaoArquivosLogs(Model.Parametros.QuantidadeDiasLog);
 
             bool logar = false;
             if (args.Length == 0)

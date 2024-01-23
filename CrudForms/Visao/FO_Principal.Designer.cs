@@ -69,6 +69,8 @@
             this.identarXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transformarXMLToJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transformarJsonToXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.pan_filtro.SuspendLayout();
@@ -176,6 +178,7 @@
             this.buscarAtualizaçãoToolStripMenuItem,
             this.adicionarInspeçãoAutomáticaToolStripMenuItem,
             this.importarPlanilhaCSVToolStripMenuItem1,
+            this.logsToolStripMenuItem,
             this.modoDarkToolStripMenuItem});
             this.tsm_opcoes.Name = "tsm_opcoes";
             this.tsm_opcoes.Size = new System.Drawing.Size(59, 20);
@@ -437,6 +440,21 @@
             this.transformarJsonToXMLToolStripMenuItem.Text = "Transformar Json to XML";
             this.transformarJsonToXMLToolStripMenuItem.Click += new System.EventHandler(this.transformarJsonToXMLToolStripMenuItem_Click);
             // 
+            // logsToolStripMenuItem
+            // 
+            this.logsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem});
+            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.logsToolStripMenuItem.Text = "Logs";
+            // 
+            // quantidadeDeDiasParaManterLogToolStripMenuItem
+            // 
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Name = "quantidadeDeDiasParaManterLogToolStripMenuItem";
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Text = "Quantidade de dias para manter log";
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Click += new System.EventHandler(this.quantidadeDeDiasParaManterLogToolStripMenuItem_Click);
+            // 
             // FO_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -510,6 +528,8 @@
         private System.Windows.Forms.ToolStripMenuItem identarXMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transformarXMLToJsonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem transformarJsonToXMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quantidadeDeDiasParaManterLogToolStripMenuItem;
     }
 }
 
