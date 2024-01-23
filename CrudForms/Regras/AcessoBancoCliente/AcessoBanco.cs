@@ -153,13 +153,15 @@ namespace Regras.AcessoBancoCliente
         /// </summary>
         /// <param name="tabela"></param>
         /// <returns></returns>
-        public List<AcessoBanco> BuscaLista(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro, out string consulta, bool limite = true)
+        public List<AcessoBanco> BuscaLista(MD_Tabela tabela, List<MD_Campos> campos, Model.Filtro filtro, int page, out string consulta, out int quantidadeTotal, bool limite = true)
         {
             List<AcessoBanco> valores = new List<AcessoBanco>();
 
             try
             {
-                consulta = CreateCommandSQLTable(tabela, campos, filtro, limite);
+                quantidadeTotal = 0;
+                consulta = CreateCommandSQLTable(tabela, campos, filtro, page, limite);
+                string consultaQuantidadeTotal = GetCommandQuantidadeTotal(tabela, campos, filtro);
 
                 Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
                 barra.Show();
@@ -169,7 +171,20 @@ namespace Regras.AcessoBancoCliente
                 DataBase.Connection.CloseConnection();
                 DataBase.Connection.OpenConection(connection, Util.Global.BancoDados);
 
-                DbDataReader reader = DataBase.Connection.Select(consulta);
+                DbDataReader reader = DataBase.Connection.Select(consultaQuantidadeTotal);
+                if (reader == null)
+                {
+                    barra.Dispose();
+                    return null;
+                }
+
+                if (reader.Read())
+                {
+                    quantidadeTotal = int.Parse(reader[0].ToString());
+                }
+                reader.Close();
+
+                reader = DataBase.Connection.Select(consulta);
 
                 if (reader == null)
                 {
@@ -183,9 +198,16 @@ namespace Regras.AcessoBancoCliente
                     columns.Add(campo.DAO.Nome);
                 });
 
+                int qt = 0;
                 while (reader.Read())
                 {
+                    qt++;
                     List<string> values = new List<string>();
+
+                    if(Util.Global.BancoDados == Util.Enumerator.BancoDados.SQL_SERVER && int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor) * (page - 1) > qt)
+                    {
+                        continue;
+                    }
 
                     for (int i = 0; i < reader.FieldCount; i++)
                     {
@@ -338,7 +360,9 @@ namespace Regras.AcessoBancoCliente
 
         protected abstract string MontaComandoUpdate(string tabela, List<Model.MD_Campos> campos, AcessoBanco valoresAnteriores, out string mensagem);
 
-        protected abstract string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, bool limita = true);
+        protected abstract string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, int page, bool limita = true);
+
+        protected abstract string GetCommandQuantidadeTotal(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro);
 
         protected abstract string MontaWhereSelect(Model.Filtro filtro, List<MD_Campos> campos);
 

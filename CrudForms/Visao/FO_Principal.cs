@@ -984,7 +984,7 @@ namespace Visao
         public void ExportaTabela(int codigoTabela, TipoArquivoExportacao tipo)
         {
             Model.MD_Tabela tabela = new Model.MD_Tabela(codigoTabela, 0);
-            var valores = Regras.AcessoBancoCliente.AcessoBanco.GetInstanciaBancoCliente().BuscaLista(tabela, tabela.CamposDaTabela(), new Model.Filtro(), out string consulta, false);
+            var valores = Regras.AcessoBancoCliente.AcessoBanco.GetInstanciaBancoCliente().BuscaLista(tabela, tabela.CamposDaTabela(), new Model.Filtro(), 1, out string consulta, out int _, false);
             string nomeArquivo = tabela != null ? tabela.DAO.Nome : "relatorio_generico";
 
             if (!GerarArquivoExportacao.GerarArquivoSolicitandoCaminho(tipo, valores, nomeArquivo, out var mensagemErro, out var diretorio))

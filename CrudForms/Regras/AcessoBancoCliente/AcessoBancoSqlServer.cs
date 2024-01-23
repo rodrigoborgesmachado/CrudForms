@@ -129,9 +129,9 @@ namespace Regras.AcessoBancoCliente
         /// Method that creates the command for select in table
         /// </summary>
         /// <returns>Command SQL</returns>
-        protected override string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, bool limite = true)
+        protected override string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, int page, bool limite = true)
         {
-            string command = limite ? $" SELECT TOP {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor} " : "SELECT ";
+            string command = limite ? $" SELECT TOP {(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor) * page).ToString()} " : "SELECT ";
             string fields = string.Empty;
             int qt = campos.Count, i = 1;
 
@@ -152,6 +152,20 @@ namespace Regras.AcessoBancoCliente
                     command += $" ORDER BY { (campos.IndexOf(campos.Where(campo => campo.DAO.Nome == filtro.Order.CampoOrdenacao.DAO.Nome).FirstOrDefault()) + 1)} {(filtro.Order.Asc ? "ASC" : "DESC")}";
                 }
             }
+
+            return command;
+        }
+
+        /// <summary>
+        /// Method that creates the command for select in table
+        /// </summary>
+        /// <returns>Command SQL</returns>
+        protected override string GetCommandQuantidadeTotal(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro)
+        {
+            string command = $" SELECT count(1)";
+            string fields = string.Empty;
+            command += fields + " FROM [" + tabela.DAO.Nome + "]";
+            command += MontaWhereSelect(filtro, campos);
 
             return command;
         }

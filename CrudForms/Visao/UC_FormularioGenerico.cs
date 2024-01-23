@@ -17,6 +17,8 @@ namespace Visao
         #region Atributos e Propriedades
 
         string consulta = string.Empty;
+        int page = 1;
+        int quantidadeTotal = 0;
 
         /// <summary>
         /// Tabela de controle do formulário
@@ -248,6 +250,38 @@ namespace Visao
             this.AbrirTelaCadastro(Tarefa.VISUALIZANDO);
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de next
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_next_Click(object sender, EventArgs e)
+        {
+            if (this.page + 1 > (this.quantidadeTotal / int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor)))
+            {
+                Visao.Message.MensagemAlerta("Não há mais páginas");
+            }
+            else
+            {
+                this.page++;
+                this.FillGrid(filtro);
+            }
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de back
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btn_back_Click(object sender, EventArgs e)
+        {
+            if (this.page - 1 >= 1)
+            {
+                this.page--;
+                this.FillGrid(filtro);
+            }
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -389,12 +423,12 @@ namespace Visao
                 this.configuraçãoDasColunasToolStripMenuItem.Visible = true;
 
                 this.valores = Util.Global.BancoDados == BancoDados.SQL_SERVER ?
-                    new Regras.AcessoBancoCliente.AcessoBancoSqlServer().BuscaLista(tabela, colunas, filter, out consulta)
+                    new Regras.AcessoBancoCliente.AcessoBancoSqlServer().BuscaLista(tabela, colunas, filter, page, out consulta, out quantidadeTotal)
                     :
-                    (Util.Global.BancoDados == BancoDados.POSTGRESQL ?
-                    new Regras.AcessoBancoCliente.AcessoBancoPostGres().BuscaLista(tabela, colunas, filter, out consulta)
+                    Util.Global.BancoDados == BancoDados.POSTGRESQL ?
+                    new Regras.AcessoBancoCliente.AcessoBancoPostGres().BuscaLista(tabela, colunas, filter, page, out consulta, out quantidadeTotal)
                     :
-                    new Regras.AcessoBancoCliente.AcessoBancoMysql().BuscaLista(tabela, colunas, filter, out consulta))
+                    new Regras.AcessoBancoCliente.AcessoBancoMysql().BuscaLista(tabela, colunas, filter, page, out consulta, out quantidadeTotal)
                     ;
 
                 foreach (Model.MD_Campos campo in colunas)
@@ -435,9 +469,18 @@ namespace Visao
             if(valores != null)
             {
                 this.lbl_quantidadeLinhas.Visible = true;
-                this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.valores.Count.ToString()}";
+                this.lbl_quantidadeLinhas.Text = $"Quantidade: {this.valores.Count.ToString()} | Quantidade total: {this.quantidadeTotal.ToString()}";
+                this.lbl_quantidade_total_bd.Visible = true;
+                this.lbl_quantidade_total_bd.Text = $"Página {page} de {(quantidadeTotal/int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor))}";
+                this.btn_back.Enabled = this.btn_next.Enabled = true;
 
                 FillGrid(valores);
+            }
+            else
+            {
+                this.lbl_quantidadeLinhas.Visible = false;
+                this.lbl_quantidade_total_bd.Visible = false;
+                this.btn_back.Enabled = this.btn_next.Enabled = false;
             }
         }
 
@@ -590,8 +633,8 @@ namespace Visao
 
 
 
+
         #endregion Métodos
 
-        
     }
 }

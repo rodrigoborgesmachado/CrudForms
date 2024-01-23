@@ -55,6 +55,9 @@ namespace Visao
             this.btn_filtrar = new System.Windows.Forms.Button();
             this.pan_completo = new System.Windows.Forms.Panel();
             this.pan_tot = new System.Windows.Forms.Panel();
+            this.lbl_quantidade_total_bd = new System.Windows.Forms.Label();
+            this.btn_next = new System.Windows.Forms.Button();
+            this.btn_back = new System.Windows.Forms.Button();
             this.pan_top.SuspendLayout();
             this.pan_opcoes.SuspendLayout();
             this.mst_opcoes.SuspendLayout();
@@ -192,13 +195,16 @@ namespace Visao
             this.dgv_generico.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_generico.ShowCellErrors = false;
             this.dgv_generico.ShowCellToolTips = false;
-            this.dgv_generico.Size = new System.Drawing.Size(728, 439);
+            this.dgv_generico.Size = new System.Drawing.Size(728, 427);
             this.dgv_generico.StandardTab = true;
             this.dgv_generico.TabIndex = 12;
             this.dgv_generico.DoubleClick += new System.EventHandler(this.dgv_generico_DoubleClick);
             // 
             // grb_geral
             // 
+            this.grb_geral.Controls.Add(this.btn_back);
+            this.grb_geral.Controls.Add(this.btn_next);
+            this.grb_geral.Controls.Add(this.lbl_quantidade_total_bd);
             this.grb_geral.Controls.Add(this.btn_reload);
             this.grb_geral.Controls.Add(this.lbl_quantidadeLinhas);
             this.grb_geral.Controls.Add(this.dgv_generico);
@@ -227,7 +233,7 @@ namespace Visao
             // 
             this.lbl_quantidadeLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbl_quantidadeLinhas.AutoSize = true;
-            this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(4, 476);
+            this.lbl_quantidadeLinhas.Location = new System.Drawing.Point(6, 473);
             this.lbl_quantidadeLinhas.Name = "lbl_quantidadeLinhas";
             this.lbl_quantidadeLinhas.Size = new System.Drawing.Size(120, 16);
             this.lbl_quantidadeLinhas.TabIndex = 13;
@@ -363,6 +369,43 @@ namespace Visao
             this.pan_tot.Size = new System.Drawing.Size(740, 562);
             this.pan_tot.TabIndex = 4;
             // 
+            // lbl_quantidade_total_bd
+            // 
+            this.lbl_quantidade_total_bd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_quantidade_total_bd.AutoSize = true;
+            this.lbl_quantidade_total_bd.Location = new System.Drawing.Point(540, 473);
+            this.lbl_quantidade_total_bd.Name = "lbl_quantidade_total_bd";
+            this.lbl_quantidade_total_bd.Size = new System.Drawing.Size(120, 16);
+            this.lbl_quantidade_total_bd.TabIndex = 15;
+            this.lbl_quantidade_total_bd.Text = "<qauntidade linhas>";
+            this.lbl_quantidade_total_bd.Visible = false;
+            // 
+            // btn_next
+            // 
+            this.btn_next.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_next.Enabled = false;
+            this.btn_next.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_next.Image = global::Pj.Properties.Resources.arrow_right_100px20x20;
+            this.btn_next.Location = new System.Drawing.Point(703, 468);
+            this.btn_next.Name = "btn_next";
+            this.btn_next.Size = new System.Drawing.Size(31, 24);
+            this.btn_next.TabIndex = 16;
+            this.btn_next.UseVisualStyleBackColor = true;
+            this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
+            // 
+            // btn_back
+            // 
+            this.btn_back.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_back.Enabled = false;
+            this.btn_back.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_back.Image = global::Pj.Properties.Resources.arrow_left_100px20x20;
+            this.btn_back.Location = new System.Drawing.Point(666, 468);
+            this.btn_back.Name = "btn_back";
+            this.btn_back.Size = new System.Drawing.Size(31, 24);
+            this.btn_back.TabIndex = 17;
+            this.btn_back.UseVisualStyleBackColor = true;
+            this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
+            // 
             // UC_FormularioGenerico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -418,5 +461,8 @@ namespace Visao
         private System.Windows.Forms.ToolStripMenuItem configuraçãoDasColunasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportarJSONToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportarXMLToolStripMenuItem;
+        private System.Windows.Forms.Label lbl_quantidade_total_bd;
+        private System.Windows.Forms.Button btn_back;
+        private System.Windows.Forms.Button btn_next;
     }
 }
