@@ -327,6 +327,19 @@ namespace Util
             return resultado;
         }
 
+        /// <summary>
+        /// Método que busca o caminho dos logs do sistema
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> BuscaPathLogs()
+        {
+            var list = Directory.GetFiles(Global.app_logs_directoty).ToList();
+
+            list = list.OrderByDescending(i => i).ToList();
+
+            return list;
+        }
+
         #endregion Methods        
     }
 }

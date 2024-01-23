@@ -199,7 +199,7 @@ namespace Model
                 {
                     quantidadeDiasLog = new Model.MD_Parametros(Util.Global.parametro_quantidadeDiasManterLog);
                     if (quantidadeDiasLog.DAO.Empty)
-                        quantidadeDiasLog.DAO.Valor = "100";
+                        quantidadeDiasLog.DAO.Valor = "50";
                 }
                 return int.Parse(quantidadeDiasLog.DAO.Valor);
             }

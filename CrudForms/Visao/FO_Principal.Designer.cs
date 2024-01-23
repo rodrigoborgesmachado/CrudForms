@@ -71,6 +71,7 @@
             this.transformarJsonToXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quantidadeDeDiasParaManterLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.arquivosDeLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.pan_filtro.SuspendLayout();
@@ -311,7 +312,6 @@
             // 
             // tbx_quantidade_dias_atualizacao
             // 
-            this.tbx_quantidade_dias_atualizacao.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tbx_quantidade_dias_atualizacao.Name = "tbx_quantidade_dias_atualizacao";
             this.tbx_quantidade_dias_atualizacao.Size = new System.Drawing.Size(100, 23);
             this.tbx_quantidade_dias_atualizacao.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_quantidade_dias_atualizacao_KeyPress);
@@ -443,10 +443,11 @@
             // logsToolStripMenuItem
             // 
             this.logsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quantidadeDeDiasParaManterLogToolStripMenuItem});
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem,
+            this.arquivosDeLogToolStripMenuItem});
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
             this.logsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.logsToolStripMenuItem.Text = "Logs";
+            this.logsToolStripMenuItem.Text = "Opção de log";
             // 
             // quantidadeDeDiasParaManterLogToolStripMenuItem
             // 
@@ -454,6 +455,12 @@
             this.quantidadeDeDiasParaManterLogToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
             this.quantidadeDeDiasParaManterLogToolStripMenuItem.Text = "Quantidade de dias para manter log";
             this.quantidadeDeDiasParaManterLogToolStripMenuItem.Click += new System.EventHandler(this.quantidadeDeDiasParaManterLogToolStripMenuItem_Click);
+            // 
+            // arquivosDeLogToolStripMenuItem
+            // 
+            this.arquivosDeLogToolStripMenuItem.Name = "arquivosDeLogToolStripMenuItem";
+            this.arquivosDeLogToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.arquivosDeLogToolStripMenuItem.Text = "Arquivos de log";
             // 
             // FO_Principal
             // 
@@ -530,6 +537,7 @@
         private System.Windows.Forms.ToolStripMenuItem transformarJsonToXMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quantidadeDeDiasParaManterLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem arquivosDeLogToolStripMenuItem;
     }
 }
 

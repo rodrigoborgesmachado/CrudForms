@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -438,6 +439,16 @@ namespace Visao
             }
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de arquivo de log
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void abreLogOpcaoClique(object sender, EventArgs e)
+        {
+            Process.Start(sender.ToString());
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -487,6 +498,13 @@ namespace Visao
             {
                 option.BackColor = this.BackColor;
                 option.ForeColor = this.ForeColor;
+            }
+
+            var logs = Util.CL_Files.BuscaPathLogs();
+            this.arquivosDeLogToolStripMenuItem.DropDownItems.Clear();
+            foreach (var log in logs)
+            {
+                this.arquivosDeLogToolStripMenuItem.DropDownItems.Add(log, null, abreLogOpcaoClique);
             }
 
             this.trv_tabelas.BackColor = this.BackColor;
@@ -982,6 +1000,5 @@ namespace Visao
 
 
         #endregion Métodos
-        
     }
 }
