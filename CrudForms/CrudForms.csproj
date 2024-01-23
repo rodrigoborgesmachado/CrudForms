@@ -132,7 +132,7 @@
     <Compile Include="Regras\EnviarEmail.cs" />
     <Compile Include="Regras\GerarArquivoExportacao.cs" />
     <Compile Include="Regras\GerarDer.cs" />
-    <Compile Include="Regras\IdentJsonString.cs" />
+    <Compile Include="Regras\TransformaTipos.cs" />
     <Compile Include="Regras\Importador.cs" />
     <Compile Include="Regras\ImportarPlanilhaCsv.cs" />
     <Compile Include="Regras\InformacoesSaidaImportador.cs" />

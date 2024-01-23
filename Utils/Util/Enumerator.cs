@@ -53,5 +53,16 @@ namespace Util
             CSV = 1,
             XML = 2
         }
+
+        /// <summary>
+        /// Enumerator para controlar qual o tipo de manutenção será feito com o texto
+        /// </summary>
+        public enum TipoManutencaoTexto
+        {
+            IDENTAR_JSON = 0,
+            IDENTAR_XML = 1,
+            TRANSFORMAR_XML_TO_JSON = 2,
+            TRANSFORMAR_JSON_TO_XML = 3
+        }
     }
 }

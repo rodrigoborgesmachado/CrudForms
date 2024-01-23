@@ -31,7 +31,7 @@ namespace Visao
         {
             this.grb_total = new System.Windows.Forms.GroupBox();
             this.pan_completo = new System.Windows.Forms.Panel();
-            this.tbx_json = new System.Windows.Forms.TextBox();
+            this.tbx_input = new System.Windows.Forms.TextBox();
             this.pan_button = new System.Windows.Forms.Panel();
             this.btn_copiar = new System.Windows.Forms.Button();
             this.btn_confirmar = new System.Windows.Forms.Button();
@@ -54,23 +54,23 @@ namespace Visao
             // 
             // pan_completo
             // 
-            this.pan_completo.Controls.Add(this.tbx_json);
+            this.pan_completo.Controls.Add(this.tbx_input);
             this.pan_completo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pan_completo.Location = new System.Drawing.Point(3, 23);
+            this.pan_completo.Location = new System.Drawing.Point(3, 19);
             this.pan_completo.Name = "pan_completo";
-            this.pan_completo.Size = new System.Drawing.Size(535, 371);
+            this.pan_completo.Size = new System.Drawing.Size(535, 375);
             this.pan_completo.TabIndex = 1;
             // 
             // tbx_json
             // 
-            this.tbx_json.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbx_json.Location = new System.Drawing.Point(0, 0);
-            this.tbx_json.MaxLength = 999999999;
-            this.tbx_json.Multiline = true;
-            this.tbx_json.Name = "tbx_json";
-            this.tbx_json.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbx_json.Size = new System.Drawing.Size(535, 371);
-            this.tbx_json.TabIndex = 0;
+            this.tbx_input.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbx_input.Location = new System.Drawing.Point(0, 0);
+            this.tbx_input.MaxLength = 999999999;
+            this.tbx_input.Multiline = true;
+            this.tbx_input.Name = "tbx_json";
+            this.tbx_input.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbx_input.Size = new System.Drawing.Size(535, 375);
+            this.tbx_input.TabIndex = 0;
             // 
             // pan_button
             // 
@@ -102,13 +102,13 @@ namespace Visao
             this.btn_confirmar.Name = "btn_confirmar";
             this.btn_confirmar.Size = new System.Drawing.Size(83, 29);
             this.btn_confirmar.TabIndex = 5;
-            this.btn_confirmar.Text = "Confirmar";
+            this.btn_confirmar.Text = "Formatar";
             this.btn_confirmar.UseVisualStyleBackColor = true;
             this.btn_confirmar.Click += new System.EventHandler(this.btn_confirmar_Click);
             // 
             // FO_IdentaJson
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
             this.ClientSize = new System.Drawing.Size(541, 440);
@@ -135,7 +135,7 @@ namespace Visao
         private System.Windows.Forms.GroupBox grb_total;
         private System.Windows.Forms.Panel pan_button;
         private System.Windows.Forms.Panel pan_completo;
-        private System.Windows.Forms.TextBox tbx_json;
+        private System.Windows.Forms.TextBox tbx_input;
         private System.Windows.Forms.Button btn_copiar;
         private System.Windows.Forms.Button btn_confirmar;
     }

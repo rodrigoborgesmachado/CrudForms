@@ -178,7 +178,40 @@ namespace Visao
         /// <param name="e"></param>
         private void identarJsonToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            FO_IdentaJson identaJson = new FO_IdentaJson();
+            FO_IdentaJson identaJson = new FO_IdentaJson(TipoManutencaoTexto.IDENTAR_JSON);
+            identaJson.Show();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique do botão de identar o xml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void identarXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_IdentaJson identaJson = new FO_IdentaJson(TipoManutencaoTexto.IDENTAR_XML);
+            identaJson.Show();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de transformar xml to json
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void transformarXMLToJsonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_IdentaJson identaJson = new FO_IdentaJson(TipoManutencaoTexto.TRANSFORMAR_XML_TO_JSON);
+            identaJson.Show();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique da opção de transformar json to xml
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void transformarJsonToXMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_IdentaJson identaJson = new FO_IdentaJson(TipoManutencaoTexto.TRANSFORMAR_JSON_TO_XML);
             identaJson.Show();
         }
 
