@@ -31,7 +31,7 @@ namespace ImportadorNamespace
                 barra.AvancaBarra(1);
 
                 string nome = reader["COLUMN_NAME"].ToString();
-                bool notnull = reader["IS_NULLABLE"].ToString().ToUpper().Equals("YES");
+                bool notnull = !reader["IS_NULLABLE"].ToString().ToUpper().Equals("YES");
                 string tipo = reader["DATA_TYPE"].ToString();
                 string valueDefault = reader["COLUMN_DEFAULT"].ToString().Replace('(', ' ').Replace(')', ' ').Trim();
                 bool primarykey = reader["primarykey"].ToString().Equals("1");

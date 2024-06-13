@@ -107,7 +107,7 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grb_configuracaoSQLSERVER.Location = new System.Drawing.Point(0, 0);
             this.grb_configuracaoSQLSERVER.Name = "grb_configuracaoSQLSERVER";
-            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(792, 338);
+            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(792, 303);
             this.grb_configuracaoSQLSERVER.TabIndex = 17;
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Observers";
@@ -127,7 +127,7 @@ namespace Visao
             this.dgv_observers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgv_observers.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv_observers.EnableHeadersVisualStyles = false;
-            this.dgv_observers.Location = new System.Drawing.Point(3, 23);
+            this.dgv_observers.Location = new System.Drawing.Point(3, 19);
             this.dgv_observers.MultiSelect = false;
             this.dgv_observers.Name = "dgv_observers";
             this.dgv_observers.RowHeadersVisible = false;
@@ -136,19 +136,19 @@ namespace Visao
             this.dgv_observers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_observers.ShowCellErrors = false;
             this.dgv_observers.ShowCellToolTips = false;
-            this.dgv_observers.Size = new System.Drawing.Size(786, 312);
+            this.dgv_observers.Size = new System.Drawing.Size(786, 281);
             this.dgv_observers.StandardTab = true;
             this.dgv_observers.TabIndex = 13;
             this.dgv_observers.SelectionChanged += new System.EventHandler(this.dgv_observers_SelectionChanged);
             // 
             // FO_Observer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
             this.ClientSize = new System.Drawing.Size(792, 338);
-            this.Controls.Add(this.pan_botton);
             this.Controls.Add(this.grb_configuracaoSQLSERVER);
+            this.Controls.Add(this.pan_botton);
             this.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;

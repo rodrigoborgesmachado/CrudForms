@@ -159,22 +159,18 @@ namespace Regras.AcessoBancoCliente
 
             try
             {
-                quantidadeTotal = 0;
-                consulta = CreateCommandSQLTable(tabela, campos, filtro, page, limite);
-                string consultaQuantidadeTotal = GetCommandQuantidadeTotal(tabela, campos, filtro);
-
-                Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor), "Buscando");
-                barra.Show();
-
                 string connection = Parametros.ConexaoBanco.DAO.Valor;
+                string consultaQuantidadeTotal = GetCommandQuantidadeTotal(tabela, campos, filtro);
+                consulta = CreateCommandSQLTable(tabela, campos, filtro, page, limite);
+                int limiteLinhas = int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor);
 
+                quantidadeTotal = 0;
                 DataBase.Connection.CloseConnection();
                 DataBase.Connection.OpenConection(connection, Util.Global.BancoDados);
 
                 DbDataReader reader = DataBase.Connection.Select(consultaQuantidadeTotal);
                 if (reader == null)
                 {
-                    barra.Dispose();
                     return null;
                 }
 
@@ -183,6 +179,10 @@ namespace Regras.AcessoBancoCliente
                     quantidadeTotal = int.Parse(reader[0].ToString());
                 }
                 reader.Close();
+                
+
+                Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(limite ? limiteLinhas : quantidadeTotal, "Buscando");
+                barra.Show();
 
                 reader = DataBase.Connection.Select(consulta);
 

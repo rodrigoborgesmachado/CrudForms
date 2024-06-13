@@ -7,6 +7,7 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Xml.Linq;
 using System.Windows.Forms;
+using System.Text;
 
 namespace Regras
 {
@@ -88,49 +89,25 @@ namespace Regras
         /// <returns></returns>
         public static string MontaTextoCSV(List<AcessoBancoCliente.AcessoBanco> valores)
         {
-            string retorno = string.Empty;
-
-            int i = 0;
             Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(valores.Count, "Carregando arquivo");
             barra.Show();
 
-            valores.ForEach(valor => 
-            { 
-                if(i == 0)
+            StringBuilder builder = new StringBuilder();
+
+            if(valores.Count > 0)
+            {
+                builder.AppendLine(string.Join(";", valores[0].campos));
+                valores.RemoveAt(0);
+                valores.ForEach(valor => 
                 {
-                    int j = 0;
-                    valor.campos.ForEach(campo => 
-                    {
-                        if(j != 0)
-                        {
-                            retorno += ";";
-                        }
-
-                        retorno += $"\"{campo}\"";
-                        j++;
-                    });
-                    i++;
-                    retorno += Environment.NewLine;
-                }
-
-                int a = 0;
-                valor.valores.ForEach(result => 
-                {
-                    if (a != 0)
-                    {
-                        retorno += ";";
-                    }
-
-                    retorno += $"\"{result}\"";
-                    a++;
+                    builder.AppendLine(string.Join(";", valor.valores));
+                    barra.AvancaBarra(1);
                 });
-                retorno += Environment.NewLine;
-                barra.AvancaBarra(1);
-            });
+            }
 
             barra.Dispose();
 
-            return retorno;
+            return builder.ToString();
         }
 
         /// <summary>

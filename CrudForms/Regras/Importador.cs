@@ -266,6 +266,7 @@ namespace Regras
                 barra.AvancaBarra(1);
 
                 Model.MD_Tabela tabela = tabelaModel.Where(t => t.DAO.Nome.ToUpper().Equals(c.Tabela.ToUpper())).FirstOrDefault();
+                if (tabela == null) continue;
                 Model.MD_Campos campo = new Model.MD_Campos(campoCodigo, tabela.DAO.Codigo, 0, false);
                 campo.DAO.Tabela = tabela.DAO;
                 campo.DAO.Nome = c.Name_Field;
