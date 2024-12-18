@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static Util.Enumerator;
 
 namespace Visao
@@ -593,24 +594,40 @@ namespace Visao
                 return;
             }
 
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.Description = "Selecione onde deseja salvar o arquivo";
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if(Message.MensagemConfirmaçãoYesNo("Deseja criar arquivo com a exportação? Se precionar não será copiado para área de transferência!") == DialogResult.OK)
             {
-                DirectoryInfo directory = new DirectoryInfo(dialog.SelectedPath);
-                string nomeArquivo = tabela != null ? this.tabela.DAO.Nome : "relatorio_generico";
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
+                dialog.Description = "Selecione onde deseja salvar o arquivo";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    DirectoryInfo directory = new DirectoryInfo(dialog.SelectedPath);
+                    string nomeArquivo = tabela != null ? this.tabela.DAO.Nome : "relatorio_generico";
 
 
-                if (!Regras.GerarArquivoExportacao.GerarArquivo(tipo, this.valores, directory, nomeArquivo, out var mensagemErro))
+                    if (!Regras.GerarArquivoExportacao.GerarArquivo(tipo, this.valores, directory, nomeArquivo, out var mensagemErro))
+                    {
+                        Message.MensagemErro("Houve erros.");
+                        Message.MensagemErro(mensagemErro);
+                    }
+                    else
+                    {
+                        Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "xml"))} gerado com sucesso no caminho:\n {dialog.SelectedPath}");
+                    }
+                }
+            }
+            else
+            {
+                if (!Regras.GerarArquivoExportacao.GerarRelatorioParaAreaTranferencia(tipo, this.valores, out var mensagemErro))
                 {
                     Message.MensagemErro("Houve erros.");
                     Message.MensagemErro(mensagemErro);
                 }
                 else
                 {
-                    Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "xml"))} gerado com sucesso no caminho:\n {dialog.SelectedPath}");
+                    Message.MensagemSucesso($"Relatório {(tabela != null ? this.tabela.DAO.Nome : "relatorio_generico")} copiado para área de transferência");
                 }
             }
+
         }
 
         /// <summary>

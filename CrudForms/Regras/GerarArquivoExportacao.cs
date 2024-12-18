@@ -46,6 +46,34 @@ namespace Regras
         /// <param name="nomeArquivo"></param>
         /// <param name="mensagemErro"></param>
         /// <returns></returns>
+        public static bool GerarRelatorioParaAreaTranferencia(TipoArquivoExportacao tipo, List<AcessoBancoCliente.AcessoBanco> valores, out string mensagemErro)
+        {
+            mensagemErro = string.Empty;
+            bool retorno = true;
+
+            try
+            {
+                string texto = tipo == TipoArquivoExportacao.CSV ? MontaTextoCSV(valores) : (tipo == TipoArquivoExportacao.JSON ? MontaTextoJson(valores) : MontaTexotXml(valores));
+                Clipboard.SetText(texto);
+            }
+            catch (Exception ex)
+            {
+                Util.CL_Files.LogException(ex);
+                mensagemErro = "Erro: " + ex.Message;
+                retorno = false;
+            }
+
+            return retorno;
+        }
+
+        /// <summary>
+        /// Método que gera o arquivo CSV
+        /// </summary>
+        /// <param name="valores"></param>
+        /// <param name="caminhoArquivo"></param>
+        /// <param name="nomeArquivo"></param>
+        /// <param name="mensagemErro"></param>
+        /// <returns></returns>
         public static bool GerarArquivo(TipoArquivoExportacao tipo, List<AcessoBancoCliente.AcessoBanco> valores, DirectoryInfo caminhoArquivo, string nomeArquivo, out string mensagemErro)
         {
             mensagemErro = string.Empty;
