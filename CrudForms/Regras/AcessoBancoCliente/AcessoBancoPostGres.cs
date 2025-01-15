@@ -25,7 +25,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"update {schema}.{tabela} set ";
+            retorno = $"update {tabela} set ";
             List<Model.MD_Campos> camposPk = new List<MD_Campos>();
             List<int> listaCampos = new List<int>();
             bool temAlteracao = false;
@@ -83,7 +83,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"insert into {schema}.{tabela} (";
+            retorno = $"insert into {tabela} (";
             string values = ") VALUES (";
             for (int i = 0; i < campos.Count; i++)
             {
@@ -111,7 +111,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"DELETE FROM {schema}.{tabela} WHERE ";
+            retorno = $"DELETE FROM {tabela} WHERE ";
             bool achouPk = false;
 
             for (int i = 0; i < campos.Count; i++)
@@ -138,29 +138,39 @@ namespace Regras.AcessoBancoCliente
         /// <returns>Command SQL</returns>
         protected override string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, int page, bool limite = true)
         {
-            string command = $" SELECT ";
+            // Initialize the query with SELECT clause
+            string command = "SELECT ";
             string fields = string.Empty;
-            int qt = campos.Count, i = 1;
 
-            foreach (Model.MD_Campos field in campos)
+            // Iterate through the fields to form the SELECT clause
+            int qt = campos.Count, i = 1;
+            foreach (var field in campos)
             {
-                fields += $"{field.DAO.Nome}";
+                fields += field.DAO.Nome;
                 if (i < qt)
                     fields += ", ";
                 i++;
             }
-            command += fields + $" FROM {schema}.{tabela.DAO.Nome}";
+
+            // Add the fields and table name to the command
+            command += fields + $" FROM {tabela.DAO.Nome}";
             command += MontaWhereSelect(filtro, campos);
 
-            if (filtro.Order != null)
+            // Handle the ORDER BY clause if applicable
+            if (filtro.Order != null && filtro.Order.CampoOrdenacao != null)
             {
-                if (filtro.Order.CampoOrdenacao != null)
-                {
-                    command += $" ORDER BY {(campos.IndexOf(campos.Where(campo => campo.DAO.Nome == filtro.Order.CampoOrdenacao.DAO.Nome).FirstOrDefault()) + 1)} {(filtro.Order.Asc ? "ASC" : "DESC")}";
-                }
+                command += $" ORDER BY {filtro.Order.CampoOrdenacao.DAO.Nome} {(filtro.Order.Asc ? "ASC" : "DESC")}";
             }
 
-            return command + (limite ? $" limit {Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor} ofset {((page-1) * int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor)).ToString()}" : "");
+            // Add LIMIT and OFFSET if required
+            if (limite)
+            {
+                int limit = int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor);
+                int offset = (page - 1) * limit;
+                command += $" LIMIT {limit} OFFSET {offset}";
+            }
+
+            return command;
         }
 
         /// <summary>
@@ -171,7 +181,7 @@ namespace Regras.AcessoBancoCliente
         {
             string command = $" SELECT count(1)";
             string fields = string.Empty;
-            command += fields + $" FROM {schema}.{tabela}";
+            command += fields + $" FROM {tabela.DAO.Nome}";
             command += MontaWhereSelect(filtro, campos);
 
             return command;
