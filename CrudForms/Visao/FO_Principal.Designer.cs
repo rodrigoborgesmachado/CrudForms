@@ -51,13 +51,19 @@
             this.filtrarTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.devtoolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.identarJsonToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.identarXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transformarXMLToJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importarPlanilhaCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transformarJsonToXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enumeraLinhasDasTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_quantidade_dias_atualizacao = new System.Windows.Forms.ToolStripTextBox();
             this.buscarAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adicionarInspeçãoAutomáticaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importarPlanilhaCSVToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.arquivosDeLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modoDarkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_principal = new System.Windows.Forms.Panel();
             this.tbc_table_control = new System.Windows.Forms.TabControl();
@@ -66,12 +72,7 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.identarXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.transformarXMLToJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.transformarJsonToXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quantidadeDeDiasParaManterLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.arquivosDeLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gerarAPICToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.pan_filtro.SuspendLayout();
@@ -127,7 +128,7 @@
             this.lbl_filtrar.AutoSize = true;
             this.lbl_filtrar.Location = new System.Drawing.Point(13, 2);
             this.lbl_filtrar.Name = "lbl_filtrar";
-            this.lbl_filtrar.Size = new System.Drawing.Size(45, 16);
+            this.lbl_filtrar.Size = new System.Drawing.Size(44, 16);
             this.lbl_filtrar.TabIndex = 2;
             this.lbl_filtrar.Text = "Filtrar:";
             // 
@@ -276,7 +277,8 @@
             this.identarXMLToolStripMenuItem,
             this.transformarXMLToJsonToolStripMenuItem,
             this.importarPlanilhaCSVToolStripMenuItem,
-            this.transformarJsonToXMLToolStripMenuItem});
+            this.transformarJsonToXMLToolStripMenuItem,
+            this.gerarAPICToolStripMenuItem});
             this.devtoolsToolStripMenuItem.Name = "devtoolsToolStripMenuItem";
             this.devtoolsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.devtoolsToolStripMenuItem.Text = "Devtools";
@@ -288,12 +290,33 @@
             this.identarJsonToolStripMenuItem1.Text = "Identar Json";
             this.identarJsonToolStripMenuItem1.Click += new System.EventHandler(this.identarJsonToolStripMenuItem1_Click);
             // 
+            // identarXMLToolStripMenuItem
+            // 
+            this.identarXMLToolStripMenuItem.Name = "identarXMLToolStripMenuItem";
+            this.identarXMLToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.identarXMLToolStripMenuItem.Text = "Identar XML";
+            this.identarXMLToolStripMenuItem.Click += new System.EventHandler(this.identarXMLToolStripMenuItem_Click);
+            // 
+            // transformarXMLToJsonToolStripMenuItem
+            // 
+            this.transformarXMLToJsonToolStripMenuItem.Name = "transformarXMLToJsonToolStripMenuItem";
+            this.transformarXMLToJsonToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.transformarXMLToJsonToolStripMenuItem.Text = "Transformar XML to Json";
+            this.transformarXMLToJsonToolStripMenuItem.Click += new System.EventHandler(this.transformarXMLToJsonToolStripMenuItem_Click);
+            // 
             // importarPlanilhaCSVToolStripMenuItem
             // 
             this.importarPlanilhaCSVToolStripMenuItem.Name = "importarPlanilhaCSVToolStripMenuItem";
             this.importarPlanilhaCSVToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.importarPlanilhaCSVToolStripMenuItem.Text = "Importar planilha CSV";
             this.importarPlanilhaCSVToolStripMenuItem.Click += new System.EventHandler(this.importarPlanilhaCSVToolStripMenuItem_Click);
+            // 
+            // transformarJsonToXMLToolStripMenuItem
+            // 
+            this.transformarJsonToXMLToolStripMenuItem.Name = "transformarJsonToXMLToolStripMenuItem";
+            this.transformarJsonToXMLToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.transformarJsonToXMLToolStripMenuItem.Text = "Transformar Json to XML";
+            this.transformarJsonToXMLToolStripMenuItem.Click += new System.EventHandler(this.transformarJsonToXMLToolStripMenuItem_Click);
             // 
             // enumeraLinhasDasTabelasToolStripMenuItem
             // 
@@ -312,6 +335,7 @@
             // 
             // tbx_quantidade_dias_atualizacao
             // 
+            this.tbx_quantidade_dias_atualizacao.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tbx_quantidade_dias_atualizacao.Name = "tbx_quantidade_dias_atualizacao";
             this.tbx_quantidade_dias_atualizacao.Size = new System.Drawing.Size(100, 23);
             this.tbx_quantidade_dias_atualizacao.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbx_quantidade_dias_atualizacao_KeyPress);
@@ -336,6 +360,28 @@
             this.importarPlanilhaCSVToolStripMenuItem1.Size = new System.Drawing.Size(264, 22);
             this.importarPlanilhaCSVToolStripMenuItem1.Text = "Importar planilha CSV";
             this.importarPlanilhaCSVToolStripMenuItem1.Click += new System.EventHandler(this.importarPlanilhaCSVToolStripMenuItem1_Click);
+            // 
+            // logsToolStripMenuItem
+            // 
+            this.logsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem,
+            this.arquivosDeLogToolStripMenuItem});
+            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.logsToolStripMenuItem.Text = "Opção de log";
+            // 
+            // quantidadeDeDiasParaManterLogToolStripMenuItem
+            // 
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Name = "quantidadeDeDiasParaManterLogToolStripMenuItem";
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Text = "Quantidade de dias para manter log";
+            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Click += new System.EventHandler(this.quantidadeDeDiasParaManterLogToolStripMenuItem_Click);
+            // 
+            // arquivosDeLogToolStripMenuItem
+            // 
+            this.arquivosDeLogToolStripMenuItem.Name = "arquivosDeLogToolStripMenuItem";
+            this.arquivosDeLogToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.arquivosDeLogToolStripMenuItem.Text = "Arquivos de log";
             // 
             // modoDarkToolStripMenuItem
             // 
@@ -419,48 +465,12 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // identarXMLToolStripMenuItem
+            // gerarAPICToolStripMenuItem
             // 
-            this.identarXMLToolStripMenuItem.Name = "identarXMLToolStripMenuItem";
-            this.identarXMLToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.identarXMLToolStripMenuItem.Text = "Identar XML";
-            this.identarXMLToolStripMenuItem.Click += new System.EventHandler(this.identarXMLToolStripMenuItem_Click);
-            // 
-            // transformarXMLToJsonToolStripMenuItem
-            // 
-            this.transformarXMLToJsonToolStripMenuItem.Name = "transformarXMLToJsonToolStripMenuItem";
-            this.transformarXMLToJsonToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.transformarXMLToJsonToolStripMenuItem.Text = "Transformar XML to Json";
-            this.transformarXMLToJsonToolStripMenuItem.Click += new System.EventHandler(this.transformarXMLToJsonToolStripMenuItem_Click);
-            // 
-            // transformarJsonToXMLToolStripMenuItem
-            // 
-            this.transformarJsonToXMLToolStripMenuItem.Name = "transformarJsonToXMLToolStripMenuItem";
-            this.transformarJsonToXMLToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.transformarJsonToXMLToolStripMenuItem.Text = "Transformar Json to XML";
-            this.transformarJsonToXMLToolStripMenuItem.Click += new System.EventHandler(this.transformarJsonToXMLToolStripMenuItem_Click);
-            // 
-            // logsToolStripMenuItem
-            // 
-            this.logsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quantidadeDeDiasParaManterLogToolStripMenuItem,
-            this.arquivosDeLogToolStripMenuItem});
-            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.logsToolStripMenuItem.Text = "Opção de log";
-            // 
-            // quantidadeDeDiasParaManterLogToolStripMenuItem
-            // 
-            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Name = "quantidadeDeDiasParaManterLogToolStripMenuItem";
-            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
-            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Text = "Quantidade de dias para manter log";
-            this.quantidadeDeDiasParaManterLogToolStripMenuItem.Click += new System.EventHandler(this.quantidadeDeDiasParaManterLogToolStripMenuItem_Click);
-            // 
-            // arquivosDeLogToolStripMenuItem
-            // 
-            this.arquivosDeLogToolStripMenuItem.Name = "arquivosDeLogToolStripMenuItem";
-            this.arquivosDeLogToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
-            this.arquivosDeLogToolStripMenuItem.Text = "Arquivos de log";
+            this.gerarAPICToolStripMenuItem.Name = "gerarAPICToolStripMenuItem";
+            this.gerarAPICToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.gerarAPICToolStripMenuItem.Text = "Gerar API - C#";
+            this.gerarAPICToolStripMenuItem.Click += new System.EventHandler(this.gerarAPICToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
@@ -538,6 +548,7 @@
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quantidadeDeDiasParaManterLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem arquivosDeLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gerarAPICToolStripMenuItem;
     }
 }
 

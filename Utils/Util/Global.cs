@@ -42,6 +42,14 @@ namespace Util
 
         // Nome do diretório de Classes
         public static string app_classes_directory = app_main_directoty + "Classes\\";
+        public static string app_classes_entities_directory = app_classes_directory + "Entities\\";
+        public static string app_classes_dto_directory = app_classes_directory + "DTO\\";
+        public static string app_classes_viewModel_directory = app_classes_directory + "ViewModel\\";
+        public static string app_classes_repository_directory = app_classes_directory + "Repository\\";
+        public static string app_classes_services_directory = app_classes_directory + "Services\\";
+        public static string app_classes_controller_directory = app_classes_directory + "Controller\\";
+        public static string app_classes_profile_dto_directory = app_classes_directory + "ProfilesDTO\\";
+        public static string app_classes_profile_viewModel_directory = app_classes_directory + "ProfilesViewModel\\";
 
         // Nome do diretório de relatórios
         public static string app_rel_directory = app_main_directoty + "Relatorios\\";

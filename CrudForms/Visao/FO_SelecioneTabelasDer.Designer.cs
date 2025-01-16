@@ -32,10 +32,10 @@ namespace Visao
             this.dgv_tabela_in = new System.Windows.Forms.DataGridView();
             this.pan_botton = new System.Windows.Forms.Panel();
             this.btn_gerar = new System.Windows.Forms.Button();
-            this.btn_rigth = new System.Windows.Forms.Button();
-            this.btn_left = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
             this.dgv_tabela_out = new System.Windows.Forms.DataGridView();
+            this.btn_left = new System.Windows.Forms.Button();
+            this.btn_rigth = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_in)).BeginInit();
             this.pan_botton.SuspendLayout();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
@@ -57,7 +57,7 @@ namespace Visao
             this.dgv_tabela_in.Dock = System.Windows.Forms.DockStyle.Left;
             this.dgv_tabela_in.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv_tabela_in.EnableHeadersVisualStyles = false;
-            this.dgv_tabela_in.Location = new System.Drawing.Point(3, 23);
+            this.dgv_tabela_in.Location = new System.Drawing.Point(3, 19);
             this.dgv_tabela_in.MultiSelect = false;
             this.dgv_tabela_in.Name = "dgv_tabela_in";
             this.dgv_tabela_in.RowHeadersVisible = false;
@@ -66,7 +66,7 @@ namespace Visao
             this.dgv_tabela_in.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_tabela_in.ShowCellErrors = false;
             this.dgv_tabela_in.ShowCellToolTips = false;
-            this.dgv_tabela_in.Size = new System.Drawing.Size(256, 293);
+            this.dgv_tabela_in.Size = new System.Drawing.Size(256, 297);
             this.dgv_tabela_in.StandardTab = true;
             this.dgv_tabela_in.TabIndex = 13;
             // 
@@ -91,30 +91,6 @@ namespace Visao
             this.btn_gerar.UseVisualStyleBackColor = true;
             this.btn_gerar.Click += new System.EventHandler(this.btn_gerar_Click);
             // 
-            // btn_rigth
-            // 
-            this.btn_rigth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_rigth.BackgroundImage = global::Pj.Properties.Resources.arrow_right_100px20x20;
-            this.btn_rigth.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_rigth.Location = new System.Drawing.Point(282, 101);
-            this.btn_rigth.Name = "btn_rigth";
-            this.btn_rigth.Size = new System.Drawing.Size(20, 20);
-            this.btn_rigth.TabIndex = 25;
-            this.btn_rigth.UseVisualStyleBackColor = true;
-            this.btn_rigth.Click += new System.EventHandler(this.btn_rigth_Click);
-            // 
-            // btn_left
-            // 
-            this.btn_left.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_left.BackgroundImage = global::Pj.Properties.Resources.arrow_left_100px20x20;
-            this.btn_left.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_left.Location = new System.Drawing.Point(282, 137);
-            this.btn_left.Name = "btn_left";
-            this.btn_left.Size = new System.Drawing.Size(20, 20);
-            this.btn_left.TabIndex = 24;
-            this.btn_left.UseVisualStyleBackColor = true;
-            this.btn_left.Click += new System.EventHandler(this.btn_left_Click);
-            // 
             // grb_configuracaoSQLSERVER
             // 
             this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_left);
@@ -129,7 +105,7 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Tabelas";
             // 
-            // dataGridView1
+            // dgv_tabela_out
             // 
             this.dgv_tabela_out.AllowUserToAddRows = false;
             this.dgv_tabela_out.AllowUserToDeleteRows = false;
@@ -144,22 +120,46 @@ namespace Visao
             this.dgv_tabela_out.Dock = System.Windows.Forms.DockStyle.Right;
             this.dgv_tabela_out.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv_tabela_out.EnableHeadersVisualStyles = false;
-            this.dgv_tabela_out.Location = new System.Drawing.Point(330, 23);
+            this.dgv_tabela_out.Location = new System.Drawing.Point(330, 19);
             this.dgv_tabela_out.MultiSelect = false;
-            this.dgv_tabela_out.Name = "dataGridView1";
+            this.dgv_tabela_out.Name = "dgv_tabela_out";
             this.dgv_tabela_out.RowHeadersVisible = false;
             this.dgv_tabela_out.RowHeadersWidth = 51;
             this.dgv_tabela_out.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgv_tabela_out.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_tabela_out.ShowCellErrors = false;
             this.dgv_tabela_out.ShowCellToolTips = false;
-            this.dgv_tabela_out.Size = new System.Drawing.Size(284, 293);
+            this.dgv_tabela_out.Size = new System.Drawing.Size(284, 297);
             this.dgv_tabela_out.StandardTab = true;
             this.dgv_tabela_out.TabIndex = 14;
             // 
+            // btn_left
+            // 
+            this.btn_left.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_left.BackgroundImage = global::Pj.Properties.Resources.arrow_left_100px20x20;
+            this.btn_left.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_left.Location = new System.Drawing.Point(282, 137);
+            this.btn_left.Name = "btn_left";
+            this.btn_left.Size = new System.Drawing.Size(20, 20);
+            this.btn_left.TabIndex = 24;
+            this.btn_left.UseVisualStyleBackColor = true;
+            this.btn_left.Click += new System.EventHandler(this.btn_left_Click);
+            // 
+            // btn_rigth
+            // 
+            this.btn_rigth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_rigth.BackgroundImage = global::Pj.Properties.Resources.arrow_right_100px20x20;
+            this.btn_rigth.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_rigth.Location = new System.Drawing.Point(282, 101);
+            this.btn_rigth.Name = "btn_rigth";
+            this.btn_rigth.Size = new System.Drawing.Size(20, 20);
+            this.btn_rigth.TabIndex = 25;
+            this.btn_rigth.UseVisualStyleBackColor = true;
+            this.btn_rigth.Click += new System.EventHandler(this.btn_rigth_Click);
+            // 
             // FO_SelecioneTabelasDer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
             this.ClientSize = new System.Drawing.Size(617, 354);

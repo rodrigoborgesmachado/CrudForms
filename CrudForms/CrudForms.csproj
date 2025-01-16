@@ -161,6 +161,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regras\AcessoBancoCliente\AcessoBanco.cs" />
+    <Compile Include="Regras\ApiClasses\ControllerCreator.cs" />
+    <Compile Include="Regras\ApiClasses\CreatorApiClasses.cs" />
+    <Compile Include="Regras\ApiClasses\EntidadesCreator.cs" />
+    <Compile Include="Regras\ApiClasses\NamesHandler.cs" />
+    <Compile Include="Regras\ApiClasses\ProfilesCreator.cs" />
+    <Compile Include="Regras\ApiClasses\ServiceCreator.cs" />
+    <Compile Include="Regras\ApiClasses\RepositoryCreator.cs" />
     <Compile Include="Regras\BuscaNovaVersaoSistema.cs" />
     <Compile Include="Regras\EnviarEmail.cs" />
     <Compile Include="Regras\GerarArquivoExportacao.cs" />
@@ -273,6 +280,12 @@
     <Compile Include="Visao\FO_SelecionaConexao.Designer.cs">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visao\FO_SelecioneTabelasClasses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_SelecioneTabelasClasses.Designer.cs">
+      <DependentUpon>FO_SelecioneTabelasClasses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visao\FO_SelecioneTabelasDer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -352,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_SelecionaConexao.resx">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_SelecioneTabelasClasses.resx">
+      <DependentUpon>FO_SelecioneTabelasClasses.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_SelecioneTabelasDer.resx">
       <DependentUpon>FO_SelecioneTabelasDer.cs</DependentUpon>

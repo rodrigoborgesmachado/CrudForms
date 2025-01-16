@@ -449,6 +449,17 @@ namespace Visao
             Process.Start(sender.ToString());
         }
 
+        /// <summary>
+        /// Evento lançado no clique da opção de gerar classes para api
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gerarAPICToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_SelecioneTabelasClasses tela = new FO_SelecioneTabelasClasses();
+            tela.ShowDialog();
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -1000,5 +1011,7 @@ namespace Visao
 
 
         #endregion Métodos
+
+        
     }
 }

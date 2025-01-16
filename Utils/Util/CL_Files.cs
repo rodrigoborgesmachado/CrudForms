@@ -67,7 +67,7 @@ namespace Util
         /// </summary>
         /// <param name="directory">Directory from the archive that will be delete</param>
         /// <returns>True - Sucess; False - Error</returns>
-        public static bool DeleteArchive(string directory)
+        public static bool DeleteFilesIfExists(string directory)
         {
             if (Exists(directory))
             {
@@ -141,6 +141,22 @@ namespace Util
                 Directory.Delete(Global.app_importacao_directory, true);
             if (Directory.Exists(Global.app_classes_directory))
                 Directory.Delete(Global.app_classes_directory, true);
+            if (!Directory.Exists(Global.app_classes_entities_directory))
+                Directory.Delete(Global.app_classes_entities_directory);
+            if (!Directory.Exists(Global.app_classes_dto_directory))
+                Directory.Delete(Global.app_classes_dto_directory);
+            if (!Directory.Exists(Global.app_classes_viewModel_directory))
+                Directory.Delete(Global.app_classes_viewModel_directory);
+            if (!Directory.Exists(Global.app_classes_repository_directory))
+                Directory.Delete(Global.app_classes_repository_directory);
+            if (!Directory.Exists(Global.app_classes_services_directory))
+                Directory.Delete(Global.app_classes_services_directory);
+            if (!Directory.Exists(Global.app_classes_controller_directory))
+                Directory.Delete(Global.app_classes_controller_directory);
+            if (!Directory.Exists(Global.app_classes_profile_dto_directory))
+                Directory.Delete(Global.app_classes_profile_dto_directory);
+            if (!Directory.Exists(Global.app_classes_profile_viewModel_directory))
+                Directory.Delete(Global.app_classes_profile_viewModel_directory);
         }
 
         /// <summary>
@@ -168,6 +184,22 @@ namespace Util
                 Directory.CreateDirectory(Global.app_exportacao_directory);
             if (!Directory.Exists(Global.app_classes_directory))
                 Directory.CreateDirectory(Global.app_classes_directory);
+            if (!Directory.Exists(Global.app_classes_entities_directory))
+                Directory.CreateDirectory(Global.app_classes_entities_directory);
+            if (!Directory.Exists(Global.app_classes_dto_directory))
+                Directory.CreateDirectory(Global.app_classes_dto_directory);
+            if (!Directory.Exists(Global.app_classes_viewModel_directory))
+                Directory.CreateDirectory(Global.app_classes_viewModel_directory);
+            if (!Directory.Exists(Global.app_classes_repository_directory))
+                Directory.CreateDirectory(Global.app_classes_repository_directory);
+            if (!Directory.Exists(Global.app_classes_services_directory))
+                Directory.CreateDirectory(Global.app_classes_services_directory);
+            if (!Directory.Exists(Global.app_classes_controller_directory))
+                Directory.CreateDirectory(Global.app_classes_controller_directory);
+            if (!Directory.Exists(Global.app_classes_profile_dto_directory))
+                Directory.CreateDirectory(Global.app_classes_profile_dto_directory);
+            if (!Directory.Exists(Global.app_classes_profile_viewModel_directory))
+                Directory.CreateDirectory(Global.app_classes_profile_viewModel_directory);
         }
 
         /// <summary>
