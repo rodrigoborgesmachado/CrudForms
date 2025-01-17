@@ -38,10 +38,8 @@ Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\Instalador\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\BouncyCastle.Crypto.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\BouncyCastle.Crypto.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Instalador\copyFiles.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\CrudForms.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\CrudForms.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\CrudForms.pdb"; DestDir: "{app}"; Flags: ignoreversion
@@ -58,6 +56,10 @@ Source: "D:\Instalador\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"; Fla
 Source: "D:\Instalador\Microsoft.Bcl.AsyncInterfaces.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\Microsoft.Bcl.HashCode.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\Microsoft.Bcl.HashCode.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\Microsoft.Extensions.DependencyInjection.Abstractions.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\Microsoft.Extensions.DependencyInjection.Abstractions.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\Microsoft.Extensions.Logging.Abstractions.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\Microsoft.Extensions.Logging.Abstractions.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\MySql.Data.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\MySql.Data.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -66,15 +68,15 @@ Source: "D:\Instalador\Npgsql.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\Npgsql.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\RestSharp.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\RestSharp.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Instalador\SQLite.Interop.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Buffers.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Buffers.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\System.Collections.Immutable.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\System.Collections.Immutable.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Data.SQLite.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Instalador\System.Data.SQLite.EF6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Instalador\System.Data.SQLite.Linq.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Instalador\System.Data.SQLite.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Diagnostics.DiagnosticSource.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Diagnostics.DiagnosticSource.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\System.IO.Pipelines.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\System.IO.Pipelines.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Memory.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Memory.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\System.Numerics.Vectors.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -95,6 +97,7 @@ Source: "D:\Instalador\Utils.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\Utils.dll.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\Utils.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\ZstdNet.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Instalador\SQLite.Interop.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\Instalador\x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
