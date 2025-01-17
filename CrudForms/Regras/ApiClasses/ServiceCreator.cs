@@ -29,7 +29,7 @@ namespace Regras.ApiClasses
                 Util.CL_Files.DeleteFilesIfExists(caminhoFile);
 
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine($"using MainDTO = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Dto, tabela.Nome)}");
+                stringBuilder.AppendLine($"using MainDTO = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Dto, tabela.Nome)};");
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine($"{NamesHandler.GetNamespaceByType(nomeProjeto, type)}");
                 stringBuilder.AppendLine($"{{");
@@ -68,17 +68,18 @@ namespace Regras.ApiClasses
 
             try
             {
-                NamesHandler.ClasseType type = NamesHandler.ClasseType.Repository;
+                NamesHandler.ClasseType type = NamesHandler.ClasseType.Service;
                 string classeName = NamesHandler.CriaNomeClasse(type, tabela.Nome);
                 string caminhoFile = NamesHandler.GetDirectoryByType(type) + NamesHandler.CriaNomeArquivoClasse(type, tabela.Nome);
                 Util.CL_Files.DeleteFilesIfExists(caminhoFile);
 
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendLine($"using IBlobStorageService = {nomeProjeto}.Domain.Interfaces.Services.IBlobStorageService;");
-                stringBuilder.AppendLine($"using IMainRepository = {nomeProjeto}.Domain.Interfaces.Repository.IMailMessageRepository;");
+                stringBuilder.AppendLine($"using ILoggerService = {nomeProjeto}.Application.Interfaces.ILoggerAppService;");
+                stringBuilder.AppendLine($"using IMainRepository = {nomeProjeto}.Domain.Interfaces.Repository.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.InterfaceRepository, tabela.Nome)};");
                 stringBuilder.AppendLine($"using IMainService = {nomeProjeto}.Application.Interfaces.I{classeName};");
-                stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.MailMessage;");
-                stringBuilder.AppendLine($"using MainDTO = {nomeProjeto}.Application.DTO.MailMessageDTO;");
+                stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Entity, tabela.Nome)};");
+                stringBuilder.AppendLine($"using MainDTO = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Dto, tabela.Nome)};");
                 stringBuilder.AppendLine($"using Microsoft.Extensions.Options;");
                 stringBuilder.AppendLine($"using {nomeProjeto}.Domain.ModelClasses;");
                 stringBuilder.AppendLine($"using {nomeProjeto}.Application.Helpers;");
@@ -88,13 +89,15 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"    public class {classeName} : ServiceBase<MainDTO>, IMainService");
                 stringBuilder.AppendLine($"    {{");
                 stringBuilder.AppendLine($"        private readonly IMainRepository _mainRepository;");
+                stringBuilder.AppendLine($"        private readonly ILoggerService _loggerService;");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"        private string[] allowInclude = new string[] {{ }};");
                 stringBuilder.AppendLine($"");
-                stringBuilder.AppendLine($"        public {classeName}(IBlobStorageService blobStorageService, IOptions<Settings> options, IMainRepository mainRepository)");
+                stringBuilder.AppendLine($"        public {classeName}(IBlobStorageService blobStorageService, IOptions<Settings> options, IMainRepository mainRepository, ILoggerService loggerService)");
                 stringBuilder.AppendLine($"            : base(blobStorageService, options)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"            _mainRepository = mainRepository;");
+                stringBuilder.AppendLine($"            _loggerService = loggerService;");
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"        public async Task<IEnumerable<MainDTO>> GetAllAsync(string? include = null)");
@@ -156,6 +159,17 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"            await _mainRepository.CommitAsync();");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"            return main.ProjectedAs<MainDTO>();");
+                stringBuilder.AppendLine($"        }}");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"        public async Task<string> GetReport(int quantityMax, string isActive = null, string term = null, string orderBy = null, string? include = null)");
+                stringBuilder.AppendLine($"        {{");
+                stringBuilder.AppendLine($"            await _loggerService.InsertAsync($\"Report - Starting GetReport - {{this.GetType().Name}}\");");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"            var result = await GetAllPagedAsync(1, quantityMax == 0 ? int.MaxValue : quantityMax, isActive, term, orderBy, include);");
+                stringBuilder.AppendLine($"            string link = await UploadReport(result.Item3.ToList());");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"            await _loggerService.InsertAsync($\"Report - Finishing GetReport - {{this.GetType().Name}}\");");
+                stringBuilder.AppendLine($"            return link;");
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"        public void Dispose()");

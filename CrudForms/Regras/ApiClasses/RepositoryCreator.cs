@@ -29,7 +29,7 @@ namespace Regras.ApiClasses
                 Util.CL_Files.DeleteFilesIfExists(caminhoFile);
 
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Entity, tabela.Nome)}");
+                stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Entity, tabela.Nome)};");
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine($"{NamesHandler.GetNamespaceByType(nomeProjeto, type)}");
                 stringBuilder.AppendLine($"{{");
@@ -65,7 +65,7 @@ namespace Regras.ApiClasses
                 Util.CL_Files.DeleteFilesIfExists(caminhoFile);
 
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Entity, tabela.Nome)}");
+                stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Entity, tabela.Nome)};");
                 stringBuilder.AppendLine($"using {nomeProjeto}.Infrastructure.Data.Context;");
                 stringBuilder.AppendLine($"using Microsoft.EntityFrameworkCore;");
                 stringBuilder.AppendLine($"using System.Text.RegularExpressions;");

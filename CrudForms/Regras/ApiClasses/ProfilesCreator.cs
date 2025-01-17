@@ -30,8 +30,13 @@ namespace Regras.ApiClasses
                 StringBuilder stringBuilder = new StringBuilder();
                 if(type == NamesHandler.ClasseType.ProfilesDTO)
                 {
-                    stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeArquivoClasse(NamesHandler.ClasseType.Entity, tabela.Nome)};");
-                    stringBuilder.AppendLine($"using MainDTO = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeArquivoClasse(NamesHandler.ClasseType.Dto, tabela.Nome)};");
+                    stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Entity, tabela.Nome)};");
+                    stringBuilder.AppendLine($"using MainDto = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Dto, tabela.Nome)};");
+                }
+                else
+                {
+                    stringBuilder.AppendLine($"using MainDto = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Dto, tabela.Nome)};");
+                    stringBuilder.AppendLine($"using MainViewModel = {nomeProjeto}.Presentation.Model.ViewModels.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.ViewModel, tabela.Nome)};");
                 }
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine($"{NamesHandler.GetNamespaceByType(nomeProjeto, type)}");
@@ -40,8 +45,16 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"    {{");
                 stringBuilder.AppendLine($"        public {classeName}()");
                 stringBuilder.AppendLine($"        {{");
-                stringBuilder.AppendLine($"        CreateMap<Main, MainDto>().PreserveReferences();");
-                stringBuilder.AppendLine($"        CreateMap<MainDto, Main>().PreserveReferences();");
+                if (type == NamesHandler.ClasseType.ProfilesDTO)
+                {
+                    stringBuilder.AppendLine($"            CreateMap<Main, MainDto>().PreserveReferences();");
+                    stringBuilder.AppendLine($"            CreateMap<MainDto, Main>().PreserveReferences();");
+                }
+                else
+                {
+                    stringBuilder.AppendLine($"            CreateMap<MainDto, MainViewModel>().PreserveReferences();");
+                    stringBuilder.AppendLine($"            CreateMap<MainViewModel, MainDto>().PreserveReferences();");
+                }
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"    }}");
                 stringBuilder.AppendLine($"}}");
