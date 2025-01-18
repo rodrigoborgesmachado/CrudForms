@@ -153,7 +153,7 @@ namespace Regras.AcessoBancoCliente
             }
 
             // Add the fields and table name to the command
-            command += fields + $" FROM {tabela.DAO.Nome}";
+            command += fields + $" FROM \"{tabela.DAO.Nome}\"";
             command += MontaWhereSelect(filtro, campos);
 
             // Handle the ORDER BY clause if applicable
@@ -181,7 +181,7 @@ namespace Regras.AcessoBancoCliente
         {
             string command = $" SELECT count(1)";
             string fields = string.Empty;
-            command += fields + $" FROM {tabela.DAO.Nome}";
+            command += fields + $" FROM \"{tabela.DAO.Nome}\"";
             command += MontaWhereSelect(filtro, campos);
 
             return command;
