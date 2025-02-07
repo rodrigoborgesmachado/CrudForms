@@ -38,7 +38,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"        Task<IEnumerable<Main>> GetAllAsync(string[] include = null);");
                 stringBuilder.AppendLine($"        Task<IEnumerable<Main>> GetAllAsync(string parentCode, string[] include = null);");
                 stringBuilder.AppendLine($"        Task<Main> GetAsync(string code, string[] include = null);");
-                stringBuilder.AppendLine($"        Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, string isActive = null, string term = null, string orderBy = null, string[] include = null);");
+                stringBuilder.AppendLine($"        Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string[] include = null);");
                 stringBuilder.AppendLine($"    }}");
                 stringBuilder.AppendLine($"}}");
 
@@ -75,7 +75,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"{{");
                 stringBuilder.AppendLine($"    public class {classeName} : RepositoryBase<Main>, IMainRepository");
                 stringBuilder.AppendLine($"    {{");
-                stringBuilder.AppendLine($"        public {classeName}(CornerLogApiContext currentContext)");
+                stringBuilder.AppendLine($"        public {classeName}({nomeProjeto}Context currentContext)");
                 stringBuilder.AppendLine($"            : base(currentContext)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"        }}");
@@ -105,7 +105,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"            return await query.SingleOrDefaultAsync();");
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"");
-                stringBuilder.AppendLine($"        public async Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, string isActive = null, string term = null, string orderBy = null, string[] include = null)");
+                stringBuilder.AppendLine($"        public async Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string[] include = null)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"            var query = GetQueryable();");
                 stringBuilder.AppendLine($"");
@@ -135,6 +135,15 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"            if (!string.IsNullOrEmpty(term))");
                 stringBuilder.AppendLine($"            {{");
                 stringBuilder.AppendLine($"                query = query.Where(c => c.Code.Equals(term));");
+                stringBuilder.AppendLine($"            }}");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"            if (startDate != null)");
+                stringBuilder.AppendLine($"            {{");
+                stringBuilder.AppendLine($"                query = query.Where(o => o.Created >= startDate);");
+                stringBuilder.AppendLine($"            }}");
+                stringBuilder.AppendLine($"            if (endDate != null)");
+                stringBuilder.AppendLine($"            {{");
+                stringBuilder.AppendLine($"                query = query.Where(o => o.Created <= endDate);");
                 stringBuilder.AppendLine($"            }}");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"            var total = await GetAllPagedTotalAsync(query, include);");

@@ -111,7 +111,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"DELETE FROM {tabela} WHERE ";
+            retorno = $"DELETE FROM \"{tabela}\" WHERE ";
             bool achouPk = false;
 
             for (int i = 0; i < campos.Count; i++)

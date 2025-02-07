@@ -11,71 +11,64 @@ namespace ImportadorNamespace
         /// <returns></returns>
         public override void RetornaDetalhesCampos(Visao.BarraDeCarregamento barra, ref List<Model.Campo> campos)
         {
-            string sentenca = @"SELECT 
-                                c.*
-                                FROM information_schema.columns c 
-                                LEFT join INFORMATION_SCHEMA.KEY_COLUMN_USAGE pk on (c.COLUMN_NAME = pk.COLUMN_NAME and c.TABLE_NAME = pk.TABLE_NAME)
-                                where c.table_schema not in ('pg_catalog', 'information_schema')";
+            string query = @"
+        SELECT 
+            c.table_name,
+            c.column_name,
+            c.is_nullable,
+            c.data_type,
+            c.character_maximum_length,
+            c.numeric_precision,
+            c.column_default,
+            CASE 
+                WHEN tc.constraint_type = 'PRIMARY KEY' THEN 1
+                ELSE 0
+            END AS is_primary_key
+        FROM information_schema.columns c
+        LEFT JOIN information_schema.key_column_usage kcu
+            ON c.table_schema = kcu.table_schema
+            AND c.table_name = kcu.table_name
+            AND c.column_name = kcu.column_name
+        LEFT JOIN information_schema.table_constraints tc
+            ON kcu.table_schema = tc.table_schema
+            AND kcu.table_name = tc.table_name
+            AND kcu.constraint_name = tc.constraint_name
+            AND tc.constraint_type = 'PRIMARY KEY'
+        WHERE c.table_schema NOT IN ('pg_catalog', 'information_schema');";
 
-            DbDataReader reader = DataBase.Connection.Select(sentenca);
+            DbDataReader reader = DataBase.Connection.Select(query);
 
             while (reader.Read())
             {
                 barra.AvancaBarra(1);
 
-                string nome = reader["COLUMN_NAME"].ToString();
-                bool notnull = reader["IS_NULLABLE"].ToString().ToUpper().Equals("YES");
-                string tipo = reader["DATA_TYPE"].ToString();
-                string valueDefault = reader["COLUMN_DEFAULT"].ToString().Replace('(', ' ').Replace(')', ' ').Trim();
-                string tamanho = reader["CHARACTER_MAXIMUM_LENGTH"].ToString();
-                string precisao = reader["NUMERIC_PRECISION"].ToString();
-                string tabela = reader["TABLE_NAME"].ToString();
+                string nome = reader["column_name"].ToString();
+                bool notnull = reader["is_nullable"].ToString().ToUpper() == "NO";
+                string tipo = reader["data_type"].ToString();
+                string valueDefault = reader["column_default"]?.ToString().Trim() ?? string.Empty;
+                string tamanho = reader["character_maximum_length"]?.ToString();
+                string precisao = reader["numeric_precision"]?.ToString();
+                string tabela = reader["table_name"].ToString();
+                bool isPrimaryKey = reader["is_primary_key"].ToString() == "1";
 
-                Model.Campo c = new Model.Campo();
-                c.Name_Field = nome;
-                c.NotNull = notnull;
-                c.Unique = false;
-                c.Type = tipo;
-                c.ValueDefault = valueDefault;
-                c.Size = string.IsNullOrEmpty(tamanho) ? 0 : int.Parse(tamanho);
-                c.Precision = string.IsNullOrEmpty(precisao) ? decimal.Zero : decimal.Parse(precisao);
-                c.Tabela = tabela;
+                Model.Campo c = new Model.Campo
+                {
+                    Name_Field = nome,
+                    NotNull = notnull,
+                    Unique = false,
+                    Type = tipo,
+                    ValueDefault = valueDefault,
+                    Size = string.IsNullOrEmpty(tamanho) ? 0 : int.Parse(tamanho),
+                    Precision = string.IsNullOrEmpty(precisao) ? decimal.Zero : decimal.Parse(precisao),
+                    Tabela = tabela,
+                    PrimaryKey = isPrimaryKey
+                };
 
                 campos.Add(c);
             }
             reader.Close();
-
-            campos.ForEach(campo =>
-            {
-                sentenca = @"select count(1) as qt from (
-                    SELECT cast(c.conrelid::regclass as varchar) AS table_from,
-                           c.conname colname,
-                           cast(pg_get_constraintdef(c.oid) as varchar) const,
-                           a.attname
-                           FROM pg_constraint c
-                                INNER JOIN pg_namespace n
-                                           ON n.oid = c.connamespace
-                                CROSS JOIN LATERAL unnest(c.conkey) ak(k)
-                                INNER JOIN pg_attribute a
-                                           ON a.attrelid = c.conrelid
-                                              AND a.attnum = ak.k
-                           ) t
-                           where t.table_from = '" + DataBase.Connection.GetBancoSchema() + "." + campo.Tabela + @"'
-                           and t.attname = '" + campo.Name_Field + @"'
-                           and t.const like '%PRIMARY%'
-                    ";
-
-                reader = DataBase.Connection.Select(sentenca);
-
-                if (reader.Read())
-                {
-                    campo.PrimaryKey = (int.Parse(reader["QT"].ToString())).Equals(1);
-                }
-                reader.Close();
-
-            });
-
         }
+
 
         /// <summary>
         /// Método que retorna uma lista de tabelas e suas descrições
