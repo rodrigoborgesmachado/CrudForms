@@ -16,6 +16,7 @@ namespace Regras.FrontEndClasses
             {
                 string apiServices = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ServicesApiServices);
                 CreateServiceApi(apiServices);
+                CreateServiceTokenApi(apiServices);
                 CreateServiceApiForEntities(tabelas, apiServices);
 
                 string reduxServicePath = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ServicesRedux);
@@ -286,6 +287,33 @@ namespace Regras.FrontEndClasses
             js.AppendLine("export default api;");
 
             File.WriteAllText(path + "//serviceApi.js", js.ToString());
+        }
+
+        private static void CreateServiceTokenApi(string path)
+        {
+            StringBuilder js = new StringBuilder();
+            js.AppendLine("import api from './serviceApi'; // Import the axios instance");
+            js.AppendLine("");
+            js.AppendLine("const tokenApi = {");
+            js.AppendLine("    /**");
+            js.AppendLine("     * Authenticate a user and retrieve a token.");
+            js.AppendLine("     * @param {Object} credentials - The user credentials containing `userName` and `password`.");
+            js.AppendLine("     * @returns {Promise<Object>} - The authentication response containing the access token.");
+            js.AppendLine("     */");
+            js.AppendLine("    getToken: async (credentials) => {");
+            js.AppendLine("        try {");
+            js.AppendLine("            const response = await api.post('/token', credentials);");
+            js.AppendLine("            return response.data;");
+            js.AppendLine("        } catch (error) {");
+            js.AppendLine("            console.error('Error fetching token:', error);");
+            js.AppendLine("            throw error;");
+            js.AppendLine("        }");
+            js.AppendLine("    },");
+            js.AppendLine("};");
+            js.AppendLine("");
+            js.AppendLine("export default tokenApi;");
+
+            File.WriteAllText(path + "//tokenApi.js", js.ToString());
         }
 
         private static void CreateServiceApiForEntities(List<MD_Tabela> tabelas, string path)
