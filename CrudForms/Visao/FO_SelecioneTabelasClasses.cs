@@ -1,4 +1,6 @@
 ﻿using Regras.ApiClasses;
+using Regras.FrontEndClasses;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -14,6 +16,7 @@ namespace Visao
     {
         #region Atributos e Propriedades
 
+        bool backEnd = true;
         List<Model.MD_Tabela> lista = new List<Model.MD_Tabela>();
         List<Model.MD_Tabela> lista_selecionados = new List<Model.MD_Tabela>();
         bool locked = false;
@@ -69,12 +72,27 @@ namespace Visao
             GerarClasses();
         }
 
+        private void btn_path_Click(object sender, System.EventArgs e)
+        {
+            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            {
+                folderDialog.Description = "Selecione o diretório";
+                folderDialog.ShowNewFolderButton = true;
+
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.tbx_directory.Text = folderDialog.SelectedPath;
+                }
+            }
+        }
+
         #endregion Eventos
 
         #region Construtores
 
-        public FO_SelecioneTabelasClasses()
+        public FO_SelecioneTabelasClasses(bool backEnd)
         {
+            this.backEnd = backEnd;
             InitializeComponent();
             this.IniciaForm();
         }
@@ -116,6 +134,17 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
 
             this.FillGrid();
+
+            if (backEnd)
+            {
+                this.Text = "Selecione as tabelas para geração das classes";
+                this.pan_selectDirectory.Visible = false;
+            }
+            else
+            {
+                this.pan_selectDirectory.Visible = true;
+                this.Text = "Selecione as tabelas para geração do projeto front end";
+            }
         }
 
         /// <summary>
@@ -194,16 +223,28 @@ namespace Visao
 
         public void GerarClasses()
         {
+            if(!backEnd && string.IsNullOrEmpty(this.tbx_directory.Text))
+            {
+                Message.MensagemAlerta("Selecione um diretório!");
+                return;
+            }
+
             if (string.IsNullOrEmpty(this.tbx_message.Text))
             {
                 Message.MensagemAlerta("Preencha o nome do projeto!");
                 return;
             }
 
-            if(CreatorApiClasses.CreateApiClasses(lista_selecionados, this.tbx_message.Text.Replace(" ", "").Replace("_", ""), out string mensagem))
+            var result = backEnd ? 
+                CreatorApiClasses.CreateApiClasses(lista_selecionados, this.tbx_message.Text.Replace(" ", "").Replace("_", ""), out string mensagem) :
+                CreatorFrontEndProject.CreateProject(lista_selecionados, this.tbx_directory.Text, this.tbx_message.Text, out mensagem);
+
+            if (result)
             {
                 Message.MensagemSucesso("Criado com sucesso");
-                Process.Start("explorer.exe", Util.Global.app_classes_directory);
+
+                if(backEnd)
+                    Process.Start("explorer.exe", Util.Global.app_classes_directory);
             }
             else
             {
@@ -212,6 +253,5 @@ namespace Visao
         }
 
         #endregion Métodos
-
     }
 }

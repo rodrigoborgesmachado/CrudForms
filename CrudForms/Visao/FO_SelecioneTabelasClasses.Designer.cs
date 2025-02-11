@@ -39,11 +39,16 @@
             this.pan_top = new System.Windows.Forms.Panel();
             this.tbx_message = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.pan_selectDirectory = new System.Windows.Forms.Panel();
+            this.tbx_directory = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btn_path = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_out)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_in)).BeginInit();
             this.pan_botton.SuspendLayout();
             this.pan_top.SuspendLayout();
+            this.pan_selectDirectory.SuspendLayout();
             this.SuspendLayout();
             // 
             // grb_configuracaoSQLSERVER
@@ -54,9 +59,9 @@
             this.grb_configuracaoSQLSERVER.Controls.Add(this.dgv_tabela_out);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.dgv_tabela_in);
             this.grb_configuracaoSQLSERVER.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grb_configuracaoSQLSERVER.Location = new System.Drawing.Point(0, 55);
+            this.grb_configuracaoSQLSERVER.Location = new System.Drawing.Point(0, 110);
             this.grb_configuracaoSQLSERVER.Name = "grb_configuracaoSQLSERVER";
-            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(617, 343);
+            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(617, 288);
             this.grb_configuracaoSQLSERVER.TabIndex = 21;
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Tabelas";
@@ -66,7 +71,7 @@
             this.btn_colocarTodos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_colocarTodos.BackgroundImage = global::Pj.Properties.Resources.shuffle_variant_100px20x20;
             this.btn_colocarTodos.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_colocarTodos.Location = new System.Drawing.Point(282, 89);
+            this.btn_colocarTodos.Location = new System.Drawing.Point(282, 34);
             this.btn_colocarTodos.Name = "btn_colocarTodos";
             this.btn_colocarTodos.Size = new System.Drawing.Size(20, 20);
             this.btn_colocarTodos.TabIndex = 26;
@@ -78,7 +83,7 @@
             this.btn_left.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_left.BackgroundImage = global::Pj.Properties.Resources.arrow_left_100px20x20;
             this.btn_left.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_left.Location = new System.Drawing.Point(282, 161);
+            this.btn_left.Location = new System.Drawing.Point(282, 106);
             this.btn_left.Name = "btn_left";
             this.btn_left.Size = new System.Drawing.Size(20, 20);
             this.btn_left.TabIndex = 24;
@@ -90,7 +95,7 @@
             this.btn_rigth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_rigth.BackgroundImage = global::Pj.Properties.Resources.arrow_right_100px20x20;
             this.btn_rigth.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_rigth.Location = new System.Drawing.Point(282, 125);
+            this.btn_rigth.Location = new System.Drawing.Point(282, 70);
             this.btn_rigth.Name = "btn_rigth";
             this.btn_rigth.Size = new System.Drawing.Size(20, 20);
             this.btn_rigth.TabIndex = 25;
@@ -121,7 +126,7 @@
             this.dgv_tabela_out.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_tabela_out.ShowCellErrors = false;
             this.dgv_tabela_out.ShowCellToolTips = false;
-            this.dgv_tabela_out.Size = new System.Drawing.Size(284, 321);
+            this.dgv_tabela_out.Size = new System.Drawing.Size(284, 266);
             this.dgv_tabela_out.StandardTab = true;
             this.dgv_tabela_out.TabIndex = 14;
             // 
@@ -149,7 +154,7 @@
             this.dgv_tabela_in.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_tabela_in.ShowCellErrors = false;
             this.dgv_tabela_in.ShowCellToolTips = false;
-            this.dgv_tabela_in.Size = new System.Drawing.Size(256, 321);
+            this.dgv_tabela_in.Size = new System.Drawing.Size(256, 266);
             this.dgv_tabela_in.StandardTab = true;
             this.dgv_tabela_in.TabIndex = 13;
             // 
@@ -194,11 +199,51 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 9);
+            this.label1.Location = new System.Drawing.Point(3, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(102, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nome do projeto";
+            // 
+            // pan_selectDirectory
+            // 
+            this.pan_selectDirectory.Controls.Add(this.btn_path);
+            this.pan_selectDirectory.Controls.Add(this.tbx_directory);
+            this.pan_selectDirectory.Controls.Add(this.label2);
+            this.pan_selectDirectory.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pan_selectDirectory.Location = new System.Drawing.Point(0, 55);
+            this.pan_selectDirectory.Name = "pan_selectDirectory";
+            this.pan_selectDirectory.Size = new System.Drawing.Size(617, 55);
+            this.pan_selectDirectory.TabIndex = 25;
+            // 
+            // tbx_directory
+            // 
+            this.tbx_directory.Enabled = false;
+            this.tbx_directory.Location = new System.Drawing.Point(128, 9);
+            this.tbx_directory.Name = "tbx_directory";
+            this.tbx_directory.Size = new System.Drawing.Size(401, 23);
+            this.tbx_directory.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(119, 16);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Diretório do Projeto";
+            // 
+            // btn_path
+            // 
+            this.btn_path.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_path.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_path.Location = new System.Drawing.Point(535, 5);
+            this.btn_path.Name = "btn_path";
+            this.btn_path.Size = new System.Drawing.Size(70, 29);
+            this.btn_path.TabIndex = 24;
+            this.btn_path.Text = "Path";
+            this.btn_path.UseVisualStyleBackColor = true;
+            this.btn_path.Click += new System.EventHandler(this.btn_path_Click);
             // 
             // FO_SelecioneTabelasClasses
             // 
@@ -208,6 +253,7 @@
             this.ClientSize = new System.Drawing.Size(617, 433);
             this.Controls.Add(this.grb_configuracaoSQLSERVER);
             this.Controls.Add(this.pan_botton);
+            this.Controls.Add(this.pan_selectDirectory);
             this.Controls.Add(this.pan_top);
             this.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -224,6 +270,8 @@
             this.pan_botton.ResumeLayout(false);
             this.pan_top.ResumeLayout(false);
             this.pan_top.PerformLayout();
+            this.pan_selectDirectory.ResumeLayout(false);
+            this.pan_selectDirectory.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -241,5 +289,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbx_message;
         private System.Windows.Forms.Button btn_colocarTodos;
+        private System.Windows.Forms.Panel pan_selectDirectory;
+        private System.Windows.Forms.TextBox tbx_directory;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btn_path;
     }
 }

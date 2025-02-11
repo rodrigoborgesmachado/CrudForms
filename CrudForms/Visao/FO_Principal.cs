@@ -456,7 +456,18 @@ namespace Visao
         /// <param name="e"></param>
         private void gerarAPICToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FO_SelecioneTabelasClasses tela = new FO_SelecioneTabelasClasses();
+            FO_SelecioneTabelasClasses tela = new FO_SelecioneTabelasClasses(true);
+            tela.ShowDialog();
+        }
+
+        /// <summary>
+        /// Evento lançado no clique do botão para criação do front end
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gerarFrontEndToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FO_SelecioneTabelasClasses tela = new FO_SelecioneTabelasClasses(false);
             tela.ShowDialog();
         }
 
@@ -1008,6 +1019,7 @@ namespace Visao
                 Message.MensagemSucesso($"Relatório {nomeArquivo}.{(tipo == TipoArquivoExportacao.CSV ? "csv" : (tipo == TipoArquivoExportacao.JSON ? "json" : "xml"))} gerado com sucesso no caminho:\n {diretorio}");
             }
         }
+
 
 
         #endregion Métodos

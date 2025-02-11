@@ -170,6 +170,17 @@
     <Compile Include="Regras\ApiClasses\RepositoryCreator.cs" />
     <Compile Include="Regras\BuscaNovaVersaoSistema.cs" />
     <Compile Include="Regras\EnviarEmail.cs" />
+    <Compile Include="Regras\FrontEndClasses\AssetsCreator.cs" />
+    <Compile Include="Regras\FrontEndClasses\CmdCommands.cs" />
+    <Compile Include="Regras\FrontEndClasses\ComponentsCreator.cs" />
+    <Compile Include="Regras\FrontEndClasses\ConfigCreator.cs" />
+    <Compile Include="Regras\FrontEndClasses\CreatorFrontEndProject.cs" />
+    <Compile Include="Regras\FrontEndClasses\LayoutsCreator.cs" />
+    <Compile Include="Regras\FrontEndClasses\NamesHandler.cs" />
+    <Compile Include="Regras\FrontEndClasses\PagesCreator.cs" />
+    <Compile Include="Regras\FrontEndClasses\RoutesCreator.cs" />
+    <Compile Include="Regras\FrontEndClasses\ServicesCreator.cs" />
+    <Compile Include="Regras\FrontEndClasses\UtilCreator.cs" />
     <Compile Include="Regras\GerarArquivoExportacao.cs" />
     <Compile Include="Regras\GerarDer.cs" />
     <Compile Include="Regras\TransformaTipos.cs" />
@@ -418,6 +429,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dev200x200.ico" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\ArrowIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\BasketIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\CartIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\CartIconWithNumber.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\CityIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\DashBoardIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\DownloadIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\EditIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\EyeIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\FamilyIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\HomeIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\HorizontalBarIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\LogIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\LogoffIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\LogoIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\MailIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\OrderIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\ReportIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\UserCustomIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\UserIcon.js" />
+    <EmbeddedResource Include="FrontEndComponents\Icons\UsersIcon.js" />
     <None Include="Resources\logonewwhite.png" />
     <None Include="Resources\logo_black.png" />
     <None Include="Resources\project-management-white-200x200.png" />
@@ -596,6 +628,7 @@
       <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

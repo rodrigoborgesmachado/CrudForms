@@ -55,6 +55,7 @@
             this.transformarXMLToJsonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importarPlanilhaCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transformarJsonToXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gerarAPICToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enumeraLinhasDasTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_quantidade_dias_atualizacao = new System.Windows.Forms.ToolStripTextBox();
@@ -72,7 +73,7 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.gerarAPICToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gerarFrontEndToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.pan_filtro.SuspendLayout();
@@ -278,7 +279,8 @@
             this.transformarXMLToJsonToolStripMenuItem,
             this.importarPlanilhaCSVToolStripMenuItem,
             this.transformarJsonToXMLToolStripMenuItem,
-            this.gerarAPICToolStripMenuItem});
+            this.gerarAPICToolStripMenuItem,
+            this.gerarFrontEndToolStripMenuItem});
             this.devtoolsToolStripMenuItem.Name = "devtoolsToolStripMenuItem";
             this.devtoolsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.devtoolsToolStripMenuItem.Text = "Devtools";
@@ -317,6 +319,13 @@
             this.transformarJsonToXMLToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.transformarJsonToXMLToolStripMenuItem.Text = "Transformar Json to XML";
             this.transformarJsonToXMLToolStripMenuItem.Click += new System.EventHandler(this.transformarJsonToXMLToolStripMenuItem_Click);
+            // 
+            // gerarAPICToolStripMenuItem
+            // 
+            this.gerarAPICToolStripMenuItem.Name = "gerarAPICToolStripMenuItem";
+            this.gerarAPICToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.gerarAPICToolStripMenuItem.Text = "Gerar API - C#";
+            this.gerarAPICToolStripMenuItem.Click += new System.EventHandler(this.gerarAPICToolStripMenuItem_Click);
             // 
             // enumeraLinhasDasTabelasToolStripMenuItem
             // 
@@ -465,12 +474,12 @@
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
             // 
-            // gerarAPICToolStripMenuItem
+            // gerarFrontEndToolStripMenuItem
             // 
-            this.gerarAPICToolStripMenuItem.Name = "gerarAPICToolStripMenuItem";
-            this.gerarAPICToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.gerarAPICToolStripMenuItem.Text = "Gerar API - C#";
-            this.gerarAPICToolStripMenuItem.Click += new System.EventHandler(this.gerarAPICToolStripMenuItem_Click);
+            this.gerarFrontEndToolStripMenuItem.Name = "gerarFrontEndToolStripMenuItem";
+            this.gerarFrontEndToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.gerarFrontEndToolStripMenuItem.Text = "Gerar Front End";
+            this.gerarFrontEndToolStripMenuItem.Click += new System.EventHandler(this.gerarFrontEndToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
@@ -549,6 +558,7 @@
         private System.Windows.Forms.ToolStripMenuItem quantidadeDeDiasParaManterLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem arquivosDeLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gerarAPICToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gerarFrontEndToolStripMenuItem;
     }
 }
 

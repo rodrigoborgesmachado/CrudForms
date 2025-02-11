@@ -55,7 +55,7 @@ namespace Regras.ApiClasses
                     retorno = $"namespace {projectName}.Presentation.Controllers";
                     break;
                 default:
-                    throw new ArgumentException($"Unsupported ClasseType: {type}");
+                    throw new ArgumentException($"Unsupported FileType: {type}");
             }
 
             return retorno;
@@ -99,7 +99,7 @@ namespace Regras.ApiClasses
                     retorno = Util.Global.app_classes_profile_viewModel_directory;
                     break;
                 default:
-                    throw new ArgumentException($"Unsupported ClasseType: {type}");
+                    throw new ArgumentException($"Unsupported FileType: {type}");
             }
 
             return retorno;
@@ -143,7 +143,7 @@ namespace Regras.ApiClasses
                     retorno = $"{formattedTableName}Profile";
                     break;
                 default:
-                    throw new ArgumentException("ClasseType inválido.");
+                    throw new ArgumentException("FileType inválido.");
             }
 
             return retorno;
