@@ -642,7 +642,7 @@ namespace Regras.FrontEndClasses
             css.AppendLine("/* Ensure filters align properly */");
             css.AppendLine(".container-admin-page-filters {");
             css.AppendLine("    display: flex;");
-            css.AppendLine("    align-items: center;");
+            css.AppendLine("    flex-direction: column;");
             css.AppendLine("    gap: var(--double-default-spacing);");
             css.AppendLine("    flex-wrap: wrap;");
             css.AppendLine("}");
