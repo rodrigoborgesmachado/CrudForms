@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Model;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -7,14 +9,14 @@ namespace Regras.FrontEndClasses
 {
     public static class ComponentsCreator
     {
-        public static bool Create(string projectPath)
+        public static bool Create(List<MD_Tabela> tabelas, string projectPath)
         {
             bool success = true;
 
             try
             {
                 string adminComponents = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ComponentsAdmin);
-                success &= CreateAdminFoldersAndComponents(adminComponents);
+                success &= CreateAdminFoldersAndComponents(tabelas, adminComponents);
 
                 string clientComponents = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ComponentsClient);
                 success &= CreateClientFoldersAndComponents(clientComponents);
@@ -366,7 +368,7 @@ namespace Regras.FrontEndClasses
             return success;
         }
 
-        private static bool CreateAdminFoldersAndComponents(string adminComponent)
+        private static bool CreateAdminFoldersAndComponents(List<MD_Tabela> tabelas, string adminComponent)
         {
             bool success = true;
 
@@ -378,7 +380,7 @@ namespace Regras.FrontEndClasses
 
                 string adminSideBarFolder = Path.Combine(adminComponent, "AdminSidebar");
                 Directory.CreateDirectory(adminSideBarFolder);
-                CreateAdminSideBarFiles(adminSideBarFolder);
+                CreateAdminSideBarFiles(tabelas, adminSideBarFolder);
 
                 string adminFilterComponentFolder = Path.Combine(adminComponent, "FilterComponent");
                 Directory.CreateDirectory(adminFilterComponentFolder);
@@ -486,7 +488,7 @@ namespace Regras.FrontEndClasses
             File.WriteAllText(path + "//AdminHeader.css", css.ToString());
         }
 
-        private static void CreateAdminSideBarFiles(string path)
+        private static void CreateAdminSideBarFiles(List<MD_Tabela> tabelas, string path)
         {
             StringBuilder css = new StringBuilder();
             css.AppendLine("/* Sidebar container */");
@@ -608,12 +610,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("import DashBoardIcon from '../../icons/DashBoardIcon';");
             js.AppendLine("import LogoffIcon from '../../icons/LogoffIcon';");
             js.AppendLine("import { useLocation } from 'react-router-dom';");
-            js.AppendLine("import LogIcon from '../../icons/LogIcon';");
-            js.AppendLine("import UsersIcon from '../../icons/UsersIcon';");
-            js.AppendLine("import MailIcon from '../../icons/MailIcon';");
             js.AppendLine("import LogoIcon from '../../icons/LogoIcon';");
-            js.AppendLine("import FamilyIcon from '../../icons/FamilyIcon';");
-            js.AppendLine("import ReportIcon from '../../icons/ReportIcon';");
             js.AppendLine("import BasketIcon from '../../icons/BasketIcon';");
             js.AppendLine("");
             js.AppendLine("const AdminSidebar = () => {");
@@ -639,12 +636,10 @@ namespace Regras.FrontEndClasses
             js.AppendLine("      </div>");
             js.AppendLine("      <nav className=\"sidebar__menu\">");
             js.AppendLine("        {isAdmin && <a href=\"/\" className={pathSegments.length === 0 || (pathSegments[0] === 'dashboard') || pathSegments[1] === 'dashboard' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><DashBoardIcon color='white'/>Dashboard</a>}");
-            js.AppendLine("        {isAdmin && <a href=\"/gestao\" className={pathSegments[0] === 'gestao' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><BasketIcon color='white'/>Gestão de Doações</a>}");
-            js.AppendLine("        {isAdmin && <a href=\"/familias\" className={pathSegments[0] === 'familias' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><FamilyIcon color='white'/>Famílias</a>}");
-            js.AppendLine("        {isAdmin && <a href=\"/historico\" className={pathSegments[0] === 'historico' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><ReportIcon color='white'/>Histórico Doações</a>}");
-            js.AppendLine("        {isAdmin && <a href=\"/usuarios\" className={pathSegments[0] === 'usuarios' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><UsersIcon color='white'/>Usuários</a>}");
-            js.AppendLine("        {isAdmin && <a href=\"/emails\" className={pathSegments[0] === 'emails' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><MailIcon color='white'/>Emails Enviados</a>}");
-            js.AppendLine("        {isAdmin && <a href=\"/logs\" className={pathSegments[0] === 'logs' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><LogIcon color='white'/>Logs</a>}");
+            foreach (var tabela in tabelas)
+            {
+                js.AppendLine($"        {{isAdmin && <a href=\"/{tabela.DAO.Nome}\" className={{pathSegments[0] === '{tabela.DAO.Nome}' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}}><BasketIcon color='white'/>{tabela.DAO.Nome}</a>}}");
+            }
             js.AppendLine("        </nav>");
             js.AppendLine("      <button className=\"sidebar__logoff\" onClick={handleLogout}>");
             js.AppendLine("        Sair <LogoffIcon color='white'/>");

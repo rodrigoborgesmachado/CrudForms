@@ -44,7 +44,7 @@ namespace Regras.FrontEndClasses
                 }
                 barra.AvancaBarra(1);
 
-                success &= ComponentsCreator.Create(projectPath);
+                success &= ComponentsCreator.Create(tabelas, projectPath);
                 if (!success)
                 {
                     errors.AppendLine("Erro ao criar o components!");
