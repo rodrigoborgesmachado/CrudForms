@@ -138,31 +138,26 @@ namespace Regras.AcessoBancoCliente
         /// <returns>Command SQL</returns>
         protected override string CreateCommandSQLTable(MD_Tabela tabela, List<MD_Campos> campos, Filtro filtro, int page, bool limite = true)
         {
-            // Initialize the query with SELECT clause
             string command = "SELECT ";
             string fields = string.Empty;
 
-            // Iterate through the fields to form the SELECT clause
             int qt = campos.Count, i = 1;
             foreach (var field in campos)
             {
-                fields += field.DAO.Nome;
+                fields += $"\"{field.DAO.Nome}\"";
                 if (i < qt)
                     fields += ", ";
                 i++;
             }
 
-            // Add the fields and table name to the command
             command += fields + $" FROM \"{tabela.DAO.Nome}\"";
             command += MontaWhereSelect(filtro, campos);
 
-            // Handle the ORDER BY clause if applicable
             if (filtro.Order != null && filtro.Order.CampoOrdenacao != null)
             {
-                command += $" ORDER BY {filtro.Order.CampoOrdenacao.DAO.Nome} {(filtro.Order.Asc ? "ASC" : "DESC")}";
+                command += $" ORDER BY \"{filtro.Order.CampoOrdenacao.DAO.Nome}\" {(filtro.Order.Asc ? "ASC" : "DESC")}";
             }
 
-            // Add LIMIT and OFFSET if required
             if (limite)
             {
                 int limit = int.Parse(Model.Parametros.QuantidadeLinhasTabelas.DAO.Valor);
