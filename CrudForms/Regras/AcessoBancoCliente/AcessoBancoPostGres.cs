@@ -213,31 +213,33 @@ namespace Regras.AcessoBancoCliente
         protected override string MontaCampoWhereSelect(Model.MD_Campos campo, string valor)
         {
             string retorno = string.Empty;
+            Func<string, string> escape = v => v.Replace("'", "''");
 
             if (valor.Contains(";"))
             {
+                var valores = valor.Split(';').Select(escape).ToList();
                 bool first = true;
 
                 switch (campo.DAO.TipoCampo.Nome)
                 {
                     case "BIGINT":
-                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valores)})";
                         break;
                     case "INT":
-                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valores)})";
                         break;
                     case "TINYINT":
-                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList())})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valores)})";
                         break;
                     case "DECIMAL":
-                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valores).Replace(",", ".")})";
                         break;
                     case "NUMERIC":
-                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valor.Split(';').ToList()).Replace(",", ".")})";
+                        retorno += $"{campo.DAO.Nome} IN ({string.Join(",", valores).Replace(",", ".")})";
                         break;
                     case "CHARACTER VARYING":
                         first = true;
-                        valor.Split(';').ToList().ForEach(item =>
+                        valores.ForEach(item =>
                         {
                             if (first) first = false;
                             else retorno += " OR ";
@@ -247,7 +249,7 @@ namespace Regras.AcessoBancoCliente
                         break;
                     case "CHARACTER":
                         first = true;
-                        valor.Split(';').ToList().ForEach(item =>
+                        valores.ForEach(item =>
                         {
                             if (!string.IsNullOrEmpty(item))
                             {
@@ -260,7 +262,7 @@ namespace Regras.AcessoBancoCliente
                         break;
                     case "USER-DEFINED":
                         first = true;
-                        valor.Split(';').ToList().ForEach(item =>
+                        valores.ForEach(item =>
                         {
                             if (!string.IsNullOrEmpty(item))
                             {
@@ -273,7 +275,7 @@ namespace Regras.AcessoBancoCliente
                         break;
                     case "TEXT":
                         first = true;
-                        valor.Split(';').ToList().ForEach(item =>
+                        valores.ForEach(item =>
                         {
                             if (!string.IsNullOrEmpty(item))
                             {
@@ -286,7 +288,7 @@ namespace Regras.AcessoBancoCliente
                         break;
                     case "VARCHAR":
                         first = true;
-                        valor.Split(';').ToList().ForEach(item =>
+                        valores.ForEach(item =>
                         {
                             if (!string.IsNullOrEmpty(item))
                             {
@@ -299,7 +301,7 @@ namespace Regras.AcessoBancoCliente
                         break;
                     default:
                         first = true;
-                        valor.Split(';').ToList().ForEach(item =>
+                        valores.ForEach(item =>
                         {
                             if (!string.IsNullOrEmpty(item))
                             {
@@ -314,6 +316,7 @@ namespace Regras.AcessoBancoCliente
             }
             else
             {
+                valor = escape(valor);
                 switch (campo.DAO.TipoCampo.Nome)
                 {
                     case "BIGINT":
