@@ -25,7 +25,7 @@ namespace Regras.AcessoBancoCliente
             string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"update {tabela} set ";
+            retorno = $"update \"{tabela}\" set ";
             List<Model.MD_Campos> camposPk = new List<MD_Campos>();
             List<int> listaCampos = new List<int>();
             bool temAlteracao = false;
@@ -80,10 +80,9 @@ namespace Regras.AcessoBancoCliente
         /// <returns></returns>
         protected override string MontaComandoInsert(string tabela, List<Model.MD_Campos> campos, out string mensagem)
         {
-            string retorno = string.Empty;
             mensagem = string.Empty;
 
-            retorno = $"insert into {tabela} (";
+            string retorno = $"insert into {tabela} (";
             string values = ") VALUES (";
             for (int i = 0; i < campos.Count; i++)
             {
@@ -92,7 +91,7 @@ namespace Regras.AcessoBancoCliente
                     retorno += ", ";
                     values += ", ";
                 }
-                retorno += $"{campos[i].DAO.Nome}";
+                retorno += $"\"{campos[i].DAO.Nome}\"";
                 values += MontaCampoInsert(campos[i], valores[i]);
             }
             retorno += values + ")";
@@ -320,49 +319,49 @@ namespace Regras.AcessoBancoCliente
                 switch (campo.DAO.TipoCampo.Nome)
                 {
                     case "BIGINT":
-                        retorno += $"{campo.DAO.Nome} = {valor}";
+                        retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                         break;
                     case "INTEGER":
-                        retorno += $"{campo.DAO.Nome} = {valor}";
+                        retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                         break;
                     case "TINYINT":
-                        retorno += $"{campo.DAO.Nome} = {valor}";
+                        retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                         break;
                     case "BOOLEAN":
-                        retorno += $"{campo.DAO.Nome} = {valor}";
+                        retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                         break;
                     case "DECIMAL":
-                        retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                        retorno += $"\"{campo.DAO.Nome}\" = {valor.ToString().Replace(",", ".")}";
                         break;
                     case "NUMERIC":
-                        retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                        retorno += $"\"{campo.DAO.Nome}\" = {valor.ToString().Replace(",", ".")}";
                         break;
                     case "CHARACTER VARYING":
-                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                        retorno += $"UPPER(\"{campo.DAO.Nome}\") like '%{valor.ToUpper()}%'";
                         break;
                     case "CHARACTER":
-                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                        retorno += $"UPPER(\"{campo.DAO.Nome}\") like '%{valor.ToUpper()}%'";
                         break;
                     case "USER-DEFINED":
-                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                        retorno += $"UPPER(\"{campo.DAO.Nome}\") like '%{valor.ToUpper()}%'";
                         break;
                     case "TEXT":
-                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                        retorno += $"UPPER(\"{campo.DAO.Nome}\") like '%{valor.ToUpper()}%'";
                         break;
                     case "VARCHAR":
-                        retorno += $"UPPER({campo.DAO.Nome}) like '%{valor.ToUpper()}%'";
+                        retorno += $"UPPER(\"{campo.DAO.Nome}\") like '%{valor.ToUpper()}%'";
                         break;
                     case "DATETIME":
-                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                         break;
                     case "DATE":
-                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                         break;
                     case "TIMESTAMP WITH TIME ZONE":
-                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                         break;
                     case "TIMESTAMP WITHOUT TIME ZONE":
-                        retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                        retorno += $"\"{campo.DAO.Nome}  \" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                         break;
                     default:
                         retorno += $"{campo.DAO.Nome} = '{valor}'";
@@ -386,52 +385,52 @@ namespace Regras.AcessoBancoCliente
             switch (campo.DAO.TipoCampo.Nome)
             {
                 case "BIGINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "INTEGER":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "TINYINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "BOOLEAN":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "DECIMAL":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "NUMERIC":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "CHARACTER VARYING":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "CHARACTER":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "USER-DEFINED":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "TEXT":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "VARCHAR":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "DATETIME":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 case "DATE":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 case "TIMESTAMP WITH TIME ZONE":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 case "TIMESTAMP WITHOUT TIME ZONE":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 default:
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
             }
 
@@ -451,52 +450,52 @@ namespace Regras.AcessoBancoCliente
             switch (campo.DAO.TipoCampo.Nome)
             {
                 case "BIGINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "INTEGER":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "TINYINT":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "BOOLEAN":
-                    retorno += $"{campo.DAO.Nome} = {valor}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor}";
                     break;
                 case "DECIMAL":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "NUMERIC":
-                    retorno += $"{campo.DAO.Nome} = {valor.ToString().Replace(",", ".")}";
+                    retorno += $"\"{campo.DAO.Nome}\" = {valor.ToString().Replace(",", ".")}";
                     break;
                 case "CHARACTER VARYING":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "CHARACTER":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "USER-DEFINED":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "TEXT":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "VARCHAR":
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
                 case "DATETIME":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 case "DATE":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 case "TIMESTAMP WITH TIME ZONE":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 case "TIMESTAMP WITHOUT TIME ZONE":
-                    retorno += $"{campo.DAO.Nome} = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{MontaStringDateTimeFromDateTime(DateTime.Parse(valor))}'";
                     break;
                 default:
-                    retorno += $"{campo.DAO.Nome} = '{valor}'";
+                    retorno += $"\"{campo.DAO.Nome}\" = '{valor}'";
                     break;
             }
 
