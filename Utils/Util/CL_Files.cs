@@ -149,8 +149,16 @@ namespace Util
                 Directory.Delete(Global.app_classes_viewModel_directory);
             if (!Directory.Exists(Global.app_classes_repository_directory))
                 Directory.Delete(Global.app_classes_repository_directory);
+            if (!Directory.Exists(Global.app_classes_repository_interface_directory))
+                Directory.Delete(Global.app_classes_repository_interface_directory);
+            if (!Directory.Exists(Global.app_classes_repository_definitive_directory))
+                Directory.Delete(Global.app_classes_repository_definitive_directory);
             if (!Directory.Exists(Global.app_classes_services_directory))
                 Directory.Delete(Global.app_classes_services_directory);
+            if (!Directory.Exists(Global.app_classes_services_interfaces_directory))
+                Directory.Delete(Global.app_classes_services_interfaces_directory);
+            if (!Directory.Exists(Global.app_classes_services_definitive_directory))
+                Directory.Delete(Global.app_classes_services_definitive_directory);
             if (!Directory.Exists(Global.app_classes_controller_directory))
                 Directory.Delete(Global.app_classes_controller_directory);
             if (!Directory.Exists(Global.app_classes_profile_dto_directory))
@@ -192,8 +200,16 @@ namespace Util
                 Directory.CreateDirectory(Global.app_classes_viewModel_directory);
             if (!Directory.Exists(Global.app_classes_repository_directory))
                 Directory.CreateDirectory(Global.app_classes_repository_directory);
+            if (!Directory.Exists(Global.app_classes_repository_interface_directory))
+                Directory.CreateDirectory(Global.app_classes_repository_interface_directory);
+            if (!Directory.Exists(Global.app_classes_repository_definitive_directory))
+                Directory.CreateDirectory(Global.app_classes_repository_definitive_directory);
             if (!Directory.Exists(Global.app_classes_services_directory))
                 Directory.CreateDirectory(Global.app_classes_services_directory);
+            if (!Directory.Exists(Global.app_classes_services_interfaces_directory))
+                Directory.CreateDirectory(Global.app_classes_services_interfaces_directory);
+            if (!Directory.Exists(Global.app_classes_services_definitive_directory))
+                Directory.CreateDirectory(Global.app_classes_services_definitive_directory);
             if (!Directory.Exists(Global.app_classes_controller_directory))
                 Directory.CreateDirectory(Global.app_classes_controller_directory);
             if (!Directory.Exists(Global.app_classes_profile_dto_directory))
