@@ -82,12 +82,16 @@ namespace Regras.ApiClasses
                     retorno = Util.Global.app_classes_entities_directory;
                     break;
                 case NamesHandler.ClasseType.InterfaceRepository:
+                    retorno = Util.Global.app_classes_repository_interface_directory;
+                    break;
                 case NamesHandler.ClasseType.Repository:
-                    retorno = Util.Global.app_classes_repository_directory;
+                    retorno = Util.Global.app_classes_repository_definitive_directory;
                     break;
                 case NamesHandler.ClasseType.InterfaceService:
+                    retorno = Util.Global.app_classes_services_interfaces_directory;
+                    break;
                 case NamesHandler.ClasseType.Service:
-                    retorno = Util.Global.app_classes_services_directory;
+                    retorno = Util.Global.app_classes_services_definitive_directory;
                     break;
                 case NamesHandler.ClasseType.Controller:
                     retorno = Util.Global.app_classes_controller_directory;
