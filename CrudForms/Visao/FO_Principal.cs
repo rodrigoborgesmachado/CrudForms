@@ -1,4 +1,5 @@
-﻿using Regras;
+﻿using Model;
+using Regras;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -609,6 +610,18 @@ namespace Visao
             DbDataReader reader = DataBase.Connection.Select(select);
 
             TreeNode nodeTabelas = new TreeNode("Tabelas");
+
+            MenuItem menu1 = new MenuItem("CSV", delegate { this.ExportaTabela(TipoArquivoExportacao.CSV); });
+            MenuItem menu2 = new MenuItem("JSON", delegate { this.ExportaTabela(TipoArquivoExportacao.JSON); });
+            MenuItem menu3 = new MenuItem("XML", delegate { this.ExportaTabela(TipoArquivoExportacao.XML); });
+
+            MenuItem menu = new MenuItem("Exportar tabelas");
+            menu.MenuItems.Add(menu1);
+            menu.MenuItems.Add(menu2);
+            menu.MenuItems.Add(menu3);
+
+            nodeTabelas.ContextMenu = new ContextMenu();
+            nodeTabelas.ContextMenu.MenuItems.Add(menu);
             nodeTabelas.Tag = string.Empty;
 
             while (reader.Read())
@@ -996,6 +1009,56 @@ namespace Visao
                 timers.Add(t);
             });
             
+        }
+
+        /// <summary>
+        /// Método que faz exportação de todas as tabelas para o tipo de exportação
+        /// </summary>
+        /// <param name="codigoTabela"></param>
+        /// <param name="tipo"></param>
+        public void ExportaTabela(TipoArquivoExportacao tipo)
+        {
+            string select = new DAO.MD_Tabela().table.CreateCommandSQLTable() + " ORDER BY NOME";
+            DbDataReader reader = DataBase.Connection.Select(select);
+            DirectoryInfo diretorio = new DirectoryInfo(Util.Global.app_exportacao_directory);
+            bool success = true;
+
+
+            var mensagemErro = string.Empty;
+            List<MD_Tabela> tabelas = new List<MD_Tabela>();
+
+            while (reader.Read())
+            {
+                var codigo = int.Parse(reader["CODIGO"].ToString());
+
+                MD_Tabela tabela = new MD_Tabela(codigo, 0);
+                tabelas.Add(tabela);
+            }
+            reader.Close();
+
+            BarraDeCarregamento barra = new BarraDeCarregamento(tabelas.Count, "Exportando");
+            barra.Show();
+
+            foreach (var tabela in tabelas)
+            {
+                var valores = Regras.AcessoBancoCliente.AcessoBanco.GetInstanciaBancoCliente().BuscaLista(tabela, tabela.CamposDaTabela(), new Model.Filtro(), 1, out string consulta, out int _, false);
+                string nomeArquivo = tabela != null ? tabela.DAO.Nome : "relatorio_generico";
+
+                success &= GerarArquivoExportacao.GerarArquivo(tipo, valores, diretorio, nomeArquivo, out var temp);
+                mensagemErro += temp;
+                barra.AvancaBarra(1);
+            }
+
+            if (success) 
+            {
+                Message.MensagemSucesso($"Relatórios gerado com sucesso no caminho:\n {diretorio.FullName}");
+                Process.Start(diretorio.FullName);
+            }
+            else
+            {
+                Message.MensagemErro($"Houve erros: {mensagemErro}");
+            }
+
         }
 
         /// <summary>

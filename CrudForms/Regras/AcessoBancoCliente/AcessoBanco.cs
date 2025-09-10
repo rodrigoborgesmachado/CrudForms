@@ -181,7 +181,7 @@ namespace Regras.AcessoBancoCliente
                 reader.Close();
                 
 
-                Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(limite ? limiteLinhas : quantidadeTotal, "Buscando");
+                Visao.BarraDeCarregamento barra = new Visao.BarraDeCarregamento(limite ? limiteLinhas : quantidadeTotal, $"Buscando dados {tabela.DAO.Nome}");
                 barra.Show();
 
                 reader = DataBase.Connection.Select(consulta);
