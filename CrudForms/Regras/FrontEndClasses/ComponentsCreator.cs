@@ -9,14 +9,14 @@ namespace Regras.FrontEndClasses
 {
     public static class ComponentsCreator
     {
-        public static bool Create(List<MD_Tabela> tabelas, string projectPath)
+        public static bool Create(List<MD_Tabela> tabelas, string projectPath, string projectName)
         {
             bool success = true;
 
             try
             {
                 string adminComponents = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ComponentsAdmin);
-                success &= CreateAdminFoldersAndComponents(tabelas, adminComponents);
+                success &= CreateAdminFoldersAndComponents(tabelas, adminComponents, projectName);
 
                 string clientComponents = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ComponentsClient);
                 success &= CreateClientFoldersAndComponents(clientComponents);
@@ -368,7 +368,7 @@ namespace Regras.FrontEndClasses
             return success;
         }
 
-        private static bool CreateAdminFoldersAndComponents(List<MD_Tabela> tabelas, string adminComponent)
+        private static bool CreateAdminFoldersAndComponents(List<MD_Tabela> tabelas, string adminComponent, string projectName)
         {
             bool success = true;
 
@@ -376,11 +376,11 @@ namespace Regras.FrontEndClasses
             {
                 string adminHeaderFolder = Path.Combine(adminComponent, "AdminHeader");
                 Directory.CreateDirectory(adminHeaderFolder);
-                CreateAdminHeaderFiles(adminHeaderFolder);
+                CreateAdminHeaderFiles(adminHeaderFolder, projectName);
 
                 string adminSideBarFolder = Path.Combine(adminComponent, "AdminSidebar");
                 Directory.CreateDirectory(adminSideBarFolder);
-                CreateAdminSideBarFiles(tabelas, adminSideBarFolder);
+                CreateAdminSideBarFiles(tabelas, adminSideBarFolder, projectName);
 
                 string adminFilterComponentFolder = Path.Combine(adminComponent, "FilterComponent");
                 Directory.CreateDirectory(adminFilterComponentFolder);
@@ -402,7 +402,7 @@ namespace Regras.FrontEndClasses
             return success;
         }
 
-        private static void CreateAdminHeaderFiles(string path)
+        private static void CreateAdminHeaderFiles(string path, string projectName)
         {
             StringBuilder css = new StringBuilder();
             css.AppendLine(".admin-header {");
@@ -469,7 +469,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("          ☰");
             js.AppendLine("        </button>");
             js.AppendLine("        <div className=\"admin-header__left\">");
-            js.AppendLine("          <h1>Cestas de Maria</h1>");
+            js.AppendLine($"          <h1>{projectName}</h1>");
             js.AppendLine("        </div>");
             js.AppendLine("        <div className='navbar__menu-item'>");
             js.AppendLine("          <div className=\"admin-header__right\" onClick={handleUserIconClick}>");
@@ -488,7 +488,7 @@ namespace Regras.FrontEndClasses
             File.WriteAllText(path + "//AdminHeader.css", css.ToString());
         }
 
-        private static void CreateAdminSideBarFiles(List<MD_Tabela> tabelas, string path)
+        private static void CreateAdminSideBarFiles(List<MD_Tabela> tabelas, string path, string projectName)
         {
             StringBuilder css = new StringBuilder();
             css.AppendLine("/* Sidebar container */");
@@ -631,7 +631,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("      <div className=\"sidebar__logo flex-column center-component gap-default\" >");
             js.AppendLine("        <LogoIcon size={80} color='#FFF'/>");
             js.AppendLine("        <p>");
-            js.AppendLine("          Cestas de Maria");
+            js.AppendLine($"          {projectName}");
             js.AppendLine("        </p>");
             js.AppendLine("      </div>");
             js.AppendLine("      <nav className=\"sidebar__menu\">");

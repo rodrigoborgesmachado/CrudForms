@@ -44,7 +44,7 @@ namespace Regras.FrontEndClasses
                 }
                 barra.AvancaBarra(1);
 
-                success &= ComponentsCreator.Create(tabelas, projectPath);
+                success &= ComponentsCreator.Create(tabelas, projectPath, projectName);
                 if (!success)
                 {
                     errors.AppendLine("Erro ao criar o components!");
@@ -65,7 +65,7 @@ namespace Regras.FrontEndClasses
                 }
                 barra.AvancaBarra(1);
 
-                success &= PagesCreator.Create(tabelas, projectPath);
+                success &= PagesCreator.Create(tabelas, projectPath, projectName);
                 if (!success)
                 {
                     errors.AppendLine("Erro ao criar o pages!");

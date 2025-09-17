@@ -8,7 +8,7 @@ namespace Regras.FrontEndClasses
 {
     public static class PagesCreator
     {
-        public static bool Create(List<MD_Tabela> tabelas, string projectPath)
+        public static bool Create(List<MD_Tabela> tabelas, string projectPath, string projectName)
         {
             bool success = true;
 
@@ -30,7 +30,7 @@ namespace Regras.FrontEndClasses
 
                 string createRecoverPasswordPage = Path.Combine(pagesCommon, "RecoverPasswordPage");
                 Directory.CreateDirectory(createRecoverPasswordPage);
-                CreateRecoverPasswordPage(createRecoverPasswordPage);
+                CreateRecoverPasswordPage(createRecoverPasswordPage, projectName);
 
                 foreach (var tabela in tabelas)
                 {
@@ -66,14 +66,14 @@ namespace Regras.FrontEndClasses
             StringBuilder js = new StringBuilder();
             js.AppendLine("import React, { useState, useEffect } from 'react';");
             js.AppendLine($"import './{name}.css';");
-            js.AppendLine($"import {NamesHandler.GetApiName(tabela.DAO.Nome)} from '../../../services/apiServices/{NamesHandler.GetApiName(tabela.DAO.Nome)}';");
-            js.AppendLine("import { setLoading } from '../../../services/redux/loadingSlice';");
+            js.AppendLine($"import {NamesHandler.GetApiName(tabela.DAO.Nome)} from '../../../../services/apiServices/{NamesHandler.GetApiName(tabela.DAO.Nome)}';");
+            js.AppendLine("import { setLoading } from '../../../../services/redux/loadingSlice';");
             js.AppendLine("import { useDispatch } from 'react-redux';");
-            js.AppendLine("import configService from '../../../services/configService';");
-            js.AppendLine("import Pagination from '../../../components/common/Pagination/Pagination'; ");
+            js.AppendLine("import configService from '../../../../services/configService';");
+            js.AppendLine("import Pagination from '../../../../components/common/Pagination/Pagination'; ");
             js.AppendLine("import { toast } from 'react-toastify';");
-            js.AppendLine("import { putDateOnPattern } from '../../../utils/functions';");
-            js.AppendLine("import FilterComponent from '../../../components/admin/FilterComponent/FilterComponent';");
+            js.AppendLine("import { putDateOnPattern } from '../../../../utils/functions';");
+            js.AppendLine("import FilterComponent from '../../../../components/admin/FilterComponent/FilterComponent';");
             js.AppendLine("");
             js.AppendLine($"const {name} = () => {{");
             js.AppendLine("    const dispatch = useDispatch();");
@@ -249,7 +249,7 @@ namespace Regras.FrontEndClasses
             File.WriteAllText(path + $"//{name}.css", string.Empty);
         }
 
-        private static void CreateRecoverPasswordPage(string path)
+        private static void CreateRecoverPasswordPage(string path, string projectName)
         {
             StringBuilder js = new StringBuilder();
             js.AppendLine("import React, { useState } from \"react\";");
@@ -294,7 +294,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("            <form className=\"login-page-form\" onSubmit={handleRecover}>");
             js.AppendLine("                <div className=\"login-page-form-group\">");
             js.AppendLine("                    <div className=\"div-center margin-bottom-double-default flex-column\">");
-            js.AppendLine("                        <h1>Cestas de Maria</h1>");
+            js.AppendLine($"                        <h1>{projectName}</h1>");
             js.AppendLine("                    </div>");
             js.AppendLine("");
             js.AppendLine("                    <div className=\"login-page-form-group\">");
