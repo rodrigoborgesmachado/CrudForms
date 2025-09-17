@@ -757,7 +757,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("    };");
             js.AppendLine("");
             js.AppendLine("    fetchData();");
-            js.AppendLine("  }, [showFamilyStatus, dispatch]);");
+            js.AppendLine("  }, [dispatch]);");
             js.AppendLine("");
             js.AppendLine("  const exportReport = () => {");
             js.AppendLine("    exportFunction({");

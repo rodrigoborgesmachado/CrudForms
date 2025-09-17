@@ -74,8 +74,11 @@ namespace Regras.FrontEndClasses
             js.AppendLine("import { toast } from 'react-toastify';");
             js.AppendLine("import { putDateOnPattern } from '../../../../utils/functions';");
             js.AppendLine("import FilterComponent from '../../../../components/admin/FilterComponent/FilterComponent';");
+            js.AppendLine("import { useNavigate } from \"react-router-dom\";");
+            js.AppendLine("import EyeIcon from '../../../components/icons/EyeIcon';");
             js.AppendLine("");
             js.AppendLine($"const {name} = () => {{");
+            js.AppendLine("    const navigate = useNavigate();");
             js.AppendLine("    const dispatch = useDispatch();");
             js.AppendLine("    const [items, setItems] = useState([]);");
             js.AppendLine("    const [page, setPage] = useState(1);");
@@ -136,6 +139,10 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        }");
             js.AppendLine("    };");
             js.AppendLine("");
+            js.AppendLine("    const openItem = (code) => {");
+            js.AppendLine("        navigate(`${code}`);");
+            js.AppendLine("    }");
+            js.AppendLine("");
             js.AppendLine("    return (");
             js.AppendLine("    <div className=\"container-admin-page\">");
             js.AppendLine("        <h1>Lista dos Itens</h1>");
@@ -160,13 +167,15 @@ namespace Regras.FrontEndClasses
             {
                 if(item.TipoCampo.Nome.ToUpper().Contains("DATE"))
                 {
-                    js.AppendLine($"                        <td data-label='{item.Nome}'><span>{{putDateOnPattern(item.{item.Nome})}}</span></td>");
+                    js.AppendLine($"                        <td data-label='{item.Nome}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{putDateOnPattern(item.{item.Nome})}}</span></td>");
                 }
                 else
                 {
-                    js.AppendLine($"                        <td data-label='{item.Nome}'><span>{{item.{item.Nome}}}</span></td>");
+                    js.AppendLine($"                        <td data-label='{item.Nome}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{item.{item.Nome}}}</span></td>");
                 }
             }
+
+            js.AppendLine("                        <td><span className='option-link' onClick={() => openItem(`${item.Id}`)}><EyeIcon/></span></td>");
             js.AppendLine("                    </tr>");
             js.AppendLine("                ))}");
             js.AppendLine("                </tbody>");
@@ -253,9 +262,9 @@ namespace Regras.FrontEndClasses
             StringBuilder js = new StringBuilder();
             js.AppendLine("import React, { useState } from \"react\";");
             js.AppendLine("import { useDispatch } from \"react-redux\";");
-            js.AppendLine("import { setLoading } from \"../../../../services/redux/loadingSlice\";");
-            js.AppendLine("import adminApi from \"../../../../services/apiServices/adminApi\"; ");
-            js.AppendLine("import MessageModal from \"../../../../components/common/Modals/MessageModal/MessageModal\";");
+            js.AppendLine("import { setLoading } from \"../../../services/redux/loadingSlice\";");
+            js.AppendLine("import adminApi from \"../../../services/apiServices/adminApi\"; ");
+            js.AppendLine("import MessageModal from \"../../../components/common/Modals/MessageModal/MessageModal\";");
             js.AppendLine("import { useNavigate } from \"react-router-dom\";");
             js.AppendLine("import { toast } from \"react-toastify\";");
             js.AppendLine("");
