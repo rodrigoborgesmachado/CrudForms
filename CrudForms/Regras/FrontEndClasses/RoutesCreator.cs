@@ -37,8 +37,10 @@ namespace Regras.FrontEndClasses
             foreach (var tabela in tabelas)
             {
                 string componentName = NamesHandler.CreateComponentName(tabela.DAO.Nome);
-                string name = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
-                js.AppendLine($"import {name} from '../../pages/admin/{componentName}/{name}/{name}';");
+                string nameList = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
+                string namePage = NamesHandler.CreateComponentPageName(tabela.DAO.Nome);
+                js.AppendLine($"import {nameList} from '../../pages/admin/{componentName}/{nameList}/{nameList}';");
+                js.AppendLine($"import {namePage} from '../../pages/admin/{componentName}/{namePage}/{namePage}';");
             }
             js.AppendLine("");
             js.AppendLine("const AdminRoutes = () => (");
