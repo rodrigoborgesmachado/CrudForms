@@ -156,7 +156,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("                    <tr>");
             foreach(var item in tabela.DAO.CamposDaTabela())
             {
-                js.AppendLine($"                        <th>{item.Nome}</th>");
+                js.AppendLine($"                        <th>{NamesHandler.CreateComponentName(item.Nome)}</th>");
             }
                 js.AppendLine($"                        <th></th>");
             js.AppendLine("                    </tr>");
@@ -168,11 +168,11 @@ namespace Regras.FrontEndClasses
             {
                 if(item.TipoCampo.Nome.ToUpper().Contains("DATE"))
                 {
-                    js.AppendLine($"                        <td data-label='{item.Nome}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{putDateOnPattern(item.{item.Nome})}}</span></td>");
+                    js.AppendLine($"                        <td data-label='{NamesHandler.CreateComponentName(item.Nome)}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{putDateOnPattern(item.{NamesHandler.CreateComponentName(item.Nome)})}}</span></td>");
                 }
                 else
                 {
-                    js.AppendLine($"                        <td data-label='{item.Nome}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{item.{item.Nome}}}</span></td>");
+                    js.AppendLine($"                        <td data-label='{NamesHandler.CreateComponentName(item.Nome)}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{item.{NamesHandler.CreateComponentName(item.Nome)}}}</span></td>");
                 }
             }
 
@@ -238,11 +238,11 @@ namespace Regras.FrontEndClasses
             {
                 if (item.TipoCampo.Nome.ToUpper().Contains("DATE"))
                 {
-                    js.AppendLine($"           <p><strong>{item.Nome}:</strong>{{putDateOnPattern(item.{item.Nome})}}</p>");
+                    js.AppendLine($"           <p><strong>{NamesHandler.CreateComponentName(item.Nome)}:</strong>{{putDateOnPattern(item.{NamesHandler.CreateComponentName(item.Nome)})}}</p>");
                 }
                 else
                 {
-                    js.AppendLine($"           <p><strong>{item.Nome}:</strong>{{item.{item.Nome}}}</p>");
+                    js.AppendLine($"           <p><strong>{NamesHandler.CreateComponentName(item.Nome)}:</strong>{{item.{NamesHandler.CreateComponentName(item.Nome)}}}</p>");
                 }
             }
             js.AppendLine("                </div>");
