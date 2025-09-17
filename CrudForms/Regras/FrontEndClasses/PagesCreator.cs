@@ -34,10 +34,21 @@ namespace Regras.FrontEndClasses
 
                 foreach (var tabela in tabelas)
                 {
-                    string name = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
-                    string path = Path.Combine(pagesAdmin, name);
+                    string componentName = NamesHandler.CreateComponentName(tabela.DAO.Nome);
+                    string path = Path.Combine(pagesAdmin, componentName);
+                    Directory.CreateDirectory(path);
+
+                    string nameListPage = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
+                    path = Path.Combine(path, nameListPage);
+
                     Directory.CreateDirectory(path);
                     CreateListPages(tabela, path);
+
+                    string namePage = NamesHandler.CreateComponentPageName(tabela.DAO.Nome);
+                    path = Path.Combine(pagesAdmin, componentName, namePage);
+
+                    Directory.CreateDirectory(path);
+                    CreatePage(tabela, path);
                 }
             }
             catch (Exception ex)
@@ -163,6 +174,70 @@ namespace Regras.FrontEndClasses
             js.AppendLine("            <sub>Total de Itens: {totalItens}</sub>");
             js.AppendLine("            <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />");
             js.AppendLine("        </div>");
+            js.AppendLine("    </div>");
+            js.AppendLine("    );");
+            js.AppendLine("};");
+            js.AppendLine("");
+            js.AppendLine($"export default {name};");
+            js.AppendLine("");
+
+            File.WriteAllText(path + $"//{name}.js", js.ToString());
+            File.WriteAllText(path + $"//{name}.css", string.Empty);
+        }
+
+        private static void CreatePage(MD_Tabela tabela, string path)
+        {
+            string name = NamesHandler.CreateComponentPageName(tabela.DAO.Nome);
+            StringBuilder js = new StringBuilder();
+            js.AppendLine("import React, { useState, useEffect } from 'react';");
+            js.AppendLine($"import './{name}.css';");
+            js.AppendLine($"import {NamesHandler.GetApiName(tabela.DAO.Nome)} from '../../../services/apiServices/{NamesHandler.GetApiName(tabela.DAO.Nome)}';");
+            js.AppendLine("import { setLoading } from '../../../services/redux/loadingSlice';");
+            js.AppendLine("import { useDispatch } from 'react-redux';");
+            js.AppendLine("import { useParams } from 'react-router-dom';");
+            js.AppendLine("import { toast } from 'react-toastify';");
+            js.AppendLine("import { putDateOnPattern } from '../../../utils/functions';");
+            js.AppendLine("import FilterComponent from '../../../components/admin/FilterComponent/FilterComponent';");
+            js.AppendLine("");
+            js.AppendLine($"const {name} = () => {{");
+            js.AppendLine("    const dispatch = useDispatch();");
+            js.AppendLine("    const { code } = useParams();");
+            js.AppendLine("    const [item, setItem] = useState([]);");
+            js.AppendLine("");
+            js.AppendLine("    useEffect(() => {");
+            js.AppendLine("        const fetchItem = async () => {");
+            js.AppendLine("            dispatch(setLoading(true));");
+            js.AppendLine("            try {");
+            js.AppendLine($"               const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.getByCode(code, {{include: ''}});");
+            js.AppendLine("");
+            js.AppendLine("                setItem(response);");
+            js.AppendLine("            } catch (error) {");
+            js.AppendLine("                toast.error('Erro ao buscar.');");
+            js.AppendLine("            } finally {");
+            js.AppendLine("                dispatch(setLoading(false));");
+            js.AppendLine("            }");
+            js.AppendLine("        };");
+            js.AppendLine("        fetchItems();");
+            js.AppendLine("    }, [code, dispatch]);");
+            js.AppendLine("");
+            js.AppendLine("    return (");
+            js.AppendLine("    <div className=\"container-admin-page\">");
+            js.AppendLine("        <h1>Informações</h1>");
+            js.AppendLine("            <div className=\"box space-double-bottom\">");
+            js.AppendLine("                <div className=\"info-group\">");
+            foreach (var item in tabela.DAO.CamposDaTabela())
+            {
+                if (item.TipoCampo.Nome.ToUpper().Contains("DATE"))
+                {
+                    js.AppendLine($"           <p><strong>{item.TipoCampo.Nome}:</strong>{{putDateOnPattern(item.{item.Nome})}}</p>");
+                }
+                else
+                {
+                    js.AppendLine($"           <p><strong>{item.TipoCampo.Nome}:</strong>{{item.{item.Nome}}}</p>");
+                }
+            }
+            js.AppendLine("                </div>");
+            js.AppendLine("            </div>");
             js.AppendLine("    </div>");
             js.AppendLine("    );");
             js.AppendLine("};");
@@ -418,7 +493,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("                dispatch(");
             js.AppendLine("                    login({");
             js.AppendLine("                        access_token: response.access_token,");
-            js.AppendLine("                        name: response.name,");
+            js.AppendLine("                        nameListPage: response.nameListPage,");
             js.AppendLine("                        code: response.id,");
             js.AppendLine("                    })");
             js.AppendLine("                );");

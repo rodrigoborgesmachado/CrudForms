@@ -32,11 +32,25 @@ namespace Regras.FrontEndClasses
             Utils
         }
 
+        public static string CreateComponentName(string tableName)
+        {
+            string formattedTableName = char.ToUpper(tableName[0]) + tableName.Substring(1).ToLower();
+
+            return $"{formattedTableName}";
+        }
+
         public static string CreateComponentListName(string tableName)
         {
             string formattedTableName = char.ToUpper(tableName[0]) + tableName.Substring(1).ToLower();
 
             return $"{formattedTableName}ListPage";
+        }
+
+        public static string CreateComponentPageName(string tableName)
+        {
+            string formattedTableName = char.ToUpper(tableName[0]) + tableName.Substring(1).ToLower();
+
+            return $"{formattedTableName}Page";
         }
 
         public static string CreateName(string tableName)

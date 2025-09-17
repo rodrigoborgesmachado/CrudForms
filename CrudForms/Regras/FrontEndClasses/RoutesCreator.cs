@@ -36,8 +36,9 @@ namespace Regras.FrontEndClasses
 
             foreach (var tabela in tabelas)
             {
+                string componentName = NamesHandler.CreateComponentName(tabela.DAO.Nome);
                 string name = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
-                js.AppendLine($"import {name} from '../../pages/admin/{name}/{name}';");
+                js.AppendLine($"import {name} from '../../pages/admin/{componentName}/{name}/{name}';");
             }
             js.AppendLine("");
             js.AppendLine("const AdminRoutes = () => (");
@@ -46,8 +47,10 @@ namespace Regras.FrontEndClasses
             js.AppendLine("      <Route path=\"/\" element={<DashboardPage />} />");
             foreach (var tabela in tabelas)
             {
-                string name = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
-                js.AppendLine($"      <Route path=\"/{tabela.DAO.Nome}\" element={{<{name} />}} />");
+                string nameList = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
+                string namePage = NamesHandler.CreateComponentPageName(tabela.DAO.Nome);
+                js.AppendLine($"      <Route path=\"/{tabela.DAO.Nome}\" element={{<{nameList} />}} />");
+                js.AppendLine($"      <Route path=\"/{tabela.DAO.Nome}/:code\" element={{<{namePage} />}} />");
             }
             js.AppendLine("      <Route path=\"/*\" element={<DashboardPage />} />");
             js.AppendLine("      </Routes>");
