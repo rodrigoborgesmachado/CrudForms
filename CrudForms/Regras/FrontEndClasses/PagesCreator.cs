@@ -75,7 +75,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("import { putDateOnPattern } from '../../../../utils/functions';");
             js.AppendLine("import FilterComponent from '../../../../components/admin/FilterComponent/FilterComponent';");
             js.AppendLine("import { useNavigate } from \"react-router-dom\";");
-            js.AppendLine("import EyeIcon from '../../../components/icons/EyeIcon';");
+            js.AppendLine("import EyeIcon from '../../../../components/icons/EyeIcon';");
             js.AppendLine("");
             js.AppendLine($"const {name} = () => {{");
             js.AppendLine("    const navigate = useNavigate();");
@@ -158,6 +158,7 @@ namespace Regras.FrontEndClasses
             {
                 js.AppendLine($"                        <th>{item.Nome}</th>");
             }
+                js.AppendLine($"                        <th></th>");
             js.AppendLine("                    </tr>");
             js.AppendLine("                </thead>");
             js.AppendLine("                <tbody>");
@@ -237,11 +238,11 @@ namespace Regras.FrontEndClasses
             {
                 if (item.TipoCampo.Nome.ToUpper().Contains("DATE"))
                 {
-                    js.AppendLine($"           <p><strong>{item.TipoCampo.Nome}:</strong>{{putDateOnPattern(item.{item.Nome})}}</p>");
+                    js.AppendLine($"           <p><strong>{item.Nome}:</strong>{{putDateOnPattern(item.{item.Nome})}}</p>");
                 }
                 else
                 {
-                    js.AppendLine($"           <p><strong>{item.TipoCampo.Nome}:</strong>{{item.{item.Nome}}}</p>");
+                    js.AppendLine($"           <p><strong>{item.Nome}:</strong>{{item.{item.Nome}}}</p>");
                 }
             }
             js.AppendLine("                </div>");
