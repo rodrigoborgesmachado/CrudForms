@@ -197,7 +197,6 @@ namespace Regras.FrontEndClasses
             js.AppendLine("import { useParams } from 'react-router-dom';");
             js.AppendLine("import { toast } from 'react-toastify';");
             js.AppendLine("import { putDateOnPattern } from '../../../../utils/functions';");
-            js.AppendLine("import FilterComponent from '../../../../components/admin/FilterComponent/FilterComponent';");
             js.AppendLine("");
             js.AppendLine($"const {name} = () => {{");
             js.AppendLine("    const dispatch = useDispatch();");
@@ -217,7 +216,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("                dispatch(setLoading(false));");
             js.AppendLine("            }");
             js.AppendLine("        };");
-            js.AppendLine("        fetchItems();");
+            js.AppendLine("        fetchItem();");
             js.AppendLine("    }, [code, dispatch]);");
             js.AppendLine("");
             js.AppendLine("    return (");
