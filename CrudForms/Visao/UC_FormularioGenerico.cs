@@ -589,7 +589,28 @@ namespace Visao
                 return;
             }
 
-            if(Message.MensagemConfirmaçãoYesNo("Deseja criar arquivo com a exportação? Se precionar não será copiado para área de transferência!") == DialogResult.OK)
+            List<Regras.AcessoBancoCliente.AcessoBanco> valoresExportacao = this.valores;
+
+            if (this.tabela != null && this.quantidadeTotal > this.valores.Count)
+            {
+                if (Message.MensagemConfirmaçãoYesNo("Deseja exportar todos os registros encontrados? Caso selecione Não, somente os registros exibidos serão exportados.") == DialogResult.Yes)
+                {
+                    var instanciaBanco = Regras.AcessoBancoCliente.AcessoBanco.GetInstanciaBancoCliente();
+                    var filtroExportacao = this.filtro ?? new Model.Filtro();
+                    var todosValores = instanciaBanco.BuscaLista(this.tabela, this.colunas, filtroExportacao, 1, out _, out _, false);
+
+                    if (todosValores == null || todosValores.Count == 0)
+                    {
+                        Message.MensagemAlerta("Não foi possível recuperar todos os registros. A exportação continuará com os dados exibidos na tela.");
+                    }
+                    else
+                    {
+                        valoresExportacao = todosValores;
+                    }
+                }
+            }
+
+            if(Message.MensagemConfirmaçãoYesNo("Deseja criar arquivo com a exportação? Se precionar não será copiado para área de transferência!") == DialogResult.Yes)
             {
                 FolderBrowserDialog dialog = new FolderBrowserDialog();
                 dialog.Description = "Selecione onde deseja salvar o arquivo";
@@ -599,7 +620,7 @@ namespace Visao
                     string nomeArquivo = tabela != null ? this.tabela.DAO.Nome : "relatorio_generico";
 
 
-                    if (!Regras.GerarArquivoExportacao.GerarArquivo(tipo, this.valores, directory, nomeArquivo, out var mensagemErro))
+                    if (!Regras.GerarArquivoExportacao.GerarArquivo(tipo, valoresExportacao.ToList(), directory, nomeArquivo, out var mensagemErro))
                     {
                         Message.MensagemErro("Houve erros.");
                         Message.MensagemErro(mensagemErro);
@@ -612,7 +633,7 @@ namespace Visao
             }
             else
             {
-                if (!Regras.GerarArquivoExportacao.GerarRelatorioParaAreaTranferencia(tipo, this.valores, out var mensagemErro))
+                if (!Regras.GerarArquivoExportacao.GerarRelatorioParaAreaTranferencia(tipo, valoresExportacao.ToList(), out var mensagemErro))
                 {
                     Message.MensagemErro("Houve erros.");
                     Message.MensagemErro(mensagemErro);
