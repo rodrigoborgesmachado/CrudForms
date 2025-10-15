@@ -30,6 +30,7 @@ namespace Regras.ApiClasses
 
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendLine($"using MainDTO = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Dto, tabela.Nome)};");
+                stringBuilder.AppendLine($"using static {nomeProjeto}.Infrastructure.CrossCutting.Enums.Enums;");
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine($"{NamesHandler.GetNamespaceByType(nomeProjeto, type)}");
                 stringBuilder.AppendLine($"{{");
@@ -48,6 +49,8 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"        Task<Tuple<int, int, IEnumerable<MainDTO>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null);");
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine($"        Task<string> GetReport(DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null);");
+                stringBuilder.AppendLine();
+                stringBuilder.AppendLine($"        Task<MainDTO> UpdateStatus(Status status, long id);");
                 stringBuilder.AppendLine($"    }}");
                 stringBuilder.AppendLine($"}}");
 
@@ -81,6 +84,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"using Main = {nomeProjeto}.Domain.Entities.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Entity, tabela.Nome)};");
                 stringBuilder.AppendLine($"using MainDTO = {nomeProjeto}.Application.DTO.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.Dto, tabela.Nome)};");
                 stringBuilder.AppendLine($"using Microsoft.Extensions.Options;");
+                stringBuilder.AppendLine($"using static {nomeProjeto}.Infrastructure.CrossCutting.Enums.Enums;");
                 stringBuilder.AppendLine($"using {nomeProjeto}.Domain.ModelClasses;");
                 stringBuilder.AppendLine($"using {nomeProjeto}.Application.Helpers;");
                 stringBuilder.AppendLine($"");
@@ -170,6 +174,21 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"            await _loggerService.InsertAsync($\"Report - Finishing GetReport - {{this.GetType().Name}}\");");
                 stringBuilder.AppendLine($"            return link;");
+                stringBuilder.AppendLine($"        }}");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"        public async Task<MainDTO> UpdateStatus(Status status, long id)");
+                stringBuilder.AppendLine($"        {{");
+                stringBuilder.AppendLine($"            var main = await _mainRepository.GetByIdAsync(id);");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"            if (main == null)");
+                stringBuilder.AppendLine($"                throw new Exception(\"Object not found\");");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"            main.IsActive = (byte)(status == Status.IsActive ? 1 : 0);");
+                stringBuilder.AppendLine($"            main.IsDeleted = (byte)(status == Status.IsDeleted ? 1 : 0);");
+                stringBuilder.AppendLine($"            _mainRepository.Update(main);");
+                stringBuilder.AppendLine($"            await _mainRepository.CommitAsync();");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"            return main.ProjectedAs<MainDTO>();");
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"        public void Dispose()");

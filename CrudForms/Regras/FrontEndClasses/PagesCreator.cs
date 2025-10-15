@@ -87,6 +87,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("    const [endDate, setEndDate] = useState('');");
             js.AppendLine("    const [totalPages, setTotalPages] = useState(1);");
             js.AppendLine("    const [totalItens, setTotalItens] = useState(0);");
+            js.AppendLine("    const [refresh, setRefresh] = useState(0);");
             js.AppendLine("    const quantity = configService.getDefaultNumberOfItemsTable(); ");
             js.AppendLine("    const orderBy = \"Id:Desc\";");
             js.AppendLine("");
@@ -106,7 +107,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("            }");
             js.AppendLine("        };");
             js.AppendLine("        fetchItems();");
-            js.AppendLine("    }, [page, quantity, searchTerm, startDate, endDate, dispatch]);");
+            js.AppendLine("    }, [page, quantity, searchTerm, startDate, endDate, dispatch, refresh]);");
             js.AppendLine("");
             js.AppendLine("    const handlePageChange = (newPage) => {");
             js.AppendLine("        if (newPage > 0 && newPage <= totalPages) {");
@@ -143,6 +144,25 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        navigate(`${code}`);");
             js.AppendLine("    }");
             js.AppendLine("");
+            js.AppendLine("    const updateStatus = (isActive,code) => {");
+            js.AppendLine("        try {");
+            js.AppendLine("            dispatch(setLoading(true));");
+            js.AppendLine("            const response = await acaousuarioApi.updateStatus({ status: isActive === 1 ? 'IsDeleted' : 'IsActive', id: code });");
+            js.AppendLine("            ");
+            js.AppendLine("            if (response) {");
+            js.AppendLine("                toast.success('Atualizado com sucesso!');");
+            js.AppendLine("                setRefresh(prev => prev +1);");
+            js.AppendLine("            } else {");
+            js.AppendLine("                toast.error('Erro ao atualizar o item!');");
+            js.AppendLine("            }");
+            js.AppendLine("        } catch (error) {");
+            js.AppendLine("            toast.error('Erro ao atualizar o item!');");
+            js.AppendLine("        }");
+            js.AppendLine("        finally{");
+            js.AppendLine("            dispatch(setLoading(false));");
+            js.AppendLine("        }");
+            js.AppendLine("    }");
+            js.AppendLine("");
             js.AppendLine("    return (");
             js.AppendLine("    <div className=\"container-admin-page\">");
             js.AppendLine("        <h1>Lista dos Itens</h1>");
@@ -158,7 +178,8 @@ namespace Regras.FrontEndClasses
             {
                 js.AppendLine($"                        <th>{NamesHandler.CreateComponentName(item.Nome)}</th>");
             }
-                js.AppendLine($"                        <th></th>");
+            js.AppendLine($"                        <th></th>");
+            js.AppendLine($"                        <th></th>");
             js.AppendLine("                    </tr>");
             js.AppendLine("                </thead>");
             js.AppendLine("                <tbody>");
@@ -176,6 +197,7 @@ namespace Regras.FrontEndClasses
                 }
             }
 
+            js.AppendLine("                        <td data-label=''><button onClick={(e) => updateStatus(item.IsActive, item.Id)} className={item.IsActive ? 'item-active main-button' : 'item-inactive main-button'}>{item.IsActive ? 'Desativar' : 'Ativar'}</button></td>");
             js.AppendLine("                        <td><span className='option-link' onClick={() => openItem(`${item.Id}`)}><EyeIcon/></span></td>");
             js.AppendLine("                    </tr>");
             js.AppendLine("                ))}");
