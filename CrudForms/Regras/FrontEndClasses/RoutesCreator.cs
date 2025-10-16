@@ -62,7 +62,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("export default AdminRoutes;");
             js.AppendLine("");
 
-            File.WriteAllText(path + "//AdminRoutes.js", js.ToString());
+            File.WriteAllText(path + "//AdminRoutes.jsx", js.ToString());
         }
     }
 }

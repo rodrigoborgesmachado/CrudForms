@@ -144,7 +144,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        navigate(`${code}`);");
             js.AppendLine("    }");
             js.AppendLine("");
-            js.AppendLine("    const updateStatus = (isActive,code) => {");
+            js.AppendLine("    const updateStatus = async (isActive,code) => {");
             js.AppendLine("        try {");
             js.AppendLine("            dispatch(setLoading(true));");
             js.AppendLine("            const response = await acaousuarioApi.updateStatus({ status: isActive === 1 ? 'IsDeleted' : 'IsActive', id: code });");
@@ -213,7 +213,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine($"export default {name};");
             js.AppendLine("");
 
-            File.WriteAllText(path + $"//{name}.js", js.ToString());
+            File.WriteAllText(path + $"//{name}.jsx", js.ToString());
             File.WriteAllText(path + $"//{name}.css", string.Empty);
         }
 
@@ -276,7 +276,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine($"export default {name};");
             js.AppendLine("");
 
-            File.WriteAllText(path + $"//{name}.js", js.ToString());
+            File.WriteAllText(path + $"//{name}.jsx", js.ToString());
             File.WriteAllText(path + $"//{name}.css", string.Empty);
         }
 
@@ -351,7 +351,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default RecoverPasswordPage;");
 
-            File.WriteAllText(path + "//RecoverPasswordPage.js", js.ToString());
+            File.WriteAllText(path + "//RecoverPasswordPage.jsx", js.ToString());
         }
 
         private static void CreateLoginPage(string path)
@@ -588,7 +588,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default LoginPage;");
 
-            File.WriteAllText(path + "//LoginPage.js", js.ToString());
+            File.WriteAllText(path + "//LoginPage.jsx", js.ToString());
             File.WriteAllText(path + "//LoginPage.css", css.ToString());
         }
 
@@ -708,7 +708,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default ConfirmUserPage;");
 
-            File.WriteAllText(path + "//ConfirmUserPage.js", js.ToString());
+            File.WriteAllText(path + "//ConfirmUserPage.jsx", js.ToString());
         }
 
         private static void CreateDashBoardPage(string path)
@@ -838,7 +838,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("export default DashboardPage;");
 
 
-            File.WriteAllText(path + "//DashboardPage.js", js.ToString());
+            File.WriteAllText(path + "//DashboardPage.jsx", js.ToString());
             File.WriteAllText(path + "//DashboardPage.css", css.ToString());
         }
     }

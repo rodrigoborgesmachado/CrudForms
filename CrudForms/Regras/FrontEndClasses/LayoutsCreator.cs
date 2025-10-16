@@ -316,7 +316,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default AdminLayout;");
 
-            File.WriteAllText(path + "//AdminLayout.js", js.ToString());
+            File.WriteAllText(path + "//AdminLayout.jsx", js.ToString());
             File.WriteAllText(path + "//AdminLayout.css", css.ToString());
         }
 

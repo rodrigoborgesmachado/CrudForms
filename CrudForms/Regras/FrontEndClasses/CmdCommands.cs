@@ -42,10 +42,10 @@ namespace Regras.FrontEndClasses
                 ProcessStartInfo psi = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    Arguments = $"/c npx create-react-app {projectName}",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
+                    Arguments = $"/c npm create vite@latest {projectName} -- --template react",
+                    RedirectStandardOutput = false,
+                    RedirectStandardError = false,
+                    UseShellExecute = true,
                     CreateNoWindow = false,
                     WorkingDirectory = directoryPath
                 };
@@ -53,7 +53,7 @@ namespace Regras.FrontEndClasses
                 using (Process process = Process.Start(psi))
                 {
                     process.WaitForExit();
-                    string error = process.StandardError.ReadToEnd();
+                    //string error = process?.StandardError?.ReadToEnd();
                     //success = string.IsNullOrEmpty(error);
                 }
 
@@ -68,6 +68,9 @@ namespace Regras.FrontEndClasses
                         Directory.Delete(srcPath, true);
                         Directory.CreateDirectory(srcPath); // Recreate src directory
                     }
+
+                    // Ensure base dependencies are installed for Vite template
+                    RunNpmInstall(projectPath);
 
                     string[] packages = new string[]
                     {
@@ -104,6 +107,31 @@ namespace Regras.FrontEndClasses
             {
                 FileName = "cmd.exe",
                 Arguments = $"/c npm install {packageName}",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = false,
+                WorkingDirectory = workingDirectory
+            };
+
+            using (Process process = new Process { StartInfo = psi })
+            {
+                process.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
+                process.ErrorDataReceived += (sender, args) => Console.WriteLine(args.Data);
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+            }
+        }
+
+        static void RunNpmInstall(string workingDirectory)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = "/c npm install",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,

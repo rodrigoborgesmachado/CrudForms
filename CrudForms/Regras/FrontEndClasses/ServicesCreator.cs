@@ -87,7 +87,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default storageService;");
 
-            File.WriteAllText(path + "//storageService.js", js.ToString());
+            File.WriteAllText(path + "//storageService.jsx", js.ToString());
         }
 
         private static void CreateConfigService(string path)
@@ -112,13 +112,13 @@ namespace Regras.FrontEndClasses
             js.AppendLine("var configService =  new ConfigService();");
             js.AppendLine("export default configService;");
 
-            File.WriteAllText(path + "//configService.js", js.ToString());
+            File.WriteAllText(path + "//configService.jsx", js.ToString());
         }
 
         private static void CreateStoreRedux(string path)
         {
             StringBuilder js = new StringBuilder();
-            js.AppendLine("// services/redux/store.js");
+            js.AppendLine("// services/redux/store.jsx");
             js.AppendLine("import { configureStore } from '@reduxjs/toolkit';");
             js.AppendLine("import authReducer from './authSlice'; // Import the authentication slice");
             js.AppendLine("import loadingReducer from './loadingSlice';");
@@ -132,13 +132,13 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default store;");
 
-            File.WriteAllText(path + "//store.js", js.ToString());
+            File.WriteAllText(path + "//store.jsx", js.ToString());
         }
 
         private static void CreateLoadingSliceRedux(string path)
         {
             StringBuilder js = new StringBuilder();
-            js.AppendLine("// src/services/redux/loadingSlice.js");
+            js.AppendLine("// src/services/redux/loadingSlice.jsx");
             js.AppendLine("import { createSlice } from '@reduxjs/toolkit';");
             js.AppendLine("");
             js.AppendLine("const loadingSlice = createSlice({");
@@ -156,7 +156,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("export const { setLoading } = loadingSlice.actions;");
             js.AppendLine("export default loadingSlice.reducer;");
 
-            File.WriteAllText(path + "//loadingSlice.js", js.ToString());
+            File.WriteAllText(path + "//loadingSlice.jsx", js.ToString());
         }
 
         private static void CreateAuthSliceRedux(string path)
@@ -210,7 +210,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("export default authSlice.reducer;");
             js.AppendLine("");
 
-            File.WriteAllText(path + "//authSlice.js", js.ToString());
+            File.WriteAllText(path + "//authSlice.jsx", js.ToString());
         }
 
         private static void CreateServiceApi(string path)
@@ -286,7 +286,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default api;");
 
-            File.WriteAllText(path + "//serviceApi.js", js.ToString());
+            File.WriteAllText(path + "//serviceApi.jsx", js.ToString());
         }
 
         private static void CreateServiceTokenApi(string path)
@@ -313,7 +313,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default tokenApi;");
 
-            File.WriteAllText(path + "//tokenApi.js", js.ToString());
+            File.WriteAllText(path + "//tokenApi.jsx", js.ToString());
         }
 
         private static void CreateServiceApiForEntities(List<MD_Tabela> tabelas, string path)
@@ -455,7 +455,7 @@ namespace Regras.FrontEndClasses
                 js.AppendLine("");
                 js.AppendLine($"export default {NamesHandler.GetApiName(table.DAO.Nome)};");
 
-                File.WriteAllText(path + $"//{NamesHandler.GetApiName(table.DAO.Nome)}.js", js.ToString());
+                File.WriteAllText(path + $"//{NamesHandler.GetApiName(table.DAO.Nome)}.jsx", js.ToString());
 
             }
         }

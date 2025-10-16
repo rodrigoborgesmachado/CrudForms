@@ -157,7 +157,7 @@ namespace Regras.FrontEndClasses
             css.AppendLine("}");
 
             StringBuilder js = new StringBuilder();
-            js.AppendLine("// src/components/Pagination/Pagination.js");
+            js.AppendLine("// src/components/Pagination/Pagination.jsx");
             js.AppendLine("");
             js.AppendLine("import React from 'react';");
             js.AppendLine("import './Pagination.css';");
@@ -217,7 +217,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("export default Pagination;");
             js.AppendLine("");
 
-            File.WriteAllText(path + "//Pagination.js", js.ToString());
+            File.WriteAllText(path + "//Pagination.jsx", js.ToString());
             File.WriteAllText(path + "//Pagination.css", css.ToString());
         }
 
@@ -242,7 +242,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default MessageModal;");
 
-            File.WriteAllText(path + "//MessageModal.js", js.ToString());
+            File.WriteAllText(path + "//MessageModal.jsx", js.ToString());
         }
 
         private static void CreateLoadingModalFiles(string path)
@@ -306,7 +306,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default LoadingModal;");
 
-            File.WriteAllText(path + "//LoadingModal.js", js.ToString());
+            File.WriteAllText(path + "//LoadingModal.jsx", js.ToString());
             File.WriteAllText(path + "//LoadingModal.css", css.ToString());
         }
 
@@ -324,7 +324,7 @@ namespace Regras.FrontEndClasses
             css.AppendLine("}");
 
             StringBuilder js = new StringBuilder();
-            js.AppendLine("// src/components/modals/ConfirmModal.js");
+            js.AppendLine("// src/components/modals/ConfirmModal.jsx");
             js.AppendLine("");
             js.AppendLine("import React from 'react';");
             js.AppendLine("import './ConfirmModal.css'; // Create a CSS file for modal styling");
@@ -348,7 +348,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default ConfirmModal;");
 
-            File.WriteAllText(path + "//ConfirmModal.js", js.ToString());
+            File.WriteAllText(path + "//ConfirmModal.jsx", js.ToString());
             File.WriteAllText(path + "//ConfirmModal.css", css.ToString());
         }
 
@@ -484,7 +484,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default AdminHeader;");
 
-            File.WriteAllText(path + "//AdminHeader.js", js.ToString());
+            File.WriteAllText(path + "//AdminHeader.jsx", js.ToString());
             File.WriteAllText(path + "//AdminHeader.css", css.ToString());
         }
 
@@ -650,7 +650,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default AdminSidebar;");
 
-            File.WriteAllText(path + "//AdminSidebar.js", js.ToString());
+            File.WriteAllText(path + "//AdminSidebar.jsx", js.ToString());
             File.WriteAllText(path + "//AdminSidebar.css", css.ToString());
         }
 
@@ -845,7 +845,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default FilterComponent;");
 
-            File.WriteAllText(path + "//FilterComponent.js", js.ToString());
+            File.WriteAllText(path + "//FilterComponent.jsx", js.ToString());
             File.WriteAllText(path + "//FilterComponent.css", css.ToString());
         }
 
@@ -974,7 +974,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default AddUserModal;");
 
-            File.WriteAllText(path + "//AddUserModal.js", js.ToString());
+            File.WriteAllText(path + "//AddUserModal.jsx", js.ToString());
             File.WriteAllText(path + "//AddUserModal.css", css.ToString());
         }
     }

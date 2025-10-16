@@ -127,7 +127,8 @@ namespace Regras.FrontEndClasses
             js.AppendLine("  </Provider>");
             js.AppendLine(");");
 
-            File.WriteAllText(path + "//index.js", js.ToString());
+            // Vite default entry is main.jsx
+            File.WriteAllText(path + "//main.jsx", js.ToString());
         }
 
         private static void CreateApp(string path)
@@ -172,7 +173,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default App;");
 
-            File.WriteAllText(path + "//App.js", js.ToString());
+            File.WriteAllText(path + "//App.jsx", js.ToString());
         }
     }
 }

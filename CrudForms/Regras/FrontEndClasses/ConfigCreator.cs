@@ -36,7 +36,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("};");
             js.AppendLine("export default Config;");
 
-            File.WriteAllText(path + "//storageConfiguration.js", js.ToString());
+            File.WriteAllText(path + "//storageConfiguration.jsx", js.ToString());
         }
 
         private static void CreateEnvConfig(string path)
@@ -61,7 +61,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("export default getCurrentEnvConfig;");
 
-            File.WriteAllText(path + "//envConfig.js", js.ToString());
+            File.WriteAllText(path + "//envConfig.jsx", js.ToString());
         }
 
         private static void CreateConfigJson(string path)

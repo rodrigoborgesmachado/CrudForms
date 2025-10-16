@@ -44,7 +44,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("    return phone?.replace(/\\D/g, '').replace(/^(\\d{2})(\\d)/, '($1) $2').replace(/(\\d{4,5})(\\d{4})$/, '$1-$2').slice(0, 15);");
             js.AppendLine("};");
 
-            File.WriteAllText(path + "//masks.js", js.ToString());
+            File.WriteAllText(path + "//masks.jsx", js.ToString());
         }
 
         private static void CreateFunctions(string path)
@@ -131,7 +131,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("  }");
             js.AppendLine("};");
 
-            File.WriteAllText(path + "//functions.js", js.ToString());
+            File.WriteAllText(path + "//functions.jsx", js.ToString());
         }
     }
 }
