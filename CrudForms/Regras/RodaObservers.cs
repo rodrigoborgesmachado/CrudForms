@@ -1,4 +1,4 @@
-Ôªøusing System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +19,7 @@ namespace Regras
         }
 
         /// <summary>
-        /// M√©todo que processa o observer
+        /// MÈtodo que processa o observer
         /// </summary>
         /// <param name="observer"></param>
         public void Processa(MD_Observer observer)
@@ -74,7 +74,7 @@ namespace Regras
         }
 
         /// <summary>
-        /// M√©todo que envia o email
+        /// MÈtodo que envia o email
         /// </summary>
         /// <param name="json"></param>
         /// <param name="codigo"></param>
@@ -109,7 +109,7 @@ namespace Regras
 
                 emailsList.ForEach(email =>
                 {
-                    JSON.JS_RetornoEnvioEmail retorno = EnviarEmail.EnviaEmail(email, "Atividade autom√°tica - " + descricao, textoEmail);
+                    JSON.JS_RetornoEnvioEmail retorno = EnviarEmail.EnviaEmail(email, "Atividade autom·tica - " + descricao, textoEmail);
                 });
             }
             catch(Exception e)
@@ -119,7 +119,7 @@ namespace Regras
         }
 
         /// <summary>
-        /// M√©todo que monta o in√≠cio do email autom√°tico
+        /// MÈtodo que monta o inÌcio do email autom·tico
         /// </summary>
         /// <returns></returns>
         private string MontaInicioEmail(string descricao, int itensQt)
@@ -141,7 +141,7 @@ namespace Regras
             builder.AppendLine("}");
             builder.AppendLine("</style>");
             builder.AppendLine("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">");
-            builder.AppendLine("<title>Relat√≥rio Autom√°tico</title>");
+            builder.AppendLine("<title>RelatÛrio Autom·tico</title>");
             builder.AppendLine("<style type=\"text/css\" nonce=\"\">");
             builder.AppendLine("body {");
             builder.AppendLine("background: #FFFFE0");
@@ -191,7 +191,7 @@ namespace Regras
             builder.AppendLine("</td>");
             builder.AppendLine("<td align=\"right\">");
             builder.AppendLine("<font size=\"-1\" color=\"#777\">");
-            builder.AppendLine("<b>SunSale System &lt;sunsalesystem@gmail.com&gt;</b>");
+            builder.AppendLine("<b>SunSale System &lt;rodrigomachado@sunsalesystem.com&gt;</b>");
             builder.AppendLine("</font> ");
             builder.AppendLine("</td>");
             builder.AppendLine("</tr>");
@@ -252,7 +252,7 @@ namespace Regras
         }
 
         /// <summary>
-        /// M√©todo que transforma todos os json
+        /// MÈtodo que transforma todos os json
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
@@ -270,7 +270,7 @@ namespace Regras
         }
 
         /// <summary>
-        /// M√©todo que transforma todos os json
+        /// MÈtodo que transforma todos os json
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
@@ -288,7 +288,7 @@ namespace Regras
         }
 
         /// <summary>
-        /// M√©todo que insere o observer enviado
+        /// MÈtodo que insere o observer enviado
         /// </summary>
         private void InsereObserverEnviado(int codigoObserver, string json)
         {
