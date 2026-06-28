@@ -17,6 +17,7 @@ namespace Regras.FrontEndClasses
                 string apiServices = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ServicesApiServices);
                 CreateServiceApi(apiServices);
                 CreateServiceTokenApi(apiServices);
+                CreateAdminApi(apiServices);
                 CreateServiceApiForEntities(tabelas, apiServices);
 
                 string reduxServicePath = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.ServicesRedux);
@@ -314,6 +315,48 @@ namespace Regras.FrontEndClasses
             js.AppendLine("export default tokenApi;");
 
             File.WriteAllText(path + "//tokenApi.jsx", js.ToString());
+        }
+
+        private static void CreateAdminApi(string path)
+        {
+            StringBuilder js = new StringBuilder();
+            js.AppendLine("import api from './serviceApi'; // Import the axios instance");
+            js.AppendLine("");
+            js.AppendLine("const adminApi = {");
+            js.AppendLine("    createAdmin: async (adminData) => {");
+            js.AppendLine("        try {");
+            js.AppendLine("            const response = await api.post('/Admin', adminData);");
+            js.AppendLine("            return response.data;");
+            js.AppendLine("        } catch (error) {");
+            js.AppendLine("            console.error('Error creating admin:', error);");
+            js.AppendLine("            throw error;");
+            js.AppendLine("        }");
+            js.AppendLine("    },");
+            js.AppendLine("");
+            js.AppendLine("    confirmUser: async (confirmData) => {");
+            js.AppendLine("        try {");
+            js.AppendLine("            const response = await api.post('/Admin/ConfirmUser', confirmData);");
+            js.AppendLine("            return response.data;");
+            js.AppendLine("        } catch (error) {");
+            js.AppendLine("            console.error('Error confirming user:', error);");
+            js.AppendLine("            throw error;");
+            js.AppendLine("        }");
+            js.AppendLine("    },");
+            js.AppendLine("");
+            js.AppendLine("    recoverPass: async (email) => {");
+            js.AppendLine("        try {");
+            js.AppendLine("            const response = await api.post('/Admin/RecoverPass', { email });");
+            js.AppendLine("            return response.data;");
+            js.AppendLine("        } catch (error) {");
+            js.AppendLine("            console.error('Error recovering password:', error);");
+            js.AppendLine("            throw error;");
+            js.AppendLine("        }");
+            js.AppendLine("    },");
+            js.AppendLine("};");
+            js.AppendLine("");
+            js.AppendLine("export default adminApi;");
+
+            File.WriteAllText(path + "//adminApi.jsx", js.ToString());
         }
 
         private static void CreateServiceApiForEntities(List<MD_Tabela> tabelas, string path)

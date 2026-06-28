@@ -147,7 +147,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("    const updateStatus = async (isActive,code) => {");
             js.AppendLine("        try {");
             js.AppendLine("            dispatch(setLoading(true));");
-            js.AppendLine("            const response = await acaousuarioApi.updateStatus({ status: isActive === 1 ? 'IsDeleted' : 'IsActive', id: code });");
+            js.AppendLine($"            const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.updateStatus({{ status: isActive === 1 ? 'IsDeleted' : 'IsActive', id: code }});");
             js.AppendLine("            ");
             js.AppendLine("            if (response) {");
             js.AppendLine("                toast.success('Atualizado com sucesso!');");

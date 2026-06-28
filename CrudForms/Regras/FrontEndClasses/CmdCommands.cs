@@ -24,7 +24,9 @@ namespace Regras.FrontEndClasses
                 {
                     process.WaitForExit();
                     string output = process.StandardOutput.ReadToEnd();
-                    return !string.IsNullOrEmpty(output);
+                    return process.ExitCode == 0
+                        && TryParseNodeVersion(output, out Version nodeVersion)
+                        && IsSupportedViteNodeVersion(nodeVersion);
                 }
             }
             catch
@@ -33,31 +35,61 @@ namespace Regras.FrontEndClasses
             }
         }
 
+        private static bool TryParseNodeVersion(string output, out Version version)
+        {
+            version = null;
+            string normalized = output.Trim();
+
+            if (normalized.StartsWith("v"))
+            {
+                normalized = normalized.Substring(1);
+            }
+
+            string[] parts = normalized.Split('.');
+            if (parts.Length < 2)
+            {
+                return false;
+            }
+
+            if (!int.TryParse(parts[0], out int major) || !int.TryParse(parts[1], out int minor))
+            {
+                return false;
+            }
+
+            int patch = 0;
+            if (parts.Length > 2)
+            {
+                int.TryParse(parts[2], out patch);
+            }
+
+            version = new Version(major, minor, patch);
+            return true;
+        }
+
+        private static bool IsSupportedViteNodeVersion(Version version)
+        {
+            if (version.Major == 20)
+            {
+                return version.CompareTo(new Version(20, 19, 0)) >= 0;
+            }
+
+            if (version.Major == 22)
+            {
+                return version.CompareTo(new Version(22, 12, 0)) >= 0;
+            }
+
+            return version.Major > 22;
+        }
+
         public static bool CreateReactAppAndFolders(string projectName, string directoryPath)
         {
             bool success = true;
             string projectPath = Path.Combine(directoryPath, projectName);
             try
             {
-                ProcessStartInfo psi = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    Arguments = $"/c npm create vite@latest {projectName} -- --template react",
-                    RedirectStandardOutput = false,
-                    RedirectStandardError = false,
-                    UseShellExecute = true,
-                    CreateNoWindow = false,
-                    WorkingDirectory = directoryPath
-                };
+                success = RunCmd($"npm create vite@latest {QuoteArgument(projectName)} -- --template react", directoryPath);
 
-                using (Process process = Process.Start(psi))
-                {
-                    process.WaitForExit();
-                    //string error = process?.StandardError?.ReadToEnd();
-                    //success = string.IsNullOrEmpty(error);
-                }
-
-                if (success)
+                if (success && Directory.Exists(projectPath))
                 {
                     Console.WriteLine("React project created successfully!");
 
@@ -70,7 +102,7 @@ namespace Regras.FrontEndClasses
                     }
 
                     // Ensure base dependencies are installed for Vite template
-                    RunNpmInstall(projectPath);
+                    success &= RunNpmInstall(projectPath);
 
                     string[] packages = new string[]
                     {
@@ -85,11 +117,18 @@ namespace Regras.FrontEndClasses
 
                     foreach (var package in packages)
                     {
-                        InstallNpmPackage(package, projectPath);
+                        success &= InstallNpmPackage(package, projectPath);
                     }
 
                     // Recreate required directories
-                    CreateDirectories(projectPath);
+                    if (success)
+                    {
+                        CreateDirectories(projectPath);
+                    }
+                }
+                else
+                {
+                    success = false;
                 }
             }
             catch (Exception ex)
@@ -101,16 +140,26 @@ namespace Regras.FrontEndClasses
             return success;
         }
 
-        static void InstallNpmPackage(string packageName, string workingDirectory)
+        private static bool InstallNpmPackage(string packageName, string workingDirectory)
+        {
+            return RunCmd($"npm install {packageName}", workingDirectory);
+        }
+
+        private static bool RunNpmInstall(string workingDirectory)
+        {
+            return RunCmd("npm install", workingDirectory);
+        }
+
+        private static bool RunCmd(string command, string workingDirectory)
         {
             ProcessStartInfo psi = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                Arguments = $"/c npm install {packageName}",
+                Arguments = $"/c {command}",
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = false,
+                CreateNoWindow = true,
                 WorkingDirectory = workingDirectory
             };
 
@@ -123,39 +172,21 @@ namespace Regras.FrontEndClasses
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
                 process.WaitForExit();
+
+                return process.ExitCode == 0;
             }
         }
 
-        static void RunNpmInstall(string workingDirectory)
+        private static string QuoteArgument(string argument)
         {
-            ProcessStartInfo psi = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                Arguments = "/c npm install",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = false,
-                WorkingDirectory = workingDirectory
-            };
-
-            using (Process process = new Process { StartInfo = psi })
-            {
-                process.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
-                process.ErrorDataReceived += (sender, args) => Console.WriteLine(args.Data);
-
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                process.WaitForExit();
-            }
+            return $"\"{argument.Replace("\"", "\\\"")}\"";
         }
 
         private static void CreateDirectories(string projectPath)
         {
             foreach (FileType fileType in Enum.GetValues(typeof(FileType)))
             {
-                string dirPath = Path.Combine(projectPath, GetDirectoryByType(projectPath, fileType));
+                string dirPath = GetDirectoryByType(projectPath, fileType);
                 Directory.CreateDirectory(dirPath);
             }
 

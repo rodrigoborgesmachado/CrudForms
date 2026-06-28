@@ -21,7 +21,7 @@ namespace Regras.FrontEndClasses
             {
                 if (!CmdCommands.IsNodeInstalled())
                 {
-                    message = "Node não está instalado!";
+                    message = "Node nao esta instalado ou a versao nao e compativel com o Vite (minimo 20.19 ou 22.12).";
                     return false;
                 }
 

@@ -54,7 +54,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("};");
             js.AppendLine("");
             js.AppendLine("const getCurrentEnvConfig = () => {");
-            js.AppendLine("    return process.env.NODE_ENV === \"production\"");
+            js.AppendLine("    return import.meta.env.PROD");
             js.AppendLine("      ? EnvConfig.PRODUCTION.API_URL");
             js.AppendLine("      : EnvConfig.DEVELOPMENT.API_URL;");
             js.AppendLine("};");
