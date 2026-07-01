@@ -109,7 +109,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"        /// <param name=\"include\"></param>");
                 stringBuilder.AppendLine($"        /// <returns><![CDATA[Task<PaggedBaseReturn<MainViewModel>>]]></returns>");
                 stringBuilder.AppendLine($"        [HttpGet(\"pagged\")]");
-                stringBuilder.AppendLine($"        public async Task<IActionResult> GetPagged(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null)");
+                stringBuilder.AppendLine($"        public async Task<IActionResult> GetPagged(int page, int quantity, DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string? include = null)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"            var result = await _mainAppService.GetAllPagedAsync(page, quantity, startDate, endDate, isActive, term, orderBy: orderBy, include: include);");
                 stringBuilder.AppendLine($"");
@@ -138,7 +138,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"        /// <param name=\"include\"></param>");
                 stringBuilder.AppendLine($"        /// <returns><![CDATA[Task<PaggedBaseReturn<MainViewModel>>]]></returns>");
                 stringBuilder.AppendLine($"        [HttpGet(\"export\")]");
-                stringBuilder.AppendLine($"        public async Task<IActionResult> Export(DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null)");
+                stringBuilder.AppendLine($"        public async Task<IActionResult> Export(DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string? include = null)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"            var result = await _mainAppService.GetReport(startDate, endDate, isActive, term, orderBy: orderBy, include: include);");
                 stringBuilder.AppendLine($"");

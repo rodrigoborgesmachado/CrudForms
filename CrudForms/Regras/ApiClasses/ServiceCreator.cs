@@ -48,9 +48,9 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine($"        Task<MainDTO> RemoveAsync(MainDTO mainDto);");
                 stringBuilder.AppendLine();
-                stringBuilder.AppendLine($"        Task<Tuple<int, int, IEnumerable<MainDTO>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null);");
+                stringBuilder.AppendLine($"        Task<Tuple<int, int, IEnumerable<MainDTO>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string? include = null);");
                 stringBuilder.AppendLine();
-                stringBuilder.AppendLine($"        Task<string> GetReport(DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null);");
+                stringBuilder.AppendLine($"        Task<string> GetReport(DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string? include = null);");
                 stringBuilder.AppendLine();
                 stringBuilder.AppendLine($"        Task<MainDTO> ChangeStatus(Guid code, bool isActive, bool isDeleted = false);");
                 stringBuilder.AppendLine($"    }}");
@@ -126,7 +126,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"            return result.ProjectedAs<MainDTO>();");
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"");
-                stringBuilder.AppendLine($"        public async Task<Tuple<int, int, IEnumerable<MainDTO>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null)");
+                stringBuilder.AppendLine($"        public async Task<Tuple<int, int, IEnumerable<MainDTO>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string? include = null)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"            var tuple = await _mainRepository.GetAllPagedAsync(page, quantity, startDate, endDate, isActive, term, orderBy, IncludesMethods.GetIncludes(include, allowInclude));");
                 stringBuilder.AppendLine($"");
@@ -174,7 +174,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"            return main.ProjectedAs<MainDTO>();");
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"");
-                stringBuilder.AppendLine($"        public async Task<string> GetReport(DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string? include = null)");
+                stringBuilder.AppendLine($"        public async Task<string> GetReport(DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string? include = null)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"            await _loggerService.InsertAsync($\"Report - Starting GetReport - {{this.GetType().Name}}\");");
                 stringBuilder.AppendLine($"");

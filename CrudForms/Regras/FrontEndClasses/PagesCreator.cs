@@ -94,6 +94,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("    const [searchTerm, setSearchTerm] = useState('');");
             js.AppendLine("    const [startDate, setStartDate] = useState('');");
             js.AppendLine("    const [endDate, setEndDate] = useState('');");
+            js.AppendLine("    const [isActive, setIsActive] = useState('');");
             js.AppendLine("    const [totalPages, setTotalPages] = useState(1);");
             js.AppendLine("    const [totalItens, setTotalItens] = useState(0);");
             js.AppendLine("    const [refresh, setRefresh] = useState(0);");
@@ -104,7 +105,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        const fetchItems = async () => {");
             js.AppendLine("            dispatch(setLoading(true));");
             js.AppendLine("            try {");
-            js.AppendLine($"                const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.getPaginated({{ page, quantity, orderBy, term: searchTerm, startDate, endDate, include: \"\" }});");
+            js.AppendLine($"                const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.getPaginated({{ page, quantity, orderBy, term: searchTerm, startDate, endDate, isActive: isActive || undefined, include: \"\" }});");
             js.AppendLine("");
             js.AppendLine("                setItems(response.Results);");
             js.AppendLine("                setTotalPages(response.TotalPages);");
@@ -116,7 +117,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("            }");
             js.AppendLine("        };");
             js.AppendLine("        fetchItems();");
-            js.AppendLine("    }, [page, quantity, searchTerm, startDate, endDate, dispatch, refresh]);");
+            js.AppendLine("    }, [page, quantity, searchTerm, startDate, endDate, isActive, dispatch, refresh]);");
             js.AppendLine("");
             js.AppendLine("    const handlePageChange = (newPage) => {");
             js.AppendLine("        if (newPage > 0 && newPage <= totalPages) {");
@@ -124,16 +125,17 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        }");
             js.AppendLine("    };");
             js.AppendLine("");
-            js.AppendLine("    const search = ({term, startDate, endDate} = {}) => {");
+            js.AppendLine("    const search = ({term, startDate, endDate, isActive} = {}) => {");
             js.AppendLine("        setSearchTerm(term);");
             js.AppendLine("        setStartDate(startDate);");
             js.AppendLine("        setEndDate(endDate);");
+            js.AppendLine("        setIsActive(isActive || '');");
             js.AppendLine("    }");
             js.AppendLine("");
-            js.AppendLine("    const exportFunction = async ({term}) => {");
+            js.AppendLine("    const exportFunction = async ({term, isActive}) => {");
             js.AppendLine("        try {");
             js.AppendLine("            dispatch(setLoading(true));");
-            js.AppendLine($"            const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.export({{ term: term, startDate, endDate }});");
+            js.AppendLine($"            const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.export({{ term: term, startDate, endDate, isActive: isActive || undefined }});");
             js.AppendLine("");
             js.AppendLine("            if (response.Status === 200 && response.Object) {");
             js.AppendLine("                window.open(response.Object, \"_blank\");");
@@ -189,7 +191,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        </div>");
             js.AppendLine("        <div className='container-admin-page-filters div-with-border'>");
             js.AppendLine("            <h3>Filtros</h3>");
-            js.AppendLine($"            <FilterComponent placeHolder={{'{tableLabel}'}} showTermFilter={{true}} showStartDate={{true}} showEndDate={{true}} submitFilter={{search}} exportFunction={{exportFunction}}/>");
+            js.AppendLine($"            <FilterComponent placeHolder={{'{tableLabel}'}} showTermFilter={{true}} showStartDate={{true}} showEndDate={{true}} showIsActiveFilter={{true}} submitFilter={{search}} exportFunction={{exportFunction}}/>");
             js.AppendLine("        </div>");
             js.AppendLine("        <div className='container-admin-page-table div-with-border'>");
             js.AppendLine("            <table className=\"admin-table\">");

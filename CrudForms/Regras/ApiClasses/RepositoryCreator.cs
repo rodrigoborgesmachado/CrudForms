@@ -39,7 +39,7 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"        Task<IEnumerable<Main>> GetAllAsync(string[] include = null);");
                 stringBuilder.AppendLine($"        Task<IEnumerable<Main>> GetAllAsync(Guid parentCode, string[] include = null);");
                 stringBuilder.AppendLine($"        Task<Main> GetAsync(Guid code, string[] include = null);");
-                stringBuilder.AppendLine($"        Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string[] include = null);");
+                stringBuilder.AppendLine($"        Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string[] include = null);");
                 stringBuilder.AppendLine($"    }}");
                 stringBuilder.AppendLine($"}}");
 
@@ -106,22 +106,13 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"            return await query.SingleOrDefaultAsync();");
                 stringBuilder.AppendLine($"        }}");
                 stringBuilder.AppendLine($"");
-                stringBuilder.AppendLine($"        public async Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, string isActive = null, string term = null, string orderBy = null, string[] include = null)");
+                stringBuilder.AppendLine($"        public async Task<Tuple<int, IEnumerable<Main>>> GetAllPagedAsync(int page, int quantity, DateTime? startDate, DateTime? endDate, bool? isActive = null, string term = null, string orderBy = null, string[] include = null)");
                 stringBuilder.AppendLine($"        {{");
                 stringBuilder.AppendLine($"            var query = GetQueryable();");
                 stringBuilder.AppendLine($"");
-                stringBuilder.AppendLine($"            if (!string.IsNullOrEmpty(isActive))");
+                stringBuilder.AppendLine($"            if (isActive.HasValue)");
                 stringBuilder.AppendLine($"            {{");
-                stringBuilder.AppendLine($"                bool isActiveBool;");
-                stringBuilder.AppendLine($"");
-                stringBuilder.AppendLine($"                if (bool.TryParse(isActive, out isActiveBool))");
-                stringBuilder.AppendLine($"                {{");
-                stringBuilder.AppendLine($"                    query = query.Where(c => c.IsActive.Equals(isActiveBool));");
-                stringBuilder.AppendLine($"                }}");
-                stringBuilder.AppendLine($"                else if (int.TryParse(isActive, out var isActiveInt))");
-                stringBuilder.AppendLine($"                {{");
-                stringBuilder.AppendLine($"                    query = query.Where(c => c.IsActive.Equals(isActiveInt != 0));");
-                stringBuilder.AppendLine($"                }}");
+                stringBuilder.AppendLine($"                query = query.Where(c => c.IsActive.Equals(isActive.Value));");
                 stringBuilder.AppendLine($"            }}");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"            if (!string.IsNullOrEmpty(term))");
