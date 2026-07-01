@@ -1,4 +1,4 @@
-﻿namespace Visao
+namespace Visao
 {
     partial class FO_SelecioneTabelasClasses
     {
@@ -35,14 +35,15 @@
             this.dgv_tabela_out = new System.Windows.Forms.DataGridView();
             this.dgv_tabela_in = new System.Windows.Forms.DataGridView();
             this.pan_botton = new System.Windows.Forms.Panel();
+            this.btn_configurar = new System.Windows.Forms.Button();
             this.btn_gerar = new System.Windows.Forms.Button();
             this.pan_top = new System.Windows.Forms.Panel();
             this.tbx_message = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pan_selectDirectory = new System.Windows.Forms.Panel();
+            this.btn_path = new System.Windows.Forms.Button();
             this.tbx_directory = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.btn_path = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_out)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_in)).BeginInit();
@@ -160,12 +161,25 @@
             // 
             // pan_botton
             // 
+            this.pan_botton.Controls.Add(this.btn_configurar);
             this.pan_botton.Controls.Add(this.btn_gerar);
             this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pan_botton.Location = new System.Drawing.Point(0, 398);
             this.pan_botton.Name = "pan_botton";
             this.pan_botton.Size = new System.Drawing.Size(617, 35);
             this.pan_botton.TabIndex = 20;
+            // 
+            // btn_configurar
+            // 
+            this.btn_configurar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_configurar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_configurar.Location = new System.Drawing.Point(6, 3);
+            this.btn_configurar.Name = "btn_configurar";
+            this.btn_configurar.Size = new System.Drawing.Size(130, 29);
+            this.btn_configurar.TabIndex = 24;
+            this.btn_configurar.Text = "Configurar Tabelas";
+            this.btn_configurar.UseVisualStyleBackColor = true;
+            this.btn_configurar.Click += new System.EventHandler(this.btn_configurar_Click);
             // 
             // btn_gerar
             // 
@@ -216,6 +230,18 @@
             this.pan_selectDirectory.Size = new System.Drawing.Size(617, 55);
             this.pan_selectDirectory.TabIndex = 25;
             // 
+            // btn_path
+            // 
+            this.btn_path.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_path.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_path.Location = new System.Drawing.Point(535, 5);
+            this.btn_path.Name = "btn_path";
+            this.btn_path.Size = new System.Drawing.Size(70, 29);
+            this.btn_path.TabIndex = 24;
+            this.btn_path.Text = "Path";
+            this.btn_path.UseVisualStyleBackColor = true;
+            this.btn_path.Click += new System.EventHandler(this.btn_path_Click);
+            // 
             // tbx_directory
             // 
             this.tbx_directory.Enabled = false;
@@ -232,18 +258,6 @@
             this.label2.Size = new System.Drawing.Size(119, 16);
             this.label2.TabIndex = 0;
             this.label2.Text = "Diretório do Projeto";
-            // 
-            // btn_path
-            // 
-            this.btn_path.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_path.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_path.Location = new System.Drawing.Point(535, 5);
-            this.btn_path.Name = "btn_path";
-            this.btn_path.Size = new System.Drawing.Size(70, 29);
-            this.btn_path.TabIndex = 24;
-            this.btn_path.Text = "Path";
-            this.btn_path.UseVisualStyleBackColor = true;
-            this.btn_path.Click += new System.EventHandler(this.btn_path_Click);
             // 
             // FO_SelecioneTabelasClasses
             // 
@@ -293,5 +307,6 @@
         private System.Windows.Forms.TextBox tbx_directory;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_path;
+        private System.Windows.Forms.Button btn_configurar;
     }
 }

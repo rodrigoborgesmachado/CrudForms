@@ -84,7 +84,7 @@ namespace Regras.ApiClasses
                 }
 
                 // Map the database type to a C# type
-                string csharpType = MapDatabaseTypeToCSharpType(campo.TipoCampo.Nome);
+                string csharpType = MapDatabaseTypeToCSharpType(campo.TipoCampo.Nome, campo.NotNull);
 
                 // Generate the property
                 sb.AppendLine($"        public {csharpType} {char.ToUpper(campo.Nome[0]) + campo.Nome.Substring(1).ToLower()} {{ get; set; }}");
@@ -93,7 +93,7 @@ namespace Regras.ApiClasses
             return sb;
         }
 
-        private static string MapDatabaseTypeToCSharpType(string dbType)
+        private static string MapDatabaseTypeToCSharpType(string dbType, bool notNull)
         {
             // Normalize the type for case-insensitive matching
             string normalizedDbType = dbType.Trim().ToUpper();
@@ -109,12 +109,12 @@ namespace Regras.ApiClasses
                 case "NCHAR":
                 case "NTEXT":
                 case "CLOB":
-                    return "string";
+                    return GetNullableType("string", notNull);
 
                 // Guid
                 case "UUID":
                 case "UNIQUEIDENTIFIER":
-                    return "Guid";
+                    return GetNullableType("Guid", notNull);
 
                 // Date and time types
                 case "TIMESTAMP WITHOUT TIME ZONE":
@@ -123,37 +123,37 @@ namespace Regras.ApiClasses
                 case "SMALLDATETIME":
                 case "DATETIME2":
                 case "DATE":
-                    return "DateTime";
+                    return GetNullableType("DateTime", notNull);
                 case "TIME":
-                    return "TimeSpan";
+                    return GetNullableType("TimeSpan", notNull);
 
                 // Numeric types
                 case "NUMERIC":
                 case "DECIMAL":
-                    return "decimal";
+                    return GetNullableType("decimal", notNull);
                 case "FLOAT":
-                    return "double";
+                    return GetNullableType("double", notNull);
                 case "REAL":
-                    return "float";
+                    return GetNullableType("float", notNull);
                 case "DOUBLE":
                 case "DOUBLE PRECISION":
-                    return "double";
+                    return GetNullableType("double", notNull);
 
                 // Integer types
                 case "INTEGER":
                 case "INT":
-                    return "int";
+                    return GetNullableType("int", notNull);
                 case "TINYINT":
-                    return "byte";
+                    return GetNullableType("byte", notNull);
                 case "SMALLINT":
-                    return "short";
+                    return GetNullableType("short", notNull);
                 case "BIGINT":
-                    return "long";
+                    return GetNullableType("long", notNull);
 
                 // Boolean
                 case "BOOLEAN":
                 case "BIT":
-                    return "bool";
+                    return GetNullableType("bool", notNull);
 
                 // Binary data
                 case "BYTEA":
@@ -161,20 +161,25 @@ namespace Regras.ApiClasses
                 case "VARBINARY":
                 case "BINARY":
                 case "IMAGE":
-                    return "byte[]";
+                    return GetNullableType("byte[]", notNull);
 
                 // Special types
                 case "XML":
                 case "JSON":
-                    return "string";
+                    return GetNullableType("string", notNull);
                 case "GEOMETRY":
                 case "GEOGRAPHY":
-                    return "object";
+                    return GetNullableType("object", notNull);
 
                 // Default fallback
                 default:
-                    return "object"; // Default to object for unmapped types
+                    return GetNullableType("object", notNull); // Default to object for unmapped types
             }
+        }
+
+        private static string GetNullableType(string csharpType, bool notNull)
+        {
+            return notNull ? csharpType : $"{csharpType}?";
         }
     }
 }

@@ -638,7 +638,8 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        {isAdmin && <a href=\"/\" className={pathSegments.length === 0 || (pathSegments[0] === 'dashboard') || pathSegments[1] === 'dashboard' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}><DashBoardIcon color='white'/>Dashboard</a>}");
             foreach (var tabela in tabelas)
             {
-                js.AppendLine($"        {{isAdmin && <a href=\"/{tabela.DAO.Nome}\" className={{pathSegments[0] === '{tabela.DAO.Nome}' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}}><BasketIcon color='white'/>{tabela.DAO.Nome}</a>}}");
+                string routeName = NamesHandler.CreateRouteName(tabela.Apelido);
+                js.AppendLine($"        {{isAdmin && <a href=\"/{routeName}\" className={{pathSegments[0] === '{routeName}' ? \"sidebar__menu-item sidebar__menu-item-selected\" : \"sidebar__menu-item\"}}><BasketIcon color='white'/>{EscapeJsString(tabela.Apelido)}</a>}}");
             }
             js.AppendLine("        </nav>");
             js.AppendLine("      <button className=\"sidebar__logoff\" onClick={handleLogout}>");
@@ -652,6 +653,11 @@ namespace Regras.FrontEndClasses
 
             File.WriteAllText(path + "//AdminSidebar.jsx", js.ToString());
             File.WriteAllText(path + "//AdminSidebar.css", css.ToString());
+        }
+
+        private static string EscapeJsString(string value)
+        {
+            return (value ?? string.Empty).Replace("\\", "\\\\").Replace("'", "\\'");
         }
 
         private static void CreateAdminFilterComponentFiles(string path)

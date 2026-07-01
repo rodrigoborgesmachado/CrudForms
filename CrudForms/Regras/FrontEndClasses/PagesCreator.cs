@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Regras.FrontEndClasses
@@ -26,7 +27,7 @@ namespace Regras.FrontEndClasses
 
                 string createLoginPage = Path.Combine(pagesCommon, "LoginPage");
                 Directory.CreateDirectory(createLoginPage);
-                CreateLoginPage(createLoginPage);
+                CreateLoginPage(createLoginPage, projectName);
 
                 string createRecoverPasswordPage = Path.Combine(pagesCommon, "RecoverPasswordPage");
                 Directory.CreateDirectory(createRecoverPasswordPage);
@@ -49,6 +50,12 @@ namespace Regras.FrontEndClasses
 
                     Directory.CreateDirectory(path);
                     CreatePage(tabela, path);
+
+                    string nameForm = NamesHandler.CreateComponentFormName(tabela.DAO.Nome);
+                    path = Path.Combine(pagesAdmin, componentName, nameForm);
+
+                    Directory.CreateDirectory(path);
+                    CreateForm(tabela, path);
                 }
             }
             catch (Exception ex)
@@ -63,6 +70,7 @@ namespace Regras.FrontEndClasses
         private static void CreateListPages(MD_Tabela tabela, string path)
         {
             string name = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
+            string tableLabel = EscapeJsString(tabela.Apelido);
             StringBuilder js = new StringBuilder();
             js.AppendLine("import React, { useState, useEffect } from 'react';");
             js.AppendLine($"import './{name}.css';");
@@ -76,6 +84,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("import FilterComponent from '../../../../components/admin/FilterComponent/FilterComponent';");
             js.AppendLine("import { useNavigate } from \"react-router-dom\";");
             js.AppendLine("import EyeIcon from '../../../../components/icons/EyeIcon';");
+            js.AppendLine("import EditIcon from '../../../../components/icons/EditIcon';");
             js.AppendLine("");
             js.AppendLine($"const {name} = () => {{");
             js.AppendLine("    const navigate = useNavigate();");
@@ -144,10 +153,19 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        navigate(`${code}`);");
             js.AppendLine("    }");
             js.AppendLine("");
-            js.AppendLine("    const updateStatus = async (isActive,code) => {");
+            js.AppendLine("    const editItem = (code) => {");
+            js.AppendLine("        navigate(`${code}/editar`);");
+            js.AppendLine("    }");
+            js.AppendLine("");
+            js.AppendLine("    const createItem = () => {");
+            js.AppendLine("        navigate(`novo`);");
+            js.AppendLine("    }");
+            js.AppendLine("");
+            js.AppendLine("    const changeStatus = async (isActive, code) => {");
             js.AppendLine("        try {");
             js.AppendLine("            dispatch(setLoading(true));");
-            js.AppendLine($"            const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.updateStatus({{ status: isActive === 1 ? 'IsDeleted' : 'IsActive', id: code }});");
+            js.AppendLine("            const nextIsActive = !Boolean(isActive);");
+            js.AppendLine($"            const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.changeStatus(code, {{ isActive: nextIsActive, isDeleted: false }});");
             js.AppendLine("            ");
             js.AppendLine("            if (response) {");
             js.AppendLine("                toast.success('Atualizado com sucesso!');");
@@ -165,19 +183,23 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("    return (");
             js.AppendLine("    <div className=\"container-admin-page\">");
-            js.AppendLine("        <h1>Lista dos Itens</h1>");
+            js.AppendLine("        <div className='title-with-options'>");
+            js.AppendLine($"            <h1>{tableLabel}</h1>");
+            js.AppendLine("            <button className='main-button' onClick={createItem}>Novo</button>");
+            js.AppendLine("        </div>");
             js.AppendLine("        <div className='container-admin-page-filters div-with-border'>");
             js.AppendLine("            <h3>Filtros</h3>");
-            js.AppendLine("            <FilterComponent placeHolder={'Descrição'} showTermFilter={true} showStartDate={true} showEndDate={true} submitFilter={search} exportFunction={exportFunction}/>");
+            js.AppendLine($"            <FilterComponent placeHolder={{'{tableLabel}'}} showTermFilter={{true}} showStartDate={{true}} showEndDate={{true}} submitFilter={{search}} exportFunction={{exportFunction}}/>");
             js.AppendLine("        </div>");
             js.AppendLine("        <div className='container-admin-page-table div-with-border'>");
             js.AppendLine("            <table className=\"admin-table\">");
             js.AppendLine("                <thead>");
             js.AppendLine("                    <tr>");
-            foreach(var item in tabela.DAO.CamposDaTabela())
+            foreach(var item in tabela.CamposFrontEnd().Where(c => c.VisivelListagem))
             {
-                js.AppendLine($"                        <th>{NamesHandler.CreateComponentName(item.Nome)}</th>");
+                js.AppendLine($"                        <th>{EscapeJsString(item.Apelido)}</th>");
             }
+            js.AppendLine($"                        <th></th>");
             js.AppendLine($"                        <th></th>");
             js.AppendLine($"                        <th></th>");
             js.AppendLine("                    </tr>");
@@ -185,20 +207,23 @@ namespace Regras.FrontEndClasses
             js.AppendLine("                <tbody>");
             js.AppendLine("                {items.map((item) => (");
             js.AppendLine("                    <tr key={item.Id}>");
-            foreach (var item in tabela.DAO.CamposDaTabela())
+            foreach (var item in tabela.CamposFrontEnd().Where(c => c.VisivelListagem))
             {
-                if(item.TipoCampo.Nome.ToUpper().Contains("DATE"))
+                string fieldName = NamesHandler.CreateComponentName(item.DAO.Nome);
+                string fieldLabel = EscapeJsString(item.Apelido);
+                if(item.DAO.TipoCampo.Nome.ToUpper().Contains("DATE"))
                 {
-                    js.AppendLine($"                        <td data-label='{NamesHandler.CreateComponentName(item.Nome)}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{putDateOnPattern(item.{NamesHandler.CreateComponentName(item.Nome)})}}</span></td>");
+                    js.AppendLine($"                        <td data-label='{fieldLabel}'><span className='option-link' onClick={{() => openItem(`${{item.Code}}`)}}>{{putDateOnPattern(item.{fieldName})}}</span></td>");
                 }
                 else
                 {
-                    js.AppendLine($"                        <td data-label='{NamesHandler.CreateComponentName(item.Nome)}'><span className='option-link' onClick={{() => openItem(`${{item.Id}}`)}}>{{item.{NamesHandler.CreateComponentName(item.Nome)}}}</span></td>");
+                    js.AppendLine($"                        <td data-label='{fieldLabel}'><span className='option-link' onClick={{() => openItem(`${{item.Code}}`)}}>{{item.{fieldName}}}</span></td>");
                 }
             }
 
-            js.AppendLine("                        <td data-label=''><button onClick={(e) => updateStatus(item.IsActive, item.Id)} className={item.IsActive ? 'item-active main-button' : 'item-inactive main-button'}>{item.IsActive ? 'Desativar' : 'Ativar'}</button></td>");
-            js.AppendLine("                        <td><span className='option-link' onClick={() => openItem(`${item.Id}`)}><EyeIcon/></span></td>");
+            js.AppendLine("                        <td data-label=''><button onClick={() => changeStatus(item.IsActive, item.Code)} className={item.IsActive ? 'item-active main-button' : 'item-inactive main-button'}>{item.IsActive ? 'Desativar' : 'Ativar'}</button></td>");
+            js.AppendLine("                        <td><span className='option-link' onClick={() => editItem(`${item.Code}`)}><EditIcon/></span></td>");
+            js.AppendLine("                        <td><span className='option-link' onClick={() => openItem(`${item.Code}`)}><EyeIcon/></span></td>");
             js.AppendLine("                    </tr>");
             js.AppendLine("                ))}");
             js.AppendLine("                </tbody>");
@@ -220,6 +245,7 @@ namespace Regras.FrontEndClasses
         private static void CreatePage(MD_Tabela tabela, string path)
         {
             string name = NamesHandler.CreateComponentPageName(tabela.DAO.Nome);
+            string tableLabel = EscapeJsString(tabela.Apelido);
             StringBuilder js = new StringBuilder();
             js.AppendLine("import React, { useState, useEffect } from 'react';");
             js.AppendLine($"import './{name}.css';");
@@ -253,18 +279,20 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("    return (");
             js.AppendLine("    <div className=\"container-admin-page\">");
-            js.AppendLine("        <h1>Informações</h1>");
+            js.AppendLine($"        <h1>{tableLabel}</h1>");
             js.AppendLine("            <div className=\"box space-double-bottom\">");
             js.AppendLine("                <div className=\"info-group\">");
-            foreach (var item in tabela.DAO.CamposDaTabela())
+            foreach (var item in tabela.CamposFrontEnd().Where(c => c.VisivelDetalhes))
             {
-                if (item.TipoCampo.Nome.ToUpper().Contains("DATE"))
+                string fieldName = NamesHandler.CreateComponentName(item.DAO.Nome);
+                string fieldLabel = EscapeJsString(item.Apelido);
+                if (item.DAO.TipoCampo.Nome.ToUpper().Contains("DATE"))
                 {
-                    js.AppendLine($"           <p><strong>{NamesHandler.CreateComponentName(item.Nome)}:</strong>{{putDateOnPattern(item.{NamesHandler.CreateComponentName(item.Nome)})}}</p>");
+                    js.AppendLine($"           <p><strong>{fieldLabel}:</strong>{{putDateOnPattern(item.{fieldName})}}</p>");
                 }
                 else
                 {
-                    js.AppendLine($"           <p><strong>{NamesHandler.CreateComponentName(item.Nome)}:</strong>{{item.{NamesHandler.CreateComponentName(item.Nome)}}}</p>");
+                    js.AppendLine($"           <p><strong>{fieldLabel}:</strong>{{item.{fieldName}}}</p>");
                 }
             }
             js.AppendLine("                </div>");
@@ -278,6 +306,181 @@ namespace Regras.FrontEndClasses
 
             File.WriteAllText(path + $"//{name}.jsx", js.ToString());
             File.WriteAllText(path + $"//{name}.css", string.Empty);
+        }
+
+        private static void CreateForm(MD_Tabela tabela, string path)
+        {
+            string name = NamesHandler.CreateComponentFormName(tabela.DAO.Nome);
+            string tableLabel = EscapeJsString(tabela.Apelido);
+            string routeName = NamesHandler.CreateRouteName(tabela.Apelido);
+            StringBuilder js = new StringBuilder();
+            js.AppendLine("import React, { useState, useEffect } from 'react';");
+            js.AppendLine($"import './{name}.css';");
+            js.AppendLine($"import {NamesHandler.GetApiName(tabela.DAO.Nome)} from '../../../../services/apiServices/{NamesHandler.GetApiName(tabela.DAO.Nome)}';");
+            js.AppendLine("import { setLoading } from '../../../../services/redux/loadingSlice';");
+            js.AppendLine("import { useDispatch } from 'react-redux';");
+            js.AppendLine("import { useNavigate, useParams } from 'react-router-dom';");
+            js.AppendLine("import { toast } from 'react-toastify';");
+            js.AppendLine("");
+            js.AppendLine("const createEmptyForm = () => ({");
+            foreach (var item in tabela.CamposFrontEnd().Where(c => c.VisivelInclusaoEdicao))
+            {
+                if (IsSystemField(item.DAO.Nome) || item.DAO.PrimaryKey)
+                    continue;
+
+                js.AppendLine($"    {NamesHandler.CreateComponentName(item.DAO.Nome)}: '',");
+            }
+            js.AppendLine("});");
+            js.AppendLine("");
+            js.AppendLine($"const {name} = () => {{");
+            js.AppendLine("    const dispatch = useDispatch();");
+            js.AppendLine("    const navigate = useNavigate();");
+            js.AppendLine("    const { code } = useParams();");
+            js.AppendLine("    const isEditing = Boolean(code);");
+            js.AppendLine("    const [formData, setFormData] = useState(createEmptyForm());");
+            js.AppendLine("    const [initialData, setInitialData] = useState(createEmptyForm());");
+            js.AppendLine("");
+            js.AppendLine("    useEffect(() => {");
+            js.AppendLine("        if (!isEditing) {");
+            js.AppendLine("            return;");
+            js.AppendLine("        }");
+            js.AppendLine("");
+            js.AppendLine("        const fetchItem = async () => {");
+            js.AppendLine("            dispatch(setLoading(true));");
+            js.AppendLine("            try {");
+            js.AppendLine($"                const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.getByCode(code, {{ include: '' }});");
+            js.AppendLine("                const nextFormData = { ...createEmptyForm(), ...response };");
+            js.AppendLine("                setFormData(nextFormData);");
+            js.AppendLine("                setInitialData(nextFormData);");
+            js.AppendLine("            } catch (error) {");
+            js.AppendLine("                toast.error('Erro ao buscar o item.');");
+            js.AppendLine("            } finally {");
+            js.AppendLine("                dispatch(setLoading(false));");
+            js.AppendLine("            }");
+            js.AppendLine("        };");
+            js.AppendLine("");
+            js.AppendLine("        fetchItem();");
+            js.AppendLine("    }, [code, dispatch, isEditing]);");
+            js.AppendLine("");
+            js.AppendLine("    const handleChange = (event) => {");
+            js.AppendLine("        const { name, value, type, checked } = event.target;");
+            js.AppendLine("        setFormData((previous) => ({");
+            js.AppendLine("            ...previous,");
+            js.AppendLine("            [name]: type === 'checkbox' ? checked : value,");
+            js.AppendLine("        }));");
+            js.AppendLine("    };");
+            js.AppendLine("");
+            js.AppendLine("    const getChangedFields = () => {");
+            js.AppendLine("        return Object.keys(formData).reduce((changes, field) => {");
+            js.AppendLine("            if (formData[field] !== initialData[field]) {");
+            js.AppendLine("                changes[field] = formData[field] === '' ? null : formData[field];");
+            js.AppendLine("            }");
+            js.AppendLine("");
+            js.AppendLine("            return changes;");
+            js.AppendLine("        }, {});");
+            js.AppendLine("    };");
+            js.AppendLine("");
+            js.AppendLine("    const handleSubmit = async (event) => {");
+            js.AppendLine("        event.preventDefault();");
+            js.AppendLine("        dispatch(setLoading(true));");
+            js.AppendLine("");
+            js.AppendLine("        try {");
+            js.AppendLine("            if (isEditing) {");
+            js.AppendLine("                const changes = getChangedFields();");
+            js.AppendLine("                if (Object.keys(changes).length === 0) {");
+            js.AppendLine("                    toast.info('Nenhuma alteração para salvar.');");
+            js.AppendLine("                    return;");
+            js.AppendLine("                }");
+            js.AppendLine($"                await {NamesHandler.GetApiName(tabela.DAO.Nome)}.update(code, changes);");
+            js.AppendLine("                toast.success('Atualizado com sucesso!');");
+            js.AppendLine("            } else {");
+            js.AppendLine($"                await {NamesHandler.GetApiName(tabela.DAO.Nome)}.create(formData);");
+            js.AppendLine("                toast.success('Criado com sucesso!');");
+            js.AppendLine("            }");
+            js.AppendLine("");
+            js.AppendLine($"            navigate('/{routeName}');");
+            js.AppendLine("        } catch (error) {");
+            js.AppendLine("            toast.error('Erro ao salvar o item.');");
+            js.AppendLine("        } finally {");
+            js.AppendLine("            dispatch(setLoading(false));");
+            js.AppendLine("        }");
+            js.AppendLine("    };");
+            js.AppendLine("");
+            js.AppendLine("    return (");
+            js.AppendLine("        <div className=\"container-admin-page\">");
+            js.AppendLine($"            <h1>{{isEditing ? 'Editar {tableLabel}' : 'Novo {tableLabel}'}}</h1>");
+            js.AppendLine("            <form className=\"box\" onSubmit={handleSubmit}>");
+            foreach (var item in tabela.CamposFrontEnd().Where(c => c.VisivelInclusaoEdicao))
+            {
+                if (IsSystemField(item.DAO.Nome) || item.DAO.PrimaryKey)
+                    continue;
+
+                string fieldName = NamesHandler.CreateComponentName(item.DAO.Nome);
+                string fieldLabel = EscapeJsString(item.Apelido);
+                string inputType = GetInputType(item.DAO.TipoCampo.Nome);
+                string required = item.DAO.NotNull ? " required" : string.Empty;
+
+                js.AppendLine("                <div className=\"form-group\">");
+                js.AppendLine($"                    <label htmlFor=\"{fieldName}\">{fieldLabel}</label>");
+                if (inputType.Equals("checkbox"))
+                {
+                    js.AppendLine($"                    <input id=\"{fieldName}\" name=\"{fieldName}\" type=\"checkbox\" checked={{Boolean(formData.{fieldName})}} onChange={{handleChange}} />");
+                }
+                else
+                {
+                    js.AppendLine($"                    <input id=\"{fieldName}\" name=\"{fieldName}\" type=\"{inputType}\" value={{formData.{fieldName} ?? ''}} onChange={{handleChange}}{required} />");
+                }
+                js.AppendLine("                </div>");
+            }
+            js.AppendLine("                <div className=\"title-with-options\">");
+            js.AppendLine("                    <button type=\"button\" className=\"main-button\" onClick={() => navigate(-1)}>Cancelar</button>");
+            js.AppendLine("                    <button type=\"submit\" className=\"main-button\">Salvar</button>");
+            js.AppendLine("                </div>");
+            js.AppendLine("            </form>");
+            js.AppendLine("        </div>");
+            js.AppendLine("    );");
+            js.AppendLine("};");
+            js.AppendLine("");
+            js.AppendLine($"export default {name};");
+
+            File.WriteAllText(path + $"//{name}.jsx", js.ToString());
+            File.WriteAllText(path + $"//{name}.css", string.Empty);
+        }
+
+        private static bool IsSystemField(string fieldName)
+        {
+            return fieldName.Equals("Code", StringComparison.OrdinalIgnoreCase) ||
+                fieldName.Equals("Id", StringComparison.OrdinalIgnoreCase) ||
+                fieldName.Equals("IsActive", StringComparison.OrdinalIgnoreCase) ||
+                fieldName.Equals("IsDeleted", StringComparison.OrdinalIgnoreCase) ||
+                fieldName.Equals("Created", StringComparison.OrdinalIgnoreCase) ||
+                fieldName.Equals("Updated", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static string EscapeJsString(string value)
+        {
+            return (value ?? string.Empty).Replace("\\", "\\\\").Replace("'", "\\'");
+        }
+
+        private static string GetInputType(string dbType)
+        {
+            string normalizedDbType = dbType.Trim().ToUpper();
+
+            if (normalizedDbType.Contains("DATE") || normalizedDbType.Contains("TIME"))
+                return "datetime-local";
+
+            if (normalizedDbType.Contains("BOOL") || normalizedDbType.Equals("BIT"))
+                return "checkbox";
+
+            if (normalizedDbType.Contains("INT") ||
+                normalizedDbType.Contains("DECIMAL") ||
+                normalizedDbType.Contains("NUMERIC") ||
+                normalizedDbType.Contains("FLOAT") ||
+                normalizedDbType.Contains("DOUBLE") ||
+                normalizedDbType.Contains("REAL"))
+                return "number";
+
+            return "text";
         }
 
         private static void CreateRecoverPasswordPage(string path, string projectName)
@@ -354,7 +557,7 @@ namespace Regras.FrontEndClasses
             File.WriteAllText(path + "//RecoverPasswordPage.jsx", js.ToString());
         }
 
-        private static void CreateLoginPage(string path)
+        private static void CreateLoginPage(string path, string projectName)
         {
             StringBuilder css = new StringBuilder();
             css.AppendLine(".login-page-container {");
@@ -546,7 +749,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("                <div className=\"login-page-form-group\">");
             js.AppendLine("                    <div className=\"div-center margin-bottom-double-default flex-column\">");
             js.AppendLine("                        <h1>");
-            js.AppendLine("                            Nome");
+            js.AppendLine($"                            {EscapeJsString(projectName)}");
             js.AppendLine("                        </h1>");
             js.AppendLine("                    </div>");
             js.AppendLine("                    <div className=\"login-page-form-group\">");

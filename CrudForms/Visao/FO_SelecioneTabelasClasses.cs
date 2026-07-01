@@ -1,4 +1,4 @@
-﻿using Regras.ApiClasses;
+using Regras.ApiClasses;
 using Regras.FrontEndClasses;
 using System;
 using System.Collections.Generic;
@@ -86,6 +86,25 @@ namespace Visao
             }
         }
 
+        private void btn_configurar_Click(object sender, EventArgs e)
+        {
+            if (backEnd)
+            {
+                return;
+            }
+
+            if (this.lista_selecionados.Count == 0)
+            {
+                Visao.Message.MensagemAlerta("Selecione pelo menos uma tabela para configurar");
+                return;
+            }
+
+            using (FO_ConfigurarTabelasFrontEnd tela = new FO_ConfigurarTabelasFrontEnd(this.lista_selecionados))
+            {
+                tela.ShowDialog();
+            }
+        }
+
         #endregion Eventos
 
         #region Construtores
@@ -139,11 +158,15 @@ namespace Visao
             {
                 this.Text = "Selecione as tabelas para geração das classes";
                 this.pan_selectDirectory.Visible = false;
+                this.btn_gerar.Text = "Gerar Classes";
+                this.btn_configurar.Visible = false;
             }
             else
             {
                 this.pan_selectDirectory.Visible = true;
                 this.Text = "Selecione as tabelas para geração do projeto front end";
+                this.btn_gerar.Text = "Gerar Projeto";
+                this.btn_configurar.Visible = true;
             }
         }
 
@@ -223,6 +246,12 @@ namespace Visao
 
         public void GerarClasses()
         {
+            if (this.lista_selecionados.Count == 0)
+            {
+                Message.MensagemAlerta("Selecione pelo menos uma tabela!");
+                return;
+            }
+
             if(!backEnd && string.IsNullOrEmpty(this.tbx_directory.Text))
             {
                 Message.MensagemAlerta("Selecione um diretório!");
@@ -253,5 +282,6 @@ namespace Visao
         }
 
         #endregion Métodos
+
     }
 }

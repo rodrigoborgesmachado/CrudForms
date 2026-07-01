@@ -30,6 +30,29 @@ namespace Model
             } 
         }
 
+        private string apelido = string.Empty;
+
+        /// <summary>
+        /// Nome de apresentação da coluna no front end.
+        /// </summary>
+        public string Apelido
+        {
+            get
+            {
+                return string.IsNullOrEmpty(apelido) ? DAO.Nome : apelido;
+            }
+            set
+            {
+                apelido = value;
+            }
+        }
+
+        public bool VisivelListagem { get; set; } = true;
+
+        public bool VisivelInclusaoEdicao { get; set; } = true;
+
+        public bool VisivelDetalhes { get; set; } = true;
+
         /// <summary>
         /// DAO que representa a classe
         /// </summary>
@@ -47,6 +70,10 @@ namespace Model
         public MD_Campos(int codigo, int codigoTabela, int codigoProjeto, bool load = true)
         {
             this.DAO = new DAO.MD_Campos(codigo, new DAO.MD_Tabela(codigoTabela, codigoProjeto));
+            if (this.DAO.PrimaryKey)
+            {
+                this.VisivelInclusaoEdicao = false;
+            }
         }
 
         #endregion Contrutor

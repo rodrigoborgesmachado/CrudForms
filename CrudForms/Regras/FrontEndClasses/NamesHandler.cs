@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Regras.FrontEndClasses
 {
@@ -53,6 +54,13 @@ namespace Regras.FrontEndClasses
             return $"{formattedTableName}Page";
         }
 
+        public static string CreateComponentFormName(string tableName)
+        {
+            string formattedTableName = char.ToUpper(tableName[0]) + tableName.Substring(1).ToLower();
+
+            return $"{formattedTableName}Form";
+        }
+
         public static string CreateName(string tableName)
         {
             string formattedTableName = char.ToUpper(tableName[0]) + tableName.Substring(1).ToLower();
@@ -65,6 +73,14 @@ namespace Regras.FrontEndClasses
             string formattedTableName = tableName.ToLower();
 
             return $"{formattedTableName}Api";
+        }
+
+        public static string CreateRouteName(string alias)
+        {
+            string route = string.IsNullOrWhiteSpace(alias) ? string.Empty : alias.Trim().ToLower();
+            route = Regex.Replace(route, @"\s+", "-");
+
+            return route;
         }
 
         public static string GetDirectoryByType(string directory, FileType type)

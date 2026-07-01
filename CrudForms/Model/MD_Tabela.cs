@@ -19,6 +19,24 @@ namespace Model
         /// </summary>
         public DAO.MD_Tabela DAO = null;
 
+        private string apelido = string.Empty;
+        private List<Model.MD_Campos> camposFrontEnd = null;
+
+        /// <summary>
+        /// Nome de apresentação da tabela no front end.
+        /// </summary>
+        public string Apelido
+        {
+            get
+            {
+                return string.IsNullOrEmpty(apelido) ? DAO.Nome : apelido;
+            }
+            set
+            {
+                apelido = value;
+            }
+        }
+
         #endregion Atributos e Propriedades
 
         #region Contrutores
@@ -57,6 +75,19 @@ namespace Model
             }
 
             return campos;
+        }
+
+        /// <summary>
+        /// Campos usados na configuração e geração do front end.
+        /// </summary>
+        public List<Model.MD_Campos> CamposFrontEnd()
+        {
+            if (camposFrontEnd == null)
+            {
+                camposFrontEnd = CamposDaTabela();
+            }
+
+            return camposFrontEnd;
         }
 
         /// <summary>

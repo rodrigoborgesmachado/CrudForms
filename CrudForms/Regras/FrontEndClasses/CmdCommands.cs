@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System;
 using System.IO;
 using static Regras.FrontEndClasses.NamesHandler;
@@ -152,29 +152,68 @@ namespace Regras.FrontEndClasses
 
         private static bool RunCmd(string command, string workingDirectory)
         {
+            string scriptPath = Path.Combine(Path.GetTempPath(), $"crudforms-frontend-{Guid.NewGuid():N}.cmd");
+            File.WriteAllText(scriptPath, CreateCommandScript(command, workingDirectory));
+
             ProcessStartInfo psi = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                Arguments = $"/c {command}",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
+                Arguments = $"/c \"{scriptPath}\"",
+                UseShellExecute = true,
+                CreateNoWindow = false,
                 WorkingDirectory = workingDirectory
             };
 
-            using (Process process = new Process { StartInfo = psi })
+            try
             {
-                process.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
-                process.ErrorDataReceived += (sender, args) => Console.WriteLine(args.Data);
+                using (Process process = new Process { StartInfo = psi })
+                {
+                    process.Start();
+                    process.WaitForExit();
 
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                process.WaitForExit();
-
-                return process.ExitCode == 0;
+                    return true;
+                }
             }
+            finally
+            {
+                try
+                {
+                    if (File.Exists(scriptPath))
+                    {
+                        File.Delete(scriptPath);
+                    }
+                }
+                catch
+                {
+                    // The temp script is only diagnostic glue; failing to delete it should not break generation.
+                }
+            }
+        }
+
+        private static string CreateCommandScript(string command, string workingDirectory)
+        {
+            return
+                "@echo off\r\n" +
+                "title CrudForms - Criacao do front-end\r\n" +
+                "echo.\r\n" +
+                "echo ================================================\r\n" +
+                "echo CrudForms - executando comando do front-end\r\n" +
+                "echo ================================================\r\n" +
+                $"echo Diretorio: {workingDirectory}\r\n" +
+                $"echo Comando: {command}\r\n" +
+                "echo.\r\n" +
+                "set npm_config_yes=true\r\n" +
+                $"call {command}\r\n" +
+                "set EXIT_CODE=%ERRORLEVEL%\r\n" +
+                "echo.\r\n" +
+                "if not \"%EXIT_CODE%\"==\"0\" (\r\n" +
+                "    echo ================================================\r\n" +
+                "    echo Erro ao executar o comando. Codigo: %EXIT_CODE%\r\n" +
+                "    echo Revise a mensagem acima antes de fechar esta janela.\r\n" +
+                "    echo ================================================\r\n" +
+                "    pause\r\n" +
+                ")\r\n" +
+                "exit /b %EXIT_CODE%\r\n";
         }
 
         private static string QuoteArgument(string argument)

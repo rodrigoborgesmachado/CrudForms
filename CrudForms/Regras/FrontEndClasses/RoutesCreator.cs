@@ -39,8 +39,10 @@ namespace Regras.FrontEndClasses
                 string componentName = NamesHandler.CreateComponentName(tabela.DAO.Nome);
                 string nameList = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
                 string namePage = NamesHandler.CreateComponentPageName(tabela.DAO.Nome);
+                string nameForm = NamesHandler.CreateComponentFormName(tabela.DAO.Nome);
                 js.AppendLine($"import {nameList} from '../../pages/admin/{componentName}/{nameList}/{nameList}';");
                 js.AppendLine($"import {namePage} from '../../pages/admin/{componentName}/{namePage}/{namePage}';");
+                js.AppendLine($"import {nameForm} from '../../pages/admin/{componentName}/{nameForm}/{nameForm}';");
             }
             js.AppendLine("");
             js.AppendLine("const AdminRoutes = () => (");
@@ -51,8 +53,12 @@ namespace Regras.FrontEndClasses
             {
                 string nameList = NamesHandler.CreateComponentListName(tabela.DAO.Nome);
                 string namePage = NamesHandler.CreateComponentPageName(tabela.DAO.Nome);
-                js.AppendLine($"      <Route path=\"/{tabela.DAO.Nome}\" element={{<{nameList} />}} />");
-                js.AppendLine($"      <Route path=\"/{tabela.DAO.Nome}/:code\" element={{<{namePage} />}} />");
+                string nameForm = NamesHandler.CreateComponentFormName(tabela.DAO.Nome);
+                string routeName = NamesHandler.CreateRouteName(tabela.Apelido);
+                js.AppendLine($"      <Route path=\"/{routeName}\" element={{<{nameList} />}} />");
+                js.AppendLine($"      <Route path=\"/{routeName}/novo\" element={{<{nameForm} />}} />");
+                js.AppendLine($"      <Route path=\"/{routeName}/:code/editar\" element={{<{nameForm} />}} />");
+                js.AppendLine($"      <Route path=\"/{routeName}/:code\" element={{<{namePage} />}} />");
             }
             js.AppendLine("      <Route path=\"/*\" element={<DashboardPage />} />");
             js.AppendLine("      </Routes>");

@@ -291,6 +291,12 @@
     <Compile Include="Visao\FO_SelecionaConexao.Designer.cs">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Visao\FO_ConfigurarTabelasFrontEnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visao\FO_ConfigurarTabelasFrontEnd.Designer.cs">
+      <DependentUpon>FO_ConfigurarTabelasFrontEnd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visao\FO_SelecioneTabelasClasses.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -376,6 +382,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_SelecionaConexao.resx">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_ConfigurarTabelasFrontEnd.resx">
+      <DependentUpon>FO_ConfigurarTabelasFrontEnd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_SelecioneTabelasClasses.resx">
       <DependentUpon>FO_SelecioneTabelasClasses.cs</DependentUpon>
