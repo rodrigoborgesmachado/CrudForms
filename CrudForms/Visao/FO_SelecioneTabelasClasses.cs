@@ -19,6 +19,7 @@ namespace Visao
         bool backEnd = true;
         List<Model.MD_Tabela> lista = new List<Model.MD_Tabela>();
         List<Model.MD_Tabela> lista_selecionados = new List<Model.MD_Tabela>();
+        List<Model.MD_FrontEndCssVariable> cssVariables = AssetsCreator.GetDefaultCssVariables();
         bool locked = false;
 
         #endregion Atributos e Propriedades
@@ -103,6 +104,21 @@ namespace Visao
             {
                 tela.ShowDialog();
             }
+
+            FillGridTabelaOut();
+        }
+
+        private void btn_configurar_css_Click(object sender, EventArgs e)
+        {
+            if (backEnd)
+            {
+                return;
+            }
+
+            using (FO_ConfigurarCssFrontEnd tela = new FO_ConfigurarCssFrontEnd(this.cssVariables))
+            {
+                tela.ShowDialog();
+            }
         }
 
         #endregion Eventos
@@ -151,6 +167,7 @@ namespace Visao
             }
 
             this.grb_configuracaoSQLSERVER.ForeColor = this.ForeColor;
+            this.btn_configurar_css.Click += btn_configurar_css_Click;
 
             this.FillGrid();
 
@@ -160,6 +177,7 @@ namespace Visao
                 this.pan_selectDirectory.Visible = false;
                 this.btn_gerar.Text = "Gerar Classes";
                 this.btn_configurar.Visible = false;
+                this.btn_configurar_css.Visible = false;
             }
             else
             {
@@ -167,6 +185,7 @@ namespace Visao
                 this.Text = "Selecione as tabelas para geração do projeto front end";
                 this.btn_gerar.Text = "Gerar Projeto";
                 this.btn_configurar.Visible = true;
+                this.btn_configurar_css.Visible = true;
             }
         }
 
@@ -266,7 +285,7 @@ namespace Visao
 
             var result = backEnd ? 
                 CreatorApiClasses.CreateApiClasses(lista_selecionados, this.tbx_message.Text.Replace(" ", "").Replace("_", ""), out string mensagem) :
-                CreatorFrontEndProject.CreateProject(lista_selecionados, this.tbx_directory.Text, this.tbx_message.Text, out mensagem);
+                CreatorFrontEndProject.CreateProject(lista_selecionados, this.tbx_directory.Text, this.tbx_message.Text, this.cssVariables, out mensagem);
 
             if (result)
             {

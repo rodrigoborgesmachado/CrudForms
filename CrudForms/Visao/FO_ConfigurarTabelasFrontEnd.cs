@@ -52,12 +52,16 @@ namespace Visao
             dgv_tabela_in.SelectionChanged += dgv_tabela_in_SelectionChanged;
             btn_editar_tabela.Click += btn_editar_tabela_Click;
             btn_editar_coluna.Click += btn_editar_coluna_Click;
+            btn_up_tabela.Click += btn_up_tabela_Click;
+            btn_down_tabela.Click += btn_down_tabela_Click;
+            btn_up_coluna.Click += btn_up_coluna_Click;
+            btn_down_coluna.Click += btn_down_coluna_Click;
             btn_confirmar.Click += btn_confirmar_Click;
 
             FillGridTabelas();
         }
 
-        private void FillGridTabelas()
+        private void FillGridTabelas(Model.MD_Tabela tabelaSelecionada = null)
         {
             locked = true;
             dgv_tabela_in.Rows.Clear();
@@ -67,20 +71,21 @@ namespace Visao
             dgv_tabela_in.Columns.Add("Apelido", "Apelido");
             dgv_tabela_in.Columns["Nome"].ReadOnly = true;
 
-            foreach (var tabela in tabelas.OrderBy(t => t.DAO.Nome))
+            foreach (var tabela in tabelas)
             {
                 int rowIndex = dgv_tabela_in.Rows.Add(tabela.DAO.Nome, tabela.Apelido);
                 dgv_tabela_in.Rows[rowIndex].Tag = tabela;
             }
 
             FormatGrid(dgv_tabela_in);
-            locked = false;
 
             if (dgv_tabela_in.Rows.Count > 0)
             {
-                dgv_tabela_in.Rows[0].Selected = true;
-                FillGridColunas(GetSelectedTabela());
+                SelectRowByTag(dgv_tabela_in, tabelaSelecionada ?? tabelas[0]);
             }
+
+            locked = false;
+            FillGridColunas(GetSelectedTabela());
         }
 
         private void FillGridColunas(Model.MD_Tabela tabela)
@@ -198,11 +203,112 @@ namespace Visao
             dgv_coluna.BeginEdit(true);
         }
 
+        private void btn_up_tabela_Click(object sender, EventArgs e)
+        {
+            MoveSelectedTabela(-1);
+        }
+
+        private void btn_down_tabela_Click(object sender, EventArgs e)
+        {
+            MoveSelectedTabela(1);
+        }
+
+        private void btn_up_coluna_Click(object sender, EventArgs e)
+        {
+            MoveSelectedColuna(-1);
+        }
+
+        private void btn_down_coluna_Click(object sender, EventArgs e)
+        {
+            MoveSelectedColuna(1);
+        }
+
         private void btn_confirmar_Click(object sender, EventArgs e)
         {
             SaveCurrentGridValues();
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void MoveSelectedTabela(int direction)
+        {
+            var tabela = GetSelectedTabela();
+            if (tabela == null)
+            {
+                Message.MensagemAlerta("Selecione uma tabela");
+                return;
+            }
+
+            int currentIndex = tabelas.IndexOf(tabela);
+            int targetIndex = currentIndex + direction;
+            if (currentIndex < 0 || targetIndex < 0 || targetIndex >= tabelas.Count)
+            {
+                return;
+            }
+
+            SaveCurrentGridValues();
+
+            var temp = tabelas[targetIndex];
+            tabelas[targetIndex] = tabelas[currentIndex];
+            tabelas[currentIndex] = temp;
+
+            FillGridTabelas(tabela);
+        }
+
+        private void MoveSelectedColuna(int direction)
+        {
+            var tabela = GetSelectedTabela();
+            var coluna = GetSelectedColuna();
+            if (tabela == null)
+            {
+                Message.MensagemAlerta("Selecione uma tabela");
+                return;
+            }
+
+            if (coluna == null)
+            {
+                Message.MensagemAlerta("Selecione uma coluna");
+                return;
+            }
+
+            SaveColumnGridValues();
+
+            var colunas = tabela.CamposFrontEnd();
+            int currentIndex = colunas.IndexOf(coluna);
+            int targetIndex = currentIndex + direction;
+            if (currentIndex < 0 || targetIndex < 0 || targetIndex >= colunas.Count)
+            {
+                return;
+            }
+
+            var temp = colunas[targetIndex];
+            colunas[targetIndex] = colunas[currentIndex];
+            colunas[currentIndex] = temp;
+
+            FillGridColunas(tabela);
+            SelectRowByTag(dgv_coluna, coluna);
+        }
+
+        private void SelectRowByTag(DataGridView grid, object tag)
+        {
+            grid.ClearSelection();
+
+            if (tag == null)
+            {
+                return;
+            }
+
+            foreach (DataGridViewRow row in grid.Rows)
+            {
+                if (!ReferenceEquals(row.Tag, tag))
+                {
+                    continue;
+                }
+
+                row.Selected = true;
+                grid.CurrentCell = row.Cells[0];
+                return;
+            }
         }
 
         private void SaveCurrentGridValues()

@@ -44,6 +44,7 @@ namespace Visao
             this.btn_path = new System.Windows.Forms.Button();
             this.tbx_directory = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btn_configurar_css = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_out)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_in)).BeginInit();
@@ -161,6 +162,7 @@ namespace Visao
             // 
             // pan_botton
             // 
+            this.pan_botton.Controls.Add(this.btn_configurar_css);
             this.pan_botton.Controls.Add(this.btn_configurar);
             this.pan_botton.Controls.Add(this.btn_gerar);
             this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -259,6 +261,17 @@ namespace Visao
             this.label2.TabIndex = 0;
             this.label2.Text = "Diretório do Projeto";
             // 
+            // btn_configurar_css
+            // 
+            this.btn_configurar_css.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_configurar_css.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_configurar_css.Location = new System.Drawing.Point(142, 3);
+            this.btn_configurar_css.Name = "btn_configurar_css";
+            this.btn_configurar_css.Size = new System.Drawing.Size(117, 29);
+            this.btn_configurar_css.TabIndex = 25;
+            this.btn_configurar_css.Text = "Configurar Css";
+            this.btn_configurar_css.UseVisualStyleBackColor = true;
+            // 
             // FO_SelecioneTabelasClasses
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -308,5 +321,6 @@ namespace Visao
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_path;
         private System.Windows.Forms.Button btn_configurar;
+        private System.Windows.Forms.Button btn_configurar_css;
     }
 }

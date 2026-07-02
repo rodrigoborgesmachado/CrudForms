@@ -8,7 +8,7 @@ namespace Regras.FrontEndClasses
 {
     public static class CreatorFrontEndProject
     {
-        public static bool CreateProject(List<MD_Tabela> tabelas, string directory, string projectName, out string message)
+        public static bool CreateProject(List<MD_Tabela> tabelas, string directory, string projectName, List<MD_FrontEndCssVariable> cssVariables, out string message)
         {
             bool success = true;
             message = string.Empty;
@@ -37,7 +37,7 @@ namespace Regras.FrontEndClasses
                 }
                 barra.AvancaBarra(1);
 
-                success &= AssetsCreator.Create(projectPath);
+                success &= AssetsCreator.Create(projectPath, cssVariables);
                 if (!success)
                 {
                     errors.AppendLine("Erro ao criar o assets!");

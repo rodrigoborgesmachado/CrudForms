@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -6,14 +7,14 @@ namespace Regras.FrontEndClasses
 {
     public static class AssetsCreator
     {
-        public static bool Create(string projectPath)
+        public static bool Create(string projectPath, List<Model.MD_FrontEndCssVariable> cssVariables = null)
         {
             bool success = true;
 
             try
             {
                 string fileCss = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.AssetsStyles) + "//index.css";
-                CreateCssFile(fileCss);
+                CreateCssFile(fileCss, cssVariables);
             }
             catch(Exception ex)
             {
@@ -24,79 +25,88 @@ namespace Regras.FrontEndClasses
             return success;
         }
 
-        private static void CreateCssFile(string fileDirectory)
+        public static List<Model.MD_FrontEndCssVariable> GetDefaultCssVariables()
+        {
+            return new List<Model.MD_FrontEndCssVariable>
+            {
+                new Model.MD_FrontEndCssVariable("Background Colors", "--background-color", "#FAFAFA"),
+                new Model.MD_FrontEndCssVariable("Background Colors", "--desktop-background-color", "#ECEFF1"),
+                new Model.MD_FrontEndCssVariable("Primary Theme Colors", "--primary-color", "#1B4332"),
+                new Model.MD_FrontEndCssVariable("Primary Theme Colors", "--primary-color-hover", "#142E24"),
+                new Model.MD_FrontEndCssVariable("Primary Theme Colors", "--modal-primary-color", "rgba(27, 67, 50, 0.9)"),
+                new Model.MD_FrontEndCssVariable("Panel Colors", "--secundary-color", "#D8E2DC"),
+                new Model.MD_FrontEndCssVariable("Panel Colors", "--secundary-color-hover", "#B7C9B8"),
+                new Model.MD_FrontEndCssVariable("Primary Button Colors", "--button-color-primary", "#1B4332"),
+                new Model.MD_FrontEndCssVariable("Primary Button Colors", "--button-color-primary-hover", "#0F2C20"),
+                new Model.MD_FrontEndCssVariable("Primary Button Colors", "--button-color-primary-disabled", "#9BB2A5"),
+                new Model.MD_FrontEndCssVariable("Primary Button Colors", "--button-color-primary-right", "#2D6A4F"),
+                new Model.MD_FrontEndCssVariable("Primary Button Colors", "--button-color-primary-right-hover", "#1F5237"),
+                new Model.MD_FrontEndCssVariable("Primary Button Colors", "--button-color-primary-wrong", "#D62828"),
+                new Model.MD_FrontEndCssVariable("Primary Button Colors", "--button-color-primary-wrong-hover", "#A61616"),
+                new Model.MD_FrontEndCssVariable("Secondary Button Colors", "--button-color-secundary", "#3D5A80"),
+                new Model.MD_FrontEndCssVariable("Secondary Button Colors", "--button-color-secundary-hover", "#293F50"),
+                new Model.MD_FrontEndCssVariable("Secondary Button Colors", "--button-color-secundary-wrong", "#8D0801"),
+                new Model.MD_FrontEndCssVariable("Secondary Button Colors", "--button-color-secundary-wrong-hover", "#5E0600"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--title-color", "#102A43"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--text-color-primary", "#2C3E50"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--text-color-primary-light", "#52616B"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--text-color-primary-dark", "#1A2A33"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--text-color-secondary", "#FFFFFF"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--text-color-accent", "#1B98E0"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--text-color-code", "#1B4332"),
+                new Model.MD_FrontEndCssVariable("Text Colors", "--text-color-button", "#FFFFFF"),
+                new Model.MD_FrontEndCssVariable("Borders, Shadows, and Separators", "--separator-color-primary", "rgba(0, 0, 0, 0.12)"),
+                new Model.MD_FrontEndCssVariable("Borders, Shadows, and Separators", "--separator-marker-color-primary", "#1B4332"),
+                new Model.MD_FrontEndCssVariable("Borders, Shadows, and Separators", "--panel-border-color", "#D1D5DB"),
+                new Model.MD_FrontEndCssVariable("Borders, Shadows, and Separators", "--shadow-color-primary", "rgba(0, 0, 0, 0.15)"),
+                new Model.MD_FrontEndCssVariable("Borders, Shadows, and Separators", "--shadow-color-secondary", "rgba(0, 0, 0, 0.1)"),
+                new Model.MD_FrontEndCssVariable("Surfaces and Blocks", "--block-color", "#FFFFFF"),
+                new Model.MD_FrontEndCssVariable("Surfaces and Blocks", "--block-color-secundary", "#EDF2F7"),
+                new Model.MD_FrontEndCssVariable("Surfaces and Blocks", "--color-surface", "#FFFFFF"),
+                new Model.MD_FrontEndCssVariable("Surfaces and Blocks", "--color-surface-variant", "#E3F2FD"),
+                new Model.MD_FrontEndCssVariable("Loader and Modal Colors", "--loader-color", "#1B4332"),
+                new Model.MD_FrontEndCssVariable("Loader and Modal Colors", "--modal-background-color", "rgba(255, 255, 255, 0.95)"),
+                new Model.MD_FrontEndCssVariable("Footer Height", "--footer-heigth", "48px"),
+                new Model.MD_FrontEndCssVariable("Spacing and Layout", "--default-spacing", "8px"),
+                new Model.MD_FrontEndCssVariable("Spacing and Layout", "--double-default-spacing", "calc(2 * var(--default-spacing))"),
+                new Model.MD_FrontEndCssVariable("Spacing and Layout", "--triple-default-spacing", "calc(3 * var(--default-spacing))"),
+                new Model.MD_FrontEndCssVariable("Spacing and Layout", "--default-max-width", "1080px"),
+                new Model.MD_FrontEndCssVariable("Spacing and Layout", "--default-border-radius", "6px"),
+                new Model.MD_FrontEndCssVariable("Spacing and Layout", "--default-border-radius-extra", "18px")
+            };
+        }
+
+        private static void AppendCssVariables(StringBuilder cssFile, List<Model.MD_FrontEndCssVariable> cssVariables)
+        {
+            var variables = cssVariables ?? GetDefaultCssVariables();
+            string currentGroup = null;
+
+            cssFile.AppendLine(":root {");
+            foreach (var variable in variables)
+            {
+                if (!string.Equals(currentGroup, variable.Grupo, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (currentGroup != null)
+                    {
+                        cssFile.AppendLine();
+                    }
+
+                    currentGroup = variable.Grupo;
+                    cssFile.AppendLine($"    /* {currentGroup} */");
+                }
+
+                cssFile.AppendLine($"    {variable.Nome}: {variable.Valor};");
+            }
+            cssFile.AppendLine("}");
+        }
+
+        private static void CreateCssFile(string fileDirectory, List<Model.MD_FrontEndCssVariable> cssVariables)
         {
             StringBuilder cssFile = new StringBuilder();
             cssFile.AppendLine("@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100..900&family=Roboto:wght@100;300;400;500;700;900&display=swap');");
             cssFile.AppendLine();
             cssFile.AppendLine();
-            cssFile.AppendLine(":root {");
-            cssFile.AppendLine("    /* Background Colors */");
-            cssFile.AppendLine("    --background-color: #FAFAFA; ");
-            cssFile.AppendLine("    --desktop-background-color: #ECEFF1; ");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Primary Theme Colors */");
-            cssFile.AppendLine("    --primary-color: #1B4332; ");
-            cssFile.AppendLine("    --primary-color-hover: #142E24;");
-            cssFile.AppendLine("    --modal-primary-color: rgba(27, 67, 50, 0.9); ");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Panel Colors */");
-            cssFile.AppendLine("    --secundary-color: #D8E2DC; ");
-            cssFile.AppendLine("    --secundary-color-hover: #B7C9B8; ");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Primary Button Colors */");
-            cssFile.AppendLine("    --button-color-primary: #1B4332; ");
-            cssFile.AppendLine("    --button-color-primary-hover: #0F2C20; ");
-            cssFile.AppendLine("    --button-color-primary-disabled: #9BB2A5; ");
-            cssFile.AppendLine("    --button-color-primary-right: #2D6A4F; ");
-            cssFile.AppendLine("    --button-color-primary-right-hover: #1F5237;");
-            cssFile.AppendLine("    --button-color-primary-wrong: #D62828; ");
-            cssFile.AppendLine("    --button-color-primary-wrong-hover: #A61616;");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Secondary Button Colors */");
-            cssFile.AppendLine("    --button-color-secundary: #3D5A80; ");
-            cssFile.AppendLine("    --button-color-secundary-hover: #293F50;");
-            cssFile.AppendLine("    --button-color-secundary-wrong: #8D0801; ");
-            cssFile.AppendLine("    --button-color-secundary-wrong-hover: #5E0600;");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Text Colors */");
-            cssFile.AppendLine("    --title-color: #102A43; ");
-            cssFile.AppendLine("    --text-color-primary: #2C3E50; ");
-            cssFile.AppendLine("    --text-color-primary-light: #52616B;");
-            cssFile.AppendLine("    --text-color-primary-dark: #1A2A33;");
-            cssFile.AppendLine("    --text-color-secondary: #FFFFFF; ");
-            cssFile.AppendLine("    --text-color-accent: #1B98E0; ");
-            cssFile.AppendLine("    --text-color-code: #1B4332;");
-            cssFile.AppendLine("    --text-color-button: #FFFFFF; ");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Borders, Shadows, and Separators */");
-            cssFile.AppendLine("    --separator-color-primary: rgba(0, 0, 0, 0.12);");
-            cssFile.AppendLine("    --separator-marker-color-primary: #1B4332;");
-            cssFile.AppendLine("    --panel-border-color: #D1D5DB; ");
-            cssFile.AppendLine("    --shadow-color-primary: rgba(0, 0, 0, 0.15);");
-            cssFile.AppendLine("    --shadow-color-secondary: rgba(0, 0, 0, 0.1);");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Surfaces and Blocks */");
-            cssFile.AppendLine("    --block-color: #FFFFFF;");
-            cssFile.AppendLine("    --block-color-secundary: #EDF2F7;");
-            cssFile.AppendLine("    --color-surface: #FFFFFF;");
-            cssFile.AppendLine("    --color-surface-variant: #E3F2FD; ");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Loader and Modal Colors */");
-            cssFile.AppendLine("    --loader-color: #1B4332;");
-            cssFile.AppendLine("    --modal-background-color: rgba(255, 255, 255, 0.95);");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Footer Height */");
-            cssFile.AppendLine("    --footer-heigth: 48px;");
-            cssFile.AppendLine();
-            cssFile.AppendLine("    /* Spacing and Layout */");
-            cssFile.AppendLine("    --default-spacing: 8px;");
-            cssFile.AppendLine("    --double-default-spacing: calc(2 * var(--default-spacing));");
-            cssFile.AppendLine("    --triple-default-spacing: calc(3 * var(--default-spacing));");
-            cssFile.AppendLine("    --default-max-width: 1080px;");
-            cssFile.AppendLine("    --default-border-radius: 6px;");
-            cssFile.AppendLine("    --default-border-radius-extra: 18px;");
-            cssFile.AppendLine("}");
+            AppendCssVariables(cssFile, cssVariables);
             cssFile.AppendLine();
             cssFile.AppendLine();
             cssFile.AppendLine("* {");

@@ -147,6 +147,7 @@
     <Compile Include="Model\Filtro.cs" />
     <Compile Include="Model\MD_Campos.cs" />
     <Compile Include="Model\MD_Consultas.cs" />
+    <Compile Include="Model\MD_FrontEndCssVariable.cs" />
     <Compile Include="Model\MD_Observer.cs" />
     <Compile Include="Model\MD_Observersenviados.cs" />
     <Compile Include="Model\MD_Parametros.cs" />
@@ -224,6 +225,9 @@
     </Compile>
     <Compile Include="Visao\FO_ConfigColunas.Designer.cs">
       <DependentUpon>FO_ConfigColunas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visao\FO_ConfigurarCssFrontEnd.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Visao\FO_ConsultasSalvas.cs">
       <SubType>Form</SubType>

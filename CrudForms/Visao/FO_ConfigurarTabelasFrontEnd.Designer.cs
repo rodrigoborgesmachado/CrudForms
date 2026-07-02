@@ -29,13 +29,17 @@ namespace Visao
         private void InitializeComponent()
         {
             this.grb_configuracaoSQLSERVER = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btn_editar_coluna = new System.Windows.Forms.Button();
+            this.btn_editar_tabela = new System.Windows.Forms.Button();
             this.dgv_coluna = new System.Windows.Forms.DataGridView();
             this.dgv_tabela_in = new System.Windows.Forms.DataGridView();
             this.pan_botton = new System.Windows.Forms.Panel();
             this.btn_confirmar = new System.Windows.Forms.Button();
-            this.btn_editar_tabela = new System.Windows.Forms.Button();
-            this.btn_editar_coluna = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_down_tabela = new System.Windows.Forms.Button();
+            this.btn_up_tabela = new System.Windows.Forms.Button();
+            this.btn_down_coluna = new System.Windows.Forms.Button();
+            this.btn_up_coluna = new System.Windows.Forms.Button();
             this.grb_configuracaoSQLSERVER.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_coluna)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tabela_in)).BeginInit();
@@ -44,6 +48,10 @@ namespace Visao
             // 
             // grb_configuracaoSQLSERVER
             // 
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_down_coluna);
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_up_coluna);
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_down_tabela);
+            this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_up_tabela);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.button1);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_editar_coluna);
             this.grb_configuracaoSQLSERVER.Controls.Add(this.btn_editar_tabela);
@@ -52,10 +60,43 @@ namespace Visao
             this.grb_configuracaoSQLSERVER.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grb_configuracaoSQLSERVER.Location = new System.Drawing.Point(0, 0);
             this.grb_configuracaoSQLSERVER.Name = "grb_configuracaoSQLSERVER";
-            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(995, 398);
+            this.grb_configuracaoSQLSERVER.Size = new System.Drawing.Size(1060, 458);
             this.grb_configuracaoSQLSERVER.TabIndex = 22;
             this.grb_configuracaoSQLSERVER.TabStop = false;
             this.grb_configuracaoSQLSERVER.Text = "Tabelas";
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button1.Location = new System.Drawing.Point(479, 54);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 29);
+            this.button1.TabIndex = 26;
+            this.button1.Text = "Editar Coluna";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // btn_editar_coluna
+            // 
+            this.btn_editar_coluna.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_editar_coluna.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_editar_coluna.Location = new System.Drawing.Point(479, 19);
+            this.btn_editar_coluna.Name = "btn_editar_coluna";
+            this.btn_editar_coluna.Size = new System.Drawing.Size(95, 29);
+            this.btn_editar_coluna.TabIndex = 25;
+            this.btn_editar_coluna.Text = "Editar Coluna";
+            this.btn_editar_coluna.UseVisualStyleBackColor = true;
+            // 
+            // btn_editar_tabela
+            // 
+            this.btn_editar_tabela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_editar_tabela.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_editar_tabela.Location = new System.Drawing.Point(304, 19);
+            this.btn_editar_tabela.Name = "btn_editar_tabela";
+            this.btn_editar_tabela.Size = new System.Drawing.Size(89, 29);
+            this.btn_editar_tabela.TabIndex = 24;
+            this.btn_editar_tabela.Text = "Editar tabela";
+            this.btn_editar_tabela.UseVisualStyleBackColor = true;
             // 
             // dgv_coluna
             // 
@@ -72,7 +113,7 @@ namespace Visao
             this.dgv_coluna.Dock = System.Windows.Forms.DockStyle.Right;
             this.dgv_coluna.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgv_coluna.EnableHeadersVisualStyles = false;
-            this.dgv_coluna.Location = new System.Drawing.Point(515, 19);
+            this.dgv_coluna.Location = new System.Drawing.Point(580, 19);
             this.dgv_coluna.MultiSelect = false;
             this.dgv_coluna.Name = "dgv_coluna";
             this.dgv_coluna.RowHeadersVisible = false;
@@ -81,7 +122,7 @@ namespace Visao
             this.dgv_coluna.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_coluna.ShowCellErrors = false;
             this.dgv_coluna.ShowCellToolTips = false;
-            this.dgv_coluna.Size = new System.Drawing.Size(477, 376);
+            this.dgv_coluna.Size = new System.Drawing.Size(477, 436);
             this.dgv_coluna.StandardTab = true;
             this.dgv_coluna.TabIndex = 14;
             // 
@@ -109,7 +150,7 @@ namespace Visao
             this.dgv_tabela_in.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_tabela_in.ShowCellErrors = false;
             this.dgv_tabela_in.ShowCellToolTips = false;
-            this.dgv_tabela_in.Size = new System.Drawing.Size(295, 376);
+            this.dgv_tabela_in.Size = new System.Drawing.Size(295, 436);
             this.dgv_tabela_in.StandardTab = true;
             this.dgv_tabela_in.TabIndex = 13;
             // 
@@ -117,61 +158,72 @@ namespace Visao
             // 
             this.pan_botton.Controls.Add(this.btn_confirmar);
             this.pan_botton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pan_botton.Location = new System.Drawing.Point(0, 398);
+            this.pan_botton.Location = new System.Drawing.Point(0, 458);
             this.pan_botton.Name = "pan_botton";
-            this.pan_botton.Size = new System.Drawing.Size(995, 35);
+            this.pan_botton.Size = new System.Drawing.Size(1060, 35);
             this.pan_botton.TabIndex = 23;
             // 
             // btn_confirmar
             // 
             this.btn_confirmar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_confirmar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_confirmar.Location = new System.Drawing.Point(903, 3);
+            this.btn_confirmar.Location = new System.Drawing.Point(968, 3);
             this.btn_confirmar.Name = "btn_confirmar";
             this.btn_confirmar.Size = new System.Drawing.Size(89, 29);
             this.btn_confirmar.TabIndex = 23;
             this.btn_confirmar.Text = "Confirmar";
             this.btn_confirmar.UseVisualStyleBackColor = true;
             // 
-            // btn_editar_tabela
+            // btn_down_tabela
             // 
-            this.btn_editar_tabela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_editar_tabela.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_editar_tabela.Location = new System.Drawing.Point(304, 22);
-            this.btn_editar_tabela.Name = "btn_editar_tabela";
-            this.btn_editar_tabela.Size = new System.Drawing.Size(89, 29);
-            this.btn_editar_tabela.TabIndex = 24;
-            this.btn_editar_tabela.Text = "Editar tabela";
-            this.btn_editar_tabela.UseVisualStyleBackColor = true;
+            this.btn_down_tabela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_down_tabela.BackgroundImage = global::Pj.Properties.Resources.arrow_down_100px20x20;
+            this.btn_down_tabela.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_down_tabela.Location = new System.Drawing.Point(304, 435);
+            this.btn_down_tabela.Name = "btn_down_tabela";
+            this.btn_down_tabela.Size = new System.Drawing.Size(20, 20);
+            this.btn_down_tabela.TabIndex = 28;
+            this.btn_down_tabela.UseVisualStyleBackColor = true;
             // 
-            // btn_editar_coluna
+            // btn_up_tabela
             // 
-            this.btn_editar_coluna.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_editar_coluna.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btn_editar_coluna.Location = new System.Drawing.Point(414, 22);
-            this.btn_editar_coluna.Name = "btn_editar_coluna";
-            this.btn_editar_coluna.Size = new System.Drawing.Size(95, 29);
-            this.btn_editar_coluna.TabIndex = 25;
-            this.btn_editar_coluna.Text = "Editar Coluna";
-            this.btn_editar_coluna.UseVisualStyleBackColor = true;
+            this.btn_up_tabela.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_up_tabela.BackgroundImage = global::Pj.Properties.Resources.arrow_up_100px20x20;
+            this.btn_up_tabela.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_up_tabela.Location = new System.Drawing.Point(304, 409);
+            this.btn_up_tabela.Name = "btn_up_tabela";
+            this.btn_up_tabela.Size = new System.Drawing.Size(20, 20);
+            this.btn_up_tabela.TabIndex = 27;
+            this.btn_up_tabela.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btn_down_coluna
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Location = new System.Drawing.Point(414, 57);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 29);
-            this.button1.TabIndex = 26;
-            this.button1.Text = "Editar Coluna";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn_down_coluna.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_down_coluna.BackgroundImage = global::Pj.Properties.Resources.arrow_down_100px20x20;
+            this.btn_down_coluna.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_down_coluna.Location = new System.Drawing.Point(554, 435);
+            this.btn_down_coluna.Name = "btn_down_coluna";
+            this.btn_down_coluna.Size = new System.Drawing.Size(20, 20);
+            this.btn_down_coluna.TabIndex = 30;
+            this.btn_down_coluna.UseVisualStyleBackColor = true;
+            // 
+            // btn_up_coluna
+            // 
+            this.btn_up_coluna.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_up_coluna.BackgroundImage = global::Pj.Properties.Resources.arrow_up_100px20x20;
+            this.btn_up_coluna.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_up_coluna.Location = new System.Drawing.Point(554, 409);
+            this.btn_up_coluna.Name = "btn_up_coluna";
+            this.btn_up_coluna.Size = new System.Drawing.Size(20, 20);
+            this.btn_up_coluna.TabIndex = 29;
+            this.btn_up_coluna.UseVisualStyleBackColor = true;
             // 
             // FO_ConfigurarTabelasFrontEnd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
-            this.ClientSize = new System.Drawing.Size(995, 433);
+            this.ClientSize = new System.Drawing.Size(1060, 493);
             this.Controls.Add(this.grb_configuracaoSQLSERVER);
             this.Controls.Add(this.pan_botton);
             this.Font = new System.Drawing.Font("Times New Roman", 10F);
@@ -200,5 +252,9 @@ namespace Visao
         private System.Windows.Forms.Panel pan_botton;
         private System.Windows.Forms.Button btn_confirmar;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_down_coluna;
+        private System.Windows.Forms.Button btn_up_coluna;
+        private System.Windows.Forms.Button btn_down_tabela;
+        private System.Windows.Forms.Button btn_up_tabela;
     }
 }

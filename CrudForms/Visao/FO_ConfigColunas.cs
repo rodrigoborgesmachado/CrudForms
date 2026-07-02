@@ -27,24 +27,27 @@ namespace Visao
         /// <param name="e"></param>
         private void btn_down_Click(object sender, EventArgs e)
         {
-            if (dgv_colunas.SelectedRows.Count == 0)
+            Model.MD_Campos colunaSelecionada = CampoSelecionado();
+            if (colunaSelecionada == null)
             {
                 Message.MensagemAlerta("Selecione um item no grid");
                 return;
             }
 
             var colunas = this.formularioGenerico.Colunas;
-            if (this.dgv_colunas.SelectedRows[0].Index == colunas.Count-1)
+            int currentIndex = colunas.IndexOf(colunaSelecionada);
+            int targetIndex = currentIndex + 1;
+            if (currentIndex < 0 || targetIndex >= colunas.Count)
             {
                 return;
             }
 
-            Model.MD_Campos oldColuna = CampoSelecionado();
-            colunas.Remove(oldColuna);
-            colunas.Insert(this.dgv_colunas.SelectedRows[0].Index + 1, oldColuna);
+            var temp = colunas[targetIndex];
+            colunas[targetIndex] = colunas[currentIndex];
+            colunas[currentIndex] = temp;
             this.formularioGenerico.Colunas = colunas;
 
-            this.FillGrid();
+            this.FillGrid(colunaSelecionada);
         }
 
         /// <summary>
@@ -54,24 +57,27 @@ namespace Visao
         /// <param name="e"></param>
         private void btn_up_Click(object sender, EventArgs e)
         {
-            if (dgv_colunas.SelectedRows.Count == 0)
+            Model.MD_Campos colunaSelecionada = CampoSelecionado();
+            if (colunaSelecionada == null)
             {
                 Message.MensagemAlerta("Selecione um item no grid");
                 return;
             }
 
-            if(this.dgv_colunas.SelectedRows[0].Index == 0)
+            var colunas = this.formularioGenerico.Colunas;
+            int currentIndex = colunas.IndexOf(colunaSelecionada);
+            int targetIndex = currentIndex - 1;
+            if (currentIndex < 0 || targetIndex < 0)
             {
                 return;
             }
 
-            var colunas = this.formularioGenerico.Colunas;
-            Model.MD_Campos oldColuna = CampoSelecionado();
-            colunas.Remove(oldColuna);
-            colunas.Insert(this.dgv_colunas.SelectedRows[0].Index - 1, oldColuna);
+            var temp = colunas[targetIndex];
+            colunas[targetIndex] = colunas[currentIndex];
+            colunas[currentIndex] = temp;
             this.formularioGenerico.Colunas = colunas;
 
-            this.FillGrid();
+            this.FillGrid(colunaSelecionada);
         }
 
         /// <summary>
@@ -81,19 +87,16 @@ namespace Visao
         /// <param name="e"></param>
         private void btn_visible_Click(object sender, EventArgs e)
         {
-            if(dgv_colunas.SelectedRows.Count == 0)
+            Model.MD_Campos colunaSelecionada = CampoSelecionado();
+            if (colunaSelecionada == null)
             {
                 Message.MensagemAlerta("Selecione um item no grid");
                 return;
             }
 
-            var colunas = this.formularioGenerico.Colunas;
-            Model.MD_Campos oldColuna = CampoSelecionado();
-            bool oldValue = oldColuna.Visible;
-            colunas.Where(coluna => coluna.Equals(oldColuna)).FirstOrDefault().Visible = !oldValue;
-            this.formularioGenerico.Colunas = colunas;
+            colunaSelecionada.Visible = !colunaSelecionada.Visible;
 
-            this.FillGrid();
+            this.FillGrid(colunaSelecionada);
         }
 
         /// <summary>
@@ -160,7 +163,7 @@ namespace Visao
         /// <summary>
         /// Método que preenche o grid
         /// </summary>
-        private void FillGrid()
+        private void FillGrid(Model.MD_Campos colunaSelecionada = null)
         {
             this.dgv_colunas.Rows.Clear();
             this.dgv_colunas.Columns.Clear();
@@ -168,20 +171,22 @@ namespace Visao
             this.dgv_colunas.Columns.Add("Colunas", "Colunas");
             this.dgv_colunas.Columns.Add("Visível", "Visível");
 
-            this.formularioGenerico.Colunas.ForEach(coluna => this.FillGrid(coluna));
+            this.formularioGenerico.Colunas.ForEach(coluna => this.FillGridRow(coluna));
+            SelectRowByTag(colunaSelecionada);
         }
 
         /// <summary>
         /// Método que adiciona a coluna no grid
         /// </summary>
         /// <param name="coluna"></param>
-        private void FillGrid(Model.MD_Campos coluna)
+        private void FillGridRow(Model.MD_Campos coluna)
         {
             List<string> linha = new List<string>();
             linha.Add(coluna.DAO.Nome);
             linha.Add(coluna.Visible ? "Visível" : "Não visível");
 
-            this.dgv_colunas.Rows.Add(linha.ToArray());
+            int rowIndex = this.dgv_colunas.Rows.Add(linha.ToArray());
+            this.dgv_colunas.Rows[rowIndex].Tag = coluna;
         }
 
         /// <summary>
@@ -190,14 +195,34 @@ namespace Visao
         /// <returns></returns>
         private Model.MD_Campos CampoSelecionado()
         {
-            Model.MD_Campos coluna = null;
-
-            if(this.dgv_colunas.SelectedRows.Count > 0)
+            if(this.dgv_colunas.SelectedRows.Count == 0)
             {
-                coluna = this.formularioGenerico.Colunas[this.dgv_colunas.SelectedRows[0].Index];
+                return null;
             }
 
-            return coluna;
+            return this.dgv_colunas.SelectedRows[0].Tag as Model.MD_Campos;
+        }
+
+        private void SelectRowByTag(Model.MD_Campos coluna)
+        {
+            this.dgv_colunas.ClearSelection();
+
+            if (coluna == null)
+            {
+                return;
+            }
+
+            foreach (DataGridViewRow row in this.dgv_colunas.Rows)
+            {
+                if (!ReferenceEquals(row.Tag, coluna))
+                {
+                    continue;
+                }
+
+                row.Selected = true;
+                this.dgv_colunas.CurrentCell = row.Cells[0];
+                return;
+            }
         }
 
         #endregion Métodos
