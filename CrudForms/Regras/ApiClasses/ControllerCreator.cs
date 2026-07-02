@@ -35,8 +35,11 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"using Microsoft.AspNetCore.Authorization;");
                 stringBuilder.AppendLine($"using Microsoft.AspNetCore.Mvc;");
                 stringBuilder.AppendLine($"using Microsoft.Extensions.Options;");
+                stringBuilder.AppendLine($"using Newtonsoft.Json;");
+                stringBuilder.AppendLine($"using Newtonsoft.Json.Linq;");
                 stringBuilder.AppendLine($"using System;");
                 stringBuilder.AppendLine($"using System.Collections.Generic;");
+                stringBuilder.AppendLine($"using System.Linq;");
                 stringBuilder.AppendLine($"using System.Text.Json;");
                 stringBuilder.AppendLine($"using static {nomeProjeto}.Infrastructure.CrossCutting.Enums.Enums;");
                 stringBuilder.AppendLine($"using IMainAppService = {nomeProjeto}.Application.Interfaces.{NamesHandler.CriaNomeClasse(NamesHandler.ClasseType.InterfaceService, tabela.Nome)};");
@@ -171,9 +174,14 @@ namespace Regras.ApiClasses
                 stringBuilder.AppendLine($"        /// <param name=\"model\"></param>");
                 stringBuilder.AppendLine($"        /// <returns><![CDATA[Task<IActionResult>]]></returns>");
                 stringBuilder.AppendLine($"        [HttpPut(\"{{code}}\")]");
-                stringBuilder.AppendLine($"        public async Task<IActionResult> Put(Guid code, [FromBody] Dictionary<string, JsonElement> model)");
+                stringBuilder.AppendLine($"        public async Task<IActionResult> Put(Guid code, [FromBody] Dictionary<string, JToken> model)");
                 stringBuilder.AppendLine($"        {{");
-                stringBuilder.AppendLine($"            var result = await _mainAppService.UpdateAsync(code, model);");
+                stringBuilder.AppendLine($"            var changes = model.ToDictionary(");
+                stringBuilder.AppendLine($"                change => change.Key,");
+                stringBuilder.AppendLine($"                change => JsonDocument.Parse(change.Value.ToString(Formatting.None)).RootElement.Clone()");
+                stringBuilder.AppendLine($"            );");
+                stringBuilder.AppendLine($"");
+                stringBuilder.AppendLine($"            var result = await _mainAppService.UpdateAsync(code, changes);");
                 stringBuilder.AppendLine($"");
                 stringBuilder.AppendLine($"            return Ok(result);");
                 stringBuilder.AppendLine($"        }}");

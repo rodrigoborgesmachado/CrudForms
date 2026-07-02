@@ -254,11 +254,12 @@ namespace Regras.FrontEndClasses
             js.AppendLine($"import {NamesHandler.GetApiName(tabela.DAO.Nome)} from '../../../../services/apiServices/{NamesHandler.GetApiName(tabela.DAO.Nome)}';");
             js.AppendLine("import { setLoading } from '../../../../services/redux/loadingSlice';");
             js.AppendLine("import { useDispatch } from 'react-redux';");
-            js.AppendLine("import { useParams } from 'react-router-dom';");
+            js.AppendLine("import { useNavigate, useParams } from 'react-router-dom';");
             js.AppendLine("import { toast } from 'react-toastify';");
             js.AppendLine("import { putDateOnPattern } from '../../../../utils/functions';");
             js.AppendLine("");
             js.AppendLine($"const {name} = () => {{");
+            js.AppendLine("    const navigate = useNavigate();");
             js.AppendLine("    const dispatch = useDispatch();");
             js.AppendLine("    const { code } = useParams();");
             js.AppendLine("    const [item, setItem] = useState([]);");
@@ -281,7 +282,10 @@ namespace Regras.FrontEndClasses
             js.AppendLine("");
             js.AppendLine("    return (");
             js.AppendLine("    <div className=\"container-admin-page\">");
-            js.AppendLine($"        <h1>{tableLabel}</h1>");
+            js.AppendLine("        <div className=\"title-with-options\">");
+            js.AppendLine($"            <h1>{tableLabel}</h1>");
+            js.AppendLine("            <button className=\"main-button\" onClick={() => navigate('editar')}>Editar</button>");
+            js.AppendLine("        </div>");
             js.AppendLine("            <div className=\"box space-double-bottom\">");
             js.AppendLine("                <div className=\"info-group\">");
             foreach (var item in tabela.CamposFrontEnd().Where(c => c.VisivelDetalhes))
@@ -315,6 +319,13 @@ namespace Regras.FrontEndClasses
             string name = NamesHandler.CreateComponentFormName(tabela.DAO.Nome);
             string tableLabel = EscapeJsString(tabela.Apelido);
             string routeName = NamesHandler.CreateRouteName(tabela.Apelido);
+            var editableFields = tabela.CamposFrontEnd()
+                .Where(c => c.VisivelInclusaoEdicao && !IsSystemField(c.DAO.Nome) && !c.DAO.PrimaryKey)
+                .ToList();
+            var dateFieldNames = editableFields
+                .Where(c => IsDateField(c.DAO.TipoCampo.Nome))
+                .Select(c => NamesHandler.CreateComponentName(c.DAO.Nome))
+                .ToList();
             StringBuilder js = new StringBuilder();
             js.AppendLine("import React, { useState, useEffect } from 'react';");
             js.AppendLine($"import './{name}.css';");
@@ -323,16 +334,16 @@ namespace Regras.FrontEndClasses
             js.AppendLine("import { useDispatch } from 'react-redux';");
             js.AppendLine("import { useNavigate, useParams } from 'react-router-dom';");
             js.AppendLine("import { toast } from 'react-toastify';");
+            js.AppendLine("import { normalizeFormValueToApi, toDateTimeLocalValue } from '../../../../utils/functions';");
             js.AppendLine("");
             js.AppendLine("const createEmptyForm = () => ({");
-            foreach (var item in tabela.CamposFrontEnd().Where(c => c.VisivelInclusaoEdicao))
+            foreach (var item in editableFields)
             {
-                if (IsSystemField(item.DAO.Nome) || item.DAO.PrimaryKey)
-                    continue;
-
                 js.AppendLine($"    {NamesHandler.CreateComponentName(item.DAO.Nome)}: '',");
             }
             js.AppendLine("});");
+            js.AppendLine("");
+            js.AppendLine($"const dateFields = [{string.Join(", ", dateFieldNames.Select(field => $"'{field}'"))}];");
             js.AppendLine("");
             js.AppendLine($"const {name} = () => {{");
             js.AppendLine("    const dispatch = useDispatch();");
@@ -351,10 +362,17 @@ namespace Regras.FrontEndClasses
             js.AppendLine("            dispatch(setLoading(true));");
             js.AppendLine("            try {");
             js.AppendLine($"                const response = await {NamesHandler.GetApiName(tabela.DAO.Nome)}.getByCode(code, {{ include: '' }});");
-            js.AppendLine("                const nextFormData = { ...createEmptyForm(), ...response };");
+            js.AppendLine("                const nextFormData = {");
+            js.AppendLine("                    ...createEmptyForm(),");
+            js.AppendLine("                    ...response,");
+            foreach (var fieldName in dateFieldNames)
+            {
+                js.AppendLine($"                    {fieldName}: toDateTimeLocalValue(response.{fieldName}),");
+            }
+            js.AppendLine("                };");
             js.AppendLine("                setFormData(nextFormData);");
             js.AppendLine("                setInitialData(nextFormData);");
-            js.AppendLine("            } catch (error) {");
+            js.AppendLine("            } catch {");
             js.AppendLine("                toast.error('Erro ao buscar o item.');");
             js.AppendLine("            } finally {");
             js.AppendLine("                dispatch(setLoading(false));");
@@ -375,7 +393,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("    const getChangedFields = () => {");
             js.AppendLine("        return Object.keys(formData).reduce((changes, field) => {");
             js.AppendLine("            if (formData[field] !== initialData[field]) {");
-            js.AppendLine("                changes[field] = formData[field] === '' ? null : formData[field];");
+            js.AppendLine("                changes[field] = normalizeFormValueToApi(field, formData[field], dateFields);");
             js.AppendLine("            }");
             js.AppendLine("");
             js.AppendLine("            return changes;");
@@ -401,7 +419,7 @@ namespace Regras.FrontEndClasses
             js.AppendLine("            }");
             js.AppendLine("");
             js.AppendLine($"            navigate('/{routeName}');");
-            js.AppendLine("        } catch (error) {");
+            js.AppendLine("        } catch {");
             js.AppendLine("            toast.error('Erro ao salvar o item.');");
             js.AppendLine("        } finally {");
             js.AppendLine("            dispatch(setLoading(false));");
@@ -412,11 +430,8 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        <div className=\"container-admin-page\">");
             js.AppendLine($"            <h1>{{isEditing ? 'Editar {tableLabel}' : 'Novo {tableLabel}'}}</h1>");
             js.AppendLine("            <form className=\"box\" onSubmit={handleSubmit}>");
-            foreach (var item in tabela.CamposFrontEnd().Where(c => c.VisivelInclusaoEdicao))
+            foreach (var item in editableFields)
             {
-                if (IsSystemField(item.DAO.Nome) || item.DAO.PrimaryKey)
-                    continue;
-
                 string fieldName = NamesHandler.CreateComponentName(item.DAO.Nome);
                 string fieldLabel = EscapeJsString(item.Apelido);
                 string inputType = GetInputType(item.DAO.TipoCampo.Nome);
@@ -468,7 +483,7 @@ namespace Regras.FrontEndClasses
         {
             string normalizedDbType = dbType.Trim().ToUpper();
 
-            if (normalizedDbType.Contains("DATE") || normalizedDbType.Contains("TIME"))
+            if (IsDateField(normalizedDbType))
                 return "datetime-local";
 
             if (normalizedDbType.Contains("BOOL") || normalizedDbType.Equals("BIT"))
@@ -483,6 +498,12 @@ namespace Regras.FrontEndClasses
                 return "number";
 
             return "text";
+        }
+
+        private static bool IsDateField(string dbType)
+        {
+            string normalizedDbType = dbType.Trim().ToUpper();
+            return normalizedDbType.Contains("DATE") || normalizedDbType.Contains("TIME");
         }
 
         private static void CreateRecoverPasswordPage(string path, string projectName)
