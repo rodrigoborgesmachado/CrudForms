@@ -229,6 +229,9 @@
     <Compile Include="Visao\FO_ConfigurarCssFrontEnd.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Visao\FO_ConfigurarCssFrontEnd.Designer.cs">
+      <DependentUpon>FO_ConfigurarCssFrontEnd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visao\FO_ConsultasSalvas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -387,6 +390,9 @@
     <EmbeddedResource Include="Visao\FO_SelecionaConexao.resx">
       <DependentUpon>FO_SelecionaConexao.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Visao\FO_ConfigurarCssFrontEnd.resx">
+      <DependentUpon>FO_ConfigurarCssFrontEnd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Visao\FO_ConfigurarTabelasFrontEnd.resx">
       <DependentUpon>FO_ConfigurarTabelasFrontEnd.cs</DependentUpon>
     </EmbeddedResource>
@@ -442,27 +448,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dev200x200.ico" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\ArrowIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\BasketIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\CartIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\CartIconWithNumber.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\CityIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\DashBoardIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\DownloadIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\EditIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\EyeIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\FamilyIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\HomeIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\HorizontalBarIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\LogIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\LogoffIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\LogoIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\MailIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\OrderIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\ReportIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\UserCustomIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\UserIcon.jsx" />
-    <EmbeddedResource Include="FrontEndComponents\Icons\UsersIcon.jsx" />
     <None Include="Resources\logonewwhite.png" />
     <None Include="Resources\logo_black.png" />
     <None Include="Resources\project-management-white-200x200.png" />

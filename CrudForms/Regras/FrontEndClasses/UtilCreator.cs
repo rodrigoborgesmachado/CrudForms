@@ -15,6 +15,7 @@ namespace Regras.FrontEndClasses
                 string utilsPath = NamesHandler.GetDirectoryByType(projectPath, NamesHandler.FileType.Utils);
                 CreateFunctions(utilsPath);
                 CreateMasks(utilsPath);
+                CreateThemeMode(utilsPath);
             }
             catch (Exception ex)
             {
@@ -45,6 +46,30 @@ namespace Regras.FrontEndClasses
             js.AppendLine("};");
 
             File.WriteAllText(path + "//masks.jsx", js.ToString());
+        }
+
+        private static void CreateThemeMode(string path)
+        {
+            StringBuilder js = new StringBuilder();
+            js.AppendLine("const THEME_STORAGE_KEY = 'crudforms-theme';");
+            js.AppendLine("");
+            js.AppendLine("export const getStoredTheme = () => {");
+            js.AppendLine("    if (typeof window === 'undefined') {");
+            js.AppendLine("        return 'light';");
+            js.AppendLine("    }");
+            js.AppendLine("");
+            js.AppendLine("    return localStorage.getItem(THEME_STORAGE_KEY) || 'light';");
+            js.AppendLine("};");
+            js.AppendLine("");
+            js.AppendLine("export const applyTheme = (theme) => {");
+            js.AppendLine("    const nextTheme = theme === 'dark' ? 'dark' : 'light';");
+            js.AppendLine("    document.documentElement.setAttribute('data-bs-theme', nextTheme);");
+            js.AppendLine("    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);");
+            js.AppendLine("    window.dispatchEvent(new CustomEvent('crudforms-theme-change', { detail: { theme: nextTheme } }));");
+            js.AppendLine("    return nextTheme;");
+            js.AppendLine("};");
+
+            File.WriteAllText(path + "//themeMode.js", js.ToString());
         }
 
         private static void CreateFunctions(string path)

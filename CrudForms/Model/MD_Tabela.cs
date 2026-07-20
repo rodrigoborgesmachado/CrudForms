@@ -20,6 +20,7 @@ namespace Model
         public DAO.MD_Tabela DAO = null;
 
         private string apelido = string.Empty;
+        private string iconeFrontEnd = string.Empty;
         private List<Model.MD_Campos> camposFrontEnd = null;
 
         /// <summary>
@@ -34,6 +35,21 @@ namespace Model
             set
             {
                 apelido = value;
+            }
+        }
+
+        /// <summary>
+        /// Classe do Bootstrap Icons usada no menu do front end.
+        /// </summary>
+        public string IconeFrontEnd
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(iconeFrontEnd) ? "bi-table" : iconeFrontEnd;
+            }
+            set
+            {
+                iconeFrontEnd = value;
             }
         }
 

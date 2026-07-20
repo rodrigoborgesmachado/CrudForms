@@ -310,11 +310,26 @@ namespace Regras.FrontEndClasses
             js.AppendLine("            throw error;");
             js.AppendLine("        }");
             js.AppendLine("    },");
+            js.AppendLine("");
+            js.AppendLine("    /**");
+            js.AppendLine("     * Request password recovery.");
+            js.AppendLine("     * @param {string} email - The user email.");
+            js.AppendLine("     * @returns {Promise<Object>} - The recovery response.");
+            js.AppendLine("     */");
+            js.AppendLine("    recoverPass: async (email) => {");
+            js.AppendLine("        try {");
+            js.AppendLine("            const response = await api.post('/token/recover', { email });");
+            js.AppendLine("            return response.data;");
+            js.AppendLine("        } catch (error) {");
+            js.AppendLine("            console.error('Error recovering password:', error);");
+            js.AppendLine("            throw error;");
+            js.AppendLine("        }");
+            js.AppendLine("    },");
             js.AppendLine("};");
             js.AppendLine("");
             js.AppendLine("export default tokenApi;");
 
-            File.WriteAllText(path + "//tokenApi.jsx", js.ToString());
+            File.WriteAllText(path + "//token.jsx", js.ToString());
         }
 
         private static void CreateAdminApi(string path)
@@ -343,15 +358,6 @@ namespace Regras.FrontEndClasses
             js.AppendLine("        }");
             js.AppendLine("    },");
             js.AppendLine("");
-            js.AppendLine("    recoverPass: async (email) => {");
-            js.AppendLine("        try {");
-            js.AppendLine("            const response = await api.post('/Admin/RecoverPass', { email });");
-            js.AppendLine("            return response.data;");
-            js.AppendLine("        } catch (error) {");
-            js.AppendLine("            console.error('Error recovering password:', error);");
-            js.AppendLine("            throw error;");
-            js.AppendLine("        }");
-            js.AppendLine("    },");
             js.AppendLine("};");
             js.AppendLine("");
             js.AppendLine("export default adminApi;");

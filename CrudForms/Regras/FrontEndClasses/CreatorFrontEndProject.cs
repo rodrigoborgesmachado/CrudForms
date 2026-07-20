@@ -115,10 +115,15 @@ namespace Regras.FrontEndClasses
             StringBuilder js = new StringBuilder();
             js.AppendLine("import React from 'react';");
             js.AppendLine("import ReactDOM from 'react-dom/client';");
+            js.AppendLine("import 'bootstrap/dist/css/bootstrap.min.css';");
+            js.AppendLine("import 'bootstrap-icons/font/bootstrap-icons.css';");
             js.AppendLine("import './assets/styles/index.css';");
             js.AppendLine("import App from './App';");
             js.AppendLine("import { Provider } from 'react-redux';");
             js.AppendLine("import store from './services/redux/store';");
+            js.AppendLine("import { applyTheme, getStoredTheme } from './utils/themeMode';");
+            js.AppendLine("");
+            js.AppendLine("applyTheme(getStoredTheme());");
             js.AppendLine("");
             js.AppendLine("const root = ReactDOM.createRoot(document.getElementById('root'));");
             js.AppendLine("root.render(");
