@@ -7,81 +7,20 @@ using System.Windows.Forms;
 
 namespace Visao
 {
-    public class FO_ConfigurarCssFrontEnd : Form
+    public partial class FO_ConfigurarCssFrontEnd : Form
     {
         private readonly List<Model.MD_FrontEndCssVariable> variaveis;
-        private readonly DataGridView dgv_variaveis = new DataGridView();
-        private readonly Button btn_confirmar = new Button();
-        private readonly Button btn_restaurar = new Button();
-        private readonly Panel pan_botton = new Panel();
+
+        public FO_ConfigurarCssFrontEnd()
+            : this(AssetsCreator.GetDefaultCssVariables())
+        {
+        }
 
         public FO_ConfigurarCssFrontEnd(List<Model.MD_FrontEndCssVariable> variaveis)
         {
             this.variaveis = variaveis ?? AssetsCreator.GetDefaultCssVariables();
             InitializeComponent();
             IniciaForm();
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-
-            dgv_variaveis.AllowUserToAddRows = false;
-            dgv_variaveis.AllowUserToDeleteRows = false;
-            dgv_variaveis.AllowUserToResizeRows = false;
-            dgv_variaveis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv_variaveis.BackgroundColor = Color.White;
-            dgv_variaveis.BorderStyle = BorderStyle.Fixed3D;
-            dgv_variaveis.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgv_variaveis.Dock = DockStyle.Fill;
-            dgv_variaveis.EditMode = DataGridViewEditMode.EditOnEnter;
-            dgv_variaveis.EnableHeadersVisualStyles = false;
-            dgv_variaveis.MultiSelect = false;
-            dgv_variaveis.RowHeadersVisible = false;
-            dgv_variaveis.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgv_variaveis.ShowCellErrors = false;
-            dgv_variaveis.ShowCellToolTips = false;
-            dgv_variaveis.StandardTab = true;
-
-            btn_restaurar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            btn_restaurar.FlatStyle = FlatStyle.Popup;
-            btn_restaurar.Location = new Point(3, 3);
-            btn_restaurar.Name = "btn_restaurar";
-            btn_restaurar.Size = new Size(130, 29);
-            btn_restaurar.Text = "Restaurar default";
-            btn_restaurar.UseVisualStyleBackColor = true;
-            btn_restaurar.Click += btn_restaurar_Click;
-
-            btn_confirmar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btn_confirmar.FlatStyle = FlatStyle.Popup;
-            btn_confirmar.Location = new Point(688, 3);
-            btn_confirmar.Name = "btn_confirmar";
-            btn_confirmar.Size = new Size(89, 29);
-            btn_confirmar.Text = "Confirmar";
-            btn_confirmar.UseVisualStyleBackColor = true;
-            btn_confirmar.Click += btn_confirmar_Click;
-
-            pan_botton.Controls.Add(btn_restaurar);
-            pan_botton.Controls.Add(btn_confirmar);
-            pan_botton.Dock = DockStyle.Bottom;
-            pan_botton.Location = new Point(0, 425);
-            pan_botton.Name = "pan_botton";
-            pan_botton.Size = new Size(780, 35);
-
-            this.AutoScaleDimensions = new SizeF(7F, 15F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(780, 460);
-            this.Controls.Add(dgv_variaveis);
-            this.Controls.Add(pan_botton);
-            this.Font = new Font("Times New Roman", 10F);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FO_ConfigurarCssFrontEnd";
-            this.ShowIcon = false;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.Text = "Configuracao do CSS";
-
-            this.ResumeLayout(false);
         }
 
         private void IniciaForm()
@@ -111,6 +50,11 @@ namespace Visao
                 button.ForeColor = this.ForeColor;
             }
 
+            btn_restaurar.Click += btn_restaurar_Click;
+            btn_confirmar.Click += btn_confirmar_Click;
+            dgv_variaveis.CellContentClick += dgv_variaveis_CellContentClick;
+            dgv_variaveis.CellEndEdit += dgv_variaveis_CellEndEdit;
+
             FillGrid();
         }
 
@@ -122,13 +66,17 @@ namespace Visao
             dgv_variaveis.Columns.Add("Grupo", "Grupo");
             dgv_variaveis.Columns.Add("Nome", "Variavel");
             dgv_variaveis.Columns.Add("Valor", "Valor");
+            dgv_variaveis.Columns.Add("Preview", "Cor");
+            dgv_variaveis.Columns.Add(CreateButtonColumn("SelecionarCor", "Selecionar"));
             dgv_variaveis.Columns["Grupo"].ReadOnly = true;
             dgv_variaveis.Columns["Nome"].ReadOnly = true;
+            dgv_variaveis.Columns["Preview"].ReadOnly = true;
 
             foreach (var variavel in variaveis)
             {
-                int rowIndex = dgv_variaveis.Rows.Add(variavel.Grupo, variavel.Nome, variavel.Valor);
+                int rowIndex = dgv_variaveis.Rows.Add(variavel.Grupo, variavel.Nome, variavel.Valor, string.Empty, IsColorValue(variavel.Valor) ? "..." : string.Empty);
                 dgv_variaveis.Rows[rowIndex].Tag = variavel;
+                UpdateColorPreview(dgv_variaveis.Rows[rowIndex]);
             }
 
             for (int i = 0; i < dgv_variaveis.Columns.Count; i++)
@@ -136,6 +84,107 @@ namespace Visao
                 dgv_variaveis.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dgv_variaveis.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+
+            dgv_variaveis.Columns["Preview"].FillWeight = 20;
+            dgv_variaveis.Columns["SelecionarCor"].FillWeight = 24;
+        }
+
+        private DataGridViewButtonColumn CreateButtonColumn(string name, string header)
+        {
+            return new DataGridViewButtonColumn
+            {
+                Name = name,
+                HeaderText = header,
+                UseColumnTextForButtonValue = false
+            };
+        }
+
+        private void dgv_variaveis_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || dgv_variaveis.Columns[e.ColumnIndex].Name != "SelecionarCor")
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgv_variaveis.Rows[e.RowIndex];
+            string valorAtual = row.Cells["Valor"].Value?.ToString();
+            if (!TryParseColor(valorAtual, out Color corAtual))
+            {
+                Message.MensagemAlerta("Esta variavel nao possui um valor de cor valido.");
+                return;
+            }
+
+            using (ColorDialog dialog = new ColorDialog())
+            {
+                dialog.Color = corAtual;
+                dialog.FullOpen = true;
+
+                if (dialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
+                row.Cells["Valor"].Value = ColorToHex(dialog.Color);
+                row.Cells["SelecionarCor"].Value = "...";
+                UpdateColorPreview(row);
+            }
+        }
+
+        private void dgv_variaveis_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || dgv_variaveis.Columns[e.ColumnIndex].Name != "Valor")
+            {
+                return;
+            }
+
+            UpdateColorPreview(dgv_variaveis.Rows[e.RowIndex]);
+        }
+
+        private void UpdateColorPreview(DataGridViewRow row)
+        {
+            string valor = row.Cells["Valor"].Value?.ToString();
+            bool isColor = TryParseColor(valor, out Color color);
+
+            row.Cells["Preview"].Style.BackColor = isColor ? color : dgv_variaveis.DefaultCellStyle.BackColor;
+            row.Cells["Preview"].Style.ForeColor = isColor ? color : dgv_variaveis.DefaultCellStyle.ForeColor;
+            row.Cells["Preview"].Value = isColor ? string.Empty : "-";
+            row.Cells["SelecionarCor"].Value = isColor ? "..." : string.Empty;
+        }
+
+        private bool IsColorValue(string value)
+        {
+            return TryParseColor(value, out _);
+        }
+
+        private bool TryParseColor(string value, out Color color)
+        {
+            color = Color.Empty;
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            string normalized = value.Trim();
+            if (!normalized.StartsWith("#") && !Color.FromName(normalized).IsKnownColor)
+            {
+                return false;
+            }
+
+            try
+            {
+                color = ColorTranslator.FromHtml(normalized);
+                return color != Color.Empty;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private string ColorToHex(Color color)
+        {
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
         private void btn_restaurar_Click(object sender, EventArgs e)

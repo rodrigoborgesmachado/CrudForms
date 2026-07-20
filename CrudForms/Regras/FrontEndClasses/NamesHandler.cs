@@ -15,7 +15,6 @@ namespace Regras.FrontEndClasses
             ComponentsAdmin,
             ComponentsClient,
             ComponentsCommon,
-            ComponentsIcons,
             Config,
             Layouts,
             LayoutsAdmin,
@@ -110,9 +109,6 @@ namespace Regras.FrontEndClasses
                     break;
                 case FileType.ComponentsCommon:
                     retorno = Path.Combine(basePath, "components", "common");
-                    break;
-                case FileType.ComponentsIcons:
-                    retorno = Path.Combine(basePath, "components", "icons");
                     break;
                 case FileType.Config:
                     retorno = Path.Combine(basePath, "config");

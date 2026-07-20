@@ -106,6 +106,8 @@ namespace Regras.FrontEndClasses
 
                     string[] packages = new string[]
                     {
+                        "bootstrap",
+                        "bootstrap-icons",
                         "react-router-dom",
                         "react-redux",
                         "react-toastify",

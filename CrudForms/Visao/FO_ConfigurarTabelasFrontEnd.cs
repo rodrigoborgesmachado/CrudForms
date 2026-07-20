@@ -50,6 +50,9 @@ namespace Visao
             dgv_coluna.EditMode = DataGridViewEditMode.EditOnEnter;
 
             dgv_tabela_in.SelectionChanged += dgv_tabela_in_SelectionChanged;
+            dgv_tabela_in.CurrentCellDirtyStateChanged += dgv_tabela_in_CurrentCellDirtyStateChanged;
+            dgv_tabela_in.CellValueChanged += dgv_tabela_in_CellValueChanged;
+            dgv_tabela_in.DataError += dgv_tabela_in_DataError;
             btn_editar_tabela.Click += btn_editar_tabela_Click;
             btn_editar_coluna.Click += btn_editar_coluna_Click;
             btn_up_tabela.Click += btn_up_tabela_Click;
@@ -69,11 +72,14 @@ namespace Visao
 
             dgv_tabela_in.Columns.Add("Nome", "Nome");
             dgv_tabela_in.Columns.Add("Apelido", "Apelido");
+            dgv_tabela_in.Columns.Add(CreateIconColumn());
+            dgv_tabela_in.Columns.Add("PreviewIcone", "Preview");
             dgv_tabela_in.Columns["Nome"].ReadOnly = true;
+            dgv_tabela_in.Columns["PreviewIcone"].ReadOnly = true;
 
             foreach (var tabela in tabelas)
             {
-                int rowIndex = dgv_tabela_in.Rows.Add(tabela.DAO.Nome, tabela.Apelido);
+                int rowIndex = dgv_tabela_in.Rows.Add(tabela.DAO.Nome, tabela.Apelido, tabela.IconeFrontEnd, GetIconPreview(tabela.IconeFrontEnd));
                 dgv_tabela_in.Rows[rowIndex].Tag = tabela;
             }
 
@@ -139,12 +145,39 @@ namespace Visao
             };
         }
 
+        private DataGridViewComboBoxColumn CreateIconColumn()
+        {
+            DataGridViewComboBoxColumn column = new DataGridViewComboBoxColumn
+            {
+                Name = "Icone",
+                HeaderText = "Icone",
+                FlatStyle = FlatStyle.Popup
+            };
+
+            foreach (string icon in GetIconOptions())
+            {
+                column.Items.Add(icon);
+            }
+
+            return column;
+        }
+
         private void FormatGrid(DataGridView grid)
         {
             for (int i = 0; i < grid.Columns.Count; i++)
             {
                 grid.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 grid.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+            if (grid.Columns.Contains("Icone"))
+            {
+                grid.Columns["Icone"].FillWeight = 80;
+            }
+
+            if (grid.Columns.Contains("PreviewIcone"))
+            {
+                grid.Columns["PreviewIcone"].FillWeight = 80;
             }
         }
 
@@ -177,6 +210,30 @@ namespace Visao
 
             SaveColumnGridValues();
             FillGridColunas(GetSelectedTabela());
+        }
+
+        private void dgv_tabela_in_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (dgv_tabela_in.IsCurrentCellDirty)
+            {
+                dgv_tabela_in.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dgv_tabela_in_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (locked || e.RowIndex < 0 || e.ColumnIndex < 0 || dgv_tabela_in.Columns[e.ColumnIndex].Name != "Icone")
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgv_tabela_in.Rows[e.RowIndex];
+            row.Cells["PreviewIcone"].Value = GetIconPreview(row.Cells["Icone"].Value?.ToString());
+        }
+
+        private void dgv_tabela_in_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
         }
 
         private void btn_editar_tabela_Click(object sender, EventArgs e)
@@ -324,6 +381,7 @@ namespace Visao
                 }
 
                 tabela.Apelido = GetCellValue(row, "Apelido", tabela.DAO.Nome);
+                tabela.IconeFrontEnd = GetCellValue(row, "Icone", "bi-table");
             }
 
             SaveColumnGridValues();
@@ -363,6 +421,164 @@ namespace Visao
         private bool IsPrimaryKeyCode(Model.MD_Campos coluna)
         {
             return coluna.DAO.PrimaryKey || coluna.DAO.Nome.Equals("Code", StringComparison.OrdinalIgnoreCase) || coluna.DAO.Nome.Equals("Id", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private List<string> GetIconOptions()
+        {
+            return new List<string>
+            {
+                "bi-table",
+                "bi-book",
+                "bi-journal-bookmark",
+                "bi-person",
+                "bi-people",
+                "bi-person-badge",
+                "bi-building",
+                "bi-box",
+                "bi-box-seam",
+                "bi-cart",
+                "bi-bag",
+                "bi-basket",
+                "bi-calendar",
+                "bi-clock",
+                "bi-file-text",
+                "bi-folder",
+                "bi-card-checklist",
+                "bi-clipboard-data",
+                "bi-graph-up",
+                "bi-cash-coin",
+                "bi-credit-card",
+                "bi-truck",
+                "bi-tags",
+                "bi-gear",
+                "bi-tools",
+                "bi-shield-check",
+                "bi-envelope",
+                "bi-telephone",
+                "bi-geo-alt",
+                "bi-house",
+                "bi-shop",
+                "bi-receipt",
+                "bi-archive",
+                "bi-database",
+                "bi-list-task",
+                "bi-kanban",
+                "bi-bar-chart",
+                "bi-pie-chart",
+                "bi-lock",
+                "bi-key",
+                "bi-printer",
+                "bi-upload",
+                "bi-download",
+                "bi-chat-dots",
+                "bi-bell"
+            };
+        }
+
+        private string GetIconPreview(string icon)
+        {
+            string selectedIcon = string.IsNullOrWhiteSpace(icon) ? "bi-table" : icon;
+            return GetIconSymbol(selectedIcon) + " " + selectedIcon;
+        }
+
+        private string GetIconSymbol(string icon)
+        {
+            if (icon.Contains("book") || icon.Contains("journal"))
+            {
+                return "📚";
+            }
+
+            if (icon.Contains("people"))
+            {
+                return "👥";
+            }
+
+            if (icon.Contains("person"))
+            {
+                return "👤";
+            }
+
+            if (icon.Contains("building") || icon.Contains("house") || icon.Contains("shop"))
+            {
+                return "🏢";
+            }
+
+            if (icon.Contains("box") || icon.Contains("archive") || icon.Contains("database"))
+            {
+                return "📦";
+            }
+
+            if (icon.Contains("cart") || icon.Contains("bag") || icon.Contains("basket"))
+            {
+                return "🛒";
+            }
+
+            if (icon.Contains("calendar"))
+            {
+                return "📅";
+            }
+
+            if (icon.Contains("clock"))
+            {
+                return "🕒";
+            }
+
+            if (icon.Contains("file") || icon.Contains("folder") || icon.Contains("clipboard") || icon.Contains("card"))
+            {
+                return "📄";
+            }
+
+            if (icon.Contains("graph") || icon.Contains("chart"))
+            {
+                return "📈";
+            }
+
+            if (icon.Contains("cash") || icon.Contains("credit"))
+            {
+                return "💰";
+            }
+
+            if (icon.Contains("truck"))
+            {
+                return "🚚";
+            }
+
+            if (icon.Contains("tags"))
+            {
+                return "🏷";
+            }
+
+            if (icon.Contains("gear") || icon.Contains("tools"))
+            {
+                return "⚙";
+            }
+
+            if (icon.Contains("shield") || icon.Contains("lock") || icon.Contains("key"))
+            {
+                return "🔒";
+            }
+
+            if (icon.Contains("envelope") || icon.Contains("telephone") || icon.Contains("geo") || icon.Contains("chat") || icon.Contains("bell"))
+            {
+                return "✉";
+            }
+
+            if (icon.Contains("printer"))
+            {
+                return "🖨";
+            }
+
+            if (icon.Contains("upload"))
+            {
+                return "⬆";
+            }
+
+            if (icon.Contains("download"))
+            {
+                return "⬇";
+            }
+
+            return "▦";
         }
     }
 }
