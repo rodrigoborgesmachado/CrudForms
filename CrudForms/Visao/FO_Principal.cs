@@ -1,4 +1,4 @@
-﻿using Model;
+using Model;
 using Regras;
 using System;
 using System.Collections.Generic;

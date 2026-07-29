@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,11 +25,11 @@ namespace Visao
             {
                 this.BackColor = Color.FromArgb(51, 51, 51);
                 this.ForeColor = Color.White;
-                this.pan_lateral.BackgroundImage = global::Pj.Properties.Resources.project_management_white_200x200;
+                this.pan_lateral.BackgroundImage = global::Pj.Properties.Resources.logo_png_crud_forms_login;
             }
             else
             {
-                this.pan_lateral.BackgroundImage = global::Pj.Properties.Resources.project_management200x200;
+                this.pan_lateral.BackgroundImage = global::Pj.Properties.Resources.logo_png_crud_forms_login;
                 this.BackColor = Color.FromArgb(251, 249, 238);
                 this.ForeColor = Color.Black;
             }

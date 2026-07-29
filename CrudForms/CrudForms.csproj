@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>dev200x200.ico</ApplicationIcon>
+    <ApplicationIcon>logo_png_crud_forms_login.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>CrudForms.Program</StartupObject>
@@ -448,6 +448,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dev200x200.ico" />
+    <Content Include="logo_png_crud_forms_login.ico" />
     <None Include="Resources\logonewwhite.png" />
     <None Include="Resources\logo_black.png" />
     <None Include="Resources\project-management-white-200x200.png" />

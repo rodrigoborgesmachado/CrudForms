@@ -1,4 +1,4 @@
-﻿
+
 namespace Visao
 {
     partial class FO_Observer

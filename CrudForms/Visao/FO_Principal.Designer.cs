@@ -1,4 +1,4 @@
-﻿namespace Visao
+namespace Visao
 {
     partial class FO_Principal
     {
@@ -56,6 +56,7 @@
             this.importarPlanilhaCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transformarJsonToXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gerarAPICToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gerarFrontEndToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enumeraLinhasDasTabelasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quantidadeDeDiasParaAtualizaçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbx_quantidade_dias_atualizacao = new System.Windows.Forms.ToolStripTextBox();
@@ -73,7 +74,6 @@
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
-            this.gerarFrontEndToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.pan_filtro.SuspendLayout();
@@ -288,44 +288,51 @@
             // identarJsonToolStripMenuItem1
             // 
             this.identarJsonToolStripMenuItem1.Name = "identarJsonToolStripMenuItem1";
-            this.identarJsonToolStripMenuItem1.Size = new System.Drawing.Size(204, 22);
+            this.identarJsonToolStripMenuItem1.Size = new System.Drawing.Size(205, 22);
             this.identarJsonToolStripMenuItem1.Text = "Identar Json";
             this.identarJsonToolStripMenuItem1.Click += new System.EventHandler(this.identarJsonToolStripMenuItem1_Click);
             // 
             // identarXMLToolStripMenuItem
             // 
             this.identarXMLToolStripMenuItem.Name = "identarXMLToolStripMenuItem";
-            this.identarXMLToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.identarXMLToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.identarXMLToolStripMenuItem.Text = "Identar XML";
             this.identarXMLToolStripMenuItem.Click += new System.EventHandler(this.identarXMLToolStripMenuItem_Click);
             // 
             // transformarXMLToJsonToolStripMenuItem
             // 
             this.transformarXMLToJsonToolStripMenuItem.Name = "transformarXMLToJsonToolStripMenuItem";
-            this.transformarXMLToJsonToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.transformarXMLToJsonToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.transformarXMLToJsonToolStripMenuItem.Text = "Transformar XML to Json";
             this.transformarXMLToJsonToolStripMenuItem.Click += new System.EventHandler(this.transformarXMLToJsonToolStripMenuItem_Click);
             // 
             // importarPlanilhaCSVToolStripMenuItem
             // 
             this.importarPlanilhaCSVToolStripMenuItem.Name = "importarPlanilhaCSVToolStripMenuItem";
-            this.importarPlanilhaCSVToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.importarPlanilhaCSVToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.importarPlanilhaCSVToolStripMenuItem.Text = "Importar planilha CSV";
             this.importarPlanilhaCSVToolStripMenuItem.Click += new System.EventHandler(this.importarPlanilhaCSVToolStripMenuItem_Click);
             // 
             // transformarJsonToXMLToolStripMenuItem
             // 
             this.transformarJsonToXMLToolStripMenuItem.Name = "transformarJsonToXMLToolStripMenuItem";
-            this.transformarJsonToXMLToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.transformarJsonToXMLToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.transformarJsonToXMLToolStripMenuItem.Text = "Transformar Json to XML";
             this.transformarJsonToXMLToolStripMenuItem.Click += new System.EventHandler(this.transformarJsonToXMLToolStripMenuItem_Click);
             // 
             // gerarAPICToolStripMenuItem
             // 
             this.gerarAPICToolStripMenuItem.Name = "gerarAPICToolStripMenuItem";
-            this.gerarAPICToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.gerarAPICToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.gerarAPICToolStripMenuItem.Text = "Gerar API - C#";
             this.gerarAPICToolStripMenuItem.Click += new System.EventHandler(this.gerarAPICToolStripMenuItem_Click);
+            // 
+            // gerarFrontEndToolStripMenuItem
+            // 
+            this.gerarFrontEndToolStripMenuItem.Name = "gerarFrontEndToolStripMenuItem";
+            this.gerarFrontEndToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.gerarFrontEndToolStripMenuItem.Text = "Gerar Front End";
+            this.gerarFrontEndToolStripMenuItem.Click += new System.EventHandler(this.gerarFrontEndToolStripMenuItem_Click);
             // 
             // enumeraLinhasDasTabelasToolStripMenuItem
             // 
@@ -473,13 +480,6 @@
             this.lbl_versao.Size = new System.Drawing.Size(42, 15);
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
-            // 
-            // gerarFrontEndToolStripMenuItem
-            // 
-            this.gerarFrontEndToolStripMenuItem.Name = "gerarFrontEndToolStripMenuItem";
-            this.gerarFrontEndToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.gerarFrontEndToolStripMenuItem.Text = "Gerar Front End";
-            this.gerarFrontEndToolStripMenuItem.Click += new System.EventHandler(this.gerarFrontEndToolStripMenuItem_Click);
             // 
             // FO_Principal
             // 
