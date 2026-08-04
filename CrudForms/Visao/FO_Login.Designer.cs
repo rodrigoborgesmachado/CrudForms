@@ -141,7 +141,7 @@ namespace Visao
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(248, 15);
             this.label2.TabIndex = 24;
-            this.label2.Text = "SunSale System © 2025 — Todos os direitos reservados.";
+            this.label2.Text = "SunSale System © 2026 — Todos os direitos reservados.";
             // 
             // FO_Login
             // 
