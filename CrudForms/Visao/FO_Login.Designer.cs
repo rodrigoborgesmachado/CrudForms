@@ -38,13 +38,14 @@ namespace Visao
             this.lbl_login = new System.Windows.Forms.Label();
             this.pan_lateral = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lbl_versao
             // 
             this.lbl_versao.AutoSize = true;
             this.lbl_versao.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_versao.Location = new System.Drawing.Point(9, 361);
+            this.lbl_versao.Location = new System.Drawing.Point(9, 356);
             this.lbl_versao.Name = "lbl_versao";
             this.lbl_versao.Size = new System.Drawing.Size(39, 15);
             this.lbl_versao.TabIndex = 21;
@@ -132,12 +133,23 @@ namespace Visao
             this.label1.TabIndex = 23;
             this.label1.Text = "Crud Forms";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(5, 390);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(248, 15);
+            this.label2.TabIndex = 24;
+            this.label2.Text = "SunSale System © 2025 — Todos os direitos reservados.";
+            // 
             // FO_Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(251)))), ((int)(((byte)(249)))), ((int)(((byte)(238)))));
-            this.ClientSize = new System.Drawing.Size(258, 383);
+            this.ClientSize = new System.Drawing.Size(258, 408);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pan_lateral);
             this.Controls.Add(this.lbl_versao);
@@ -172,5 +184,6 @@ namespace Visao
         private System.Windows.Forms.Label lbl_login;
         private System.Windows.Forms.Panel pan_lateral;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

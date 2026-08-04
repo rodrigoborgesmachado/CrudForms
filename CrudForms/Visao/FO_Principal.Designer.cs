@@ -74,6 +74,7 @@ namespace Visao
             this.lbl_valorVersao = new System.Windows.Forms.Label();
             this.lbl_empresa = new System.Windows.Forms.Label();
             this.lbl_versao = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.pan_left.SuspendLayout();
             this.pan_projetos.SuspendLayout();
             this.pan_filtro.SuspendLayout();
@@ -427,6 +428,7 @@ namespace Visao
             // 
             // pan_descricoes
             // 
+            this.pan_descricoes.Controls.Add(this.label2);
             this.pan_descricoes.Controls.Add(this.lbl_base);
             this.pan_descricoes.Controls.Add(this.lbl_valorVersao);
             this.pan_descricoes.Controls.Add(this.lbl_empresa);
@@ -464,7 +466,7 @@ namespace Visao
             this.lbl_empresa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_empresa.AutoSize = true;
             this.lbl_empresa.Font = new System.Drawing.Font("Times New Roman", 9F);
-            this.lbl_empresa.Location = new System.Drawing.Point(648, 4);
+            this.lbl_empresa.Location = new System.Drawing.Point(689, 4);
             this.lbl_empresa.Name = "lbl_empresa";
             this.lbl_empresa.Size = new System.Drawing.Size(62, 15);
             this.lbl_empresa.TabIndex = 1;
@@ -480,6 +482,17 @@ namespace Visao
             this.lbl_versao.Size = new System.Drawing.Size(42, 15);
             this.lbl_versao.TabIndex = 1;
             this.lbl_versao.Text = "Versão:";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial Narrow", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(435, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(248, 15);
+            this.label2.TabIndex = 25;
+            this.label2.Text = "SunSale System © 2025 — Todos os direitos reservados.";
             // 
             // FO_Principal
             // 
@@ -559,6 +572,7 @@ namespace Visao
         private System.Windows.Forms.ToolStripMenuItem arquivosDeLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gerarAPICToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gerarFrontEndToolStripMenuItem;
+        private System.Windows.Forms.Label label2;
     }
 }
 
